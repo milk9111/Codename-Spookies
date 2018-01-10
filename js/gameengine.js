@@ -28,6 +28,15 @@ Timer.prototype.tick = function () {
     return gameDelta;
 }
 
+
+/**
+ * The constructor for the GameEngine object. It holds the context, list of
+ * entities that are in the game, and various other bits like the mouse, click,
+ * and surface width and height.
+ *
+ * @constructor
+ * @author Seth Ladd
+ */
 function GameEngine() {
     this.entities = [];
     this.showOutlines = false;
@@ -39,6 +48,16 @@ function GameEngine() {
     this.surfaceHeight = null;
 }
 
+
+/**
+ * This is the initializer for the GameEngine object. It simply takes the
+ * context of the game and sets the surface width and height to that of
+ * the canvas (which comes from the context. It also starts the user input
+ * as well.
+ *
+ * @param ctx
+ * @author Seth Ladd
+ */
 GameEngine.prototype.init = function (ctx) {
     this.ctx = ctx;
     this.surfaceWidth = this.ctx.canvas.width;
@@ -48,6 +67,14 @@ GameEngine.prototype.init = function (ctx) {
     console.log('game initialized');
 }
 
+
+/**
+ * Here is the start of the game. That is, it begins the infinite loop that will
+ * be the timer for the game which will cause all of the movements, animations,
+ * collisions, etc.
+ *
+ * @author Seth Ladd
+ */
 GameEngine.prototype.start = function () {
     console.log("starting game");
     var that = this;
@@ -57,6 +84,14 @@ GameEngine.prototype.start = function () {
     })();
 }
 
+
+/**
+ * This handles all of the user input. It adds key event listeners to the canvas in order
+ * to check for what the user is typing. It's here we will need to do aiming with the mouse
+ * and combos after pressing Q.
+ *
+ * @author Connor Lundberg
+ */
 GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
@@ -106,11 +141,24 @@ GameEngine.prototype.startInput = function () {
     console.log('Input started');
 }
 
+
+/**
+ * This is called whenever a new entity is created in the game world.
+ * @param entity
+ * @author Seth Ladd
+ */
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
 }
 
+
+/**
+ * Here the GameEngine is going to call draw on every entity in the game in order to paint
+ * them on the screen at their current position.
+ *
+ * @author Seth Ladd
+ */
 GameEngine.prototype.draw = function () {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
@@ -120,9 +168,17 @@ GameEngine.prototype.draw = function () {
     this.ctx.restore();
 }
 
+
+/**
+ * Here the GameEngine is going to call update on every entity in the game in order to
+ * move them around the screen.
+ *
+ * @author Seth Ladd
+ */
 GameEngine.prototype.update = function () {
     var entitiesCount = this.entities.length;
 
+    //This moves the entities (via their own update method)
     for (var i = 0; i < entitiesCount; i++) {
         var entity = this.entities[i];
 
@@ -131,6 +187,7 @@ GameEngine.prototype.update = function () {
         }
     }
 
+    //This removes entities from the game world
     for (var i = this.entities.length - 1; i >= 0; --i) {
         if (this.entities[i].removeFromWorld) {
             this.entities.splice(i, 1);
@@ -138,6 +195,14 @@ GameEngine.prototype.update = function () {
     }
 }
 
+
+/**
+ * This is called at the top of every loop for the GameEngine's infinite loop. It handles
+ * the clock tick, GameEngine update and draw calls, and reseting all of the player movement
+ * variables.
+ *
+ * @author Seth Ladd
+ */
 GameEngine.prototype.loop = function () {
     this.clockTick = this.timer.tick();
     this.update();
@@ -151,6 +216,20 @@ GameEngine.prototype.loop = function () {
     this.stop = null;
 }
 
+
+/**
+ * The constructor for the Entity object. It is the parent of all
+ * objects that will be created in the game. It holds the current instance
+ * of the GameEngine, the x & y position of the entity, and if it is going to
+ * be removed from the world or not.
+ *
+ * @param game
+ * @param x
+ * @param y
+ * @constructor
+ *
+ * @author Seth Ladd
+ */
 function Entity(game, x, y) {
     this.game = game;
     this.x = x;
@@ -158,8 +237,16 @@ function Entity(game, x, y) {
     this.removeFromWorld = false;
 }
 
+/**
+ * The Entity's update function. It is empty because every child Entity will
+ * override it with their own update method which is called in the GameEngine's
+ * update.
+ *
+ * @author Seth Ladd
+ */
 Entity.prototype.update = function () {
 }
+
 
 Entity.prototype.draw = function (ctx) {
     if (this.game.showOutlines && this.radius) {
