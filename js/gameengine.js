@@ -61,12 +61,6 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
 
-    //jump
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (String.fromCharCode(e.which) === ' ') that.space = true;
-        e.preventDefault();
-    }, false);
-
     //move right
     this.ctx.canvas.addEventListener("keydown", function (e) {
     	if (e.code === 'KeyD' && !that.right) {
@@ -85,6 +79,23 @@ GameEngine.prototype.startInput = function () {
     	e.preventDefault();
     }, false);
 
+    //move forward
+    this.ctx.canvas.addEventListener("keydown", function (e) {
+        if (e.code === 'KeyW') {
+            that.forward = true;
+            that.moving = true;
+        }
+        e.preventDefault();
+    }, false);
+
+    //move backward
+    this.ctx.canvas.addEventListener("keydown", function (e) {
+        if (e.code === 'KeyS') {
+            that.backward = true;
+            that.moving = true;
+        }
+        e.preventDefault();
+    }, false);
 
     this.ctx.canvas.addEventListener("keyup", function (e) {
     	//this.clockTick = 0;
@@ -134,6 +145,8 @@ GameEngine.prototype.loop = function () {
     this.space = null;
     this.right = null;
     this.left = null;
+    this.forward = null;
+    this.backward = null;
     this.moving = null;
     this.stop = null;
 }

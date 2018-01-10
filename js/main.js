@@ -133,14 +133,28 @@ Background.prototype.draw = function (ctx) {
     };
 }
 
+
+/**
+ * This is the 'constructor' for the Player object. It holds all of the instance fields
+ * for the Player like animations and what the current motion/direction they are doing is.
+ *
+ * @param game The instance of the GameEngine
+ * @constructor
+ * @author Connor Lundberg
+ */
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
     this.idleAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1, 1, true, false);
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
+    this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
+    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
+
     this.jumping = false;
     this.walkingRight = false;
     this.walkingLeft = false;
+    this.walkingForward = false;
+    this.walkingBackward = false;
     this.turnedAround = false;
     this.inMotion = false;
     this.radius = 100;
@@ -149,19 +163,40 @@ function Player(game) {
 
 }
 
+//makes Player a child of Entity
 Player.prototype = new Entity();
 Player.prototype.constructor = Player;
 
+
+/**
+ * Here the Player will decide what direction they're moving towards next.
+ * It handles the actual x & y movement value for the Player object. This
+ * is NOT the animation handler.
+ *
+ * To change the speed of the Player, simply raise or lower the totalDistance variable.
+ *
+ * @author Connor Lundberg
+ */
 Player.prototype.update = function () {
-    if (this.game.forward) {
+    var totalDistance = 10;
+
+    if (this.game.right) {
         this.walkingRight = true;
-        //this.clear();
-        //this.game.forward = false;
+        this.game.right = false;
+    }
+
+    if (this.game.left) {
+        this.walkingLeft = true;
+        this.game.left = false; //consider removing these if controls stop working
+    }
+
+    if (this.game.forward) {
+        this.walkingForward = true;
+        this.game.forward = false;
     }
 
     if (this.game.backward) {
-        this.walkingLeft = true;
-        //this.clear();
+        this.walkingBackward = true;
         this.game.backward = false;
     }
 
@@ -172,7 +207,6 @@ Player.prototype.update = function () {
         }
 
         var walkDistance = this.walkRightAnimation.elapsedTime / this.walkRightAnimation.totalTime;
-        var totalDistance = 5;
 
         if (walkDistance > 0.5)
             walkDistance = 1 - walkDistance;
@@ -188,7 +222,6 @@ Player.prototype.update = function () {
         }
 
         var walkDistance = this.walkLeftAnimation.elapsedTime / this.walkLeftAnimation.totalTime;
-        var totalDistance = 5;
 
         if (walkDistance > 0.5)
             walkDistance = 1 - walkDistance;
@@ -196,10 +229,49 @@ Player.prototype.update = function () {
         var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
         this.x = this.x - distance;
     }
+
+    if (this.walkingForward) {
+        if (this.walkForwardAnimation.isDone()) {
+            this.walkForwardAnimation.elapsedTime = 0;
+            this.walkingForward = false;
+        }
+
+        var walkDistance = this.walkForwardAnimation.elapsedTime / this.walkForwardAnimation.totalTime;
+
+        if (walkDistance > 0.5)
+            walkDistance = 1 - walkDistance;
+
+        var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+        this.y = this.y - distance;
+    }
+
+    if (this.walkingBackward) {
+        if (this.walkBackwardAnimation.isDone()) {
+            this.walkBackwardAnimation.elapsedTime = 0;
+            this.walkingBackward = false;
+        }
+
+        var walkDistance = this.walkBackwardAnimation.elapsedTime / this.walkBackwardAnimation.totalTime;
+
+        if (walkDistance > 0.5)
+            walkDistance = 1 - walkDistance;
+
+        var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+        this.y = this.y + distance;
+    }
     Entity.prototype.update.call(this);
 
 }
 
+
+/**
+ * Here the corresponding movement direction (as chosen in Player.prototype.update) will
+ * start the animation for that action. If no movement is going, it will go to the idle
+ * animation.
+ *
+ * @param ctx The context to draw the image onto.
+ * @author Connor Lundberg
+ */
 Player.prototype.draw = function (ctx) {
     if (this.walkingRight) {
         this.walkRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
@@ -209,6 +281,12 @@ Player.prototype.draw = function (ctx) {
         this.walkLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         this.turnedAround = true;
     }
+    else if (this.walkingForward) {
+        this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (this.walkingBackward) {
+        this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
     else {
         this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
@@ -217,8 +295,9 @@ Player.prototype.draw = function (ctx) {
 }
 
 // the "main" code begins here
-
 var ASSET_MANAGER = new AssetManager();
+//We will want to switch to this for a dynamic background, for now it is being
+//repeated onto the canvas through style.css
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 
