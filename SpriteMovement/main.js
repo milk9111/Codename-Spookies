@@ -214,24 +214,24 @@ Unicorn.prototype.clear = function () {
 Unicorn.prototype.draw = function (ctx) {
     if (!this.game.stop) {
         if (this.jumping) {
-        this.jumpAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-    }
-    else if (this.walkingForward) {
-        this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        this.turnedAround = false;
-    }
-    else if (this.walkingBackward) {
-        this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        this.turnedAround = true;
-    }
-    else {
-        if (this.turnedAround) {
-            this.idleBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        } else {
-            this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.jumpAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         }
-    }
-    Entity.prototype.draw.call(this);
+        else if (this.walkingForward) {
+            this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.turnedAround = false;
+        }
+        else if (this.walkingBackward) {
+            this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.turnedAround = true;
+        }
+        else {
+            if (this.turnedAround) {
+                this.idleBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            } else {
+                this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            }
+        }
+        Entity.prototype.draw.call(this);
     }
 
     
