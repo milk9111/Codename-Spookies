@@ -69,8 +69,8 @@ GameEngine.prototype.startInput = function () {
 
     //move right
     this.ctx.canvas.addEventListener("keydown", function (e) {
-    	if (e.code === 'KeyD' && !that.forward) {
-    	    that.forward = true;
+    	if (e.code === 'KeyD' && !that.right) {
+    	    that.right = true;
     	    that.moving = true;
     	}
     	e.preventDefault();
@@ -78,7 +78,10 @@ GameEngine.prototype.startInput = function () {
 
     //move left
     this.ctx.canvas.addEventListener("keydown", function (e) {
-    	if (e.code === 'KeyA') { that.backward = true;}
+    	if (e.code === 'KeyA') {
+    	    that.left = true;
+            that.moving = true;
+    	}
     	e.preventDefault();
     }, false);
 
@@ -129,8 +132,8 @@ GameEngine.prototype.loop = function () {
     this.update();
     this.draw();
     this.space = null;
-    this.forward = null;
-    this.backward = null;
+    this.right = null;
+    this.left = null;
     this.moving = null;
     this.stop = null;
 }

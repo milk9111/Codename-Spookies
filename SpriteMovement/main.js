@@ -138,69 +138,69 @@ Unicorn.prototype.constructor = Unicorn;
 Unicorn.prototype.update = function () {
     if (!this.game.stop) {
         if (this.game.space) {
-        this.jumping = true;
-    }
-
-    if (this.game.forward) {
-        this.walkingForward = true;
-        //this.clear();
-        //this.game.forward = false;
-    }
-
-    if (this.game.backward) {
-        this.walkingBackward = true;
-        //this.clear();
-        this.game.backward = false;
-    }
-
-    if (this.jumping) {
-        if (this.jumpAnimation.isDone()) {
-            this.jumpAnimation.elapsedTime = 0;
-            this.jumping = false;
-        }
-        var jumpDistance = this.jumpAnimation.elapsedTime / this.jumpAnimation.totalTime;
-        var totalHeight = 200;
-
-        if (jumpDistance > 0.5)
-            jumpDistance = 1 - jumpDistance;
-
-        //var height = jumpDistance * 2 * totalHeight;
-        var height = totalHeight*(-4 * (jumpDistance * jumpDistance - jumpDistance));
-        this.y = this.ground - height;
-    }
-
-    if (this.walkingForward) {
-        if (this.walkForwardAnimation.isDone()) {
-            this.walkForwardAnimation.elapsedTime = 0;
-            this.walkingForward = false;
+            this.jumping = true;
         }
 
-        var walkDistance = this.walkForwardAnimation.elapsedTime / this.walkForwardAnimation.totalTime;
-        var totalDistance = 5;
-
-        if (walkDistance > 0.5)
-            walkDistance = 1 - walkDistance;
-
-        var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
-        this.x = this.x + distance;
-    }
-
-    if (this.walkingBackward) {
-        if (this.walkBackwardAnimation.isDone()) {
-            this.walkBackwardAnimation.elapsedTime = 0;
-            this.walkingBackward = false;
+        if (this.game.forward) {
+            this.walkingForward = true;
+            //this.clear();
+            //this.game.forward = false;
         }
 
-        var walkDistance = this.walkBackwardAnimation.elapsedTime / this.walkBackwardAnimation.totalTime;
-        var totalDistance = 5;
+        if (this.game.backward) {
+            this.walkingBackward = true;
+            //this.clear();
+            this.game.backward = false;
+        }
 
-        if (walkDistance > 0.5)
-            walkDistance = 1 - walkDistance;
+        if (this.jumping) {
+            if (this.jumpAnimation.isDone()) {
+                this.jumpAnimation.elapsedTime = 0;
+                this.jumping = false;
+            }
+            var jumpDistance = this.jumpAnimation.elapsedTime / this.jumpAnimation.totalTime;
+            var totalHeight = 200;
 
-        var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
-        this.x = this.x - distance;
-    }
-    Entity.prototype.update.call(this);
+            if (jumpDistance > 0.5)
+                jumpDistance = 1 - jumpDistance;
+
+            //var height = jumpDistance * 2 * totalHeight;
+            var height = totalHeight*(-4 * (jumpDistance * jumpDistance - jumpDistance));
+            this.y = this.ground - height;
+        }
+
+        if (this.walkingForward) {
+            if (this.walkForwardAnimation.isDone()) {
+                this.walkForwardAnimation.elapsedTime = 0;
+                this.walkingForward = false;
+            }
+
+            var walkDistance = this.walkForwardAnimation.elapsedTime / this.walkForwardAnimation.totalTime;
+            var totalDistance = 5;
+
+            if (walkDistance > 0.5)
+                walkDistance = 1 - walkDistance;
+
+            var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+            this.x = this.x + distance;
+        }
+
+        if (this.walkingBackward) {
+            if (this.walkBackwardAnimation.isDone()) {
+                this.walkBackwardAnimation.elapsedTime = 0;
+                this.walkingBackward = false;
+            }
+
+            var walkDistance = this.walkBackwardAnimation.elapsedTime / this.walkBackwardAnimation.totalTime;
+            var totalDistance = 5;
+
+            if (walkDistance > 0.5)
+                walkDistance = 1 - walkDistance;
+
+            var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+            this.x = this.x - distance;
+        }
+        Entity.prototype.update.call(this);
     }
     //console.log("made it after return");
     
