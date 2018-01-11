@@ -151,7 +151,7 @@ Darkness.prototype.update = function () {
 Darkness.prototype.draw = function (ctx) {
     /*ctx.fillStyle = "SaddleBlack";
     ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);*/
-    ctx.drawImage(ASSET_MANAGER.getAsset("../img/blackness.png"), 0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+    ctx.drawImage(ASSET_MANAGER.getAsset("../img/light.png"), -(this.game.surfaceWidth/2), -(this.game.surfaceHeight/2), this.game.surfaceWidth*2, this.game.surfaceHeight*2);
     Entity.prototype.draw.call(this);
 }
 
@@ -368,44 +368,6 @@ LightSource.prototype.draw = function(ctx) {
 }
 
 
-/*
-ctx.save();
-
-    // draw the overlay
-    //ctx.drawImage(overlay, 150, 35);
-
-    // change composite mode to source-in
-    // any new drawing will only overwrite existing pixels
-    ctx.globalCompositeOperation = "source-in";
-
-    // draw a purple rectangle the size of the canvas
-    // Only the overlay will become purple
-    ctx.fillStyle = "purple";
-    ctx.fillRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
-
-    // change the composite mode to destination-atop
-    // any new drawing will not overwrite any existing pixels
-    ctx.globalCompositeOperation = "destination-atop";
-
-    // draw the full logo
-    // This will NOT overwrite any existing purple overlay pixels
-    var asset = ASSET_MANAGER.getAsset("../img/Player_Box.png");
-    asset.style.opacity = "0.5";
-    ctx.drawImage(asset, 300, 70);
-    //ctx.fillStyle = "SaddleWhite";
-    //ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);
-    //Entity.prototype.draw.call(this);
-
-    // draw the truck
-    // This will NOT replace any existing pixels
-    // The purple overlay will not be overwritten
-    // The blue logo will not be overwritten
-    //ctx.drawImage(truck, 0, 0);
-
-    // restore the context to it's original state
-    ctx.restore();
- */
-
 
 // the "main" code begins here
 var ASSET_MANAGER = new AssetManager();
@@ -414,6 +376,7 @@ var ASSET_MANAGER = new AssetManager();
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
+ASSET_MANAGER.queueDownload("../img/light.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
