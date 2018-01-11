@@ -1,3 +1,7 @@
+
+var darkness;
+
+
 function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse) {
     this.spriteSheet = spriteSheet;
     this.startX = startX;
@@ -131,6 +135,24 @@ Background.prototype.draw = function (ctx) {
         ctx.fill();
         //Entity.prototype.draw.call(this);
     };
+}
+
+
+
+function Darkness(game) {
+    Entity.call(this, game, game.surfaceWidth, game.surfaceHeight);
+    //this.game = game;
+}
+
+Darkness.prototype = new Entity();
+Darkness.prototype.constructor = Darkness;
+Darkness.prototype.update = function () {
+}
+Darkness.prototype.draw = function (ctx) {
+    /*ctx.fillStyle = "SaddleBlack";
+    ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);*/
+    ctx.drawImage(ASSET_MANAGER.getAsset("../img/blackness.png"), 0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+    Entity.prototype.draw.call(this);
 }
 
 
@@ -294,12 +316,104 @@ Player.prototype.draw = function (ctx) {
 
 }
 
+
+function LightSource(game) {
+    this.game = game;
+    this.radius = 0;
+}
+
+LightSource.prototype = Entity;
+LightSource.prototype.constructor = LightSource;
+LightSource.prototype.update = function () {
+
+}
+
+LightSource.prototype.draw = function(ctx) {
+    //console.log("in here");
+
+    //ctx.fillStyle = "White";
+    //ctx.strokeStyle = "Black";
+
+    // get the image data object
+    var image = ctx.getImageData(300, 300, 100, 100);
+    // get the image data values
+    var imageData = image.data,
+        length = imageData.length;
+    // set every fourth value to 50
+    for(var i=3; i < length; i+=4){
+        imageData[i] = 50;
+    }
+    // after the manipulation, reset the data
+    image.data = imageData;
+    // and put the imagedata back to the canvas
+    ctx.putImageData(image, 0, 0);
+
+    /*ctx.save();
+    ctx.beginPath();
+    ctx.globalAlpha = "0.75";
+    ctx.arc(100,75,50,0,2*Math.PI);
+
+    ctx.fill();
+
+    ctx.stroke();
+    ctx.restore();*/
+
+    /*ctx.beginPath();
+    ctx.arc(300, 300, 25, 300, 4*Math.PI);
+    ctx.opacity = "1.0";
+    ctx.fill();
+    ctx.stroke();*/
+
+    Entity.prototype.draw.call(this);
+}
+
+
+/*
+ctx.save();
+
+    // draw the overlay
+    //ctx.drawImage(overlay, 150, 35);
+
+    // change composite mode to source-in
+    // any new drawing will only overwrite existing pixels
+    ctx.globalCompositeOperation = "source-in";
+
+    // draw a purple rectangle the size of the canvas
+    // Only the overlay will become purple
+    ctx.fillStyle = "purple";
+    ctx.fillRect(0, 0, this.game.surfaceWidth, this.game.surfaceHeight);
+
+    // change the composite mode to destination-atop
+    // any new drawing will not overwrite any existing pixels
+    ctx.globalCompositeOperation = "destination-atop";
+
+    // draw the full logo
+    // This will NOT overwrite any existing purple overlay pixels
+    var asset = ASSET_MANAGER.getAsset("../img/Player_Box.png");
+    asset.style.opacity = "0.5";
+    ctx.drawImage(asset, 300, 70);
+    //ctx.fillStyle = "SaddleWhite";
+    //ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);
+    //Entity.prototype.draw.call(this);
+
+    // draw the truck
+    // This will NOT replace any existing pixels
+    // The purple overlay will not be overwritten
+    // The blue logo will not be overwritten
+    //ctx.drawImage(truck, 0, 0);
+
+    // restore the context to it's original state
+    ctx.restore();
+ */
+
+
 // the "main" code begins here
 var ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
 //repeated onto the canvas through style.css
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
+ASSET_MANAGER.queueDownload("../img/blackness.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -309,10 +423,16 @@ ASSET_MANAGER.downloadAll(function () {
 
     var gameEngine = new GameEngine();
     var bg = new Background(gameEngine);
+    darkness = new Darkness(gameEngine);
     var player = new Player(gameEngine);
+    var light = new LightSource(gameEngine);
 
-    gameEngine.addEntity(bg);
+    //Because these are drawn in the order they were added, the darkness (foreground) needs
+    //to be on the bottom so it is the last thing to render.
+    //gameEngine.addEntity(bg);
     gameEngine.addEntity(player);
+    //gameEngine.addEntity(light);
+    gameEngine.addEntity(darkness);
  
     gameEngine.init(ctx);
     gameEngine.start();
