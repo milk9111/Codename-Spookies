@@ -1,7 +1,4 @@
 
-var darkness;
-
-
 function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse) {
     this.spriteSheet = spriteSheet;
     this.startX = startX;
@@ -147,11 +144,14 @@ function Darkness(game) {
 Darkness.prototype = new Entity();
 Darkness.prototype.constructor = Darkness;
 Darkness.prototype.update = function () {
+    this.x = -(this.game.surfaceWidth) + playerStartX + 36;
+    this.y = -(this.game.surfaceHeight) + playerStartY + 36;
 }
 Darkness.prototype.draw = function (ctx) {
     /*ctx.fillStyle = "SaddleBlack";
     ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);*/
-    ctx.drawImage(ASSET_MANAGER.getAsset("../img/light.png"), -(this.game.surfaceWidth/2), -(this.game.surfaceHeight/2), this.game.surfaceWidth*2, this.game.surfaceHeight*2);
+    //console.log(playerStartY + ", " + (-(playerStartY + 32)));
+    ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x, this.y, this.game.surfaceWidth*2, this.game.surfaceHeight*2);
     Entity.prototype.draw.call(this);
 }
 
@@ -181,7 +181,7 @@ function Player(game) {
     this.inMotion = false;
     this.radius = 100;
     this.ground = 418;
-    Entity.call(this, game, 50, 418); //(0, 400) signify where the sprite will be drawn.
+    Entity.call(this, game, game.surfaceWidth/2, game.surfaceHeight/2); //(0, 400) signify where the sprite will be drawn.
 
 }
 
@@ -235,6 +235,7 @@ Player.prototype.update = function () {
 
         var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
         this.x = this.x + distance;
+        playerStartX = this.x - distance;
     }
 
     if (this.walkingLeft) {
@@ -250,6 +251,7 @@ Player.prototype.update = function () {
 
         var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
         this.x = this.x - distance;
+        playerStartX = this.x + distance;
     }
 
     if (this.walkingForward) {
@@ -265,6 +267,7 @@ Player.prototype.update = function () {
 
         var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
         this.y = this.y - distance;
+        playerStartY = this.y + distance;
     }
 
     if (this.walkingBackward) {
@@ -280,7 +283,10 @@ Player.prototype.update = function () {
 
         var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
         this.y = this.y + distance;
+        playerStartY = this.y - distance;
     }
+    //playerStartX = this.x;
+    //playerStartY = this.y;
     Entity.prototype.update.call(this);
 
 }
@@ -367,7 +373,11 @@ LightSource.prototype.draw = function(ctx) {
     Entity.prototype.draw.call(this);
 }
 
-
+var darkness;
+var playerStartX;
+var playerStartY;
+var subtractX;
+var subtractY;
 
 // the "main" code begins here
 var ASSET_MANAGER = new AssetManager();
@@ -376,7 +386,7 @@ var ASSET_MANAGER = new AssetManager();
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
-ASSET_MANAGER.queueDownload("../img/light.png");
+ASSET_MANAGER.queueDownload("../img/light2.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -398,5 +408,10 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(darkness);
  
     gameEngine.init(ctx);
+    player.x = (gameEngine.surfaceWidth/2 - 32);
+    player.y = (gameEngine.surfaceHeight/2 - 32);
+    playerStartX = (gameEngine.surfaceWidth/2 - 32);
+    playerStartY = (gameEngine.surfaceHeight/2 - 32);
+    console.log(player.x + ", " + player.y);
     gameEngine.start();
 });
