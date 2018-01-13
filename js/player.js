@@ -19,6 +19,7 @@ function Player(game) {
     this.swingBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Downward.png"), 0, 0, 64, 64, 0.1,  3, false, false);
     this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Forward.png"), 0, 0, 64, 64, 0.1,  3, false, false);
     this.swingLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Left.png"), 0, 0, 64, 64, 0.1,  3, false, false);
+    this.swingRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Right.png"), 0, 0, 64, 64, 0.1,  3, false, false);
 
 
     this.jumping = false;
@@ -158,6 +159,10 @@ Player.prototype.update = function () {
             this.swingLeftAnimation.elapsedTime = 0;
             this.swinging = false;
         }
+        if (this.swingRightAnimation.isDone()) {
+            this.swingRightAnimation.elapsedTime = 0;
+            this.swinging = false;
+        }
     }
 
     Entity.prototype.update.call(this);
@@ -197,6 +202,9 @@ Player.prototype.draw = function (ctx) {
         }
         else if (facingDirection === 3) {
             this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        }
+        else {
+            this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         }
     }
     else {
