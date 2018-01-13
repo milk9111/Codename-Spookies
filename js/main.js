@@ -477,9 +477,9 @@ ASSET_MANAGER.downloadAll(function () {
     //to be on the bottom so it is the last thing to render.
     //gameEngine.addEntity(bg);
     gameEngine.addEntity(player);
+    gameEngine.addEntity(enemy);
     //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
-    gameEngine.addEntity(enemy);
     gameEngine.init(ctx);
     player.x = (gameEngine.surfaceWidth/2 - 32);
     player.y = (gameEngine.surfaceHeight/2 - 32);
