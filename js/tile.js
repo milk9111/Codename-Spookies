@@ -18,18 +18,23 @@ class Tile {
   }
 
   draw(ctx) {
-    setImage(this.type);
-    this.image.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    //(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+    //Select type of sprite to show
+    switch (this.type) {
+      case 0:
+        ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 19, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+      break;
+      case 1:
+        ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 21, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+      break;
+      case 2:
+        ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 22, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+      break;
+      case 3:
+        ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 23, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+      break;
+    }
     Entity.prototype.draw.call(this);
   }
 
 }
-
-function setImage(theType) {
-
-    if (theType == 0) {
-      this.image = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"),0 , 96, 32, 32, 1, 1, true, false);
-    } else if(theType == 1) {
-      this.image = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"),0 , 192, 32, 32, 1, 1, true, false);
-    }
-  }

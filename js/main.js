@@ -400,6 +400,7 @@ LightSource.prototype = Entity;
 LightSource.prototype.constructor = LightSource;
 LightSource.prototype.update = function () {
 
+
 }
 
 LightSource.prototype.draw = function(ctx) {
@@ -457,13 +458,13 @@ var ASSET_MANAGER = new AssetManager();
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
+ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Downward.png");
-
 
 ASSET_MANAGER.downloadAll(function () {
 
@@ -477,17 +478,26 @@ ASSET_MANAGER.downloadAll(function () {
     var player = new Player(gameEngine, player);
 
     //Load tile map
-    //let tileMap = new TileMap(gameEngine);
-    //tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player);
+    let tileMap = new TileMap(gameEngine);
+    tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player, ctx);
 
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
-    var light = new LightSource(gameEngine);
+    //var light = new LightSource(gameEngine);
     var enemy = new Enemy(gameEngine);
 
-    //Because these are drawn in the order they were added, the darkness (foreground) needs
-    //to be on the bottom so it is the last thing to render.
+    //ADD ENTITES
     gameEngine.addEntity(bg);
+
+    //Add tiles
+    for (let i = 0; i < tileMap.map2D.length; i++) {
+      for (let j = 0; j < tileMap.map2D[i].length; j++) {
+
+        let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
+        gameEngine.addEntity(temp);
+      }
+    }
+
     gameEngine.addEntity(player);
     gameEngine.addEntity(enemy);
     //gameEngine.addEntity(light);
@@ -505,13 +515,3 @@ ASSET_MANAGER.downloadAll(function () {
 
     gameEngine.start();
 });
-
-function drawMap(array, theGameEngine) {
-
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array[i].length; j++) {
-
-      gameEngine.addEntity(array[i]);
-    }
-  }
-}
