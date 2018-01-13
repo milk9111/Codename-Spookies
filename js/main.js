@@ -227,6 +227,11 @@ ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Downward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Forward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Left.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Right.png");
+
 
 /*ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
@@ -274,7 +279,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(player);
     gameEngine.addEntity(enemy);
     //gameEngine.addEntity(light);
-    //gameEngine.addEntity(darkness);
+    gameEngine.addEntity(darkness);
 
     //START GAME
     gameEngine.init(ctx);

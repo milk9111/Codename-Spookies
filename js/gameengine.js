@@ -132,6 +132,13 @@ GameEngine.prototype.startInput = function () {
         e.preventDefault();
     }, false);
 
+    //swing sword
+    this.ctx.canvas.addEventListener("click", function (e) {
+            that.swing = true;
+            that.moving = false;
+        e.preventDefault();
+    }, false);
+
     this.ctx.canvas.addEventListener("keyup", function (e) {
     	//this.clockTick = 0;
     	that.moving = false;
@@ -213,6 +220,7 @@ GameEngine.prototype.loop = function () {
     this.forward = null;
     this.backward = null;
     this.moving = null;
+    this.swing = null;
     this.stop = null;
 }
 
