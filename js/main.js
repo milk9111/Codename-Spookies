@@ -166,16 +166,15 @@ Darkness.prototype.draw = function (ctx) {
  */
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.1, 2, true, false);
-    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.1, 2, true, false);
-    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.1, 2, true, false);
-    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.1, 2, true, false);
+    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.3, 2, true, false);
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
-    console.log("sprite not null " + (this.idleAnimationBackward.spriteSheet !== null));
-    console.log(this.idleAnimationBackward.spriteSheet);
+
     this.jumping = false;
     this.walkingRight = false;
     this.walkingLeft = false;
@@ -442,6 +441,8 @@ var playerStartY;
 //1 = forward, 2 = backward, 3 = left, 4 = right
 var facingDirection;
 
+
+
 // the "main" code begins here
 var ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
@@ -457,7 +458,9 @@ ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da shield");
+     let tileMap = new TileMap();
+     tileMap.loadMap("../img/mapTest.txt");
+
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
@@ -477,7 +480,6 @@ ASSET_MANAGER.downloadAll(function () {
     //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
     gameEngine.addEntity(enemy);
- 
     gameEngine.init(ctx);
     player.x = (gameEngine.surfaceWidth/2 - 32);
     player.y = (gameEngine.surfaceHeight/2 - 32);
