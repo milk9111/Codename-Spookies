@@ -341,12 +341,10 @@ Player.prototype.draw = function (ctx) {
 function Enemy(gameEngine) {
     this.game = gameEngine;
     this.player = null;
-
     this.x = 200;
     this.y = 200;
     this.speed = 1;
     this.range = 100;
-
 }
 
 Enemy.prototype.assignPlayer = function() {
@@ -360,6 +358,10 @@ Enemy.prototype.assignPlayer = function() {
 
 };
 
+/**
+ *
+ * @returns {boolean}
+ */
 Enemy.prototype.isPlayerInRange = function() {
 
     let xDist = Math.pow(Math.abs(this.x - this.player.x), 2);
@@ -492,5 +494,10 @@ ASSET_MANAGER.downloadAll(function () {
     playerStartX = (gameEngine.surfaceWidth/2 - 32);
     playerStartY = (gameEngine.surfaceHeight/2 - 32);
     console.log(player.x + ", " + player.y);
+
+    let audio = new Audio('../img/hearbeat.mp3');
+    audio.loop = true;
+    audio.play();
+
     gameEngine.start();
 });
