@@ -166,16 +166,15 @@ Darkness.prototype.draw = function (ctx) {
  */
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.1, 2, true, false);
-    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.1, 2, true, false);
-    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.1, 2, true, false);
-    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.1, 2, true, false);
+    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.3, 2, true, false);
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
-    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
-    console.log("sprite not null " + (this.idleAnimationBackward.spriteSheet !== null));
-    console.log(this.idleAnimationBackward.spriteSheet);
+    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Walking_Downward.png"), 0, 0, 64, 64, 0.3,  2, false, false);
+
     this.jumping = false;
     this.walkingRight = false;
     this.walkingLeft = false;
@@ -204,7 +203,7 @@ Player.prototype.constructor = Player;
  * @author Connor Lundberg
  */
 Player.prototype.update = function () {
-    var totalDistance = 10;
+    var totalDistance = 2;
 
     if (this.game.right) {
         facingDirection = 4;
@@ -339,6 +338,58 @@ Player.prototype.draw = function (ctx) {
 
 }
 
+function Enemy(gameEngine) {
+    this.game = gameEngine;
+    this.player = null;
+    this.x = 200;
+    this.y = 200;
+    this.speed = 1;
+    this.range = 100;
+}
+
+Enemy.prototype.assignPlayer = function() {
+
+    for(let i = 0; i < this.game.entities.length; i++) {
+        if(this.game.entities[i] instanceof Player) {
+            this.player = this.game.entities[i];
+            console.log(this.player);
+        }
+    }
+
+};
+
+/**
+ *
+ * @returns {boolean}
+ */
+Enemy.prototype.isPlayerInRange = function() {
+
+    let xDist = Math.pow(Math.abs(this.x - this.player.x), 2);
+    let yDist = Math.pow(Math.abs(this.y - this.player.y), 2);
+    let distance = Math.sqrt(xDist + yDist);
+    return distance <= this.range;
+
+
+};
+
+Enemy.prototype.update = function() {
+    if(this.player === null) {
+        this.assignPlayer();
+    }
+    if(this.isPlayerInRange()) {
+        let xDir = this.player.x - this.x;
+        this.x += (xDir < 0) ? -this.speed : this.speed;
+        let yDir = this.player.y - this.y;
+        this.y += (yDir < 0) ? -this.speed : this.speed;
+    }
+
+};
+
+Enemy.prototype.draw = function(ctx) {
+    ctx.fillStyle = (this.isPlayerInRange()) ? 'red' : 'green';
+    ctx.fillRect(this.x, this.y, 50, 50);
+};
+
 
 function LightSource(game) {
     this.game = game;
@@ -411,7 +462,7 @@ ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
-//ASSET_MANAGER.queueDownload("../img/mapTest.txt");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Downward.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -432,20 +483,26 @@ ASSET_MANAGER.downloadAll(function () {
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
     var light = new LightSource(gameEngine);
+    var enemy = new Enemy(gameEngine);
 
     //Because these are drawn in the order they were added, the darkness (foreground) needs
     //to be on the bottom so it is the last thing to render.
     gameEngine.addEntity(bg);
     gameEngine.addEntity(player);
-    gameEngine.addEntity(light);
+    gameEngine.addEntity(enemy);
+    //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
-
     gameEngine.init(ctx);
     player.x = (gameEngine.surfaceWidth/2 - 32);
     player.y = (gameEngine.surfaceHeight/2 - 32);
     playerStartX = (gameEngine.surfaceWidth/2 - 32);
     playerStartY = (gameEngine.surfaceHeight/2 - 32);
     console.log(player.x + ", " + player.y);
+
+    let audio = new Audio('../img/hearbeat.mp3');
+    audio.loop = true;
+    audio.play();
+
     gameEngine.start();
 });
 
