@@ -379,6 +379,8 @@ var playerStartY;
 var subtractX;
 var subtractY;
 
+
+
 // the "main" code begins here
 var ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
@@ -390,7 +392,9 @@ ASSET_MANAGER.queueDownload("../img/light2.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da shield");
+     let tileMap = new TileMap();
+     tileMap.loadMap("../img/mapTest.txt");
+
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
@@ -406,7 +410,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(player);
     //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
- 
+
     gameEngine.init(ctx);
     player.x = (gameEngine.surfaceWidth/2 - 32);
     player.y = (gameEngine.surfaceHeight/2 - 32);
