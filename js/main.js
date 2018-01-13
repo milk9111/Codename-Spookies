@@ -411,11 +411,11 @@ ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
+//ASSET_MANAGER.queueDownload("../img/mapTest.txt");
 
 
 ASSET_MANAGER.downloadAll(function () {
-     let tileMap = new TileMap();
-     tileMap.loadMap("../img/mapTest.txt");
+
 
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
@@ -423,16 +423,21 @@ ASSET_MANAGER.downloadAll(function () {
     //start facing backwards.
     facingDirection = 2;
     var gameEngine = new GameEngine();
+    var player = new Player(gameEngine, player);
+
+    //Load tile map
+    //let tileMap = new TileMap(gameEngine);
+    //tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player);
+
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
-    var player = new Player(gameEngine);
     var light = new LightSource(gameEngine);
 
     //Because these are drawn in the order they were added, the darkness (foreground) needs
     //to be on the bottom so it is the last thing to render.
-    //gameEngine.addEntity(bg);
+    gameEngine.addEntity(bg);
     gameEngine.addEntity(player);
-    //gameEngine.addEntity(light);
+    gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
 
     gameEngine.init(ctx);
@@ -443,3 +448,13 @@ ASSET_MANAGER.downloadAll(function () {
     console.log(player.x + ", " + player.y);
     gameEngine.start();
 });
+
+function drawMap(array, theGameEngine) {
+
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+
+      gameEngine.addEntity(array[i]);
+    }
+  }
+}
