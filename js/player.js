@@ -16,6 +16,7 @@ function Player(game) {
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 192, 64, 64, 0.15,  4, false, false);
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 128, 64, 64, 0.3,  2, false, false);
     this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.3,  2, false, false);
+    this.swingBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Downward.png"), 0, 0, 64, 64, 0.1,  3, false, false);
 
     this.jumping = false;
     this.walkingRight = false;
@@ -24,6 +25,7 @@ function Player(game) {
     this.walkingBackward = false;
     this.turnedAround = false;
     this.inMotion = false;
+    this.swinging = false;
     this.radius = 100;
     this.ground = 418;
     Entity.call(this, game, game.surfaceWidth/2, game.surfaceHeight/2); //(0, 400) signify where the sprite will be drawn.
@@ -69,6 +71,11 @@ Player.prototype.update = function () {
         facingDirection = 2;
         this.walkingBackward = true;
         this.game.backward = false;
+    }
+
+    if (this.game.swing) {
+        this.swinging = true;
+        this.game.swing = false;
     }
 
     if (this.walkingRight) {
@@ -134,8 +141,14 @@ Player.prototype.update = function () {
         this.y = this.y + distance;
         playerStartY = this.y - distance;
     }
-    //playerStartX = this.x;
-    //playerStartY = this.y;
+
+    if (this.swinging) {
+        if (this.swingBackwardAnimation.isDone()) {
+            this.swingBackwardAnimation.elapsedTime = 0;
+            this.swinging = false;
+        }
+    }
+
     Entity.prototype.update.call(this);
 
 }
@@ -163,6 +176,11 @@ Player.prototype.draw = function (ctx) {
     }
     else if (this.walkingBackward) {
         this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (this.swinging) {
+        if (facingDirection === 2) {
+            this.swingBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        }
     }
     else {
         if (facingDirection === 1) {
