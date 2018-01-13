@@ -173,7 +173,7 @@ function Player(game) {
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
-    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
+    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Walking_Downward.png"), 0, 0, 64, 64, 0.3,  2, false, false);
 
     this.jumping = false;
     this.walkingRight = false;
@@ -203,7 +203,7 @@ Player.prototype.constructor = Player;
  * @author Connor Lundberg
  */
 Player.prototype.update = function () {
-    var totalDistance = 10;
+    var totalDistance = 2;
 
     if (this.game.right) {
         facingDirection = 4;
@@ -460,6 +460,7 @@ ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Downward.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
