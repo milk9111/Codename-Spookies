@@ -387,6 +387,10 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Backward");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right");
 
 
 ASSET_MANAGER.downloadAll(function () {
