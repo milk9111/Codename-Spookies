@@ -475,6 +475,7 @@ ASSET_MANAGER.downloadAll(function () {
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
+    //LOAD ENTIIES
     //start facing backwards.
     facingDirection = 2;
     var gameEngine = new GameEngine();
@@ -482,7 +483,7 @@ ASSET_MANAGER.downloadAll(function () {
 
     //Load tile map
     let tileMap = new TileMap(gameEngine);
-    tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player, ctx);
+    tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
 
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
@@ -492,7 +493,7 @@ ASSET_MANAGER.downloadAll(function () {
     //ADD ENTITES
     gameEngine.addEntity(bg);
 
-    //Add tiles
+    //Add tiles to gameEngine
     for (let i = 0; i < tileMap.map2D.length; i++) {
       for (let j = 0; j < tileMap.map2D[i].length; j++) {
 
@@ -505,6 +506,8 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(enemy);
     //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
+
+    //START GAME
     gameEngine.init(ctx);
     player.x = (gameEngine.surfaceWidth/2 - 32);
     player.y = (gameEngine.surfaceHeight/2 - 32);

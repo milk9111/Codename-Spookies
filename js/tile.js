@@ -1,5 +1,15 @@
+/** Represents a single tile on the map
+* @author Brandon Blaschke
+*/
 class Tile {
 
+  /** Constructor for a Tile object
+  *@param {int} x X coordinate
+  *@param {int} y Y coordinate
+  *@param {int} type Type of tile image
+  *@param {Player} player Player Refrence
+  *@param {canvas} ctx Refrence to canvas
+  */
   constructor (x, y, type, game, player, ctx) {
     this.x = x;
     this.y = y;
@@ -13,12 +23,17 @@ class Tile {
     Entity.call(this, game, this.x, this.y);
   }
 
+  /** Updates a tile */
   update() {
 
   }
 
+  /** Draws the Tile on the canvas
+  * @param {canvas} ctx Canvas Refrence
+  */
   draw(ctx) {
     //(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
     //Select type of sprite to show
     switch (this.type) {
       case 0:

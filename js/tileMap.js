@@ -1,3 +1,7 @@
+
+/** Represents the TileMap for the game
+* @author Brandon Blaschke
+*/
 class TileMap {
 
   //Constructor
@@ -7,51 +11,34 @@ class TileMap {
     this.map2D;
   }
 
-  //load and create the map
-  loadMap(fileName, spriteW, spriteH, game, player, ctx) {
+  /** Loads the map into a 2D array
+  * @param {String} mapName Name of the mapName
+  * @param {int} spriteW Width of sprites
+  * @param {int} spriteH Height of the sprites
+  * @param {Game} game Refrence to game engine
+  * @param {Player} player Refrence to player Entity
+  * @param {canvas} ctx Refrence to the canvas
+  */
+  loadMap(mapName, spriteW, spriteH, game, player, ctx) {
 
-    let data =
-      "0123010302023010203aaaaaaa0202010\n" +
-      "12303312012030120302010201\n" +
-      "31020301020301020301020301\n" +
-      "11203020100201020302010203\n" +
-      "11203020100201020302010203\n" +
-      "01230103020230102030202010\n" +
-      "11203020100201020302010203\n" +
-      "31020301020301020301020301\n" +
-      "12303312012030120302010201\n" +
-      "11203020100201020302010203\n" +
-      "01230103020230102030202010\n" +
-      "31020301020301020301020301\n" +
-      "12303312012030120302010201\n" +
-      "31020301020301020301020301\n" +
-      "12303312012030120302010201\n" +
-      "11203020100201020302010203\n" +
-      "01230103020230102030202010\n" +
-      "31020301020301020301020301\n" +
-      "12303312012030120302010201\n" +
-      "31020301020301020301020301\n" +
-      "12303312012030120302010201\n" +
-      "01230103020230102030202010\n" +
-      "31020301020301020301020301\n" +
-      "01230103020230102030202010\n";
+    let txt = mapName.split("\n");
 
-    let txt = data.split("\n");
-
+    //Get height and width for map
     this.height = txt.length;
     this.width = txt[0].length;
     this.map2D = create2DArray(this.width - 1, this.height);
 
+    //Craete a Tile object for each element
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width - 1; j++) {
 
         //game.addEntity(tempTile);
-        this.map2D[i][j] = new Tile(spriteW * i, spriteH * j, Number(txt[i][j]), game, player, ctx);
+        this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, Number(txt[i][j]), game, player, ctx);
       }
     }
 
-    //Display map
-    // console.log(this.map2D);
+    //Display map to console
+    //console.log(this.map2D);
     // for (let i = 0; i < this.map2D.length; i++) {
     //   for (let j = 0; j < this.map2D[i].length; j++) {
     //
@@ -59,43 +46,26 @@ class TileMap {
     //   }
     }
 
-    // $.get(fileName, function(data) {
-    //   let txt = data.split("\n");
-    //
-    //   //set height and width
-    //   this.height = txt.length;
-    //   this.width = txt[0].length;
-    //
-    //   this.map2D = create2DArray(this.width - 1, this.height);
-    //
-    //   for (let i = 0; i < this.height; i++) {
-    //     for (let j = 0; j < this.width - 1; j++) {
-    //
-    //       let tempTile = new Tile(spriteW * i, spriteH * j, txt[i][j], game, player);
-    //       game.addEntity(tempTile);
-    //       this.map2D[i][j] = tempTile;
-    //     }
-    //   }
-    //
-    //   Display map
-    //   console.log(this.map2D);
-    //   for (let i = 0; i < this.map2D.length; i++) {
-    //     for (let j = 0; j < this.map2D[i].length; j++) {
-    //
-    //       console.log(this.map2D[i][j].x + " " + this.map2D[i][j].y);
-    //     }
-    //   }
-    // });
-
+  /**
+  * Updates tileMap
+  */
   update() {
 
   }
 
+  /**
+  * Draws tileMap
+  */
   draw() {
 
   }
 }
 
+/** Creates a 2D Array
+* @param {int} height Height of the map
+* @param {int} width Width of the map
+* @return {array} A 2d array with the sizes given
+*/
 function create2DArray(height, width) {
   let temp = [width];
 
