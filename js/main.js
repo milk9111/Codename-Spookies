@@ -344,6 +344,7 @@ function Enemy(gameEngine) {
 
     this.x = 200;
     this.y = 200;
+    this.speed = 1;
     this.range = 100;
 
 }
@@ -373,12 +374,16 @@ Enemy.prototype.update = function() {
     if(this.player === null) {
         this.assignPlayer();
     }
-
+    if(this.isPlayerInRange()) {
+        let xDir = this.player.x - this.x;
+        this.x += (xDir < 0) ? -this.speed : this.speed;
+        let yDir = this.player.y - this.y;
+        this.y += (yDir < 0) ? -this.speed : this.speed;
+    }
 
 };
 
 Enemy.prototype.draw = function(ctx) {
-
     ctx.fillStyle = (this.isPlayerInRange()) ? 'red' : 'green';
     ctx.fillRect(this.x, this.y, 50, 50);
 };
