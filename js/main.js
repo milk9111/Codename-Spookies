@@ -282,6 +282,9 @@ ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Downward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Forward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Left.png");
+
 
 /*ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");

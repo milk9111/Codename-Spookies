@@ -17,6 +17,9 @@ function Player(game) {
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 128, 64, 64, 0.3,  2, false, false);
     this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.3,  2, false, false);
     this.swingBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Downward.png"), 0, 0, 64, 64, 0.1,  3, false, false);
+    this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Forward.png"), 0, 0, 64, 64, 0.1,  3, false, false);
+    this.swingLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Swing_Left.png"), 0, 0, 64, 64, 0.1,  3, false, false);
+
 
     this.jumping = false;
     this.walkingRight = false;
@@ -147,6 +150,14 @@ Player.prototype.update = function () {
             this.swingBackwardAnimation.elapsedTime = 0;
             this.swinging = false;
         }
+        if (this.swingForwardAnimation.isDone()) {
+            this.swingForwardAnimation.elapsedTime = 0;
+            this.swinging = false;
+        }
+        if (this.swingLeftAnimation.isDone()) {
+            this.swingLeftAnimation.elapsedTime = 0;
+            this.swinging = false;
+        }
     }
 
     Entity.prototype.update.call(this);
@@ -178,8 +189,14 @@ Player.prototype.draw = function (ctx) {
         this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
     else if (this.swinging) {
-        if (facingDirection === 2) {
+        if (facingDirection === 1) {
+            this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        }
+        else if (facingDirection === 2) {
             this.swingBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        }
+        else if (facingDirection === 3) {
+            this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         }
     }
     else {
