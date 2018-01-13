@@ -157,60 +157,6 @@ Darkness.prototype.draw = function (ctx) {
 
 
 
-
-function Enemy(gameEngine) {
-    this.game = gameEngine;
-    this.player = null;
-    this.x = 200;
-    this.y = 200;
-    this.speed = 1;
-    this.range = 100;
-}
-
-Enemy.prototype.assignPlayer = function() {
-
-    for(let i = 0; i < this.game.entities.length; i++) {
-        if(this.game.entities[i] instanceof Player) {
-            this.player = this.game.entities[i];
-            console.log(this.player);
-        }
-    }
-
-};
-
-/**
- *
- * @returns {boolean}
- */
-Enemy.prototype.isPlayerInRange = function() {
-
-    let xDist = Math.pow(Math.abs(this.x - this.player.x), 2);
-    let yDist = Math.pow(Math.abs(this.y - this.player.y), 2);
-    let distance = Math.sqrt(xDist + yDist);
-    return distance <= this.range;
-
-
-};
-
-Enemy.prototype.update = function() {
-    if(this.player === null) {
-        this.assignPlayer();
-    }
-    if(this.isPlayerInRange()) {
-        let xDir = this.player.x - this.x;
-        this.x += (xDir < 0) ? -this.speed : this.speed;
-        let yDir = this.player.y - this.y;
-        this.y += (yDir < 0) ? -this.speed : this.speed;
-    }
-
-};
-
-Enemy.prototype.draw = function(ctx) {
-    ctx.fillStyle = (this.isPlayerInRange()) ? 'red' : 'green';
-    ctx.fillRect(this.x, this.y, 50, 50);
-};
-
-
 function LightSource(game) {
     this.game = game;
     this.radius = 0;
