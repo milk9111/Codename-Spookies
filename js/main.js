@@ -167,7 +167,7 @@ Darkness.prototype.draw = function (ctx) {
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
     this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
-    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward3.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
     this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.3, 2, true, false);
     this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.3, 2, true, false);
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
@@ -407,7 +407,7 @@ ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward3.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
 
