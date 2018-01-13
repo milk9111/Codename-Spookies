@@ -166,12 +166,16 @@ Darkness.prototype.draw = function (ctx) {
  */
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-    this.idleAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1, 1, true, false);
+    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.1, 2, true, false);
+    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.1, 2, true, false);
+    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.1, 2, true, false);
+    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.1, 2, true, false);
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
     this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Player_Box.png"), 0, 0, 64, 64, 0.1,  1, false, false);
-
+    console.log("sprite not null " + (this.idleAnimationBackward.spriteSheet !== null));
+    console.log(this.idleAnimationBackward.spriteSheet);
     this.jumping = false;
     this.walkingRight = false;
     this.walkingLeft = false;
@@ -203,21 +207,25 @@ Player.prototype.update = function () {
     var totalDistance = 10;
 
     if (this.game.right) {
+        facingDirection = 4;
         this.walkingRight = true;
         this.game.right = false;
     }
 
     if (this.game.left) {
+        facingDirection = 3;
         this.walkingLeft = true;
         this.game.left = false; //consider removing these if controls stop working
     }
 
     if (this.game.forward) {
+        facingDirection = 1;
         this.walkingForward = true;
         this.game.forward = false;
     }
 
     if (this.game.backward) {
+        facingDirection = 2;
         this.walkingBackward = true;
         this.game.backward = false;
     }
@@ -316,7 +324,16 @@ Player.prototype.draw = function (ctx) {
         this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
     else {
-        this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        if (facingDirection === 1) {
+            this.idleAnimationForward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        } else if (facingDirection == 2) {
+            this.idleAnimationBackward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        } else if (facingDirection === 3) {
+            this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        } else {
+            this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+        }
+
     }
     Entity.prototype.draw.call(this);
 
@@ -376,8 +393,9 @@ LightSource.prototype.draw = function(ctx) {
 var darkness;
 var playerStartX;
 var playerStartY;
-var subtractX;
-var subtractY;
+
+//1 = forward, 2 = backward, 3 = left, 4 = right
+var facingDirection;
 
 // the "main" code begins here
 var ASSET_MANAGER = new AssetManager();
@@ -387,10 +405,10 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Backward");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -398,6 +416,8 @@ ASSET_MANAGER.downloadAll(function () {
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
+    //start facing backwards.
+    facingDirection = 2;
     var gameEngine = new GameEngine();
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
