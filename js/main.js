@@ -305,8 +305,8 @@ ASSET_MANAGER.downloadAll(function () {
 
     //Load tile map
 
-    //let tileMap = new TileMap(gameEngine);
-    //tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player, ctx);
+    let tileMap = new TileMap(gameEngine);
+    tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
 
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
@@ -317,13 +317,13 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(bg);
 
     //Add tiles
-    /*for (let i = 0; i < tileMap.map2D.length; i++) {
+    for (let i = 0; i < tileMap.map2D.length; i++) {
       for (let j = 0; j < tileMap.map2D[i].length; j++) {
 
         let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
         gameEngine.addEntity(temp);
       }
-    }*/
+    }
 
     gameEngine.addEntity(player);
     gameEngine.addEntity(enemy);
