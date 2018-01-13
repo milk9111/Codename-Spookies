@@ -2,10 +2,6 @@ canvas {
     border: 1px solid black;
     background-image: url("../img/Tileable3f.png");
     background-repeat: repeat;
-<<<<<<< HEAD
     background-size: 100px 100px;
 }
-=======
-    background-size: 75px 75px;
-}
->>>>>>> c4d0fa9ff76e7cd7cbc47292ebbe3ca2c2f12739
+

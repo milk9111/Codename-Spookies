@@ -166,14 +166,14 @@ Darkness.prototype.draw = function (ctx) {
  */
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Forward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
-    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Downward.png"), 0, 0, 64, 64, 0.3, 2, true, false);
-    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Left.png"), 0, 0, 64, 64, 0.3, 2, true, false);
-    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Idle_Right.png"), 0, 0, 64, 64, 0.3, 2, true, false);
-    this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Walking_Right.png"), 0, 0, 64, 64, 0.15,  4, false, false);
-    this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Walking_Left.png"), 0, 0, 64, 64, 0.15,  4, false, false);
-    this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Walking_Forward.png"), 0, 0, 64, 64, 0.3,  2, false, false);
-    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_Walking_Downward.png"), 0, 0, 64, 64, 0.3,  2, false, false);
+    this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3, 2, true, false);
+    this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 256, 64, 64, 0.15,  4, false, false);
+    this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 192, 64, 64, 0.15,  4, false, false);
+    this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 128, 64, 64, 0.3,  2, false, false);
+    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.3,  2, false, false);
 
     this.jumping = false;
     this.walkingRight = false;
@@ -460,14 +460,16 @@ ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
+
+/*ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Right.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Left.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Left.png");*/
 
 ASSET_MANAGER.downloadAll(function () {
 
@@ -481,8 +483,8 @@ ASSET_MANAGER.downloadAll(function () {
     var player = new Player(gameEngine, player);
 
     //Load tile map
-    let tileMap = new TileMap(gameEngine);
-    tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player, ctx);
+    //let tileMap = new TileMap(gameEngine);
+    //tileMap.loadMap("../img/mapTest.txt", 32, 32, gameEngine, player, ctx);
 
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
@@ -493,13 +495,13 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(bg);
 
     //Add tiles
-    for (let i = 0; i < tileMap.map2D.length; i++) {
+    /*for (let i = 0; i < tileMap.map2D.length; i++) {
       for (let j = 0; j < tileMap.map2D[i].length; j++) {
 
         let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
         gameEngine.addEntity(temp);
       }
-    }
+    }*/
 
     gameEngine.addEntity(player);
     gameEngine.addEntity(enemy);
