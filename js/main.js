@@ -339,6 +339,51 @@ Player.prototype.draw = function (ctx) {
 
 }
 
+function Enemy(gameEngine) {
+    this.game = gameEngine;
+    this.player = null;
+
+    this.x = 200;
+    this.y = 200;
+    this.range = 100;
+
+}
+
+Enemy.prototype.assignPlayer = function() {
+
+    for(let i = 0; i < this.game.entities.length; i++) {
+        if(this.game.entities[i] instanceof Player) {
+            this.player = this.game.entities[i];
+            console.log(this.player);
+        }
+    }
+
+};
+
+Enemy.prototype.isPlayerInRange = function() {
+
+    let xDist = Math.pow(Math.abs(this.x - this.player.x), 2);
+    let yDist = Math.pow(Math.abs(this.y - this.player.y), 2);
+    let distance = Math.sqrt(xDist + yDist);
+    return distance <= this.range;
+
+
+};
+
+Enemy.prototype.update = function() {
+    if(this.player === null) {
+        this.assignPlayer();
+    }
+
+
+};
+
+Enemy.prototype.draw = function(ctx) {
+
+    ctx.fillStyle = (this.isPlayerInRange()) ? 'red' : 'green';
+    ctx.fillRect(this.x, this.y, 50, 50);
+};
+
 
 function LightSource(game) {
     this.game = game;
@@ -423,6 +468,7 @@ ASSET_MANAGER.downloadAll(function () {
     darkness = new Darkness(gameEngine);
     var player = new Player(gameEngine);
     var light = new LightSource(gameEngine);
+    var enemy = new Enemy(gameEngine);
 
     //Because these are drawn in the order they were added, the darkness (foreground) needs
     //to be on the bottom so it is the last thing to render.
@@ -430,6 +476,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(player);
     //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
+    gameEngine.addEntity(enemy);
  
     gameEngine.init(ctx);
     player.x = (gameEngine.surfaceWidth/2 - 32);
