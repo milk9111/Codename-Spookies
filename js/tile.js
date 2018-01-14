@@ -46,20 +46,104 @@ class Tile {
 
     if (this.isDraw) {
       //Select type of sprite to show
+      //Sprites key is in spritesKey.txt
       switch (this.type) {
-        case 0:
+        case '0':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 19, 32 * 9, 32, 32, this.x, this.y, 32, 32);
           break;
-        case 1:
+        case '1':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 20, 32 * 9, 32, 32, this.x, this.y, 32, 32);
           break;
-        case 2:
+        case '2':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 21, 32 * 9, 32, 32, this.x, this.y, 32, 32);
           break;
-        case 3:
+        case '3':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 22, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '4':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '5':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 26, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '6':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 27, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '7':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 28, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '8':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 29, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '9':
+          //IDK
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 26, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'A':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 9, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'B':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 10, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'C':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 11, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'D':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 12, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'E':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 23, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'F':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 24, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'G':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 9, 32, 32, this.x, this.y, 32, 32);
           break;
+        case 'H':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 26, 32 * 9, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'I':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 12, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'J':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 13, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'K':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 14, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'L':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 15, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'M':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 16, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'N':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 17, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'O':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 18, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'P':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 19, 32 * 1, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'Q':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'R':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 26, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'S':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 27, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'T':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 28, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'U':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 29, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
       }
+
 
       Entity.prototype.draw.call(this);
     }

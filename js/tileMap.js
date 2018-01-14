@@ -33,7 +33,7 @@ class TileMap {
       for (let j = 0; j < this.width - 1; j++) {
 
         //game.addEntity(tempTile);
-        this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, Number(txt[i][j]), game, player, ctx);
+        this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, txt[i][j], game, player, ctx);
       }
     }
 
