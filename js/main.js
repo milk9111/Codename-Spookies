@@ -103,6 +103,25 @@ function flipSpriteHorizontally(ctx, img, x, y, spriteX, spriteY, spriteW, sprit
     ctx.setTransform(1,0,0,1,0,0);
 }
 
+/**
+ *
+ * @param e1 {Object}
+ * @param e1.x {number}
+ * @param e1.y {number}
+ * @param e2 {Object}
+ * @param e2.x {number}
+ * @param e2.y {number}
+ * @param dist {number}
+ */
+function areEntitiesInRange(e1, e2, dist) {
+
+    let xDist = Math.pow(Math.abs(e1.x - e2.x), 2);
+    let yDist = Math.pow(Math.abs(e1.y - e2.y), 2);
+    let distance = Math.sqrt(xDist + yDist);
+    return distance <= dist;
+
+}
+
 
 Animation.prototype.currentFrame = function () {
     return Math.floor(this.elapsedTime / this.frameDuration);

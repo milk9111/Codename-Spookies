@@ -1,5 +1,7 @@
-
-
+/**
+ * Contains logic to sit in one spot, then aggro on a player if they are in range.
+ * @author Myles Haynes
+ */
 class Enemy {
 
     constructor(gameEngine) {
@@ -11,6 +13,9 @@ class Enemy {
         this.range = 100;
     }
 
+    /**
+     * Find the player entity from the game engine.
+     */
     assignPlayer() {
 
         for(let i = 0; i < this.game.entities.length; i++) {
@@ -22,11 +27,12 @@ class Enemy {
 
     };
 
+    /**
+     * Is the player in range?
+     * @returns {boolean}
+     */
     isPlayerInRange() {
-        let xDist = Math.pow(Math.abs(this.x - this.player.x), 2);
-        let yDist = Math.pow(Math.abs(this.y - this.player.y), 2);
-        let distance = Math.sqrt(xDist + yDist);
-        return distance <= this.range;
+        return areEntitiesInRange({x: this.x, y: this.y}, this.player, this.range);
     };
 
     update() {
