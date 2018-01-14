@@ -172,7 +172,6 @@ Enemy.prototype.assignPlayer = function() {
     for(let i = 0; i < this.game.entities.length; i++) {
         if(this.game.entities[i] instanceof Player) {
             this.player = this.game.entities[i];
-            console.log(this.player);
         }
     }
 
@@ -284,6 +283,8 @@ ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
 
 
 /*
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Cast_Spell_Downward.png");
+ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Cast_Spell_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Downward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Forward.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Left.png");

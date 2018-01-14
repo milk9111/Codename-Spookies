@@ -9,27 +9,32 @@
 function Player(game) {
     //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
     this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
-    this.idleAnimationBackward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+    this.idleAnimationDownward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
     this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 0, 64, 64, 0.3, 2, true, false);
     this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
     this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, false, false);
     this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, false, false);
     this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.3,  2, false, false);
-    this.walkBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, false, false);
-    this.swingBackwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
+    this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, false, false);
+    this.swingDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
     this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 192, 64, 64, 0.1,  3, false, false);
     this.swingLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 256, 64, 64, 0.1,  3, false, false);
     this.swingRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 256, 64, 64, 0.1,  3, false, false);
+    this.castSpellDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 384, 64, 64, 0.1,  5, true, false);
+    this.castSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 448, 64, 64, 0.1,  5, true, false);
+    this.castSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 512, 64, 64, 0.1,  5, true, false);
+    this.castSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 576, 64, 64, 0.1,  5, true, false);
 
 
     this.jumping = false;
     this.walkingRight = false;
     this.walkingLeft = false;
     this.walkingForward = false;
-    this.walkingBackward = false;
+    this.walkingDownward = false;
     this.turnedAround = false;
     this.inMotion = false;
     this.swinging = false;
+    this.casting = false;
     this.radius = 100;
     this.ground = 418;
     Entity.call(this, game, game.surfaceWidth/2, game.surfaceHeight/2); //(0, 400) signify where the sprite will be drawn.
@@ -71,15 +76,27 @@ Player.prototype.update = function () {
         this.game.forward = false;
     }
 
-    if (this.game.backward) {
+    if (this.game.downward) {
         facingDirection = 2;
-        this.walkingBackward = true;
-        this.game.backward = false;
+        this.walkingDownward = true;
+        this.game.downward = false;
     }
 
     if (this.game.swing) {
         this.swinging = true;
         this.game.swing = false;
+    }
+
+    if (this.game.cast) {
+        this.casting = true;
+    }
+
+    if (this.casting && !this.game.cast) {
+        this.castSpellDownwardAnimation.elapsedTime = 0;
+        this.castSpellForwardAnimation.elapsedTime = 0;
+        this.castSpellLeftAnimation.elapsedTime = 0;
+        this.castSpellRightAnimation.elapsedTime = 0;
+        this.casting = false;
     }
 
     if (this.walkingRight) {
@@ -130,13 +147,13 @@ Player.prototype.update = function () {
         playerStartY = this.y + distance;
     }
 
-    if (this.walkingBackward) {
-        if (this.walkBackwardAnimation.isDone()) {
-            this.walkBackwardAnimation.elapsedTime = 0;
-            this.walkingBackward = false;
+    if (this.walkingDownward) {
+        if (this.walkDownwardAnimation.isDone()) {
+            this.walkDownwardAnimation.elapsedTime = 0;
+            this.walkingDownward = false;
         }
 
-        var walkDistance = this.walkBackwardAnimation.elapsedTime / this.walkBackwardAnimation.totalTime;
+        var walkDistance = this.walkDownwardAnimation.elapsedTime / this.walkDownwardAnimation.totalTime;
 
         if (walkDistance > 0.5)
             walkDistance = 1 - walkDistance;
@@ -147,8 +164,8 @@ Player.prototype.update = function () {
     }
 
     if (this.swinging) {
-        if (this.swingBackwardAnimation.isDone()) {
-            this.swingBackwardAnimation.elapsedTime = 0;
+        if (this.swingDownwardAnimation.isDone()) {
+            this.swingDownwardAnimation.elapsedTime = 0;
             this.swinging = false;
         }
         if (this.swingForwardAnimation.isDone()) {
@@ -190,35 +207,62 @@ Player.prototype.draw = function (ctx) {
     else if (this.walkingForward) {
         this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
-    else if (this.walkingBackward) {
-        this.walkBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    else if (this.walkingDownward) {
+        this.walkDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
     else if (this.swinging) {
-        if (facingDirection === 1) {
-            this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        }
-        else if (facingDirection === 2) {
-            this.swingBackwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        }
-        else if (facingDirection === 3) {
-            this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        }
-        else {
-            this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        }
+        this.swingSword(ctx);
+    }
+    else if (this.casting) {
+        this.castSpell(ctx);
     }
     else {
-        if (facingDirection === 1) {
-            this.idleAnimationForward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        } else if (facingDirection == 2) {
-            this.idleAnimationBackward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        } else if (facingDirection === 3) {
-            this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        } else {
-            this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-        }
-
+        this.standStill(ctx);
     }
     Entity.prototype.draw.call(this);
+}
 
+
+Player.prototype.castSpell = function (ctx) {
+    if (facingDirection === 1) {
+        this.castSpellForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 2) {
+        this.castSpellDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 3) {
+        this.castSpellLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else {
+        this.castSpellRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+}
+
+
+Player.prototype.standStill = function (ctx) {
+    if (facingDirection === 1) {
+        this.idleAnimationForward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    } else if (facingDirection === 2) {
+        this.idleAnimationDownward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    } else if (facingDirection === 3) {
+        this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    } else {
+        this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+}
+
+
+Player.prototype.swingSword = function (ctx) {
+    if (facingDirection === 1) {
+        this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 2) {
+        this.swingDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 3) {
+        this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else {
+        this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
 }
