@@ -37,6 +37,13 @@ function Player(game) {
     this.casting = false;
     this.radius = 100;
     this.ground = 418;
+
+    //If moving off screen
+    this.offRight = false;
+    this.offLeft = false;
+    this.offTop = false;
+    this.offBottom = false;
+
     Entity.call(this, game, game.surfaceWidth/2, game.surfaceHeight/2); //(0, 400) signify where the sprite will be drawn.
 
 }
@@ -103,6 +110,7 @@ Player.prototype.update = function () {
         if (this.walkRightAnimation.isDone()) {
             this.walkRightAnimation.elapsedTime = 0;
             this.walkingRight = false;
+
         }
 
         var walkDistance = this.walkRightAnimation.elapsedTime / this.walkRightAnimation.totalTime;
@@ -113,6 +121,7 @@ Player.prototype.update = function () {
         var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
         this.x = this.x + distance;
         playerStartX = this.x - distance;
+
     }
 
     if (this.walkingLeft) {
@@ -180,6 +189,31 @@ Player.prototype.update = function () {
             this.swingRightAnimation.elapsedTime = 0;
             this.swinging = false;
         }
+    }
+
+    //Control Bounds
+    if (this.x > $("#gameWorld").width() - 150 && this.walkingRight) {
+      this.offRight = true;
+    } else {
+      this.offRight = false;
+    }
+
+    if (this.x <  150 && this.walkingLeft) {
+      this.offLeft = true;
+    } else {
+      this.offLeft = false;
+    }
+
+    if (this.y <  150 && this.walkingForward) {
+      this.offTop = true;
+    } else {
+      this.offTop = false;
+    }
+
+    if (this.y > $("#gameWorld").height() - 150 && this.walkingBackward) {
+      this.offBottom = true;
+    } else {
+      this.offBottom = false;
     }
 
     Entity.prototype.update.call(this);
@@ -266,3 +300,4 @@ Player.prototype.swingSword = function (ctx) {
         this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
 }
+

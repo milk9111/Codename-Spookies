@@ -103,6 +103,25 @@ function flipSpriteHorizontally(ctx, img, x, y, spriteX, spriteY, spriteW, sprit
     ctx.setTransform(1,0,0,1,0,0);
 }
 
+/**
+ *
+ * @param e1 {Object}
+ * @param e1.x {number}
+ * @param e1.y {number}
+ * @param e2 {Object}
+ * @param e2.x {number}
+ * @param e2.y {number}
+ * @param dist {number}
+ */
+function areEntitiesInRange(e1, e2, dist) {
+
+    let xDist = Math.pow(Math.abs(e1.x - e2.x), 2);
+    let yDist = Math.pow(Math.abs(e1.y - e2.y), 2);
+    let distance = Math.sqrt(xDist + yDist);
+    return distance <= dist;
+
+}
+
 
 Animation.prototype.currentFrame = function () {
     return Math.floor(this.elapsedTime / this.frameDuration);
@@ -155,59 +174,6 @@ Darkness.prototype.draw = function (ctx) {
     Entity.prototype.draw.call(this);
 }
 
-
-
-
-function Enemy(gameEngine) {
-    this.game = gameEngine;
-    this.player = null;
-    this.x = 200;
-    this.y = 200;
-    this.speed = 1;
-    this.range = 100;
-}
-
-Enemy.prototype.assignPlayer = function() {
-
-    for(let i = 0; i < this.game.entities.length; i++) {
-        if(this.game.entities[i] instanceof Player) {
-            this.player = this.game.entities[i];
-        }
-    }
-
-};
-
-/**
- *
- * @returns {boolean}
- */
-Enemy.prototype.isPlayerInRange = function() {
-
-    let xDist = Math.pow(Math.abs(this.x - this.player.x), 2);
-    let yDist = Math.pow(Math.abs(this.y - this.player.y), 2);
-    let distance = Math.sqrt(xDist + yDist);
-    return distance <= this.range;
-
-
-};
-
-Enemy.prototype.update = function() {
-    if(this.player === null) {
-        this.assignPlayer();
-    }
-    if(this.isPlayerInRange()) {
-        let xDir = this.player.x - this.x;
-        this.x += (xDir < 0) ? -this.speed : this.speed;
-        let yDir = this.player.y - this.y;
-        this.y += (yDir < 0) ? -this.speed : this.speed;
-    }
-
-};
-
-Enemy.prototype.draw = function(ctx) {
-    ctx.fillStyle = (this.isPlayerInRange()) ? 'red' : 'green';
-    ctx.fillRect(this.x, this.y, 50, 50);
-};
 
 
 function LightSource(game) {
