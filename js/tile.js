@@ -31,7 +31,7 @@ class Tile {
     let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
 
     //If close to player then draw, else don't draw
-    if (distance < 250) {
+    if (distance < 305) {
       this.isDraw = true;
     } else {
       this.isDraw = false;
