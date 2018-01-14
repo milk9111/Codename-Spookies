@@ -19,8 +19,8 @@ class Tile {
     this.player = player;
     this.isDraw = false;
     this.image;
-    this.speedX;
-    this.speedY;
+    this.speedX = 1;
+    this.speedY = 1;
     Entity.call(this, game, this.x, this.y);
   }
 
@@ -35,6 +35,17 @@ class Tile {
       this.isDraw = true;
     } else {
       this.isDraw = false;
+    }
+
+    //Controls the map movement on/off screen
+    if(this.player.offRight) {
+      this.x -= this.speedX;
+    } else if (this.player.offLeft) {
+      this.x += this.speedX;
+    } else if (this.player.offTop) {
+      this.y += this.speedY;
+    } else if (this.player.offBottom) {
+      this.y -= this.speedY;
     }
   }
 
