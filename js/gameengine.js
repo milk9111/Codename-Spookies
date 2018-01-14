@@ -96,51 +96,69 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
 
+    //cast spell
+    this.ctx.canvas.addEventListener("keydown", function (e) {
+        if (e.code === 'KeyQ' && !that.cast) {
+            that.cast = true;
+        } else if (e.code === 'KeyQ' && that.cast) {
+            that.cast = false;
+        }
+        e.preventDefault();
+    }, false);
+
+
     //move right
     this.ctx.canvas.addEventListener("keydown", function (e) {
-    	if (e.code === 'KeyD' && !that.right) {
-    	    that.right = true;
-    	    that.moving = true;
-    	}
-    	e.preventDefault();
+        if (!that.cast && e.code === 'KeyD') {
+            that.right = true;
+            that.moving = true;
+        }
+        e.preventDefault();
     }, false);
+
 
     //move left
     this.ctx.canvas.addEventListener("keydown", function (e) {
-    	if (e.code === 'KeyA') {
-    	    that.left = true;
+        if (!that.cast && e.code === 'KeyA') {
+            that.left = true;
             that.moving = true;
-    	}
-    	e.preventDefault();
+        }
+        e.preventDefault();
     }, false);
+
 
     //move forward
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (e.code === 'KeyW') {
+        if (!that.cast && e.code === 'KeyW') {
             that.forward = true;
             that.moving = true;
         }
         e.preventDefault();
     }, false);
 
-    //move backward
+
+    //move downward
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (e.code === 'KeyS') {
-            that.backward = true;
+        if (!that.cast && e.code === 'KeyS') {
+            that.downward = true;
             that.moving = true;
         }
         e.preventDefault();
     }, false);
 
+
     //swing sword
     this.ctx.canvas.addEventListener("click", function (e) {
+        if (!that.cast) {
             that.swing = true;
             that.moving = false;
+        }
         e.preventDefault();
     }, false);
 
+
+    //stop moving
     this.ctx.canvas.addEventListener("keyup", function (e) {
-    	//this.clockTick = 0;
     	that.moving = false;
     	e.preventDefault();
     }, false);
@@ -218,7 +236,7 @@ GameEngine.prototype.loop = function () {
     this.right = null;
     this.left = null;
     this.forward = null;
-    this.backward = null;
+    this.downward = null;
     this.moving = null;
     this.swing = null;
     this.stop = null;
