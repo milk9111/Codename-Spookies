@@ -86,6 +86,8 @@ GameEngine.prototype.start = function () {
 
 
 var moving = false;
+var swing = false;
+var raise = false;
 
 /**
  * This handles all of the user input. It adds key event listeners to the canvas in order
@@ -153,15 +155,24 @@ GameEngine.prototype.startInput = function () {
     }, false);
 
 
-    //swing sword
-    this.ctx.canvas.addEventListener("click", function (e) {
-        if (!that.cast) {
-            //console.log("Mouse clicked");
-            that.swing = true;
-           moving = false;
+    //raise shield
+    this.ctx.canvas.addEventListener("keydown", function (e) {
+        if (!that.cast && e.code === 'KeyE' && !raise) {
+            //console.log("Pressing E");
+            raise = true;
+            moving = false;
         }
         e.preventDefault();
     }, false);
+
+
+    //swing sword
+    this.ctx.canvas.addEventListener("click", function(e) {
+       if (!that.cast) {
+           swing = true;
+           moving = false;
+       }
+    });
 
 
     //stop moving
@@ -246,6 +257,7 @@ GameEngine.prototype.loop = function () {
     this.forward = null;
     this.downward = null;
     this.swing = null;
+    this.raise = null;
     this.stop = null;
 }
 

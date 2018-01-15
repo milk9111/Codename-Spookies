@@ -24,6 +24,10 @@ function Player(game) {
     this.castSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 448, 64, 64, 0.1,  5, true, false);
     this.castSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 512, 64, 64, 0.1,  5, true, false);
     this.castSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 576, 64, 64, 0.1,  5, true, false);
+    this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, false, false);
+    this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, false, false);
+    this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, false, false);
+    this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, false, false);
 
 
     this.jumping = false;
@@ -35,6 +39,7 @@ function Player(game) {
     this.inMotion = false;
     this.swinging = false;
     this.casting = false;
+    this.raising = false;
     this.radius = 100;
     this.ground = 418;
 
@@ -89,9 +94,14 @@ Player.prototype.update = function () {
         this.game.downward = false;
     }
 
-    if (this.game.swing) {
+    if (swing) {
         this.swinging = true;
-        this.game.swing = false;
+        //this.game.swing = false;
+    }
+
+    if (raise) {
+        this.raising = true;
+        //this.game.raise = false;
     }
 
     if (this.game.cast) {
@@ -186,24 +196,59 @@ Player.prototype.update = function () {
       }
     }
 
+
+    //raising shield
+    if (this.raising) {
+        if (this.raiseShieldDownwardAnimation.isDone()) {
+            this.raiseShieldDownwardAnimation.elapsedTime = 0;
+            this.raising = false;
+            raise = false;
+        }
+        if (this.raiseShieldForwardAnimation.isDone()) {
+            this.raiseShieldForwardAnimation.elapsedTime = 0;
+            this.raising = false;
+            raise = false;
+        }
+        if (this.raiseShieldLeftAnimation.isDone()) {
+            this.raiseShieldLeftAnimation.elapsedTime = 0;
+            this.raising = false;
+            raise = false;
+        }
+        if (this.raiseShieldRightAnimation.isDone()) {
+            this.raiseShieldRightAnimation.elapsedTime = 0;
+            this.raising = false;
+            raise = false;
+        }
+    }
+
+
+    //swinging sword
     if (this.swinging) {
         if (this.swingDownwardAnimation.isDone()) {
             this.swingDownwardAnimation.elapsedTime = 0;
             this.swinging = false;
+            swing = false;
         }
         if (this.swingForwardAnimation.isDone()) {
             this.swingForwardAnimation.elapsedTime = 0;
             this.swinging = false;
+            swing = false;
+
         }
         if (this.swingLeftAnimation.isDone()) {
             this.swingLeftAnimation.elapsedTime = 0;
             this.swinging = false;
+            swing = false;
+
         }
         if (this.swingRightAnimation.isDone()) {
             this.swingRightAnimation.elapsedTime = 0;
             this.swinging = false;
+            swing = false;
+
         }
     }
+
 
     //Control Bounds
     if (this.x > $("#gameWorld").width() - 150 && this.walkingRight) {
@@ -258,6 +303,9 @@ Player.prototype.draw = function (ctx) {
     else if (this.walkingDownward) {
         this.walkDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
+    else if (this.raising) {
+        this.raiseShield(ctx);
+    }
     else if (this.swinging) {
         this.swingSword(ctx);
     }
@@ -268,6 +316,22 @@ Player.prototype.draw = function (ctx) {
         this.standStill(ctx);
     }
     Entity.prototype.draw.call(this);
+}
+
+
+Player.prototype.raiseShield = function (ctx) {
+    if (facingDirection === 1) {
+        this.raiseShieldForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 2) {
+        this.raiseShieldDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 3) {
+        this.raiseShieldLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else {
+        this.raiseShieldRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
 }
 
 
