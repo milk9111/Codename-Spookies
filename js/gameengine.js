@@ -85,6 +85,8 @@ GameEngine.prototype.start = function () {
 }
 
 
+var moving = false;
+
 /**
  * This handles all of the user input. It adds key event listeners to the canvas in order
  * to check for what the user is typing. It's here we will need to do aiming with the mouse
@@ -109,9 +111,10 @@ GameEngine.prototype.startInput = function () {
 
     //move right
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyD') {
+        if (!that.cast && e.code === 'KeyD' && !moving) {
+            //console.log("Pressing D");
             that.right = true;
-            that.moving = true;
+            moving = true;
         }
         e.preventDefault();
     }, false);
@@ -119,9 +122,10 @@ GameEngine.prototype.startInput = function () {
 
     //move left
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyA') {
+        if (!that.cast && e.code === 'KeyA' && !moving) {
+            //console.log("Pressing A");
             that.left = true;
-            that.moving = true;
+            moving = true;
         }
         e.preventDefault();
     }, false);
@@ -129,9 +133,10 @@ GameEngine.prototype.startInput = function () {
 
     //move forward
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyW') {
+        if (!that.cast && e.code === 'KeyW' && !moving) {
+            //console.log("Pressing W");
             that.forward = true;
-            that.moving = true;
+            moving = true;
         }
         e.preventDefault();
     }, false);
@@ -139,9 +144,10 @@ GameEngine.prototype.startInput = function () {
 
     //move downward
     this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyS') {
+        if (!that.cast && e.code === 'KeyS' && !moving) {
+            //console.log("Pressing S, moving is " + moving);
             that.downward = true;
-            that.moving = true;
+            moving = true;
         }
         e.preventDefault();
     }, false);
@@ -150,8 +156,9 @@ GameEngine.prototype.startInput = function () {
     //swing sword
     this.ctx.canvas.addEventListener("click", function (e) {
         if (!that.cast) {
+            //console.log("Mouse clicked");
             that.swing = true;
-            that.moving = false;
+           moving = false;
         }
         e.preventDefault();
     }, false);
@@ -159,7 +166,8 @@ GameEngine.prototype.startInput = function () {
 
     //stop moving
     this.ctx.canvas.addEventListener("keyup", function (e) {
-    	that.moving = false;
+        //console.log("Moving set to false");
+    	moving = false;
     	e.preventDefault();
     }, false);
 
@@ -237,7 +245,6 @@ GameEngine.prototype.loop = function () {
     this.left = null;
     this.forward = null;
     this.downward = null;
-    this.moving = null;
     this.swing = null;
     this.stop = null;
 }
