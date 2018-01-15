@@ -88,6 +88,7 @@ GameEngine.prototype.start = function () {
 var moving = false;
 var swing = false;
 var raise = false;
+var shoot = false;
 
 /**
  * This handles all of the user input. It adds key event listeners to the canvas in order
@@ -160,6 +161,17 @@ GameEngine.prototype.startInput = function () {
         if (!that.cast && e.code === 'KeyE' && !raise) {
             //console.log("Pressing E");
             raise = true;
+            moving = false;
+        }
+        e.preventDefault();
+    }, false);
+
+
+    //shoot bolt
+    this.ctx.canvas.addEventListener("keydown", function (e) {
+        if (!that.cast && e.code === 'Space' && !shoot) {
+            //console.log("Pressing E");
+            shoot = true;
             moving = false;
         }
         e.preventDefault();

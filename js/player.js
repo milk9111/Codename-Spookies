@@ -28,6 +28,10 @@ function Player(game) {
     this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, false, false);
     this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, false, false);
     this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, false, false);
+    this.shootBoltDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 704, 64, 64, 0.1,  3, false, false);
+    this.shootBoltForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 768, 64, 64, 0.1,  3, false, false);
+    this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
+    this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
 
     this.jumping = false;
@@ -40,6 +44,7 @@ function Player(game) {
     this.swinging = false;
     this.casting = false;
     this.raising = false;
+    this.shooting = false;
     this.radius = 100;
     this.ground = 418;
 
@@ -96,12 +101,14 @@ Player.prototype.update = function () {
 
     if (swing) {
         this.swinging = true;
-        //this.game.swing = false;
     }
 
     if (raise) {
         this.raising = true;
-        //this.game.raise = false;
+    }
+
+    if (shoot) {
+        this.shooting = true;
     }
 
     if (this.game.cast) {
@@ -222,6 +229,31 @@ Player.prototype.update = function () {
     }
 
 
+    //shooting bolt
+    if (this.shooting) {
+        if (this.shootBoltDownwardAnimation.isDone()) {
+            this.shootBoltDownwardAnimation.elapsedTime = 0;
+            this.shooting = false;
+            shoot = false;
+        }
+        if (this.shootBoltForwardAnimation.isDone()) {
+            this.shootBoltForwardAnimation.elapsedTime = 0;
+            this.shooting = false;
+            shoot = false;
+        }
+        if (this.shootBoltLeftAnimation.isDone()) {
+            this.shootBoltLeftAnimation.elapsedTime = 0;
+            this.shooting = false;
+            shoot = false;
+        }
+        if (this.shootBoltRightAnimation.isDone()) {
+            this.shootBoltRightAnimation.elapsedTime = 0;
+            this.shooting = false;
+            shoot = false;
+        }
+    }
+
+
     //swinging sword
     if (this.swinging) {
         if (this.swingDownwardAnimation.isDone()) {
@@ -303,6 +335,9 @@ Player.prototype.draw = function (ctx) {
     else if (this.walkingDownward) {
         this.walkDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
     }
+    else if (this.shooting) {
+        this.shootBolt(ctx);
+    }
     else if (this.raising) {
         this.raiseShield(ctx);
     }
@@ -316,6 +351,22 @@ Player.prototype.draw = function (ctx) {
         this.standStill(ctx);
     }
     Entity.prototype.draw.call(this);
+}
+
+
+Player.prototype.shootBolt = function (ctx) {
+    if (facingDirection === 1) {
+        this.shootBoltForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 2) {
+        this.shootBoltDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else if (facingDirection === 3) {
+        this.shootBoltLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
+    else {
+        this.shootBoltRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+    }
 }
 
 
