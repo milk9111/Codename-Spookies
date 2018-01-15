@@ -4,15 +4,15 @@
  */
 class Enemy {
 
-    constructor(gameEngine) {
+    constructor(gameEngine, x, y, speed, range) {
         this.game = gameEngine;
         this.player = null;
-        this.x = 200;
-        this.y = 200;
+        this.x = x || 200;
+        this.y = y || 200;
         this.unroundedX = this.x;
         this.unroundedY = this.y;
-        this.speed = 0.75;
-        this.range = 100;
+        this.speed = speed || 0.75;
+        this.range = range || 100;
     }
 
     /**
