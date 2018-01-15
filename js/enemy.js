@@ -4,13 +4,15 @@
  */
 class Enemy {
 
-    constructor(gameEngine) {
+    constructor(gameEngine, x, y, speed, range) {
         this.game = gameEngine;
         this.player = null;
-        this.x = 200;
-        this.y = 200;
-        this.speed = 1;
-        this.range = 100;
+        this.x = x || 200;
+        this.y = y || 200;
+        this.unroundedX = this.x;
+        this.unroundedY = this.y;
+        this.speed = speed || 0.75;
+        this.range = range || 100;
     }
 
     /**
@@ -35,15 +37,19 @@ class Enemy {
         return areEntitiesInRange({x: this.x, y: this.y}, this.player, this.range);
     };
 
+    // noinspection JSUnusedGlobalSymbols
     update() {
         if(this.player === null) {
             this.assignPlayer();
         }
         if(this.isPlayerInRange()) {
             let xDir = this.player.x - this.x;
-            this.x += (xDir < 0) ? -this.speed : this.speed;
+            this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
+            this.x = Math.round(this.unroundedX);
+
             let yDir = this.player.y - this.y;
-            this.y += (yDir < 0) ? -this.speed : this.speed;
+            this.unroundedY += (yDir < 0) ? -this.speed : this.speed;
+            this.y = Math.round(this.unroundedY);
         }
 
     };
