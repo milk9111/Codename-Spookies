@@ -285,7 +285,7 @@ ASSET_MANAGER.downloadAll(function () {
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
     //var light = new LightSource(gameEngine);
-    var enemy = new Enemy(gameEngine);
+    var enemy = new Enemy(gameEngine, player);
 
     //ADD ENTITES
     gameEngine.addEntity(bg);

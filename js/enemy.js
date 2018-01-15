@@ -4,30 +4,20 @@
  */
 class Enemy {
 
-    constructor(gameEngine, x, y, speed, range) {
+    constructor(gameEngine, player, x, y, speed, range) {
         this.game = gameEngine;
-        this.player = null;
+        this.player = player;
         this.x = x || 200;
         this.y = y || 200;
         this.unroundedX = this.x;
         this.unroundedY = this.y;
         this.speed = speed || 0.75;
         this.range = range || 100;
+
+        //Speed at which character moves with map
+        this.mapSpeedX = 1;
+        this.mapSpeedY = 1;
     }
-
-    /**
-     * Find the player entity from the game engine.
-     */
-    assignPlayer() {
-
-        for(let i = 0; i < this.game.entities.length; i++) {
-            if(this.game.entities[i] instanceof Player) {
-                this.player = this.game.entities[i];
-                console.log(this.player);
-            }
-        }
-
-    };
 
     /**
      * Is the player in range?
@@ -39,17 +29,30 @@ class Enemy {
 
     // noinspection JSUnusedGlobalSymbols
     update() {
-        if(this.player === null) {
-            this.assignPlayer();
-        }
+
         if(this.isPlayerInRange()) {
             let xDir = this.player.x - this.x;
             this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
-            this.x = Math.round(this.unroundedX);
+            this.x = this.unroundedX;
 
             let yDir = this.player.y - this.y;
             this.unroundedY += (yDir < 0) ? -this.speed : this.speed;
-            this.y = Math.round(this.unroundedY);
+            this.y = this.unroundedY;
+        }
+
+        //Controls the map movement on/off screen
+        if(this.player.offRight) {
+          this.x -= this.mapSpeedX;
+          this.unroundedX -= this.mapSpeedX;
+        } else if (this.player.offLeft) {
+          this.x += this.mapSpeedX;
+          this.unroundedX += this.mapSpeedX;
+        } else if (this.player.offTop) {
+          this.y += this.mapSpeedY;
+          this.unroundedY += this.mapSpeedY;
+        } else if (this.player.offBottom) {
+          this.y -= this.mapSpeedY;
+          this.unroundedY -= this.mapSpeedY; 
         }
 
     };
