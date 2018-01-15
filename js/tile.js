@@ -153,6 +153,19 @@ class Tile {
         case 'U':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 29, 32 * 4, 32, 32, this.x, this.y, 32, 32);
           break;
+        //Currently all potions are on sand ground
+        case 'V':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 34, 32 * 23 , 32, 32, this.x, this.y, 32, 32);
+        break;
+        case 'X':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 35, 32 * 23 , 32, 32, this.x, this.y, 32, 32);
+        break;
+        case 'Y':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 36, 32 * 23 , 32, 32, this.x, this.y, 32, 32);
+        break;
       }
 
 
