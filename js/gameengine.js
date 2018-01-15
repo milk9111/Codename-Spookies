@@ -165,11 +165,11 @@ GameEngine.prototype.startInput = function () {
 
 
     //stop moving
-    this.ctx.canvas.addEventListener("keyup", function (e) {
+    /*this.ctx.canvas.addEventListener("keyup", function (e) {
         //console.log("Moving set to false");
     	moving = false;
     	e.preventDefault();
-    }, false);
+    }, false);*/
 
     console.log('Input started');
 }

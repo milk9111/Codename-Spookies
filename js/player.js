@@ -110,7 +110,7 @@ Player.prototype.update = function () {
         if (this.walkRightAnimation.isDone()) {
             this.walkRightAnimation.elapsedTime = 0;
             this.walkingRight = false;
-
+            moving = false;
         }
 
         //Stop player from moving off screen right
@@ -130,6 +130,7 @@ Player.prototype.update = function () {
         if (this.walkLeftAnimation.isDone()) {
             this.walkLeftAnimation.elapsedTime = 0;
             this.walkingLeft = false;
+            moving = false;
         }
 
         //Stop player from going off left side of the screen
@@ -149,6 +150,7 @@ Player.prototype.update = function () {
         if (this.walkForwardAnimation.isDone()) {
             this.walkForwardAnimation.elapsedTime = 0;
             this.walkingForward = false;
+            moving = false;
         }
 
         //Stop player from moving off screen from the top
@@ -168,6 +170,7 @@ Player.prototype.update = function () {
         if (this.walkDownwardAnimation.isDone()) {
             this.walkDownwardAnimation.elapsedTime = 0;
             this.walkingDownward = false;
+            moving = false;
         }
 
         //Stop player from going off screen from the bottom
