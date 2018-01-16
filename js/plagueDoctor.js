@@ -15,14 +15,20 @@ class PlagueDoctor extends Enemy {
   *@author James Roberts
   */
   update() {
-    super.update();
+    let lastX = this.x;
+    let lastY = this.y;
+    super.update()
+    let xDir = lastX - this.x;
+    let yDir = lastY - this.y;
+
+    console.log("x" + this.x + "y" + this.y )
   };
 
   draw(ctx) {
     if(this.facingDirection === 1) {
       this.standStill(ctx);
     } else {
-      super.draw();
+      super.draw(ctx);
     }
   };
 
