@@ -254,7 +254,7 @@ ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
-
+ASSET_MANAGER.queueDownload("../img/EnemyDownward.png")
 
 /*
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Cast_Spell_Downward.png");
@@ -293,8 +293,8 @@ ASSET_MANAGER.downloadAll(function () {
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
     //var light = new LightSource(gameEngine);
-    var enemy = new Enemy(gameEngine, player);
-
+    var enemy = new PlagueDoctor(gameEngine, player);
+    //var plague = new PlagueDoctor(gameEngine, player);
     //ADD ENTITES
     gameEngine.addEntity(bg);
 
