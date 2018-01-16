@@ -20,7 +20,7 @@ class PlagueDoctor extends Enemy {
 
   draw(ctx) {
     if(this.facingDirection === 1) {
-      this.standStill();
+      this.standStill(ctx);
     } else {
       super.draw();
     }
