@@ -156,24 +156,32 @@ Background.prototype.draw = function (ctx) {
 
 
 function Darkness(game) {
-    Entity.call(this, game, game.surfaceWidth, game.surfaceHeight);
-    //this.game = game;
+  this.width = 1500;
+  this.height = 1500;
+  this.offSetSin = 0;
+  this.newVal = 0;
+  Entity.call(this, game, game.surfaceWidth, game.surfaceHeight);
+  //this.game = game;
 }
 
 Darkness.prototype = new Entity();
 Darkness.prototype.constructor = Darkness;
-Darkness.prototype.update = function () {
-    this.x = -(this.game.surfaceWidth) + playerStartX + 36;
-    this.y = -(this.game.surfaceHeight) + playerStartY + 36;
-}
-Darkness.prototype.draw = function (ctx) {
-    /*ctx.fillStyle = "SaddleBlack";
-    ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);*/
-    //console.log(playerStartY + ", " + (-(playerStartY + 32)));
-    ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x, this.y, this.game.surfaceWidth*2, this.game.surfaceHeight*2);
-    Entity.prototype.draw.call(this);
-}
+Darkness.prototype.update = function() {
 
+  let temp = this.width + this.offSetSin;
+  this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
+  this.offSetSin += .03;
+
+  this.x = -(this.game.surfaceWidth) + playerStartX + 85;
+  this.y = -(this.game.surfaceHeight) + playerStartY + 85;
+}
+Darkness.prototype.draw = function(ctx) {
+  /*ctx.fillStyle = "SaddleBlack";
+  ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);*/
+  //console.log(playerStartY + ", " + (-(playerStartY + 32)));
+  ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+  Entity.prototype.draw.call(this);
+}
 
 
 function LightSource(game) {
@@ -318,3 +326,16 @@ ASSET_MANAGER.downloadAll(function () {
 
     gameEngine.start();
 });
+
+/** Re-maps a number from one range to another.
+*@param {int} value Incoming value to be converted
+*@param {int} low1 Lower bound of the value's current range
+*@param {int} high1 High bound of hte value's current range
+*@param {int} low2 Lower bound of the value's target range
+*@param {int} high2 Higher bound of the value's target range
+*@return New valuw map to new range
+*@author p5.js, basically ripped it off from there, since can't use CDN.
+*/
+function map(value, low1, high1, low2, high2) {
+  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
