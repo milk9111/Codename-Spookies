@@ -170,7 +170,7 @@ Darkness.prototype.update = function() {
 
   let temp = this.width + this.offSetSin;
   this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
-  this.offSetSin += .03;
+  this.offSetSin += .05;
 
   this.x = -(this.game.surfaceWidth) + playerStartX + 85;
   this.y = -(this.game.surfaceHeight) + playerStartY + 85;
