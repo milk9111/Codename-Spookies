@@ -19,6 +19,7 @@ class Enemy {
         this.mapSpeedY = 1;
     }
 
+
     /**
      * Is the player in range?
      * @returns {boolean}
@@ -52,7 +53,7 @@ class Enemy {
           this.unroundedY += this.mapSpeedY;
         } else if (this.player.offBottom) {
           this.y -= this.mapSpeedY;
-          this.unroundedY -= this.mapSpeedY; 
+          this.unroundedY -= this.mapSpeedY;
         }
 
     };
