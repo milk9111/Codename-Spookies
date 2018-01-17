@@ -2,9 +2,10 @@
  * Contains logic to sit in one spot, then aggro on a player if they are in range.
  * @author Myles Haynes
  */
-class Enemy {
+class Enemy extends Entity {
 
     constructor(gameEngine, player, x, y, speed, range) {
+        super(gameEngine, x, y);
         this.game = gameEngine;
         this.player = player;
         this.x = x || 200;
@@ -35,7 +36,7 @@ class Enemy {
             let xDir = this.player.x - this.x;
             let yDir = this.player.y - this.y;
             if(Math.abs(xDir) > Math.abs(yDir)) {
-                this.unroundedX += (xDir) ? (xDir < 0) ? -this.speed : this.speed : 0;
+                this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
                 this.x = this.unroundedX;
             } else {
                 this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
