@@ -18,7 +18,6 @@ class Tile {
     this.game = game;
     this.player = player;
     this.isDraw = false;
-    this.image;
     this.speedX = 1;
     this.speedY = 1;
     Entity.call(this, game, this.x, this.y);
