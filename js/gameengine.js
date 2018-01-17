@@ -233,28 +233,27 @@ GameEngine.prototype.draw = function () {
  * @author Seth Ladd
  */
 GameEngine.prototype.update = function () {
-    var entitiesCount = this.entities.length;
-    var removalPositions = [];
-    //This moves the entities (via their own update method)
-    for (var i = 0; i < entitiesCount; i++) {
-        var entity = this.entities[i];
+    let entitiesCount = this.entities.length;
+    let removalPositions = [];
 
-        if (entity.removeFromWorld === false) {
-            //console.log(entity.removeFromWorld);
+    //This moves the entities (via their own update method)
+    for (let i = 0; i < entitiesCount; i++) {
+        let entity = this.entities[i];
+
+        if (entity.removalStatus === true) {
+            console.log("found removal status of true");
+        }
+        if (entity.removalStatus === false) {
             entity.update();
         } else {
             console.log("Going to remove");
             removalPositions.push(i);
-            //this.entitiesToRemove.push(entity);
         }
     }
 
     //This removes entities from the game world
-    for (var i = removalPositions.length - 1; i >= 0; --i) {
+    for (let i = removalPositions.length - 1; i >= 0; --i) {
         this.entities.splice(removalPositions[i], 1);
-        /*if (this.entities[i].removeFromWorld) {
-            this.entities.splice(i, 1);
-        }*/
     }
 }
 
@@ -367,9 +366,13 @@ class Entity {
     }
 
 
-    markForRemoval  () {
+    set removal  (remove) {
         console.log("Marking for removal");
-        this.removeFromWorld = true;
+        this.removeFromWorld = remove;
+    }
+
+    get removalStatus () {
+        return this.removeFromWorld;
     }
 
 

@@ -105,7 +105,8 @@ class Projectile extends Entity {
 
     kill () {
         console.log("called kill");
-        super.markForRemoval();
+        super.removal = true;
+        console.log(super.removalStatus);
         //this.isKilling = true;
     }
 
