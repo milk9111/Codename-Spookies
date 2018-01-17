@@ -33,12 +33,14 @@ class Enemy {
 
         if(this.isPlayerInRange()) {
             let xDir = this.player.x - this.x;
-            this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
-            this.x = this.unroundedX;
-
             let yDir = this.player.y - this.y;
-            this.unroundedY += (yDir < 0) ? -this.speed : this.speed;
-            this.y = this.unroundedY;
+            if(Math.abs(xDir) > Math.abs(yDir)) {
+                this.unroundedX += (xDir) ? (xDir < 0) ? -this.speed : this.speed : 0;
+                this.x = this.unroundedX;
+            } else {
+                this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
+                this.y = this.unroundedY;
+            }
         }
 
         //Controls the map movement on/off screen
