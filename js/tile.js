@@ -1,7 +1,7 @@
 /** Represents a single tile on the map
  * @author Brandon Blaschke
  */
-class Tile {
+class Tile extends Entity{
 
   /** Constructor for a Tile object
    *@param {int} x X coordinate
@@ -11,6 +11,7 @@ class Tile {
    *@param {canvas} ctx Refrence to canvas
    */
   constructor(x, y, type, game, player, ctx) {
+    super(game, x, y);
     this.x = x;
     this.y = y;
     this.ctx = ctx;
@@ -20,7 +21,7 @@ class Tile {
     this.isDraw = false;
     this.speedX = 1;
     this.speedY = 1;
-    Entity.call(this, game, this.x, this.y);
+
   }
 
   /** Updates a tile */

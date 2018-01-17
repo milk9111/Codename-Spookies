@@ -49,7 +49,7 @@ class Player extends Entity {
         this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
         this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
-        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, false, false);
+        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, true, false);
 
         this.ctx = game.ctx;
 
@@ -134,6 +134,14 @@ class Player extends Entity {
             this.castSpellLeftAnimation.elapsedTime = 0;
             this.castSpellRightAnimation.elapsedTime = 0;
             this.casting = false;
+        }
+
+        if (castSuccessful) {
+            castSuccessful = false;
+            this.fireBallSpellAnimation.elapsedTime = 0;
+            let animation = this.fireBallSpellAnimation;
+            let spell = new Projectile(this.game, animation, facingDirection, this.x, this.y);
+            this.game.addEntity(spell);
         }
 
         if (this.walkingRight) {
@@ -359,11 +367,12 @@ class Player extends Entity {
             this.castSpell(ctx);
         }
         else if (castSuccessful) {
-            console.log("animating fireball");
+            /*console.log("animating fireball");
+
             this.fireBallSpellAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
             if (this.fireBallSpellAnimation.isDone()) {
                 castSuccessful = false;
-            }
+            }*/
         }
         else {
             this.standStill(ctx);

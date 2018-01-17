@@ -131,57 +131,57 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-function Background(game) {
-    Entity.call(this, game, 0, 400);
-    this.radius = 200;
+class Background extends Entity
+ {
+     constructor (game) {
+         super(game, 0, 400);
+         this.radius = 200;
+     }
+
+    update ()  {
+    }
+
+    draw (ctx) {
+        var tile_background = new Image();
+        tile_background.src = "../img/Tileable3f.png";
+        tile_background.onload = function(){
+            var pattern = ctx.createPattern(tile_background, "repeat");
+            ctx.fillStyle = pattern;
+            ctx.fill();
+            //Entity.prototype.draw.call(this);
+        };
+    }
 }
 
-Background.prototype = new Entity();
-Background.prototype.constructor = Background;
 
-Background.prototype.update = function () {
+
+class Darkness extends Entity  {
+
+    constructor (game) {
+        super(game, game.surfaceWidth, game.surfaceHeight);
+        this.width = 1500;
+        this.height = 1500;
+        this.offSetSin = 0;
+        this.newVal = 0;
+    }
+
+    update () {
+
+        let temp = this.width + this.offSetSin;
+        this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
+        this.offSetSin += .05;
+
+        this.x = -(this.game.surfaceWidth) + playerStartX + 85;
+        this.y = -(this.game.surfaceHeight) + playerStartY + 85;
+    }
+
+    draw (ctx) {
+        ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+        Entity.prototype.draw.call(this);
+    }
 }
 
-Background.prototype.draw = function (ctx) {
-    var tile_background = new Image();
-    tile_background.src = "../img/Tileable3f.png";
-    tile_background.onload = function(){
-        var pattern = ctx.createPattern(tile_background, "repeat");
-        ctx.fillStyle = pattern;
-        ctx.fill();
-        //Entity.prototype.draw.call(this);
-    };
-}
 
-
-
-function Darkness(game) {
-  this.width = 1500;
-  this.height = 1500;
-  this.offSetSin = 0;
-  this.newVal = 0;
-  Entity.call(this, game, game.surfaceWidth, game.surfaceHeight);
-  //this.game = game;
-}
-
-Darkness.prototype = new Entity();
-Darkness.prototype.constructor = Darkness;
-Darkness.prototype.update = function() {
-
-  let temp = this.width + this.offSetSin;
-  this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
-  this.offSetSin += .05;
-
-  this.x = -(this.game.surfaceWidth) + playerStartX + 85;
-  this.y = -(this.game.surfaceHeight) + playerStartY + 85;
-}
-Darkness.prototype.draw = function(ctx) {
-  /*ctx.fillStyle = "SaddleBlack";
-  ctx.fillRect(0,0,this.game.surfaceWidth,this.game.surfaceHeight);*/
-  //console.log(playerStartY + ", " + (-(playerStartY + 32)));
-  ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
-  Entity.prototype.draw.call(this);
-}
 
 
 function LightSource(game) {
@@ -239,7 +239,7 @@ var darkness;
 var playerStartX;
 var playerStartY;
 
-//1 = forward, 2 = backward, 3 = left, 4 = right
+//1 = forward, 2 = downward, 3 = left, 4 = right
 var facingDirection;
 
 
