@@ -261,40 +261,59 @@ ASSET_MANAGER.queueDownload("../img/EWalkD.png");
 ASSET_MANAGER.queueDownload("../img/EWDAgro.png");
 ASSET_MANAGER.queueDownload("../img/EnemyIdleLeft.png");
 ASSET_MANAGER.queueDownload("../img/EnemyIdleRight.png");
-ASSET_MANAGER.downloadAll(function () {
+ASSET_MANAGER.downloadAll(function() {
 
 
-    var canvas = document.getElementById('gameWorld');
-    var ctx = canvas.getContext('2d');
+      var canvas = document.getElementById('gameWorld');
+      var ctx = canvas.getContext('2d');
 
-    //LOAD ENTIIES
-    //start facing backwards.
-    facingDirection = 2;
-    var gameEngine = new GameEngine();
-    var player = new Player(gameEngine, player);
+      //LOAD ENTIIES
+      //start facing backwards.
+      facingDirection = 2;
+      var gameEngine = new GameEngine();
+      var player = new Player(gameEngine, player);
 
-    //Load tile map
+      //Load tile map
+      let tileMap = new TileMap();
+      tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
 
-    let tileMap = new TileMap(gameEngine);
-    tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
+      //Load ObejctMap
+      let objectMap = new ObjectMap();
+      objectMap.loadMap(Map.getTestMapO(), 32, 32, player);
 
-    var bg = new Background(gameEngine);
-    darkness = new Darkness(gameEngine);
-    //var light = new LightSource(gameEngine);
-    var enemy = new PlagueDoctor(gameEngine, player);
+      var bg = new Background(gameEngine);
+      darkness = new Darkness(gameEngine);
+      //var light = new LightSource(gameEngine);
+      var enemy = new PlagueDoctor(gameEngine, player);
 
-    //ADD ENTITIES
-    gameEngine.addEntity(bg);
+      //ADD ENTITIES
+      gameEngine.addEntity(bg);
 
+      //Add tiles
+      for (let i = 0; i < tileMap.map2D.length; i++) {
+        for (let j = 0; j < tileMap.map2D[i].length; j++) {
 
-    //Add tiles
-    for (let i = 0; i < tileMap.map2D.length; i++) {
-      for (let j = 0; j < tileMap.map2D[i].length; j++) {
-
-        let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
-        gameEngine.addEntity(temp);
+          let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
+          gameEngine.addEntity(temp);
+        }
       }
-    }
+
+      //Add Objects to map
+      for (let i = 0; i < objectMap.map2D.length; i++) {
+        for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+          if (objectMap.map2D[i][j] != null) {
+            //Only add Potion if placed on the mapped
+            if (objectMap.map2D[i][j].type === 'V' ||
+              objectMap.map2D[i][j].type === 'X' ||
+              objectMap.map2D[i][j].type === 'Y') {
+              //Potion (x, y, type, player)
+              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player);
+              gameEngine.addEntity(temp);
+            }
+          }
+        }
+      }
 
     gameEngine.addEntity(enemy);
     gameEngine.addEntity(player);
