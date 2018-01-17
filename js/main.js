@@ -249,7 +249,7 @@ var ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
 //repeated onto the canvas through style.css
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
-ASSET_MANAGER.queueDownload("../img/Player_Box.png");
+//ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
@@ -259,6 +259,8 @@ ASSET_MANAGER.queueDownload("../img/EUI.png");
 ASSET_MANAGER.queueDownload("../img/EUpWalk.png");
 ASSET_MANAGER.queueDownload("../img/EWalkD.png");
 ASSET_MANAGER.queueDownload("../img/EWDAgro.png");
+ASSET_MANAGER.queueDownload("../img/EnemyIdleLeft.png");
+ASSET_MANAGER.queueDownload("../img/EnemyIdleRight.png");
 ASSET_MANAGER.downloadAll(function () {
 
 
