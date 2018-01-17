@@ -1,5 +1,6 @@
 
 const fireSpell = "WWAD";
+let castSuccessful = false;
 
 /**
  * This is the 'constructor' for the Player object. It holds all of the instance fields
@@ -48,7 +49,7 @@ class Player extends Entity {
         this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
         this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
-        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.3,  1, true, false);
+        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, false, false);
 
         this.ctx = game.ctx;
 
@@ -61,8 +62,7 @@ class Player extends Entity {
         this.inMotion = false;
         this.swinging = false;
         this.casting = false;
-        this.castSuccessful = false;
-        this.startComboInput = false;
+        //this.castSuccessful = false;
         this.raising = false;
         this.shooting = false;
         this.radius = 100;
@@ -126,7 +126,6 @@ class Player extends Entity {
 
         if (this.game.cast) {
             this.casting = true;
-            this.startComboInput = true;
         }
 
         if (this.casting && !this.game.cast) {
@@ -358,9 +357,12 @@ class Player extends Entity {
         }
         else if (this.casting) {
             this.castSpell(ctx);
-            if (this.startComboInput) {
-                this.readCombo(ctx);
-                this.startComboInput = false;
+        }
+        else if (castSuccessful) {
+            console.log("animating fireball");
+            this.fireBallSpellAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            if (this.fireBallSpellAnimation.isDone()) {
+                castSuccessful = false;
             }
         }
         else {
@@ -441,9 +443,11 @@ class Player extends Entity {
     }
 
 
-    readCombo(ctx) {
+    /*readCombo(ctx) {
         var currPos = 0;
         var that = this;
+
+        console.log("inside readCombo");
 
         var getComboInput = function (e) {
             console.log("Read char: " + String.fromCharCode(e.keyCode));
@@ -458,21 +462,23 @@ class Player extends Entity {
                 console.log("Cast failed! Did not read the combo " + that.currentSpell);
                 that.castSuccessful = false;
                 that.casting = false;
-                ctx.canvas.removeEventListener("keyup", getComboInput, false);
+                ctx.canvas.removeEventListener("keyup", getComboInput, true);
+                return;
             }
 
             if (currPos >= that.currentSpell.length) {
                 that.castSuccessful = true;
                 that.casting = false;
                 console.log("Cast successful! Read the combo " + that.currentSpell);
-                ctx.canvas.removeEventListener("keyup", getComboInput, false);
+                ctx.canvas.removeEventListener("keyup", getComboInput, true);
+                return;
             }
             e.preventDefault();
         };
 
-        ctx.canvas.addEventListener("keyup", getComboInput, false);
+        ctx.canvas.addEventListener("keyup", getComboInput, true);
         //ctx.canvas.removeEventListener("keydown", getComboInput, false);
-    }
+    }*/
 
 }
 
