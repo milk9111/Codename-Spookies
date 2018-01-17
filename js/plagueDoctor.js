@@ -21,7 +21,7 @@ class PlagueDoctor extends Enemy {
     let xDir = lastX - this.x;
     let yDir = lastY - this.y;
 
-    console.log("x" + this.x + "y" + this.y )
+    //console.log("x" + this.x + "y" + this.y )
   };
 
   draw(ctx) {
