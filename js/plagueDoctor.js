@@ -28,7 +28,7 @@ class PlagueDoctor extends Enemy {
         super.update();
         let xDir = lastX - this.x;
         let yDir = lastY - this.y;
-
+        
         if (lastX !== this.x || lastY !== this.y) { //Character moved
             this.standingStill = false;
             if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
@@ -48,6 +48,7 @@ class PlagueDoctor extends Enemy {
             this.standingStill = true;
         }
     };
+
 
     draw(ctx) {
         if(this.standingStill) {

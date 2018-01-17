@@ -1,3 +1,6 @@
+
+const fireSpell = "WWAD";
+
 /**
  * This is the 'constructor' for the Player object. It holds all of the instance fields
  * for the Player like animations and what the current motion/direction they are doing is.
@@ -45,6 +48,9 @@ class Player extends Entity {
         this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
         this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
+        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.3,  1, true, false);
+
+        this.ctx = game.ctx;
 
         this.jumping = false;
         this.walkingRight = false;
@@ -55,10 +61,13 @@ class Player extends Entity {
         this.inMotion = false;
         this.swinging = false;
         this.casting = false;
+        this.castSuccessful = false;
+        this.startComboInput = false;
         this.raising = false;
         this.shooting = false;
         this.radius = 100;
         this.ground = 418;
+        this.currentSpell = fireSpell;
 
         //If moving off screen
         this.offRight = false;
@@ -117,6 +126,7 @@ class Player extends Entity {
 
         if (this.game.cast) {
             this.casting = true;
+            this.startComboInput = true;
         }
 
         if (this.casting && !this.game.cast) {
@@ -348,6 +358,10 @@ class Player extends Entity {
         }
         else if (this.casting) {
             this.castSpell(ctx);
+            if (this.startComboInput) {
+                this.readCombo(ctx);
+                this.startComboInput = false;
+            }
         }
         else {
             this.standStill(ctx);
@@ -424,6 +438,40 @@ class Player extends Entity {
         else {
             this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         }
+    }
+
+
+    readCombo(ctx) {
+        var currPos = 0;
+        var that = this;
+
+        var getComboInput = function (e) {
+            console.log("Read char: " + String.fromCharCode(e.keyCode));
+
+            var failed = true;
+            if (that.currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
+                currPos++;
+                failed = false;
+            }
+
+            if (failed) {
+                console.log("Cast failed! Did not read the combo " + that.currentSpell);
+                that.castSuccessful = false;
+                that.casting = false;
+                ctx.canvas.removeEventListener("keyup", getComboInput, false);
+            }
+
+            if (currPos >= that.currentSpell.length) {
+                that.castSuccessful = true;
+                that.casting = false;
+                console.log("Cast successful! Read the combo " + that.currentSpell);
+                ctx.canvas.removeEventListener("keyup", getComboInput, false);
+            }
+            e.preventDefault();
+        };
+
+        ctx.canvas.addEventListener("keyup", getComboInput, false);
+        //ctx.canvas.removeEventListener("keydown", getComboInput, false);
     }
 
 }

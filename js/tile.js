@@ -50,7 +50,7 @@ class Tile {
   }
 
   /** Draws the Tile on the canvas
-   * @param {canvas} ctx Canvas Refrence
+   * @param {canvas} ctx Canvas Reference
    */
   draw(ctx) {
     //(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
