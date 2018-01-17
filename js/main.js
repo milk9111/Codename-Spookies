@@ -295,8 +295,10 @@ ASSET_MANAGER.downloadAll(function () {
     //var light = new LightSource(gameEngine);
     var enemy = new PlagueDoctor(gameEngine, player);
     //var plague = new PlagueDoctor(gameEngine, player);
-    //ADD ENTITES
+
+    //ADD ENTITIES
     gameEngine.addEntity(bg);
+    gameEngine.addEntity(player);
 
     //Add tiles
     for (let i = 0; i < tileMap.map2D.length; i++) {
@@ -307,9 +309,7 @@ ASSET_MANAGER.downloadAll(function () {
       }
     }
 
-    gameEngine.addEntity(player);
     gameEngine.addEntity(enemy);
-    //gameEngine.addEntity(light);
     gameEngine.addEntity(darkness);
 
     //START GAME

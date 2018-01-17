@@ -101,81 +101,40 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
 
-    //cast spell
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (e.code === 'KeyQ' && !that.cast) {
+    var coreMovement = function (e) {
+        if (e.code === 'KeyQ' && !that.cast) { //cast spell
             that.cast = true;
+            that.ctx.canvas.removeEventListener("keydown", coreMovement, false);
+            that.readCombo(that.ctx)
         } else if (e.code === 'KeyQ' && that.cast) {
             that.cast = false;
-        }
-        e.preventDefault();
-    }, false);
-
-
-    //move right
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyD' && !moving) {
-            //console.log("Pressing D");
+        } else if (!that.cast && e.code === 'KeyD' && !moving) { //move right
             that.right = true;
             moving = true;
-        }
-        e.preventDefault();
-    }, false);
-
-
-    //move left
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyA' && !moving) {
-            //console.log("Pressing A");
+        } else if (!that.cast && e.code === 'KeyA' && !moving) { //move left
             that.left = true;
             moving = true;
-        }
-        e.preventDefault();
-    }, false);
-
-
-    //move forward
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyW' && !moving) {
-            //console.log("Pressing W");
+        } else if (!that.cast && e.code === 'KeyW' && !moving) { //move forward
             that.forward = true;
             moving = true;
-        }
-        e.preventDefault();
-    }, false);
-
-
-    //move downward
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyS' && !moving) {
-            //console.log("Pressing S, moving is " + moving);
+        } else if (!that.cast && e.code === 'KeyS' && !moving) { //move downward
             that.downward = true;
             moving = true;
-        }
-        e.preventDefault();
-    }, false);
-
-
-    //raise shield
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'KeyE' && !raise) {
-            //console.log("Pressing E");
+        } else if (!that.cast && e.code === 'KeyE' && !raise) { //raise shield
             raise = true;
             moving = false;
-        }
-        e.preventDefault();
-    }, false);
-
-
-    //shoot bolt
-    this.ctx.canvas.addEventListener("keydown", function (e) {
-        if (!that.cast && e.code === 'Space' && !shoot) {
-            //console.log("Pressing E");
+        } else if (!that.cast && e.code === 'Space' && !shoot) { //shoot crossbow
             shoot = true;
             moving = false;
         }
-        e.preventDefault();
-    }, false);
+
+        if (e !== null) {
+            e.preventDefault();
+        }
+    };
+
+    //movements
+    this.ctx.canvas.addEventListener("keydown", coreMovement, false);
 
 
     //swing sword
@@ -187,14 +146,55 @@ GameEngine.prototype.startInput = function () {
     });
 
 
-    //stop moving
-    /*this.ctx.canvas.addEventListener("keyup", function (e) {
-        //console.log("Moving set to false");
-    	moving = false;
-    	e.preventDefault();
-    }, false);*/
-
     console.log('Input started');
+}
+
+
+GameEngine.prototype.readCombo = function(ctx) {
+    let currPos = 0;
+    let that = this;
+    let currentSpell = "WWAD";
+    let firstOpen = true;
+    console.log("inside readCombo");
+
+    let getComboInput = function (e) {
+        if (!firstOpen) {
+
+
+            console.log("Read char: " + String.fromCharCode(e.keyCode));
+
+            let failed = true;
+            if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
+                currPos++;
+                failed = false;
+            }
+
+            if (failed) {
+                console.log("Cast failed! Did not read the combo " + currentSpell);
+                //that.castSuccessful = false;
+                that.cast = false;
+                ctx.canvas.removeEventListener("keyup", getComboInput, true);
+                that.startInput();
+                return;
+            }
+
+            if (currPos >= currentSpell.length) {
+                castSuccessful = true;
+                that.cast = false;
+                console.log("Cast successful! Read the combo " + currentSpell);
+                ctx.canvas.removeEventListener("keyup", getComboInput, true);
+                that.startInput();
+                return;
+            }
+            e.preventDefault();
+        } else {
+            console.log("firstOpen");
+            firstOpen = false;
+        }
+    };
+
+    ctx.canvas.addEventListener("keyup", getComboInput, true);
+    //ctx.canvas.removeEventListener("keydown", getComboInput, false);
 }
 
 
@@ -270,6 +270,7 @@ GameEngine.prototype.loop = function () {
     this.downward = null;
     this.swing = null;
     this.raise = null;
+   // this.cast = null;
     this.stop = null;
 }
 
