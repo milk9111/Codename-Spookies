@@ -11,7 +11,7 @@ class Enemy {
         this.y = y || 200;
         this.unroundedX = this.x;
         this.unroundedY = this.y;
-        this.speed = speed || 0.75;
+        this.speed = speed || 0.5;
         this.range = range || 100;
 
         //Speed at which character moves with map

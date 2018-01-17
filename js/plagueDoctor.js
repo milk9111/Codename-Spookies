@@ -31,17 +31,17 @@ class PlagueDoctor extends Enemy {
         super.update();
         let xDir = lastX - this.x;
         let yDir = lastY - this.y;
-
-        if (lastX !== this.x || lastY !== this.y) { //Character moved
+        //console.log("x: " + xDir + "y: " + yDir);
+        if(xDir !== 0 || yDir !== 0) {
             this.standingStill = false;
-            if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
+            if(Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
                 if (xDir > 0) { //Moved to the left
                     this.facingDirection = "left";
                 } else { //Moved to the right
                     this.facingDirection = "right";
                 }
             } else { //Greater movement in y direction or an equal change.
-                if(yDir < 0) {
+                if (yDir < 0) {
                     this.facingDirection = "down";
                 } else {
                     this.facingDirection = "up";
@@ -61,6 +61,12 @@ class PlagueDoctor extends Enemy {
         }
     };
 
+    /**
+     * Draws the appropriate idle animation.
+     *
+     * @param ctx
+     * @author James Roberts
+     */
     standStill(ctx) {
         switch(this.facingDirection) {
             case "down":
@@ -70,15 +76,20 @@ class PlagueDoctor extends Enemy {
                 this.idleAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "left":
-                //super.draw(ctx);
+                this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "right":
-                //super.draw(ctx);
+                this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
         }
 
     };
 
+    /**
+     * Draws the appropriate walking animation
+     * @param ctx
+     * @author James Roberts
+     */
     walking(ctx) {
         switch(this.facingDirection) {
             case "down":
@@ -92,10 +103,10 @@ class PlagueDoctor extends Enemy {
                 this.walkAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "left":
-                //super.draw(ctx);
+                this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "right":
-                //super.draw(ctx);
+                this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
         }
 
