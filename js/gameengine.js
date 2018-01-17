@@ -39,7 +39,6 @@ Timer.prototype.tick = function () {
  */
 function GameEngine() {
     this.entities = [];
-    this.entitiesToRemove = [];
     this.showOutlines = false;
     this.ctx = null;
     this.click = null;
@@ -207,6 +206,8 @@ GameEngine.prototype.readCombo = function(ctx) {
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
+    //console.log("entities length after: " + this.entities.length);
+
 }
 
 
@@ -237,6 +238,7 @@ GameEngine.prototype.update = function () {
     let removalPositions = [];
 
     //This moves the entities (via their own update method)
+    //console.log(entitiesCount);
     for (let i = 0; i < entitiesCount; i++) {
         let entity = this.entities[i];
 
