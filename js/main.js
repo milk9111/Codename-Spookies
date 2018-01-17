@@ -259,6 +259,8 @@ ASSET_MANAGER.queueDownload("../img/EUI.png");
 ASSET_MANAGER.queueDownload("../img/EUpWalk.png");
 ASSET_MANAGER.queueDownload("../img/EWalkD.png");
 ASSET_MANAGER.queueDownload("../img/EWDAgro.png");
+ASSET_MANAGER.queueDownload("../img/EnemyIdleLeft.png");
+ASSET_MANAGER.queueDownload("../img/EnemyIdleRight.png");
 ASSET_MANAGER.downloadAll(function () {
 
 

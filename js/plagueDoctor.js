@@ -11,9 +11,12 @@ class PlagueDoctor extends Enemy {
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EnemyDownward.png"), 0, 0, 64, 64, 0.5, 3, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/EUI.png"),0,0,64,64,0.5,2,true,false);
+        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/EnemyIdleRight.png"), 0, 0, 64, 64, 0.5, 3, true, false);
+        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/EnemyIdleLeft.png"), 0, 0, 64, 64, 0.5, 3, true, false);
         this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/EUpWalk.png"), 0, 0, 64, 64, 0.3, 3, true, false);
         this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EWalkD.png"), 0, 0, 64, 64, 0.3, 3, true, false);
         this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWDAgro.png"), 0, 0, 64, 64, 0.3, 3, true, false);
+
         this.facingDirection = "down";
         this.standingStill = true;
     };
@@ -28,7 +31,7 @@ class PlagueDoctor extends Enemy {
         super.update();
         let xDir = lastX - this.x;
         let yDir = lastY - this.y;
-        
+
         if (lastX !== this.x || lastY !== this.y) { //Character moved
             this.standingStill = false;
             if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
