@@ -249,7 +249,7 @@ var ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
 //repeated onto the canvas through style.css
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
-ASSET_MANAGER.queueDownload("../img/Player_Box.png");
+//ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
@@ -283,7 +283,7 @@ ASSET_MANAGER.downloadAll(function () {
 
     //ADD ENTITIES
     gameEngine.addEntity(bg);
-    gameEngine.addEntity(player);
+
 
     //Add tiles
     for (let i = 0; i < tileMap.map2D.length; i++) {
@@ -295,6 +295,7 @@ ASSET_MANAGER.downloadAll(function () {
     }
 
     gameEngine.addEntity(enemy);
+    gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
 
     //START GAME
