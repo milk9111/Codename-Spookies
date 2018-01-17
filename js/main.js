@@ -239,7 +239,7 @@ var darkness;
 var playerStartX;
 var playerStartY;
 
-//1 = forward, 2 = backward, 3 = left, 4 = right
+//1 = forward, 2 = downward, 3 = left, 4 = right
 var facingDirection;
 
 
