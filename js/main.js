@@ -254,25 +254,11 @@ ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/EnemyDownward.png")
-
-/*
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Cast_Spell_Downward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Cast_Spell_Forward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Downward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Forward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Left.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Swing_Right.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Forward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Downward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Left.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Idle_Right.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Downward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Forward.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Right.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_Walking_Left.png");
-*/
-
+ASSET_MANAGER.queueDownload("../img/EnemyDownward.png");
+ASSET_MANAGER.queueDownload("../img/EUI.png");
+ASSET_MANAGER.queueDownload("../img/EUpWalk.png");
+ASSET_MANAGER.queueDownload("../img/EWalkD.png");
+ASSET_MANAGER.queueDownload("../img/EWDAgro.png");
 ASSET_MANAGER.downloadAll(function () {
 
 
@@ -294,7 +280,6 @@ ASSET_MANAGER.downloadAll(function () {
     darkness = new Darkness(gameEngine);
     //var light = new LightSource(gameEngine);
     var enemy = new PlagueDoctor(gameEngine, player);
-    //var plague = new PlagueDoctor(gameEngine, player);
     //ADD ENTITES
     gameEngine.addEntity(bg);
 

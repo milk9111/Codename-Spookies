@@ -15,7 +15,7 @@ class Player extends Entity {
         this.game = game;
 
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-        this.idleAnimationForward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
+        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
         this.idleAnimationDownward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
         this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 0, 64, 64, 0.3, 2, true, false);
         this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
@@ -401,7 +401,7 @@ class Player extends Entity {
     }
     standStill(ctx) {
         if (facingDirection === 1) {
-            this.idleAnimationForward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         } else if (facingDirection === 2) {
             this.idleAnimationDownward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         } else if (facingDirection === 3) {
