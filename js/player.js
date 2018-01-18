@@ -171,12 +171,7 @@ class Player extends Entity {
         if (this.walkingRight) {
             //Stop player from moving off screen right
             if (!this.offRight) {
-                let walkDistance = this.walkRightAnimation.elapsedTime / this.walkRightAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                let distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.x = this.x + distance;
                 playerStartX = this.x - distance;
             }
@@ -185,12 +180,7 @@ class Player extends Entity {
         if (this.walkingLeft) {
             //Stop player from going off left side of the screen
             if (!this.offLeft) {
-                var walkDistance = this.walkLeftAnimation.elapsedTime / this.walkLeftAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.x = this.x - distance;
                 playerStartX = this.x + distance;
             }
@@ -199,12 +189,7 @@ class Player extends Entity {
         if (this.walkingForward) {
             //Stop player from moving off screen from the top
             if(!this.offTop) {
-                var walkDistance = this.walkForwardAnimation.elapsedTime / this.walkForwardAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.y = this.y - distance;
                 playerStartY = this.y + distance;
             }
@@ -213,12 +198,7 @@ class Player extends Entity {
         if (this.walkingDownward) {
             //Stop player from going off screen from the bottom
             if (!this.offBottom) {
-                var walkDistance = this.walkDownwardAnimation.elapsedTime / this.walkDownwardAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.y = this.y + distance;
                 playerStartY = this.y - distance;
             }
