@@ -286,10 +286,12 @@ ASSET_MANAGER.downloadAll(function() {
       let objectMap = new ObjectMap();
       objectMap.loadMap(Map.getTestMapO(), 32, 32, player);
 
+
       var bg = new Background(gameEngine);
       darkness = new Darkness(gameEngine);
       //var light = new LightSource(gameEngine);
       var enemy = new PlagueDoctor(gameEngine, player);
+
 
       //ADD ENTITIES
       gameEngine.addEntity(bg);
@@ -313,7 +315,7 @@ ASSET_MANAGER.downloadAll(function() {
               objectMap.map2D[i][j].type === 'X' ||
               objectMap.map2D[i][j].type === 'Y') {
               //Potion (x, y, type, player)
-              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player);
+              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
               gameEngine.addEntity(temp);
             }
           }
