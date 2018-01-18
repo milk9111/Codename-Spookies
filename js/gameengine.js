@@ -206,6 +206,8 @@ GameEngine.prototype.readCombo = function(ctx) {
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
+    //console.log("entities length after: " + this.entities.length);
+
 }
 
 
@@ -232,22 +234,28 @@ GameEngine.prototype.draw = function () {
  * @author Seth Ladd
  */
 GameEngine.prototype.update = function () {
-    var entitiesCount = this.entities.length;
+    let entitiesCount = this.entities.length;
+    let removalPositions = [];
 
     //This moves the entities (via their own update method)
-    for (var i = 0; i < entitiesCount; i++) {
-        var entity = this.entities[i];
+    //console.log(entitiesCount);
+    for (let i = 0; i < entitiesCount; i++) {
+        let entity = this.entities[i];
 
-        if (!entity.removeFromWorld) {
+        if (entity.removalStatus === true) {
+            console.log("found removal status of true");
+        }
+        if (entity.removalStatus === false) {
             entity.update();
+        } else {
+            console.log("Going to remove");
+            removalPositions.push(i);
         }
     }
 
     //This removes entities from the game world
-    for (var i = this.entities.length - 1; i >= 0; --i) {
-        if (this.entities[i].removeFromWorld) {
-            this.entities.splice(i, 1);
-        }
+    for (let i = removalPositions.length - 1; i >= 0; --i) {
+        this.entities.splice(removalPositions[i], 1);
     }
 }
 
@@ -288,20 +296,14 @@ GameEngine.prototype.loop = function () {
  *
  * @author Seth Ladd
  */
-function Entity(game, x, y) {
+/*function Entity(game, x, y) {
     this.game = game;
     this.x = x;
     this.y = y;
     this.removeFromWorld = false;
 }
 
-/**
- * The Entity's update function. It is empty because every child Entity will
- * override it with their own update method which is called in the GameEngine's
- * update.
- *
- * @author Seth Ladd
- */
+
 Entity.prototype.update = function () {
 }
 
@@ -314,6 +316,11 @@ Entity.prototype.draw = function (ctx) {
         this.game.ctx.stroke();
         this.game.ctx.closePath();
     }
+}
+
+Entity.prototype.markForRemoval = function () {
+    console.log("Marking for removal");
+    this.removeFromWorld = true;
 }
 
 Entity.prototype.rotateAndCache = function (image, angle) {
@@ -331,4 +338,61 @@ Entity.prototype.rotateAndCache = function (image, angle) {
     //offscreenCtx.strokeStyle = "red";
     //offscreenCtx.strokeRect(0,0,size,size);
     return offscreenCanvas;
+}*/
+
+//es6 version of Entity.
+
+class Entity {
+
+    constructor(game, x, y) {
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.removeFromWorld = false;
+    }
+
+
+    update () {
+
+    }
+
+
+    draw (ctx) {
+        if (this.game.showOutlines && this.radius) {
+            this.game.ctx.beginPath();
+            this.game.ctx.strokeStyle = "red";
+            this.game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.game.ctx.stroke();
+            this.game.ctx.closePath();
+        }
+    }
+
+
+    set removal  (remove) {
+        console.log("Marking for removal");
+        this.removeFromWorld = remove;
+    }
+
+    get removalStatus () {
+        return this.removeFromWorld;
+    }
+
+
+    rotateAndCache  (image, angle) {
+        var offscreenCanvas = document.createElement('canvas');
+        var size = Math.max(image.width, image.height);
+        offscreenCanvas.width = size;
+        offscreenCanvas.height = size;
+        var offscreenCtx = offscreenCanvas.getContext('2d');
+        offscreenCtx.save();
+        offscreenCtx.translate(size / 2, size / 2);
+        offscreenCtx.rotate(angle);
+        offscreenCtx.translate(0, 0);
+        offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
+        offscreenCtx.restore();
+        //offscreenCtx.strokeStyle = "red";
+        //offscreenCtx.strokeRect(0,0,size,size);
+        return offscreenCanvas;
+    }
 }
+
