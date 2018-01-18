@@ -59,7 +59,7 @@ class Player extends Entity {
         this.walkingForward = false;
         this.walkingDownward = false;
         this.turnedAround = false;
-        this.inMotion = false;
+        this.firstOpen = true;
         this.swinging = false;
         this.casting = false;
         //this.castSuccessful = false;
@@ -68,6 +68,8 @@ class Player extends Entity {
         this.radius = 100;
         this.ground = 418;
         this.currentSpell = fireSpell;
+
+        this.spellCombo = "";
 
         //If moving off screen
         this.offRight = false;
@@ -88,62 +90,67 @@ class Player extends Entity {
     update() {
         let totalDistance = 3;
 
-        if (this.game.q) {
-            this.casting = true;
-        } else {
-            this.casting = false;
-        }
-
-        if (this.game.d) {
-            facingDirection = 4;
-            this.walkingRight = true;
-        } else {
-            this.walkRightAnimation.elapsedTime = 0;
-            this.walkingRight = false;
-        }
-
-        if (this.game.a) {
-            facingDirection = 3;
-            this.walkingLeft = true;
-        } else {
-            this.walkLeftAnimation.elapsedTime = 0;
-            this.walkingLeft = false;
-        }
-
-        if (this.game.w) {
-            facingDirection = 1;
-            this.walkingForward = true;
-        } else {
-            this.walkForwardAnimation.elapsedTime = 0;
-            this.walkingForward = false;
-        }
-
-        if (this.game.s) {
-            facingDirection = 2;
-            this.walkingDownward = true;
-        } else {
-            this.walkDownwardAnimation.elapsedTime = 0;
-            this.walkingDownward = false;
-        }
-
-        if (this.game.click && !this.swinging) {
-            this.swinging = true;
-            this.game.click = false;
-        }
-
-        if (this.game.e) {
-            this.raising = true;
-        } else {
-            this.raising = false;
-        }
-
-        if (this.game.space && !this.shooting) {
-            this.shooting = true;
-        }
-
-        /*if (this.game.cast) {
+        /*if (this.game.keys["KeyQ"].pressed && !this.casting) {
+            console.log("Q pressed");
             this.casting = true;
         }*/
+
+        if (this.game.cast && !this.casting) {
+            this.casting = true;
+        }
+
+        if (!this.casting) {
+            if (this.game.keys["KeyD"].pressed) {
+                facingDirection = 4;
+                this.walkingRight = true;
+            } else {
+                this.walkRightAnimation.elapsedTime = 0;
+                this.walkingRight = false;
+            }
+
+            if (this.game.keys["KeyA"].pressed) {
+                facingDirection = 3;
+                this.walkingLeft = true;
+            } else {
+                this.walkLeftAnimation.elapsedTime = 0;
+                this.walkingLeft = false;
+            }
+
+            if (this.game.keys["KeyW"].pressed) {
+                facingDirection = 1;
+                this.walkingForward = true;
+            } else {
+                this.walkForwardAnimation.elapsedTime = 0;
+                this.walkingForward = false;
+            }
+
+            if (this.game.keys["KeyS"].pressed) {
+                facingDirection = 2;
+                this.walkingDownward = true;
+            } else {
+                this.walkDownwardAnimation.elapsedTime = 0;
+                this.walkingDownward = false;
+            }
+
+            if (this.game.click && !this.swinging) {
+                this.swinging = true;
+                this.game.click = false;
+            }
+
+            if (this.game.keys["KeyE"].pressed) {
+                this.raising = true;
+            } else {
+                this.raising = false;
+            }
+
+            if (this.game.keys["Space"].pressed && !this.shooting) {
+                this.shooting = true;
+            }
+        } else {
+            //this.readCombo();
+        }
+
+
 
         if (this.casting && !this.game.cast) {
             this.castSpellDownwardAnimation.elapsedTime = 0;
@@ -439,42 +446,33 @@ class Player extends Entity {
     }
 
 
-    /*readCombo(ctx) {
-        var currPos = 0;
-        var that = this;
-
-        console.log("inside readCombo");
-
-        var getComboInput = function (e) {
-            console.log("Read char: " + String.fromCharCode(e.keyCode));
-
-            var failed = true;
-            if (that.currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
-                currPos++;
-                failed = false;
+    readCombo() {
+        if (!this.firstOpen) {
+            for (let i = 0; i < this.game.codes.length; i++) {
+                let currCode = this.game.codes[i];
+                if (this.game.keys[currCode].pressed) {
+                    console.log(currCode);
+                    this.spellCombo += String.fromCharCode(this.game.keys[currCode].code);
+                    let currPos = this.spellCombo.length;
+                    if (this.spellCombo !== this.currentSpell.substring(0, currPos)) {
+                        console.log("Spell failed");
+                        this.spellCombo = "";
+                        this.casting = false;
+                        castSuccessful = false;
+                        break;
+                    } else if (this.spellCombo === this.currentSpell) {
+                        console.log("Spell passed");
+                        this.spellCombo = "";
+                        this.casting = false;
+                        castSuccessful = true;
+                        break;
+                    }
+                }
             }
-
-            if (failed) {
-                console.log("Cast failed! Did not read the combo " + that.currentSpell);
-                that.castSuccessful = false;
-                that.casting = false;
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                return;
-            }
-
-            if (currPos >= that.currentSpell.length) {
-                that.castSuccessful = true;
-                that.casting = false;
-                console.log("Cast successful! Read the combo " + that.currentSpell);
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                return;
-            }
-            e.preventDefault();
-        };
-
-        ctx.canvas.addEventListener("keyup", getComboInput, true);
-        //ctx.canvas.removeEventListener("keydown", getComboInput, false);
-    }*/
+        } else {
+            this.firstOpen = false;
+        }
+    }
 
 }
 

@@ -46,6 +46,9 @@ function GameEngine() {
     this.wheel = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
+    this.keys = [];
+    this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space"];
+    this.initKeys();
     this.w = null;
     this.s = null;
     this.a = null;
@@ -54,6 +57,17 @@ function GameEngine() {
     this.e = null;
     this.space = null;
     this.click = null;
+}
+
+
+GameEngine.prototype.initKeys = function () {
+    this.keys["KeyQ"] = {code: "KeyQ", pressed: false};
+    this.keys["KeyE"] = {code: "KeyE", pressed: false};
+    this.keys["KeyW"] = {code: "KeyW", pressed: false};
+    this.keys["KeyA"] = {code: "KeyA", pressed: false};
+    this.keys["KeyS"] = {code: "KeyS", pressed: false};
+    this.keys["KeyD"] = {code: "KeyD", pressed: false};
+    this.keys["Space"] = {code: "Space", pressed: false};
 }
 
 
@@ -110,7 +124,19 @@ GameEngine.prototype.startInput = function () {
     var that = this;
 
     var coreMovementButtonDown = function (e) {
-        if (e.code === 'KeyQ' && !that.cast) { //cast spell
+
+        that.keys[e.code].pressed = true;
+
+        if (e.code === 'KeyQ' && !that.cast) {
+            that.cast = true;
+            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
+            that.ctx.canvas.removeEventListener("keyup", coreMovementButtonUp, false);
+            that.readCombo(that.ctx)
+        } else if (e.code === 'KeyQ' && that.cast) {
+            that.cast = false;
+        }
+
+        /*if (e.code === 'KeyQ' && !that.cast) { //cast spell
             that.cast = true;
             that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
             that.readCombo(that.ctx)
@@ -140,19 +166,20 @@ GameEngine.prototype.startInput = function () {
         if (e.code === 'Space') { //shoot crossbow
             that.space = true;
             moving = false;
-        }
+        }*/
 
-        if (e !== null) {
-            e.preventDefault();
-        }
+        e.preventDefault();
+
     };
 
     //movements
     this.ctx.canvas.addEventListener("keydown", coreMovementButtonDown, false);
-    
 
     let coreMovementButtonUp = function (e) {
-        if (e.code === 'KeyQ' && !that.cast) { //cast spell
+
+        that.keys[e.code].pressed = false;
+
+        /*if (e.code === 'KeyQ' && !that.cast) { //cast spell
             that.q = true;
             that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
             that.readCombo(that.ctx)
@@ -182,11 +209,10 @@ GameEngine.prototype.startInput = function () {
         if (e.code === 'Space') { //shoot crossbow
             that.space = true;
             moving = false;
-        }
+        }*/
 
-        if (e !== null) {
-            e.preventDefault();
-        }
+        e.preventDefault();
+
     }
 
     this.ctx.canvas.addEventListener("keyup", coreMovementButtonUp, false);
@@ -194,7 +220,6 @@ GameEngine.prototype.startInput = function () {
 
     //swing sword
     this.ctx.canvas.addEventListener("click", function(e) {
-        console.log("read click");
         that.click = true;
         e.preventDefault();
     });
@@ -216,43 +241,32 @@ GameEngine.prototype.readCombo = function(ctx) {
     console.log("inside readCombo");
 
     let getComboInput = function (e) {
-        if (!firstOpen) {
-
-
-            console.log("Read char: " + String.fromCharCode(e.keyCode));
-
-            let failed = true;
-            if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
-                currPos++;
-                failed = false;
-            }
-
-            if (failed) {
-                console.log("Cast failed! Did not read the combo " + currentSpell);
-                //that.castSuccessful = false;
-                that.cast = false;
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                that.startInput();
-                return;
-            }
-
-            if (currPos >= currentSpell.length) {
-                castSuccessful = true;
-                that.cast = false;
-                console.log("Cast successful! Read the combo " + currentSpell);
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                that.startInput();
-                return;
-            }
-            e.preventDefault();
-        } else {
-            console.log("firstOpen");
-            firstOpen = false;
+        let failed = true;
+        if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
+            currPos++;
+            failed = false;
         }
+
+        if (failed) {
+            console.log("Cast failed! Did not read the combo " + currentSpell);
+            that.cast = false;
+            ctx.canvas.removeEventListener("keydown", getComboInput, true);
+            that.startInput();
+            return;
+        }
+
+        if (currPos >= currentSpell.length) {
+            castSuccessful = true;
+            that.cast = false;
+            console.log("Cast successful! Read the combo " + currentSpell);
+            ctx.canvas.removeEventListener("keydown", getComboInput, true);
+            that.startInput();
+            return;
+        }
+        e.preventDefault();
     };
 
-    ctx.canvas.addEventListener("keyup", getComboInput, true);
-    //ctx.canvas.removeEventListener("keydown", getComboInput, false);
+    ctx.canvas.addEventListener("keydown", getComboInput, true);
 }
 
 
