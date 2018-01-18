@@ -280,8 +280,9 @@ ASSET_MANAGER.downloadAll(function () {
 
     var bg = new Background(gameEngine);
     darkness = new Darkness(gameEngine);
-    //var light = new LightSource(gameEngine);
-    var enemy = new PlagueDoctor(gameEngine, player);
+    var light = new LightSource(gameEngine);
+    var enemy = new Enemy(gameEngine, player);
+    //var enemy = new PlagueDoctor(gameEngine, player);
 
     //ADD ENTITIES
     gameEngine.addEntity(bg);
