@@ -310,7 +310,7 @@ ASSET_MANAGER.downloadAll(function() {
               objectMap.map2D[i][j].type === 'X' ||
               objectMap.map2D[i][j].type === 'Y') {
               //Potion (x, y, type, player)
-              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player);
+              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
               gameEngine.addEntity(temp);
             }
           }

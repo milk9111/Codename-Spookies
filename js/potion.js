@@ -1,15 +1,17 @@
 /** Represents a single Potion on the map
  * @author Brandon Blaschke
  */
-class Potion {
+class Potion extends Entity {
 
   /** Constructor for a Potion object
    *@param {int} x X coordinate
    *@param {int} y Y coordinate
    *@param {int} type Type of Potion
    *@param {Player} player Player Refrence
+   *@param {Game} game Game refrence
    */
-  constructor(x, y, type, player) {
+  constructor(x, y, type, player, game) {
+    super(game, x, y); 
     this.x = x;
     this.y = y;
     this.type = type;
