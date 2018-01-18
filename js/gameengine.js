@@ -121,20 +121,23 @@ GameEngine.prototype.startInput = function () {
             that.d = true;
             moving = true;
         }
-        if (!that.cast && e.code === 'KeyA' && !moving) { //move left
+        if (e.code === 'KeyA') { //move left
             that.a = true;
             moving = true;
         }
-        if (!that.cast && e.code === 'KeyW' && !moving) { //move forward
+        if (e.code === 'KeyW') { //move forward
             that.w = true;
             moving = true;
-        } else if (!that.cast && e.code === 'KeyS' && !moving) { //move downward
+        }
+        if (e.code === 'KeyS') { //move downward
             that.s = true;
             moving = true;
-        } else if (!that.cast && e.code === 'KeyE' && !raise) { //raise shield
+        }
+        if (e.code === 'KeyE') { //raise shield
             that.e = true;
             moving = false;
-        } else if (!that.cast && e.code === 'Space' && !shoot) { //shoot crossbow
+        }
+        if (e.code === 'Space') { //shoot crossbow
             that.space = true;
             moving = false;
         }
