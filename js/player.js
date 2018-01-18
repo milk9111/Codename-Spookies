@@ -24,10 +24,10 @@ class Player extends Entity {
         this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 0, 64, 64, 0.3, 2, true, false);
         this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
 
-        this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, false, false);
-        this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, false, false);
-        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.3,  2, false, false);
-        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, false, false);
+        this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, true, false);
+        this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, true, false);
+        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.3,  2, true, false);
+        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, true, false);
 
         this.swingDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
         this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 192, 64, 64, 0.1,  3, false, false);
@@ -39,17 +39,17 @@ class Player extends Entity {
         this.castSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 512, 64, 64, 0.1,  5, true, false);
         this.castSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 576, 64, 64, 0.1,  5, true, false);
 
-        this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, false, false);
-        this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, false, false);
-        this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, false, false);
-        this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, false, false);
+        this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, true, false);
 
         this.shootBoltDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 704, 64, 64, 0.1,  3, false, false);
         this.shootBoltForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 768, 64, 64, 0.1,  3, false, false);
         this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
         this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
-        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, false, false);
+        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, true, false);
 
         this.ctx = game.ctx;
 
@@ -86,47 +86,64 @@ class Player extends Entity {
      * @author Connor Lundberg
      */
     update() {
-        var totalDistance = 2;
+        let totalDistance = 3;
 
-        if (this.game.right) {
+        if (this.game.q) {
+            this.casting = true;
+        } else {
+            this.casting = false;
+        }
+
+        if (this.game.d) {
             facingDirection = 4;
             this.walkingRight = true;
-            this.game.right = false;
+        } else {
+            this.walkRightAnimation.elapsedTime = 0;
+            this.walkingRight = false;
         }
 
-        if (this.game.left) {
+        if (this.game.a) {
             facingDirection = 3;
             this.walkingLeft = true;
-            this.game.left = false; //consider removing these if controls stop working
+        } else {
+            this.walkLeftAnimation.elapsedTime = 0;
+            this.walkingLeft = false;
         }
 
-        if (this.game.forward) {
+        if (this.game.w) {
             facingDirection = 1;
             this.walkingForward = true;
-            this.game.forward = false;
+        } else {
+            this.walkForwardAnimation.elapsedTime = 0;
+            this.walkingForward = false;
         }
 
-        if (this.game.downward) {
+        if (this.game.s) {
             facingDirection = 2;
             this.walkingDownward = true;
-            this.game.downward = false;
+        } else {
+            this.walkDownwardAnimation.elapsedTime = 0;
+            this.walkingDownward = false;
         }
 
-        if (swing) {
+        if (this.game.click && !this.swinging) {
             this.swinging = true;
+            this.game.click = false;
         }
 
-        if (raise) {
+        if (this.game.e) {
             this.raising = true;
+        } else {
+            this.raising = false;
         }
 
-        if (shoot) {
+        if (this.game.space && !this.shooting) {
             this.shooting = true;
         }
 
-        if (this.game.cast) {
+        /*if (this.game.cast) {
             this.casting = true;
-        }
+        }*/
 
         if (this.casting && !this.game.cast) {
             this.castSpellDownwardAnimation.elapsedTime = 0;
@@ -145,12 +162,6 @@ class Player extends Entity {
         }
 
         if (this.walkingRight) {
-            if (this.walkRightAnimation.isDone()) {
-                this.walkRightAnimation.elapsedTime = 0;
-                this.walkingRight = false;
-                moving = false;
-            }
-
             //Stop player from moving off screen right
             if (!this.offRight) {
                 let walkDistance = this.walkRightAnimation.elapsedTime / this.walkRightAnimation.totalTime;
@@ -165,12 +176,6 @@ class Player extends Entity {
         }
 
         if (this.walkingLeft) {
-            if (this.walkLeftAnimation.isDone()) {
-                this.walkLeftAnimation.elapsedTime = 0;
-                this.walkingLeft = false;
-                moving = false;
-            }
-
             //Stop player from going off left side of the screen
             if (!this.offLeft) {
                 var walkDistance = this.walkLeftAnimation.elapsedTime / this.walkLeftAnimation.totalTime;
@@ -185,12 +190,6 @@ class Player extends Entity {
         }
 
         if (this.walkingForward) {
-            if (this.walkForwardAnimation.isDone()) {
-                this.walkForwardAnimation.elapsedTime = 0;
-                this.walkingForward = false;
-                moving = false;
-            }
-
             //Stop player from moving off screen from the top
             if(!this.offTop) {
                 var walkDistance = this.walkForwardAnimation.elapsedTime / this.walkForwardAnimation.totalTime;
@@ -205,12 +204,6 @@ class Player extends Entity {
         }
 
         if (this.walkingDownward) {
-            if (this.walkDownwardAnimation.isDone()) {
-                this.walkDownwardAnimation.elapsedTime = 0;
-                this.walkingDownward = false;
-                moving = false;
-            }
-
             //Stop player from going off screen from the bottom
             if (!this.offBottom) {
                 var walkDistance = this.walkDownwardAnimation.elapsedTime / this.walkDownwardAnimation.totalTime;
@@ -230,22 +223,18 @@ class Player extends Entity {
             if (this.raiseShieldDownwardAnimation.isDone()) {
                 this.raiseShieldDownwardAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
             if (this.raiseShieldForwardAnimation.isDone()) {
                 this.raiseShieldForwardAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
             if (this.raiseShieldLeftAnimation.isDone()) {
                 this.raiseShieldLeftAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
             if (this.raiseShieldRightAnimation.isDone()) {
                 this.raiseShieldRightAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
         }
 
@@ -342,11 +331,9 @@ class Player extends Entity {
     draw(ctx) {
         if (this.walkingRight) {
             this.walkRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-            this.turnedAround = false;
         }
         else if (this.walkingLeft) {
             this.walkLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-            this.turnedAround = true;
         }
         else if (this.walkingForward) {
             this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);

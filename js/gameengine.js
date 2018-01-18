@@ -46,6 +46,14 @@ function GameEngine() {
     this.wheel = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
+    this.w = null;
+    this.s = null;
+    this.a = null;
+    this.d = null;
+    this.q = null;
+    this.e = null;
+    this.space = null;
+    this.click = null;
 }
 
 
@@ -101,30 +109,33 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
 
-    var coreMovement = function (e) {
+    var coreMovementButtonDown = function (e) {
         if (e.code === 'KeyQ' && !that.cast) { //cast spell
             that.cast = true;
-            that.ctx.canvas.removeEventListener("keydown", coreMovement, false);
+            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
             that.readCombo(that.ctx)
         } else if (e.code === 'KeyQ' && that.cast) {
             that.cast = false;
-        } else if (!that.cast && e.code === 'KeyD' && !moving) { //move right
-            that.right = true;
+        }
+        if (e.code === 'KeyD') { //move right
+            that.d = true;
             moving = true;
-        } else if (!that.cast && e.code === 'KeyA' && !moving) { //move left
-            that.left = true;
+        }
+        if (!that.cast && e.code === 'KeyA' && !moving) { //move left
+            that.a = true;
             moving = true;
-        } else if (!that.cast && e.code === 'KeyW' && !moving) { //move forward
-            that.forward = true;
+        }
+        if (!that.cast && e.code === 'KeyW' && !moving) { //move forward
+            that.w = true;
             moving = true;
         } else if (!that.cast && e.code === 'KeyS' && !moving) { //move downward
-            that.downward = true;
+            that.s = true;
             moving = true;
         } else if (!that.cast && e.code === 'KeyE' && !raise) { //raise shield
-            raise = true;
+            that.e = true;
             moving = false;
         } else if (!that.cast && e.code === 'Space' && !shoot) { //shoot crossbow
-            shoot = true;
+            that.space = true;
             moving = false;
         }
 
@@ -134,17 +145,61 @@ GameEngine.prototype.startInput = function () {
     };
 
     //movements
-    this.ctx.canvas.addEventListener("keydown", coreMovement, false);
+    this.ctx.canvas.addEventListener("keydown", coreMovementButtonDown, false);
+    
+
+    let coreMovementButtonUp = function (e) {
+        if (e.code === 'KeyQ' && !that.cast) { //cast spell
+            that.q = true;
+            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
+            that.readCombo(that.ctx)
+        } else if (e.code === 'KeyQ' && that.cast) {
+            that.q = false;
+        }
+        if (e.code === 'KeyD') { //move right
+            that.d = false;
+            moving = false;
+        }
+        if (e.code === 'KeyA') { //move left
+            that.a = false;
+            moving = false;
+        }
+        if (e.code === 'KeyW') { //move forward
+            that.w = false;
+            moving = false;
+        }
+        if (e.code === 'KeyS') { //move downward
+            that.s = false;
+            moving = false;
+        }
+        if (e.code === 'KeyE') { //raise shield
+            that.e = false;
+            moving = false;
+        }
+        if (e.code === 'Space') { //shoot crossbow
+            that.space = true;
+            moving = false;
+        }
+
+        if (e !== null) {
+            e.preventDefault();
+        }
+    }
+
+    this.ctx.canvas.addEventListener("keyup", coreMovementButtonUp, false);
 
 
     //swing sword
     this.ctx.canvas.addEventListener("click", function(e) {
-       if (!that.cast) {
-           swing = true;
-           moving = false;
-       }
+        console.log("read click");
+        that.click = true;
+        e.preventDefault();
     });
 
+
+    this.ctx.canvas.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+    });
 
     console.log('Input started');
 }
@@ -274,8 +329,7 @@ GameEngine.prototype.loop = function () {
     this.space = null;
     this.right = null;
     this.left = null;
-    this.forward = null;
-    this.downward = null;
+
     this.swing = null;
     this.raise = null;
    // this.cast = null;

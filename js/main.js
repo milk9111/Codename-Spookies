@@ -14,6 +14,7 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDu
 }
 
 Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
+    let lastFrame = false;
     if (!game.stop) {
         //console.log("drawing frame");
         var scaleBy = scaleBy || 1;
@@ -23,9 +24,9 @@ Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
                 this.elapsedTime = 0;
             }
         } else if (this.isDone()) {
-            return;
+            this.elapsedTime -= tick;
+            lastFrame = true;
         }
-        //var index = this.reverse ? this.frames - this.currentFrame() - 1 : this.currentFrame();
 
         var originalFrame = this.currentFrame();
         var index = originalFrame;
@@ -73,6 +74,10 @@ Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
             //this function below.
             //flipSpriteHorizontally(ctx, this.spriteSheet, locX, locY, index * this.frameWidth + offset,
             //    vindex * this.frameHeight + this.startY, this.frameWidth, this.frameHeight);
+        }
+
+        if (lastFrame) {
+            this.elapsedTime = this.totalTime;
         }
     } else {
         //game.stop = false;
