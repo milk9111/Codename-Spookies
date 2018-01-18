@@ -17,7 +17,7 @@ class ObjectMap {
   * @param {int} spriteH Height of the sprites
   * @param {Player} player Refrence to player Entity
   */
-  loadMap(mapName, spriteW, spriteH, player) {
+  loadMap(mapName, spriteW, spriteH, player, game) {
 
       let txt = mapName.split("\n");
 
@@ -28,14 +28,16 @@ class ObjectMap {
 
       //Craete a Tile object for each element
       for (let i = 0; i < this.height; i++) {
-        for (let j = 0; j < this.width - 1; j++) {
+        for (let j = 0; j < this.width; j++) {
 
-          //Only add Potion if placed on the mapped, else null 
+          //Only add Potion if placed on the mapped, else null
           if (txt[i][j] === 'V' ||
               txt[i][j] === 'X' ||
               txt[i][j] === 'Y') {
             //Potion (x, y, type, player)
             this.map2D[i][j] = new Potion(spriteW * j, spriteH * i, txt[i][j], player);
+          } else if (txt[i][j] === 'p'){
+            this.map2D[i][j] = new PlagueDoctor(game, player,spriteW * j, spriteH * i);
           } else {
             this.map2D[i][j] = null;
           }

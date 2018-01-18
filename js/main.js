@@ -289,9 +289,6 @@ ASSET_MANAGER.downloadAll(function() {
 
       var bg = new Background(gameEngine);
       darkness = new Darkness(gameEngine);
-      //var light = new LightSource(gameEngine);
-      var enemy = new PlagueDoctor(gameEngine, player);
-
 
       //ADD ENTITIES
       gameEngine.addEntity(bg);
@@ -309,20 +306,19 @@ ASSET_MANAGER.downloadAll(function() {
       for (let i = 0; i < objectMap.map2D.length; i++) {
         for (let j = 0; j < objectMap.map2D[i].length; j++) {
 
-          if (objectMap.map2D[i][j] != null) {
-            //Only add Potion if placed on the mapped
-            if (objectMap.map2D[i][j].type === 'V' ||
-              objectMap.map2D[i][j].type === 'X' ||
-              objectMap.map2D[i][j].type === 'Y') {
+          //Add Potions
+          if (objectMap.map2D[i][j] instanceof Potion) {
               //Potion (x, y, type, player)
               let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
               gameEngine.addEntity(temp);
-            }
+
+          } else if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+            let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+            gameEngine.addEntity(temp);
           }
         }
       }
 
-    gameEngine.addEntity(enemy);
     gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
 

@@ -11,14 +11,14 @@ class Potion extends Entity {
    *@param {Game} game Game refrence
    */
   constructor(x, y, type, player, game) {
-    super(game, x, y); 
+    super(game, x, y);
     this.x = x;
     this.y = y;
     this.type = type;
     this.player = player;
     this.isDraw = false;
-    this.speedX = 1;
-    this.speedY = 1;
+    this.speedX = 2;
+    this.speedY = 2;
   }
 
   /** Updates a tile */

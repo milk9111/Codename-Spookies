@@ -30,7 +30,7 @@ class TileMap {
 
     //Craete a Tile object for each element
     for (let i = 0; i < this.height; i++) {
-      for (let j = 0; j < this.width - 1; j++) {
+      for (let j = 0; j < this.width; j++) {
 
         //game.addEntity(tempTile);
         this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, txt[i][j], game, player, ctx);
@@ -38,13 +38,14 @@ class TileMap {
     }
 
     //Display map to console
-    //console.log(this.map2D);
+    // console.log(this.map2D);
     // for (let i = 0; i < this.map2D.length; i++) {
     //   for (let j = 0; j < this.map2D[i].length; j++) {
     //
     //     console.log(this.map2D[i][j].x + " " + this.map2D[i][j].y);
     //   }
-    }
+    // }
+  }
 
   /**
   * Updates tileMap

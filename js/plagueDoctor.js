@@ -26,29 +26,40 @@ class PlagueDoctor extends Enemy {
     *@author James Roberts
     */
     update() {
-        let lastX = this.x;
-        let lastY = this.y;
-        super.update();
-        let xDir = lastX - this.x;
-        let yDir = lastY - this.y;
-        if(xDir !== 0 || yDir !== 0) {
-            this.standingStill = false;
-            if(Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
-                if (xDir > 0) { //Moved to the left
-                    this.facingDirection = "left";
-                } else { //Moved to the right
-                    this.facingDirection = "right";
-                }
-            } else { //Greater movement in y direction or an equal change.
-                if (yDir < 0) {
-                    this.facingDirection = "down";
-                } else {
-                    this.facingDirection = "up";
-                }
-            }
-        } else { //No movement.
-            this.standingStill = true;
+
+      //Get distance from Enemey to player
+      let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
+
+      //If close to player then draw, else don't draw
+      if (distance < 305) {
+        this.isDraw = true;
+      } else {
+        this.isDraw = false;
+      }
+
+      let lastX = this.x;
+      let lastY = this.y;
+      super.update();
+      let xDir = lastX - this.x;
+      let yDir = lastY - this.y;
+      if (xDir !== 0 || yDir !== 0) {
+        this.standingStill = false;
+        if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
+          if (xDir > 0) { //Moved to the left
+            this.facingDirection = "left";
+          } else { //Moved to the right
+            this.facingDirection = "right";
+          }
+        } else { //Greater movement in y direction or an equal change.
+          if (yDir < 0) {
+            this.facingDirection = "down";
+          } else {
+            this.facingDirection = "up";
+          }
         }
+      } else { //No movement.
+        this.standingStill = true;
+      }
     };
 
     /**
@@ -57,11 +68,15 @@ class PlagueDoctor extends Enemy {
      * @author James Roberts
      */
     draw(ctx) {
+
+      if (this.isDraw) {
         if(this.standingStill) {
             this.standStill(ctx);
         } else {
             this.walking(ctx);
         }
+      }
+
     };
 
     /**
