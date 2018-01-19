@@ -321,7 +321,6 @@ ASSET_MANAGER.downloadAll(function() {
         }
       }
     ASSET_MANAGER.getAsset("../img/wyrm.mp3").play();
-    gameEngine.addEntity(enemy);
 
     gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
