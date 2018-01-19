@@ -14,6 +14,7 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDu
 }
 
 Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
+    let lastFrame = false;
     if (!game.stop) {
         //console.log("drawing frame");
         var scaleBy = scaleBy || 1;
@@ -23,9 +24,9 @@ Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
                 this.elapsedTime = 0;
             }
         } else if (this.isDone()) {
-            return;
+            this.elapsedTime -= tick;
+            lastFrame = true;
         }
-        //var index = this.reverse ? this.frames - this.currentFrame() - 1 : this.currentFrame();
 
         var originalFrame = this.currentFrame();
         var index = originalFrame;
@@ -73,6 +74,10 @@ Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
             //this function below.
             //flipSpriteHorizontally(ctx, this.spriteSheet, locX, locY, index * this.frameWidth + offset,
             //    vindex * this.frameHeight + this.startY, this.frameWidth, this.frameHeight);
+        }
+
+        if (lastFrame) {
+            this.elapsedTime = this.totalTime;
         }
     } else {
         //game.stop = false;
@@ -283,10 +288,9 @@ ASSET_MANAGER.downloadAll(function() {
       let objectMap = new ObjectMap();
       objectMap.loadMap(Map.getTestMapO(), 32, 32, player);
 
+
       var bg = new Background(gameEngine);
       darkness = new Darkness(gameEngine);
-      //var light = new LightSource(gameEngine);
-      var enemy = new PlagueDoctor(gameEngine, player);
 
       //ADD ENTITIES
       gameEngine.addEntity(bg);
@@ -304,21 +308,21 @@ ASSET_MANAGER.downloadAll(function() {
       for (let i = 0; i < objectMap.map2D.length; i++) {
         for (let j = 0; j < objectMap.map2D[i].length; j++) {
 
-          if (objectMap.map2D[i][j] != null) {
-            //Only add Potion if placed on the mapped
-            if (objectMap.map2D[i][j].type === 'V' ||
-              objectMap.map2D[i][j].type === 'X' ||
-              objectMap.map2D[i][j].type === 'Y') {
+          //Add Potions
+          if (objectMap.map2D[i][j] instanceof Potion) {
               //Potion (x, y, type, player)
-              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player);
+              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
               gameEngine.addEntity(temp);
-            }
+
+          } else if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+            let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+            gameEngine.addEntity(temp);
           }
         }
       }
-
     ASSET_MANAGER.getAsset("../img/wyrm.mp3").play();
     gameEngine.addEntity(enemy);
+
     gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
 

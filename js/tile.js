@@ -19,8 +19,8 @@ class Tile extends Entity{
     this.game = game;
     this.player = player;
     this.isDraw = false;
-    this.speedX = 1;
-    this.speedY = 1;
+    this.speedX = 2;
+    this.speedY = 2;
 
   }
 

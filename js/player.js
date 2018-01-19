@@ -24,10 +24,10 @@ class Player extends Entity {
         this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 0, 64, 64, 0.3, 2, true, false);
         this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
 
-        this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, false, false);
-        this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, false, false);
-        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.3,  2, false, false);
-        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, false, false);
+        this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, true, false);
+        this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, true, false);
+        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.3,  2, true, false);
+        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, true, false);
 
         this.swingDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
         this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 192, 64, 64, 0.1,  3, false, false);
@@ -39,10 +39,10 @@ class Player extends Entity {
         this.castSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 512, 64, 64, 0.1,  5, true, false);
         this.castSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 576, 64, 64, 0.1,  5, true, false);
 
-        this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, false, false);
-        this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, false, false);
-        this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, false, false);
-        this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, false, false);
+        this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, true, false);
 
         this.shootBoltDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 704, 64, 64, 0.1,  3, false, false);
         this.shootBoltForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 768, 64, 64, 0.1,  3, false, false);
@@ -59,7 +59,7 @@ class Player extends Entity {
         this.walkingForward = false;
         this.walkingDownward = false;
         this.turnedAround = false;
-        this.inMotion = false;
+        this.firstOpen = true;
         this.swinging = false;
         this.casting = false;
         //this.castSuccessful = false;
@@ -68,6 +68,8 @@ class Player extends Entity {
         this.radius = 100;
         this.ground = 418;
         this.currentSpell = fireSpell;
+
+        this.spellCombo = "";
 
         //If moving off screen
         this.offRight = false;
@@ -86,47 +88,69 @@ class Player extends Entity {
      * @author Connor Lundberg
      */
     update() {
-        var totalDistance = 2;
+        let totalDistance = 3;
 
-        if (this.game.right) {
-            facingDirection = 4;
-            this.walkingRight = true;
-            this.game.right = false;
-        }
+        /*if (this.game.keys["KeyQ"].pressed && !this.casting) {
+            console.log("Q pressed");
+            this.casting = true;
+        }*/
 
-        if (this.game.left) {
-            facingDirection = 3;
-            this.walkingLeft = true;
-            this.game.left = false; //consider removing these if controls stop working
-        }
-
-        if (this.game.forward) {
-            facingDirection = 1;
-            this.walkingForward = true;
-            this.game.forward = false;
-        }
-
-        if (this.game.downward) {
-            facingDirection = 2;
-            this.walkingDownward = true;
-            this.game.downward = false;
-        }
-
-        if (swing) {
-            this.swinging = true;
-        }
-
-        if (raise) {
-            this.raising = true;
-        }
-
-        if (shoot) {
-            this.shooting = true;
-        }
-
-        if (this.game.cast) {
+        if (this.game.cast && !this.casting) {
             this.casting = true;
         }
+
+        if (!this.casting) {
+            if (this.game.keys["KeyD"].pressed) {
+                facingDirection = 4;
+                this.walkingRight = true;
+            } else {
+                this.walkRightAnimation.elapsedTime = 0;
+                this.walkingRight = false;
+            }
+
+            if (this.game.keys["KeyA"].pressed) {
+                facingDirection = 3;
+                this.walkingLeft = true;
+            } else {
+                this.walkLeftAnimation.elapsedTime = 0;
+                this.walkingLeft = false;
+            }
+
+            if (this.game.keys["KeyW"].pressed) {
+                facingDirection = 1;
+                this.walkingForward = true;
+            } else {
+                this.walkForwardAnimation.elapsedTime = 0;
+                this.walkingForward = false;
+            }
+
+            if (this.game.keys["KeyS"].pressed) {
+                facingDirection = 2;
+                this.walkingDownward = true;
+            } else {
+                this.walkDownwardAnimation.elapsedTime = 0;
+                this.walkingDownward = false;
+            }
+
+            if (this.game.click && !this.swinging) {
+                this.swinging = true;
+                this.game.click = false;
+            }
+
+            if (this.game.keys["KeyE"].pressed) {
+                this.raising = true;
+            } else {
+                this.raising = false;
+            }
+
+            if (this.game.keys["Space"].pressed && !this.shooting) {
+                this.shooting = true;
+            }
+        } else {
+            //this.readCombo();
+        }
+
+
 
         if (this.casting && !this.game.cast) {
             this.castSpellDownwardAnimation.elapsedTime = 0;
@@ -145,80 +169,36 @@ class Player extends Entity {
         }
 
         if (this.walkingRight) {
-            if (this.walkRightAnimation.isDone()) {
-                this.walkRightAnimation.elapsedTime = 0;
-                this.walkingRight = false;
-                moving = false;
-            }
-
             //Stop player from moving off screen right
             if (!this.offRight) {
-                let walkDistance = this.walkRightAnimation.elapsedTime / this.walkRightAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                let distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.x = this.x + distance;
                 playerStartX = this.x - distance;
             }
         }
 
         if (this.walkingLeft) {
-            if (this.walkLeftAnimation.isDone()) {
-                this.walkLeftAnimation.elapsedTime = 0;
-                this.walkingLeft = false;
-                moving = false;
-            }
-
             //Stop player from going off left side of the screen
             if (!this.offLeft) {
-                var walkDistance = this.walkLeftAnimation.elapsedTime / this.walkLeftAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.x = this.x - distance;
                 playerStartX = this.x + distance;
             }
         }
 
         if (this.walkingForward) {
-            if (this.walkForwardAnimation.isDone()) {
-                this.walkForwardAnimation.elapsedTime = 0;
-                this.walkingForward = false;
-                moving = false;
-            }
-
             //Stop player from moving off screen from the top
             if(!this.offTop) {
-                var walkDistance = this.walkForwardAnimation.elapsedTime / this.walkForwardAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.y = this.y - distance;
                 playerStartY = this.y + distance;
             }
         }
 
         if (this.walkingDownward) {
-            if (this.walkDownwardAnimation.isDone()) {
-                this.walkDownwardAnimation.elapsedTime = 0;
-                this.walkingDownward = false;
-                moving = false;
-            }
-
             //Stop player from going off screen from the bottom
             if (!this.offBottom) {
-                var walkDistance = this.walkDownwardAnimation.elapsedTime / this.walkDownwardAnimation.totalTime;
-
-                if (walkDistance > 0.5)
-                    walkDistance = 1 - walkDistance;
-
-                var distance = totalDistance*(-4 * (walkDistance * walkDistance - walkDistance));
+                let distance = totalDistance;
                 this.y = this.y + distance;
                 playerStartY = this.y - distance;
             }
@@ -230,22 +210,18 @@ class Player extends Entity {
             if (this.raiseShieldDownwardAnimation.isDone()) {
                 this.raiseShieldDownwardAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
             if (this.raiseShieldForwardAnimation.isDone()) {
                 this.raiseShieldForwardAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
             if (this.raiseShieldLeftAnimation.isDone()) {
                 this.raiseShieldLeftAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
             if (this.raiseShieldRightAnimation.isDone()) {
                 this.raiseShieldRightAnimation.elapsedTime = 0;
                 this.raising = false;
-                raise = false;
             }
         }
 
@@ -342,11 +318,9 @@ class Player extends Entity {
     draw(ctx) {
         if (this.walkingRight) {
             this.walkRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-            this.turnedAround = false;
         }
         else if (this.walkingLeft) {
             this.walkLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-            this.turnedAround = true;
         }
         else if (this.walkingForward) {
             this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
@@ -452,42 +426,33 @@ class Player extends Entity {
     }
 
 
-    /*readCombo(ctx) {
-        var currPos = 0;
-        var that = this;
-
-        console.log("inside readCombo");
-
-        var getComboInput = function (e) {
-            console.log("Read char: " + String.fromCharCode(e.keyCode));
-
-            var failed = true;
-            if (that.currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
-                currPos++;
-                failed = false;
+    readCombo() {
+        if (!this.firstOpen) {
+            for (let i = 0; i < this.game.codes.length; i++) {
+                let currCode = this.game.codes[i];
+                if (this.game.keys[currCode].pressed) {
+                    console.log(currCode);
+                    this.spellCombo += String.fromCharCode(this.game.keys[currCode].code);
+                    let currPos = this.spellCombo.length;
+                    if (this.spellCombo !== this.currentSpell.substring(0, currPos)) {
+                        console.log("Spell failed");
+                        this.spellCombo = "";
+                        this.casting = false;
+                        castSuccessful = false;
+                        break;
+                    } else if (this.spellCombo === this.currentSpell) {
+                        console.log("Spell passed");
+                        this.spellCombo = "";
+                        this.casting = false;
+                        castSuccessful = true;
+                        break;
+                    }
+                }
             }
-
-            if (failed) {
-                console.log("Cast failed! Did not read the combo " + that.currentSpell);
-                that.castSuccessful = false;
-                that.casting = false;
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                return;
-            }
-
-            if (currPos >= that.currentSpell.length) {
-                that.castSuccessful = true;
-                that.casting = false;
-                console.log("Cast successful! Read the combo " + that.currentSpell);
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                return;
-            }
-            e.preventDefault();
-        };
-
-        ctx.canvas.addEventListener("keyup", getComboInput, true);
-        //ctx.canvas.removeEventListener("keydown", getComboInput, false);
-    }*/
+        } else {
+            this.firstOpen = false;
+        }
+    }
 
 }
 

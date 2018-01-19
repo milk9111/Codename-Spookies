@@ -39,7 +39,6 @@ Timer.prototype.tick = function () {
  */
 function GameEngine() {
     this.entities = [];
-    this.entitiesToRemove = [];
     this.showOutlines = false;
     this.ctx = null;
     this.click = null;
@@ -47,6 +46,28 @@ function GameEngine() {
     this.wheel = null;
     this.surfaceWidth = null;
     this.surfaceHeight = null;
+    this.keys = [];
+    this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space"];
+    this.initKeys();
+    this.w = null;
+    this.s = null;
+    this.a = null;
+    this.d = null;
+    this.q = null;
+    this.e = null;
+    this.space = null;
+    this.click = null;
+}
+
+
+GameEngine.prototype.initKeys = function () {
+    this.keys["KeyQ"] = {code: "KeyQ", pressed: false};
+    this.keys["KeyE"] = {code: "KeyE", pressed: false};
+    this.keys["KeyW"] = {code: "KeyW", pressed: false};
+    this.keys["KeyA"] = {code: "KeyA", pressed: false};
+    this.keys["KeyS"] = {code: "KeyS", pressed: false};
+    this.keys["KeyD"] = {code: "KeyD", pressed: false};
+    this.keys["Space"] = {code: "Space", pressed: false};
 }
 
 
@@ -102,50 +123,111 @@ GameEngine.prototype.startInput = function () {
     console.log('Starting input');
     var that = this;
 
-    var coreMovement = function (e) {
-        if (e.code === 'KeyQ' && !that.cast) { //cast spell
+    var coreMovementButtonDown = function (e) {
+
+        that.keys[e.code].pressed = true;
+
+        if (e.code === 'KeyQ' && !that.cast) {
             that.cast = true;
-            that.ctx.canvas.removeEventListener("keydown", coreMovement, false);
+            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
+            that.ctx.canvas.removeEventListener("keyup", coreMovementButtonUp, false);
             that.readCombo(that.ctx)
         } else if (e.code === 'KeyQ' && that.cast) {
             that.cast = false;
-        } else if (!that.cast && e.code === 'KeyD' && !moving) { //move right
-            that.right = true;
-            moving = true;
-        } else if (!that.cast && e.code === 'KeyA' && !moving) { //move left
-            that.left = true;
-            moving = true;
-        } else if (!that.cast && e.code === 'KeyW' && !moving) { //move forward
-            that.forward = true;
-            moving = true;
-        } else if (!that.cast && e.code === 'KeyS' && !moving) { //move downward
-            that.downward = true;
-            moving = true;
-        } else if (!that.cast && e.code === 'KeyE' && !raise) { //raise shield
-            raise = true;
-            moving = false;
-        } else if (!that.cast && e.code === 'Space' && !shoot) { //shoot crossbow
-            shoot = true;
-            moving = false;
         }
 
-        if (e !== null) {
-            e.preventDefault();
+        /*if (e.code === 'KeyQ' && !that.cast) { //cast spell
+            that.cast = true;
+            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
+            that.readCombo(that.ctx)
+        } else if (e.code === 'KeyQ' && that.cast) {
+            that.cast = false;
         }
+        if (e.code === 'KeyD') { //move right
+            that.d = true;
+            moving = true;
+        }
+        if (e.code === 'KeyA') { //move left
+            that.a = true;
+            moving = true;
+        }
+        if (e.code === 'KeyW') { //move forward
+            that.w = true;
+            moving = true;
+        }
+        if (e.code === 'KeyS') { //move downward
+            that.s = true;
+            moving = true;
+        }
+        if (e.code === 'KeyE') { //raise shield
+            that.e = true;
+            moving = false;
+        }
+        if (e.code === 'Space') { //shoot crossbow
+            that.space = true;
+            moving = false;
+        }*/
+
+        e.preventDefault();
+
     };
 
     //movements
-    this.ctx.canvas.addEventListener("keydown", coreMovement, false);
+    this.ctx.canvas.addEventListener("keydown", coreMovementButtonDown, false);
+
+    let coreMovementButtonUp = function (e) {
+
+        that.keys[e.code].pressed = false;
+
+        /*if (e.code === 'KeyQ' && !that.cast) { //cast spell
+            that.q = true;
+            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
+            that.readCombo(that.ctx)
+        } else if (e.code === 'KeyQ' && that.cast) {
+            that.q = false;
+        }
+        if (e.code === 'KeyD') { //move right
+            that.d = false;
+            moving = false;
+        }
+        if (e.code === 'KeyA') { //move left
+            that.a = false;
+            moving = false;
+        }
+        if (e.code === 'KeyW') { //move forward
+            that.w = false;
+            moving = false;
+        }
+        if (e.code === 'KeyS') { //move downward
+            that.s = false;
+            moving = false;
+        }
+        if (e.code === 'KeyE') { //raise shield
+            that.e = false;
+            moving = false;
+        }
+        if (e.code === 'Space') { //shoot crossbow
+            that.space = true;
+            moving = false;
+        }*/
+
+        e.preventDefault();
+
+    }
+
+    this.ctx.canvas.addEventListener("keyup", coreMovementButtonUp, false);
 
 
     //swing sword
     this.ctx.canvas.addEventListener("click", function(e) {
-       if (!that.cast) {
-           swing = true;
-           moving = false;
-       }
+        that.click = true;
+        e.preventDefault();
     });
 
+
+    this.ctx.canvas.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+    });
 
     console.log('Input started');
 }
@@ -159,43 +241,32 @@ GameEngine.prototype.readCombo = function(ctx) {
     console.log("inside readCombo");
 
     let getComboInput = function (e) {
-        if (!firstOpen) {
-
-
-            console.log("Read char: " + String.fromCharCode(e.keyCode));
-
-            let failed = true;
-            if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
-                currPos++;
-                failed = false;
-            }
-
-            if (failed) {
-                console.log("Cast failed! Did not read the combo " + currentSpell);
-                //that.castSuccessful = false;
-                that.cast = false;
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                that.startInput();
-                return;
-            }
-
-            if (currPos >= currentSpell.length) {
-                castSuccessful = true;
-                that.cast = false;
-                console.log("Cast successful! Read the combo " + currentSpell);
-                ctx.canvas.removeEventListener("keyup", getComboInput, true);
-                that.startInput();
-                return;
-            }
-            e.preventDefault();
-        } else {
-            console.log("firstOpen");
-            firstOpen = false;
+        let failed = true;
+        if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
+            currPos++;
+            failed = false;
         }
+
+        if (failed) {
+            console.log("Cast failed! Did not read the combo " + currentSpell);
+            that.cast = false;
+            ctx.canvas.removeEventListener("keydown", getComboInput, true);
+            that.startInput();
+            return;
+        }
+
+        if (currPos >= currentSpell.length) {
+            castSuccessful = true;
+            that.cast = false;
+            console.log("Cast successful! Read the combo " + currentSpell);
+            ctx.canvas.removeEventListener("keydown", getComboInput, true);
+            that.startInput();
+            return;
+        }
+        e.preventDefault();
     };
 
-    ctx.canvas.addEventListener("keyup", getComboInput, true);
-    //ctx.canvas.removeEventListener("keydown", getComboInput, false);
+    ctx.canvas.addEventListener("keydown", getComboInput, true);
 }
 
 
@@ -207,6 +278,8 @@ GameEngine.prototype.readCombo = function(ctx) {
 GameEngine.prototype.addEntity = function (entity) {
     console.log('added entity');
     this.entities.push(entity);
+    //console.log("entities length after: " + this.entities.length);
+
 }
 
 
@@ -233,28 +306,28 @@ GameEngine.prototype.draw = function () {
  * @author Seth Ladd
  */
 GameEngine.prototype.update = function () {
-    var entitiesCount = this.entities.length;
-    var removalPositions = [];
-    //This moves the entities (via their own update method)
-    for (var i = 0; i < entitiesCount; i++) {
-        var entity = this.entities[i];
+    let entitiesCount = this.entities.length;
+    let removalPositions = [];
 
-        if (entity.removeFromWorld === false) {
-            //console.log(entity.removeFromWorld);
+    //This moves the entities (via their own update method)
+    //console.log(entitiesCount);
+    for (let i = 0; i < entitiesCount; i++) {
+        let entity = this.entities[i];
+
+        if (entity.removalStatus === true) {
+            console.log("found removal status of true");
+        }
+        if (entity.removalStatus === false) {
             entity.update();
         } else {
             console.log("Going to remove");
             removalPositions.push(i);
-            //this.entitiesToRemove.push(entity);
         }
     }
 
     //This removes entities from the game world
-    for (var i = removalPositions.length - 1; i >= 0; --i) {
+    for (let i = removalPositions.length - 1; i >= 0; --i) {
         this.entities.splice(removalPositions[i], 1);
-        /*if (this.entities[i].removeFromWorld) {
-            this.entities.splice(i, 1);
-        }*/
     }
 }
 
@@ -273,8 +346,7 @@ GameEngine.prototype.loop = function () {
     this.space = null;
     this.right = null;
     this.left = null;
-    this.forward = null;
-    this.downward = null;
+
     this.swing = null;
     this.raise = null;
    // this.cast = null;
@@ -367,9 +439,13 @@ class Entity {
     }
 
 
-    markForRemoval  () {
+    set removal  (remove) {
         console.log("Marking for removal");
-        this.removeFromWorld = true;
+        this.removeFromWorld = remove;
+    }
+
+    get removalStatus () {
+        return this.removeFromWorld;
     }
 
 

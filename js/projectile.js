@@ -24,6 +24,8 @@ class Projectile extends Entity {
         this.facingDirection = direction;
 
         this.isKilling = true;
+        this.numOfAnimationLoops = 0;
+        this.maxAnimationLoopsBeforeRemoval = 5;
     }
 
 
@@ -33,10 +35,16 @@ class Projectile extends Entity {
      * @author Connor Lundberg
      */
     update() {
-        if (this.isKilling) {
+        if (this.numOfAnimationLoops >= this.maxAnimationLoopsBeforeRemoval) {
             console.log("started Killing process");
-            window.setTimeout(this.kill, 1000);
+            super.removal = true;
+            //window.setTimeout(this.kill, 1000);
             this.isKilling = false;
+        }
+
+        if (this.shootAnimation.isDone()) {
+            this.shootAnimation.elapsedTime = 0;
+            this.numOfAnimationLoops++;
         }
 
         let totalDistance = 2;
@@ -105,7 +113,8 @@ class Projectile extends Entity {
 
     kill () {
         console.log("called kill");
-        super.markForRemoval();
+        super.removal = true;
+        //console.log(super.removalStatus);
         //this.isKilling = true;
     }
 

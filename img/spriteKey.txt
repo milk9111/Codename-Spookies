@@ -6,7 +6,7 @@
 5 = Green Floor 2
 6 = Green Floor 3
 7 = Green Floor 4
-8 = Green FLoor 5
+8 = Green Floor 5
 9 = IDK
 A = White Floor 1
 B = White Floor 2
@@ -29,7 +29,7 @@ R = Sand Floor 2
 S = Sand Floor 3
 T = Sand Floor 4
 U = Sand Floor 5
-V = Black Potion 
+V = Black Potion
 X = Blue Potion
 Y = Red Potion
 Z =
