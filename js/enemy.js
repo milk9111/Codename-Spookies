@@ -43,17 +43,7 @@ class Enemy extends Entity {
       this.isDraw = false;
     }
 
-    if (this.isPlayerInRange()) {
-      let xDir = this.player.x - this.x;
-      let yDir = this.player.y - this.y;
-      if (Math.abs(xDir) > Math.abs(yDir)) {
-        this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
-        this.x = this.unroundedX;
-      } else {
-        this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
-        this.y = this.unroundedY;
-      }
-    }
+
 
     //Controls the map movement on/off screen
     if (this.player.offRight) {

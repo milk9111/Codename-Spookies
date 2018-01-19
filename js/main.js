@@ -266,6 +266,10 @@ ASSET_MANAGER.queueDownload("../img/EWalkD.png");
 ASSET_MANAGER.queueDownload("../img/EWDAgro.png");
 ASSET_MANAGER.queueDownload("../img/EnemyIdleLeft.png");
 ASSET_MANAGER.queueDownload("../img/EnemyIdleRight.png");
+ASSET_MANAGER.queueDownload("../img/EWL.png");
+ASSET_MANAGER.queueDownload("../img/EWR.png");
+ASSET_MANAGER.queueDownload("../img/EWLA.png");
+ASSET_MANAGER.queueDownload("../img/EWRA.png");
 ASSET_MANAGER.queueDownload("../img/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../img/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.downloadAll(function() {
