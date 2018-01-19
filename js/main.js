@@ -261,6 +261,8 @@ ASSET_MANAGER.queueDownload("../img/EWalkD.png");
 ASSET_MANAGER.queueDownload("../img/EWDAgro.png");
 ASSET_MANAGER.queueDownload("../img/EnemyIdleLeft.png");
 ASSET_MANAGER.queueDownload("../img/EnemyIdleRight.png");
+ASSET_MANAGER.queueDownload("../img/heartbeat.mp3", {sound:true});
+ASSET_MANAGER.queueDownload("../img/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.downloadAll(function() {
 
 
@@ -315,6 +317,7 @@ ASSET_MANAGER.downloadAll(function() {
         }
       }
 
+    ASSET_MANAGER.getAsset("../img/wyrm.mp3").play();
     gameEngine.addEntity(enemy);
     gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
@@ -326,10 +329,6 @@ ASSET_MANAGER.downloadAll(function() {
     playerStartX = (gameEngine.surfaceWidth/2 - 32);
     playerStartY = (gameEngine.surfaceHeight/2 - 32);
     console.log(player.x + ", " + player.y);
-
-    let audio = new Audio('../img/hearbeat.mp3');
-    audio.loop = true;
-    audio.play();
 
     gameEngine.start();
 });
