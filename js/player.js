@@ -166,6 +166,7 @@ class Player extends Entity {
             let animation = this.fireBallSpellAnimation;
             let spell = new Projectile(this.game, animation, facingDirection, this.x, this.y);
             this.game.addEntity(spell);
+            ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }
 
         if (this.walkingRight) {

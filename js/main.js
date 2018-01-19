@@ -11,6 +11,7 @@ function Animation(spriteSheet, startX, startY, frameWidth, frameHeight, frameDu
     this.elapsedTime = 0;
     this.loop = loop;
     this.reverse = reverse;
+    this.timesFinished = 0;
 }
 
 Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
@@ -22,10 +23,12 @@ Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scaleBy) {
         if (this.loop) {
             if (this.isDone()) {
                 this.elapsedTime = 0;
+                this.timesFinished++;
             }
         } else if (this.isDone()) {
             this.elapsedTime -= tick;
             lastFrame = true;
+            this.timesFinished++;
         }
 
         var originalFrame = this.currentFrame();
@@ -270,8 +273,9 @@ ASSET_MANAGER.queueDownload("../img/EWL.png");
 ASSET_MANAGER.queueDownload("../img/EWR.png");
 ASSET_MANAGER.queueDownload("../img/EWLA.png");
 ASSET_MANAGER.queueDownload("../img/EWRA.png");
-ASSET_MANAGER.queueDownload("../img/heartbeat.mp3", {sound:true});
-ASSET_MANAGER.queueDownload("../img/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
+ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
+ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
+ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
 ASSET_MANAGER.downloadAll(function() {
 
 
@@ -297,7 +301,7 @@ ASSET_MANAGER.downloadAll(function() {
       darkness = new Darkness(gameEngine);
 
       //ADD ENTITIES
-      gameEngine.addEntity(bg);
+      //gameEngine.addEntity(bg);
 
       //Add tiles
       for (let i = 0; i < tileMap.map2D.length; i++) {
@@ -324,8 +328,9 @@ ASSET_MANAGER.downloadAll(function() {
           }
         }
       }
-    ASSET_MANAGER.getAsset("../img/wyrm.mp3").play();
-    ASSET_MANAGER.getAsset("../img/heartbeat.mp3").play();
+    ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
+    //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
+
 
     gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
