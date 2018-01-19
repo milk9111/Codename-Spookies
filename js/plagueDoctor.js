@@ -22,6 +22,8 @@ class PlagueDoctor extends Enemy {
         this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWRA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.facingDirection = "down";
         this.standingStill = true;
+        this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
+        this.notifySoundId = null;
     };
 
     /**
@@ -32,8 +34,14 @@ class PlagueDoctor extends Enemy {
 
       let lastX = this.x;
       let lastY = this.y;
+
       //Check if aggroed on the player.
       if (this.isPlayerInRange()) {
+          if (this.notifySoundId === null) {
+              this.notifySoundId = this.notifySound.play();
+              this.notifySound.fade(0.0, 0.3, 1000);
+          }
+          
           let xDir = this.player.x - this.x;
           let yDir = this.player.y - this.y;
           if (Math.abs(xDir) > Math.abs(yDir)) {
@@ -42,6 +50,12 @@ class PlagueDoctor extends Enemy {
           } else {
               this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
               this.y = this.unroundedY;
+          }
+      } else {
+          //console.log("in here");
+          if (this.notifySoundId !== null && this.notifySound.playing(this.notifySoundId)) {
+            this.notifySound.fade(0.3, 0.0, 1000);
+            this.notifySoundId = null;
           }
       }
       let xDir = lastX - this.x;

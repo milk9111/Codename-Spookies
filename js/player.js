@@ -229,6 +229,7 @@ class Player extends Entity {
 
         //shooting bolt
         if (this.shooting) {
+            ASSET_MANAGER.getAsset("../snd/crossbow.wav").play();
             if (this.shootBoltDownwardAnimation.isDone()) {
                 this.shootBoltDownwardAnimation.elapsedTime = 0;
                 this.shooting = false;
@@ -254,6 +255,8 @@ class Player extends Entity {
 
         //swinging sword
         if (this.swinging) {
+            ASSET_MANAGER.getAsset("../snd/sword_woosh.wav").play();
+
             if (this.swingDownwardAnimation.isDone()) {
                 this.swingDownwardAnimation.elapsedTime = 0;
                 this.swinging = false;
