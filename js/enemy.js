@@ -30,7 +30,9 @@ class Enemy extends Entity {
         return areEntitiesInRange({x: this.x, y: this.y}, this.player, this.range);
     };
 
-    // noinspection JSUnusedGlobalSymbols
+    /**
+     * Determines if the enemy needs to be drawn to the canvas and moves it with the map.
+     */
   update() {
 
     //Get distance from Enemey to player
