@@ -16,9 +16,14 @@ class PlagueDoctor extends Enemy {
         this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/EUpWalk.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EWalkD.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWDAgro.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-
+        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/EWL.png"), 0, 0, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWLA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/EWR.png"), 0, 0, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWRA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.facingDirection = "down";
         this.standingStill = true;
+        this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
+        this.notifySoundId = null;
     };
 
     /**
@@ -27,21 +32,35 @@ class PlagueDoctor extends Enemy {
     */
     update() {
 
-      //Get distance from Enemey to player
-      let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
-
-      //If close to player then draw, else don't draw
-      if (distance < 305) {
-        this.isDraw = true;
-      } else {
-        this.isDraw = false;
-      }
-
       let lastX = this.x;
       let lastY = this.y;
-      super.update();
+
+      //Check if aggroed on the player.
+      if (this.isPlayerInRange()) {
+          if (this.notifySoundId === null) {
+              this.notifySoundId = this.notifySound.play();
+              this.notifySound.fade(0.0, 0.3, 1000);
+          }
+
+          let xDir = this.player.x - this.x;
+          let yDir = this.player.y - this.y;
+          if (Math.abs(xDir) > Math.abs(yDir)) {
+              this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
+              this.x = this.unroundedX;
+          } else {
+              this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
+              this.y = this.unroundedY;
+          }
+      } else {
+          //console.log("in here");
+          if (this.notifySoundId !== null && this.notifySound.playing(this.notifySoundId)) {
+            this.notifySound.fade(0.3, 0.0, 1000);
+            this.notifySoundId = null;
+          }
+      }
       let xDir = lastX - this.x;
       let yDir = lastY - this.y;
+
       if (xDir !== 0 || yDir !== 0) {
         this.standingStill = false;
         if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
@@ -60,6 +79,8 @@ class PlagueDoctor extends Enemy {
       } else { //No movement.
         this.standingStill = true;
       }
+      //check if it needs to be drawn and change x and y if necessary for map movement.
+      super.update();
     };
 
     /**
@@ -121,10 +142,18 @@ class PlagueDoctor extends Enemy {
                 this.walkAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "left":
-                this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                if(this.isPlayerInRange()) {
+                    this.walkAnimationLeftAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                } else {
+                    this.walkAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                }
                 break;
             case "right":
-                this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                if(this.isPlayerInRange()) {
+                    this.walkAnimationRightAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                } else {
+                    this.walkAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                }
                 break;
         }
 

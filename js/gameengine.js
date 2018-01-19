@@ -135,85 +135,16 @@ GameEngine.prototype.startInput = function () {
         } else if (e.code === 'KeyQ' && that.cast) {
             that.cast = false;
         }
-
-        /*if (e.code === 'KeyQ' && !that.cast) { //cast spell
-            that.cast = true;
-            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
-            that.readCombo(that.ctx)
-        } else if (e.code === 'KeyQ' && that.cast) {
-            that.cast = false;
-        }
-        if (e.code === 'KeyD') { //move right
-            that.d = true;
-            moving = true;
-        }
-        if (e.code === 'KeyA') { //move left
-            that.a = true;
-            moving = true;
-        }
-        if (e.code === 'KeyW') { //move forward
-            that.w = true;
-            moving = true;
-        }
-        if (e.code === 'KeyS') { //move downward
-            that.s = true;
-            moving = true;
-        }
-        if (e.code === 'KeyE') { //raise shield
-            that.e = true;
-            moving = false;
-        }
-        if (e.code === 'Space') { //shoot crossbow
-            that.space = true;
-            moving = false;
-        }*/
-
         e.preventDefault();
-
     };
 
     //movements
     this.ctx.canvas.addEventListener("keydown", coreMovementButtonDown, false);
 
     let coreMovementButtonUp = function (e) {
-
         that.keys[e.code].pressed = false;
-
-        /*if (e.code === 'KeyQ' && !that.cast) { //cast spell
-            that.q = true;
-            that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
-            that.readCombo(that.ctx)
-        } else if (e.code === 'KeyQ' && that.cast) {
-            that.q = false;
-        }
-        if (e.code === 'KeyD') { //move right
-            that.d = false;
-            moving = false;
-        }
-        if (e.code === 'KeyA') { //move left
-            that.a = false;
-            moving = false;
-        }
-        if (e.code === 'KeyW') { //move forward
-            that.w = false;
-            moving = false;
-        }
-        if (e.code === 'KeyS') { //move downward
-            that.s = false;
-            moving = false;
-        }
-        if (e.code === 'KeyE') { //raise shield
-            that.e = false;
-            moving = false;
-        }
-        if (e.code === 'Space') { //shoot crossbow
-            that.space = true;
-            moving = false;
-        }*/
-
         e.preventDefault();
-
-    }
+    };
 
     this.ctx.canvas.addEventListener("keyup", coreMovementButtonUp, false);
 
@@ -314,9 +245,6 @@ GameEngine.prototype.update = function () {
     for (let i = 0; i < entitiesCount; i++) {
         let entity = this.entities[i];
 
-        if (entity.removalStatus === true) {
-            console.log("found removal status of true");
-        }
         if (entity.removalStatus === false) {
             entity.update();
         } else {
@@ -367,52 +295,7 @@ GameEngine.prototype.loop = function () {
  *
  * @author Seth Ladd
  */
-/*function Entity(game, x, y) {
-    this.game = game;
-    this.x = x;
-    this.y = y;
-    this.removeFromWorld = false;
-}
-
-
-Entity.prototype.update = function () {
-}
-
-
-Entity.prototype.draw = function (ctx) {
-    if (this.game.showOutlines && this.radius) {
-        this.game.ctx.beginPath();
-        this.game.ctx.strokeStyle = "red";
-        this.game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        this.game.ctx.stroke();
-        this.game.ctx.closePath();
-    }
-}
-
-Entity.prototype.markForRemoval = function () {
-    console.log("Marking for removal");
-    this.removeFromWorld = true;
-}
-
-Entity.prototype.rotateAndCache = function (image, angle) {
-    var offscreenCanvas = document.createElement('canvas');
-    var size = Math.max(image.width, image.height);
-    offscreenCanvas.width = size;
-    offscreenCanvas.height = size;
-    var offscreenCtx = offscreenCanvas.getContext('2d');
-    offscreenCtx.save();
-    offscreenCtx.translate(size / 2, size / 2);
-    offscreenCtx.rotate(angle);
-    offscreenCtx.translate(0, 0);
-    offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
-    offscreenCtx.restore();
-    //offscreenCtx.strokeStyle = "red";
-    //offscreenCtx.strokeRect(0,0,size,size);
-    return offscreenCanvas;
-}*/
-
 //es6 version of Entity.
-
 class Entity {
 
     constructor(game, x, y) {

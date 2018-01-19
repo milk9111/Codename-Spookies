@@ -166,6 +166,7 @@ class Player extends Entity {
             let animation = this.fireBallSpellAnimation;
             let spell = new Projectile(this.game, animation, facingDirection, this.x, this.y);
             this.game.addEntity(spell);
+            ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }
 
         if (this.walkingRight) {
@@ -228,6 +229,7 @@ class Player extends Entity {
 
         //shooting bolt
         if (this.shooting) {
+            ASSET_MANAGER.getAsset("../snd/crossbow.wav").play();
             if (this.shootBoltDownwardAnimation.isDone()) {
                 this.shootBoltDownwardAnimation.elapsedTime = 0;
                 this.shooting = false;
@@ -253,6 +255,8 @@ class Player extends Entity {
 
         //swinging sword
         if (this.swinging) {
+            ASSET_MANAGER.getAsset("../snd/sword_woosh.wav").play();
+
             if (this.swingDownwardAnimation.isDone()) {
                 this.swingDownwardAnimation.elapsedTime = 0;
                 this.swinging = false;

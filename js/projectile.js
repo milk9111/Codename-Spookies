@@ -25,7 +25,7 @@ class Projectile extends Entity {
 
         this.isKilling = true;
         this.numOfAnimationLoops = 0;
-        this.maxAnimationLoopsBeforeRemoval = 5;
+        this.maxAnimationLoopsBeforeRemoval = 2;
     }
 
 
@@ -35,57 +35,31 @@ class Projectile extends Entity {
      * @author Connor Lundberg
      */
     update() {
-        if (this.numOfAnimationLoops >= this.maxAnimationLoopsBeforeRemoval) {
+        if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
             console.log("started Killing process");
             super.removal = true;
-            //window.setTimeout(this.kill, 1000);
-            this.isKilling = false;
+            this.shootAnimation.timesFinished = 0;
         }
 
-        if (this.shootAnimation.isDone()) {
-            this.shootAnimation.elapsedTime = 0;
-            this.numOfAnimationLoops++;
-        }
 
         let totalDistance = 2;
-        let travelDistance = 0;
         let distance = 0;
 
         switch (this.facingDirection) {
             case 1: //forward
-                travelDistance = this.shootAnimation.elapsedTime / this.shootAnimation.totalTime;
-
-                if (travelDistance > 0.5)
-                    travelDistance = 1 - travelDistance;
-
-                distance = totalDistance * (-4 * (travelDistance * travelDistance - travelDistance));
+                distance = totalDistance;
                 this.y = this.y - distance;
                 break;
             case 2: //downward
-                travelDistance = this.shootAnimation.elapsedTime / this.shootAnimation.totalTime;
-
-                if (travelDistance > 0.5)
-                    travelDistance = 1 - travelDistance;
-
-                distance = totalDistance * (-4 * (travelDistance * travelDistance - travelDistance));
+                distance = totalDistance;
                 this.y = this.y + distance;
                 break;
             case 3: //left
-                travelDistance = this.shootAnimation.elapsedTime / this.shootAnimation.totalTime;
-
-                if (travelDistance > 0.5)
-                    travelDistance = 1 - travelDistance;
-
-                distance = totalDistance * (-4 * (travelDistance * travelDistance - travelDistance));
+                distance = totalDistance;
                 this.x = this.x - distance;
                 break;
             case 4: //right
-                travelDistance = this.shootAnimation.elapsedTime / this.shootAnimation.totalTime;
-
-                if (travelDistance > 0.5)
-                    travelDistance = 1 - travelDistance;
-
-                distance = totalDistance * (-4 * (travelDistance * travelDistance - travelDistance));
+                distance = totalDistance;
                 this.x = this.x + distance;
                 break;
             default: //anything else
@@ -108,14 +82,6 @@ class Projectile extends Entity {
 
         this.shootAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         Entity.prototype.draw.call(this);
-    }
-
-
-    kill () {
-        console.log("called kill");
-        super.removal = true;
-        //console.log(super.removalStatus);
-        //this.isKilling = true;
     }
 
 }
