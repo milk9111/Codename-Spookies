@@ -321,6 +321,7 @@ ASSET_MANAGER.downloadAll(function() {
         }
       }
     ASSET_MANAGER.getAsset("../img/wyrm.mp3").play();
+    ASSET_MANAGER.getAsset("../img/heartbeat.mp3").play();
 
     gameEngine.addEntity(player);
     gameEngine.addEntity(darkness);
