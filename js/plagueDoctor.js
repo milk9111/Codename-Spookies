@@ -41,7 +41,7 @@ class PlagueDoctor extends Enemy {
               this.notifySoundId = this.notifySound.play();
               this.notifySound.fade(0.0, 0.3, 1000);
           }
-          
+
           let xDir = this.player.x - this.x;
           let yDir = this.player.y - this.y;
           if (Math.abs(xDir) > Math.abs(yDir)) {
