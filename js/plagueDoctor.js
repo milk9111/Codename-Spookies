@@ -6,7 +6,7 @@ class PlagueDoctor extends Enemy {
      * Constructor for the plague doctor enemy.
      * @author James Roberts
      */
-    constructor(gameEngine, player, x, y, speed, range) {
+    constructor(gameEngine, player, x, y, speed=1.5, range=250) {
         super( gameEngine, player, x, y, speed, range);
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EnemyDownward.png"), 0, 0, 64, 64, 0.5, 3, true, false);
