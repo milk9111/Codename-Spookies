@@ -49,10 +49,10 @@ class Tile extends Entity{
     }
   }
 
-  /** Draws the Tile on the canvas
-   * @param {canvas} ctx Canvas Reference
-   */
-  draw(ctx) {
+/** Draws the Tile on the canvas
+ * @param {canvas} ctx Canvas Reference
+ */
+draw(ctx) {
     //(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 
     if (this.isDraw) {
@@ -152,6 +152,48 @@ class Tile extends Entity{
           break;
         case 'U':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 29, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'Z':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 20, 32 * 28, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'a':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 21, 32 * 28, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'b':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 22, 32 * 28, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'c':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 23, 32 * 28, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'd':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 24, 32 * 28, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'e':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 40, 32 * 29, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'f':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 3, 32 * 7, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'g':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 4, 32 * 7, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'h':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 5, 32 * 7, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'i':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 6, 32 * 7, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'j':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 7, 32 * 7, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'k':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 27, 32 * 27, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'l':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 28, 32 * 27, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'm':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 29, 32 * 27, 32, 32, this.x, this.y, 32, 32);
           break;
       }
 

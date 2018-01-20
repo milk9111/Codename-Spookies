@@ -284,71 +284,80 @@ ASSET_MANAGER.queueDownload("../snd/footstep1.wav", {sound:true, volume: 0.06, r
 ASSET_MANAGER.downloadAll(function() {
 
 
-      var canvas = document.getElementById('gameWorld');
-      var ctx = canvas.getContext('2d');
+  var canvas = document.getElementById('gameWorld');
+  var ctx = canvas.getContext('2d');
 
-      //LOAD ENTIIES
-      //start facing backwards.
-      facingDirection = 2;
-      var gameEngine = new GameEngine();
-      var player = new Player(gameEngine, player);
+  //LOAD ENTIIES
+  //start facing backwards.
+  facingDirection = 2;
+  var gameEngine = new GameEngine();
+  var player = new Player(gameEngine, player);
 
-      //Load tile map
-      let tileMap = new TileMap();
-      tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
+  //Load tile map
+  let tileMap = new TileMap();
+  tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
 
-      //Load ObejctMap
-      let objectMap = new ObjectMap();
-      objectMap.loadMap(Map.getTestMapO(), 32, 32, player);
+  //Load ObejctMap
+  let objectMap = new ObjectMap();
+  objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
 
 
-      var bg = new Background(gameEngine);
-      darkness = new Darkness(gameEngine);
+  var bg = new Background(gameEngine);
+  darkness = new Darkness(gameEngine);
 
-      //ADD ENTITIES
-      //gameEngine.addEntity(bg);
+  //ADD ENTITIES
+  //gameEngine.addEntity(bg);
 
-      //Add tiles
-      for (let i = 0; i < tileMap.map2D.length; i++) {
-        for (let j = 0; j < tileMap.map2D[i].length; j++) {
+  //Add tiles
+  for (let i = 0; i < tileMap.map2D.length; i++) {
+    for (let j = 0; j < tileMap.map2D[i].length; j++) {
 
-          let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
+      let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
+      gameEngine.addEntity(temp);
+    }
+  }
+
+  //TODO: Fix it so enemies arn't a layer above other objects, one way is by splitting up the
+  //loop into enemies and other objects 
+
+  //Add Objects to map
+  for (let i = 0; i < objectMap.map2D.length; i++) {
+    for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+      //Add Potions
+      if (objectMap.map2D[i][j] instanceof Potion) {
+        //Potion (x, y, type, player)
+        let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
+        gameEngine.addEntity(temp);
+
+        //Add Plague Doctor
+      } else if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+        let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+        gameEngine.addEntity(temp);
+
+        //Add Object Tiles
+      } else if (objectMap.map2D[i][j] instanceof Tile) {
+          let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, gameEngine, player, ctx);
           gameEngine.addEntity(temp);
         }
-      }
-
-      //Add Objects to map
-      for (let i = 0; i < objectMap.map2D.length; i++) {
-        for (let j = 0; j < objectMap.map2D[i].length; j++) {
-
-          //Add Potions
-          if (objectMap.map2D[i][j] instanceof Potion) {
-              //Potion (x, y, type, player)
-              let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
-              gameEngine.addEntity(temp);
-
-          } else if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
-            let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
-            gameEngine.addEntity(temp);
-          }
-        }
-      }
-    ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
-    //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
+    }
+  }
+  ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
+  //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
 
 
-    gameEngine.addEntity(player);
-    gameEngine.addEntity(darkness);
+  gameEngine.addEntity(player);
+  gameEngine.addEntity(darkness);
 
-    //START GAME
-    gameEngine.init(ctx);
-    player.x = (gameEngine.surfaceWidth/2 - 32);
-    player.y = (gameEngine.surfaceHeight/2 - 32);
-    playerStartX = (gameEngine.surfaceWidth/2 - 32);
-    playerStartY = (gameEngine.surfaceHeight/2 - 32);
-    console.log(player.x + ", " + player.y);
+  //START GAME
+  gameEngine.init(ctx);
+  player.x = (gameEngine.surfaceWidth / 2 - 32);
+  player.y = (gameEngine.surfaceHeight / 2 - 32);
+  playerStartX = (gameEngine.surfaceWidth / 2 - 32);
+  playerStartY = (gameEngine.surfaceHeight / 2 - 32);
+  console.log(player.x + ", " + player.y);
 
-    gameEngine.start();
+  gameEngine.start();
 });
 
 /** Re-maps a number from one range to another.
