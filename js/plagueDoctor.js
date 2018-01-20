@@ -54,7 +54,7 @@ class PlagueDoctor extends Enemy {
       } else {
           //console.log("in here");
           if (this.notifySoundId !== null && this.notifySound.playing(this.notifySoundId)) {
-            this.notifySound.fade(0.3, 0.0, 1000);
+            this.notifySound.fade(this.notifySound.volume(), 0.0, 2000);
             this.notifySoundId = null;
           }
       }

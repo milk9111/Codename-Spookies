@@ -51,6 +51,9 @@ class Player extends Entity {
 
         this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, true, false);
 
+        this.walkingSound = ASSET_MANAGER.getAsset("../snd/footstep1.wav");
+        this.walkingSoundId = this.walkingSound.id;
+
         this.ctx = game.ctx;
 
         this.jumping = false;
@@ -203,6 +206,16 @@ class Player extends Entity {
                 this.y = this.y + distance;
                 playerStartY = this.y - distance;
             }
+        }
+
+
+        if ((this.walkingForward || this.walkingDownward
+            || this.walkingLeft || this.walkingRight)
+            && !this.walkingSound.playing(this.walkingSoundId)) {
+            this.walkingSound.play()
+        } else {
+            if (this.walkingSound.playing(this.walkingSoundId))
+            this.walkingSound.pause()
         }
 
 
