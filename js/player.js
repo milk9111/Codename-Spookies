@@ -54,6 +54,9 @@ class Player extends Entity {
         this.walkingSound = ASSET_MANAGER.getAsset("../snd/footstep1.wav");
         this.walkingSoundId = this.walkingSound.id;
 
+        this.chargingSpellSound = ASSET_MANAGER.getAsset("../snd/charging_spell.flac");
+        this.chargingSpellSoundId = this.chargingSpellSound.id;
+
         this.ctx = game.ctx;
 
         this.jumping = false;
@@ -99,6 +102,9 @@ class Player extends Entity {
         }*/
 
         if (this.game.cast && !this.casting) {
+            if (!this.chargingSpellSound.playing(this.chargingSpellSoundId)) {
+                this.chargingSpellSound.play();
+            }
             this.casting = true;
         }
 
@@ -156,6 +162,9 @@ class Player extends Entity {
 
 
         if (this.casting && !this.game.cast) {
+            if (this.chargingSpellSound.playing(this.chargingSpellSoundId)) {
+                this.chargingSpellSound.stop();
+            }
             this.castSpellDownwardAnimation.elapsedTime = 0;
             this.castSpellForwardAnimation.elapsedTime = 0;
             this.castSpellLeftAnimation.elapsedTime = 0;
