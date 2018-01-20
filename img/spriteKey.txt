@@ -1,3 +1,4 @@
+------------------ Tiles
 0 = Brown Floor 1
 1 = Brown Floor 2
 2 = Brown Floor 3
@@ -29,7 +30,21 @@ R = Sand Floor 2
 S = Sand Floor 3
 T = Sand Floor 4
 U = Sand Floor 5
+--------------------Objects
 V = Black Potion
 X = Blue Potion
 Y = Red Potion
-Z =
+Z = Blood Splat 1
+a = Blood Splat 2
+b = Blood Splat 3
+c = Blood Splat 4
+d = Blood Splat 5
+e = Blood Splat Long 1
+f = Broken Column 1
+g = Broken Column 2
+h = Broken Column 3
+i = Broken Column 4
+j = Broken Column 5
+k = Green Stuff 1
+l = Green Stuff 1
+m = Green Stuff 1
