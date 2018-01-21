@@ -318,9 +318,6 @@ ASSET_MANAGER.downloadAll(function() {
     }
   }
 
-  //TODO: Fix it so enemies arn't a layer above other objects, one way is by splitting up the
-  //loop into enemies and other objects 
-
   //Add Objects to map
   for (let i = 0; i < objectMap.map2D.length; i++) {
     for (let j = 0; j < objectMap.map2D[i].length; j++) {
@@ -331,16 +328,23 @@ ASSET_MANAGER.downloadAll(function() {
         let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
         gameEngine.addEntity(temp);
 
-        //Add Plague Doctor
-      } else if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+        //Add Tile
+      } else if (objectMap.map2D[i][j] instanceof Tile) {
+        let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, gameEngine, player, ctx);
+        gameEngine.addEntity(temp);
+      }
+    }
+  }
+
+  //Add Enemies to map
+  for (let i = 0; i < objectMap.map2D.length; i++) {
+    for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+      //Add Plague Doctor
+      if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
         let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
         gameEngine.addEntity(temp);
-
-        //Add Object Tiles
-      } else if (objectMap.map2D[i][j] instanceof Tile) {
-          let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, gameEngine, player, ctx);
-          gameEngine.addEntity(temp);
-        }
+      }
     }
   }
   ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();

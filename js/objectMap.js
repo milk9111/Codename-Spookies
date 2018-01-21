@@ -30,7 +30,7 @@ class ObjectMap {
       for (let i = 0; i < this.height; i++) {
         for (let j = 0; j < this.width; j++) {
 
-          //Char code for the object on map, handle null values 
+          //Char code for the object on map, handle null values
           let charCode;
 
           if (txt[i][j] != null) {
@@ -48,7 +48,6 @@ class ObjectMap {
           } else if (txt[i][j] === 'p'){
             this.map2D[i][j] = new PlagueDoctor(game, player,spriteW * j, spriteH * i);
           } else if (charCode >= 90 && charCode <= 122) {
-            console.log("tes");
             this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, txt[i][j], game, player, ctx);
           } else {
             this.map2D[i][j] = null;

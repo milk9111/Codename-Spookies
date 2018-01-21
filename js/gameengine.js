@@ -349,4 +349,3 @@ class Entity {
         return offscreenCanvas;
     }
 }
-
