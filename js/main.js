@@ -263,6 +263,7 @@ ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/EnemyDownward.png");
+ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/EUI.png");
 ASSET_MANAGER.queueDownload("../img/EUpWalk.png");
 ASSET_MANAGER.queueDownload("../img/EWalkD.png");

@@ -15,7 +15,7 @@ class Projectile extends Entity {
 
         console.log("making new projectile");
 
-        super(game, startX, startY); //(0, 400) signify where the sprite will be drawn.
+        super(game, startX, startY, true, game.surfaceWidth, game.surfaceHeight); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -25,7 +25,7 @@ class Projectile extends Entity {
 
         this.isKilling = true;
         this.numOfAnimationLoops = 0;
-        this.maxAnimationLoopsBeforeRemoval = 2;
+        this.maxAnimationLoopsBeforeRemoval = 5;
     }
 
 
