@@ -29,23 +29,19 @@ class Enemy extends Entity {
      * @param yDir lastY - newY
      */
     setFacingDirection(xDir, yDir) {
-        if (xDir !== 0 || yDir !== 0) {
-            this.standingStill = false;
-            if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
-                if (xDir > 0) { //Moved to the left
-                    this.facingDirection = "left";
-                } else { //Moved to the right
-                    this.facingDirection = "right";
-                }
-            } else { //Greater movement in y direction or an equal change.
-                if (yDir < 0) {
-                    this.facingDirection = "down";
-                } else {
-                    this.facingDirection = "up";
-                }
+        if (yDir !== 0) {
+            if (yDir < 0) {
+                this.facingDirection = "down";
+            } else {
+                this.facingDirection = "up";
             }
-        } else { //No movement.
-            this.standingStill = true;
+        } else if ( xDir != 0) {
+
+            if (xDir > 0) { //Moved to the left
+                this.facingDirection = "left";
+            } else { //Moved to the right
+                this.facingDirection = "right";
+            }
         }
     };
 
