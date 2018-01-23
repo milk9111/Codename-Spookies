@@ -25,7 +25,7 @@ class Projectile extends Entity {
 
         this.isKilling = true;
         this.numOfAnimationLoops = 0;
-        this.maxAnimationLoopsBeforeRemoval = 2;
+        this.maxAnimationLoopsBeforeRemoval = 5;
     }
 
 

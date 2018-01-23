@@ -49,7 +49,12 @@ class Player extends Entity {
         this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
         this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
-        this.fireBallSpellAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 32, 32 * 15, 32, 32, 0.9,  1, true, false);
+        this.fireBallSpellDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 0, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 1, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 2, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 3, 64, 64, 0.1,  3, true, false);
+        this.currentSpellAnimation = null;
+
 
         this.walkingSound = ASSET_MANAGER.getAsset("../snd/footstep1.wav");
         this.walkingSoundId = this.walkingSound.id;
@@ -174,32 +179,35 @@ class Player extends Entity {
 
         if (castSuccessful) {
             castSuccessful = false;
-            this.fireBallSpellAnimation.elapsedTime = 0;
-            let animation = this.fireBallSpellAnimation;
-
             let newX = this.x;
             let newY = this.y;
-            switch (facingDirection) {
+            switch(facingDirection) {
                 case 1:
-                    newX += 16;
+                    newX += 14;
                     newY -= 20;
+                    this.currentSpellAnimation = this.fireBallSpellForwardAnimation;
                     break;
                 case 2:
-                    newX += 16;
+                    newX -= 10;
                     newY += 32;
+                    this.currentSpellAnimation = this.fireBallSpellDownwardAnimation;
                     break;
                 case 3:
-                    newY += 16;
+                    //newY += 16;
+                    newX -= 20;
+                    this.currentSpellAnimation = this.fireBallSpellLeftAnimation;
                     break;
                 case 4:
                     newX += 32;
-                    newY += 16;
+                    //newY += 16;
+                    this.currentSpellAnimation = this.fireBallSpellRightAnimation;
                     break;
                 default:
                     break;
             }
+            this.currentSpellAnimation.elapsedTime = 0;
 
-            let spell = new Projectile(this.game, animation, facingDirection, newX, newY);
+            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY);
             this.game.addEntity(spell);
             ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }
