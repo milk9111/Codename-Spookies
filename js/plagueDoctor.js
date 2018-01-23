@@ -20,10 +20,10 @@ class PlagueDoctor extends Enemy {
         this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWLA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/EWR.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWRA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.facingDirection = "down";
-        this.standingStill = true;
+        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EAD.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
         this.notifySoundId = null;
+
     };
 
     /**
@@ -34,6 +34,7 @@ class PlagueDoctor extends Enemy {
 
       let lastX = this.x;
       let lastY = this.y;
+      this.attacking = false;
 
       //Check if aggroed on the player.
       if (this.isPlayerInRange()) {
@@ -41,15 +42,19 @@ class PlagueDoctor extends Enemy {
               this.notifySoundId = this.notifySound.play();
               this.notifySound.fade(0.0, 0.3, 1000);
           }
-
-          let xDir = this.player.x - this.x;
-          let yDir = this.player.y - this.y;
-          if (Math.abs(xDir) > Math.abs(yDir)) {
-              this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
-              this.x = this.unroundedX;
-          } else {
-              this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
-              this.y = this.unroundedY;
+          // not close enough to attack.
+          if(Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 100) {
+              let xDir = this.player.x - this.x;
+              let yDir = this.player.y - this.y;
+              if (Math.abs(xDir) > Math.abs(yDir)) {
+                  this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
+                  this.x = this.unroundedX;
+              } else {
+                  this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
+                  this.y = this.unroundedY;
+              }
+          } else { //stand still and attack.
+              this.attacking = true;
           }
       } else {
           //console.log("in here");
@@ -61,24 +66,7 @@ class PlagueDoctor extends Enemy {
       let xDir = lastX - this.x;
       let yDir = lastY - this.y;
 
-      if (xDir !== 0 || yDir !== 0) {
-        this.standingStill = false;
-        if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
-          if (xDir > 0) { //Moved to the left
-            this.facingDirection = "left";
-          } else { //Moved to the right
-            this.facingDirection = "right";
-          }
-        } else { //Greater movement in y direction or an equal change.
-          if (yDir < 0) {
-            this.facingDirection = "down";
-          } else {
-            this.facingDirection = "up";
-          }
-        }
-      } else { //No movement.
-        this.standingStill = true;
-      }
+      super.setFacingDirection(xDir,yDir);
       //check if it needs to be drawn and change x and y if necessary for map movement.
       super.update();
     };
@@ -89,9 +77,10 @@ class PlagueDoctor extends Enemy {
      * @author James Roberts
      */
     draw(ctx) {
-
       if (this.isDraw) {
-        if(this.standingStill) {
+        if(this.attacking) {
+            this.attack(ctx);
+        } else if(this.standingStill) {
             this.standStill(ctx);
         } else {
             this.walking(ctx);
@@ -100,6 +89,29 @@ class PlagueDoctor extends Enemy {
 
     };
 
+    /**
+     * Draws the appropriate attack animation.
+     *
+     * @param ctx
+     * @author James Roberts
+     */
+    attack(ctx) {
+        switch(this.facingDirection) {
+            case "down":
+                this.attackAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                break;
+            case "up":
+                this.attackAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                break;
+            case "left":
+                this.attackAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                break;
+            case "right":
+                this.attackAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                break;
+        }
+
+    };
     /**
      * Draws the appropriate idle animation.
      *
@@ -133,6 +145,7 @@ class PlagueDoctor extends Enemy {
         switch(this.facingDirection) {
             case "down":
                 if(this.isPlayerInRange()) {
+                    console.log("in here");
                     this.walkAnimationDownAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 } else {
                     this.walkAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);

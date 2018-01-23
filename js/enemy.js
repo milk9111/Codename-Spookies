@@ -15,12 +15,39 @@ class Enemy extends Entity {
         this.isDraw = false;
         this.speed = speed || 0.5;
         this.range = range || 100;
-
+        this.facingDirection = "down";
+        this.standingStill = true;
+        this.attacking = false;
         //Speed at which character moves with map
         this.mapSpeedX = 2;
         this.mapSpeedY = 2;
-    }
+    };
 
+    /**
+     * Sets the facing direction of the enemy based on the change in it's x and y positions
+     * @param xDir lastX-newX
+     * @param yDir lastY - newY
+     */
+    setFacingDirection(xDir, yDir) {
+        if (xDir !== 0 || yDir !== 0) {
+            this.standingStill = false;
+            if (Math.abs(xDir) > Math.abs(yDir)) { //Greater movement in x direction.
+                if (xDir > 0) { //Moved to the left
+                    this.facingDirection = "left";
+                } else { //Moved to the right
+                    this.facingDirection = "right";
+                }
+            } else { //Greater movement in y direction or an equal change.
+                if (yDir < 0) {
+                    this.facingDirection = "down";
+                } else {
+                    this.facingDirection = "up";
+                }
+            }
+        } else { //No movement.
+            this.standingStill = true;
+        }
+    };
 
     /**
      * Is the player in range?

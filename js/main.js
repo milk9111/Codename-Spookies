@@ -273,6 +273,7 @@ ASSET_MANAGER.queueDownload("../img/EWL.png");
 ASSET_MANAGER.queueDownload("../img/EWR.png");
 ASSET_MANAGER.queueDownload("../img/EWLA.png");
 ASSET_MANAGER.queueDownload("../img/EWRA.png");
+ASSET_MANAGER.queueDownload("../img/EAD.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
