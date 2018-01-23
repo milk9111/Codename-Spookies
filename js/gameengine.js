@@ -298,11 +298,18 @@ GameEngine.prototype.loop = function () {
 //es6 version of Entity.
 class Entity {
 
-    constructor(game, x, y) {
+    constructor(game, x, y, hasCollision, frameWidth, frameHeight) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.removeFromWorld = false;
+        this.collisionBounds = null;
+        if (hasCollision) {
+            let collisionX = this.x - (frameWidth / 2);
+            let collisionY = this.y - (frameHeight / 2);
+            let radius = ((frameWidth / 2) - (frameHeight / 2)) - collisionX;
+            this.collisionBounds = {radius: radius, x: collisionX, y: collisionY};
+        }
     }
 
 

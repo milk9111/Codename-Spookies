@@ -44,7 +44,7 @@ class ObjectMap {
               txt[i][j] === 'X' ||
               txt[i][j] === 'Y') {
             //Potion (x, y, type, player)
-            this.map2D[i][j] = new Potion(spriteW * j, spriteH * i, txt[i][j], player);
+            this.map2D[i][j] = new Potion(spriteW * j, spriteH * i, txt[i][j], player, game);
           } else if (txt[i][j] === 'p'){
             this.map2D[i][j] = new PlagueDoctor(game, player,spriteW * j, spriteH * i);
           } else if (charCode >= 90 && charCode <= 122) {

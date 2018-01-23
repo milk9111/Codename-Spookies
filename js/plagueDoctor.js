@@ -145,7 +145,7 @@ class PlagueDoctor extends Enemy {
         switch(this.facingDirection) {
             case "down":
                 if(this.isPlayerInRange()) {
-                    console.log("in here");
+                    //console.log("in here");
                     this.walkAnimationDownAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 } else {
                     this.walkAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);

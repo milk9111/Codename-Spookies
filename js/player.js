@@ -14,7 +14,7 @@ class Player extends Entity {
 
     constructor(game) {
 
-        super(game, game.surfaceWidth/2, game.surfaceHeight/2); //(0, 400) signify where the sprite will be drawn.
+        super(game, game.surfaceWidth/2, game.surfaceHeight/2, true, game.surfaceWidth, game.surfaceHeight); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
