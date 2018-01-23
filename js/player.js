@@ -76,8 +76,6 @@ class Player extends Entity {
         //this.castSuccessful = false;
         this.raising = false;
         this.shooting = false;
-        this.radius = 100;
-        this.ground = 418;
         this.currentSpell = fireSpell;
 
         this.spellCombo = "";
@@ -397,14 +395,6 @@ class Player extends Entity {
         else if (this.casting) {
             this.castSpell(ctx);
         }
-        else if (castSuccessful) {
-            /*console.log("animating fireball");
-
-            this.fireBallSpellAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
-            if (this.fireBallSpellAnimation.isDone()) {
-                castSuccessful = false;
-            }*/
-        }
         else {
             this.standStill(ctx);
         }
@@ -455,6 +445,8 @@ class Player extends Entity {
             this.castSpellRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         }
     }
+
+
     standStill(ctx) {
         if (facingDirection === 1) {
             this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
@@ -492,13 +484,11 @@ class Player extends Entity {
                     this.spellCombo += String.fromCharCode(this.game.keys[currCode].code);
                     let currPos = this.spellCombo.length;
                     if (this.spellCombo !== this.currentSpell.substring(0, currPos)) {
-                        console.log("Spell failed");
                         this.spellCombo = "";
                         this.casting = false;
                         castSuccessful = false;
                         break;
                     } else if (this.spellCombo === this.currentSpell) {
-                        console.log("Spell passed");
                         this.spellCombo = "";
                         this.casting = false;
                         castSuccessful = true;
@@ -511,6 +501,17 @@ class Player extends Entity {
         }
     }
 
+
+    /**
+     * This function will look at the player's collision bounds to see if it ever
+     * reaches the edge of the map. If so, then the player doesn't move. This will
+     * save collision checking with all of the edge tiles.
+     *
+     * @author Connor Lundberg
+     */
+    collidedWithMapBounds() {
+        let left = this.collisionBounds.x - this.collisionBounds.radius;
+    }
 }
 
 

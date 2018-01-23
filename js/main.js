@@ -338,6 +338,7 @@ ASSET_MANAGER.downloadAll(function() {
     }
   }
 
+  gameEngine.addEntity(player);
   //Add Enemies to map
   for (let i = 0; i < objectMap.map2D.length; i++) {
     for (let j = 0; j < objectMap.map2D[i].length; j++) {
@@ -352,8 +353,6 @@ ASSET_MANAGER.downloadAll(function() {
   ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
   //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
 
-
-  gameEngine.addEntity(player);
   gameEngine.addEntity(darkness);
 
   //START GAME
