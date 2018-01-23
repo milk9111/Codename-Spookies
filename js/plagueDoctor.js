@@ -9,21 +9,23 @@ class PlagueDoctor extends Enemy {
     constructor(gameEngine, player, x, y, speed=1.5, range=250) {
         super( gameEngine, player, x, y, speed, range);
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EnemyDownward.png"), 0, 0, 64, 64, 0.5, 3, true, false);
-        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/EUI.png"),0,0,64,64,0.5,2,true,false);
-        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/EnemyIdleRight.png"), 0, 0, 64, 64, 0.5, 3, true, false);
-        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/EnemyIdleLeft.png"), 0, 0, 64, 64, 0.5, 3, true, false);
-        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/EUpWalk.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EWalkD.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWDAgro.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/EWL.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWLA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/EWR.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/EWRA.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/EAD.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/EAU.png"), 0, 0, 64, 64, 0.2, 1, true, false);
-        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/EAL.png"), 0, 0, 64, 64, 0.2, 4, true, false);
-        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/EAR.png"), 0, 0, 64, 64, 0.2, 4, true, false);
+        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 384, 64, 64, 0.5, 3, true, false);
+        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"),0,192,64,64,0.5,2,true,false);
+        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 256, 64, 64, 0.5, 3, true, false);
+        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 320, 64, 64, 0.5, 3, true, false);
+        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 448, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 512, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 576, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 640, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 704, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 768, 64, 64, 0.2, 4, true, false);
+        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 832, 64, 64, 0.2, 4, true, false);
+        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 0, 64, 64, 0.2, 4, true, false);
+        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 128, 192, 64, 64, 0.2, 1, true, false);
+        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 64, 64, 64, 0.2, 4, true, false);
+        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 4, true, false);
+        this.DeathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 896, 64, 64, 0.2, 4, true, false);
+        this.DeathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 960, 64, 64, 0.2, 4, true, false);
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
         this.notifySoundId = null;
 
