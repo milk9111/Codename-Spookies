@@ -14,15 +14,22 @@
 //es6 version of Entity.
 class Entity {
 
-    constructor(game, x, y, hasCollision, frameWidth, frameHeight, name) {
+    constructor(game, x, y, hasCollision, frameWidth, frameHeight, boundsXOffset, boundsYOffset, name) {
         this.game = game;
         this.x = x;
         this.y = y;
+        this.boundsXOffset = null;
+        this.boundsYOffset = null;
         this.removeFromWorld = false;
         this.collisionBounds = null;
         this.name = name;
         if (hasCollision) {
-            this.collisionBounds = {width: frameWidth, height: frameHeight, x: this.x, y: this.y};
+            this.boundsXOffset = boundsXOffset;
+            this.boundsYOffset = boundsYOffset;
+
+            let boundsX = this.x + this.boundsXOffset;
+            let boundsY = this.y + this.boundsYOffset;
+            this.collisionBounds = {width: frameWidth, height: frameHeight, x: boundsX, y: boundsY};
             console.log(this.name + " collision bounds x: " + this.collisionBounds.x + ", collision bounds y: " + this.collisionBounds.y);
         }
     }
@@ -31,8 +38,8 @@ class Entity {
     update () {
         //update bounds position
         if (this.collisionBounds !== null) {
-            this.collisionBounds.x = this.x;
-            this.collisionBounds.y = this.y;
+            this.collisionBounds.x = this.x + this.boundsXOffset;
+            this.collisionBounds.y = this.y + this.boundsYOffset;
         }
     }
 

@@ -5,7 +5,7 @@
 class Enemy extends Entity {
 
     constructor(gameEngine, player, x, y, speed, range) {
-        super(gameEngine, x, y, true, 64, 64, "enemy");
+        super(gameEngine, x, y, true, 64, 64, 0, 0, "enemy");
         this.game = gameEngine;
         this.player = player;
         this.x = x || 200;

@@ -15,7 +15,7 @@ class Projectile extends Entity {
 
         console.log("making new projectile");
 
-        super(game, startX, startY, true, 64, 64, "projectile"); //(0, 400) signify where the sprite will be drawn.
+        super(game, startX, startY, true, 64, 64, 0, 0, "projectile"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
