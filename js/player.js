@@ -13,7 +13,7 @@ let castSuccessful = false;
 class Player extends Entity {
 
     constructor(game) {
-        super(game, game.surfaceWidth/2, game.surfaceHeight/2, true, 32, 64, 16, 0, "player"); //(0, 400) signify where the sprite will be drawn.
+        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 32, 64, 16, 0, "player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -102,6 +102,8 @@ class Player extends Entity {
             console.log("Q pressed");
             this.casting = true;
         }*/
+        let collisionDirections = this.hasCollided();
+
 
         if (this.game.cast && !this.casting) {
             if (!this.chargingSpellSound.playing(this.chargingSpellSoundId)) {
@@ -365,6 +367,8 @@ class Player extends Entity {
         super.update(this);
 
     }
+
+
     /**
      * Here the corresponding movement direction (as chosen in Player.prototype.update) will
      * start the animation for that action. If no movement is going, it will go to the idle
@@ -375,16 +379,16 @@ class Player extends Entity {
      */
     draw(ctx) {
         if (this.walkingRight) {
-            this.walkRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.walkRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (this.walkingLeft) {
-            this.walkLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.walkLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (this.walkingForward) {
-            this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.walkForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (this.walkingDownward) {
-            this.walkDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.walkDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (this.shooting) {
             this.shootBolt(ctx);
@@ -407,74 +411,74 @@ class Player extends Entity {
 
     shootBolt(ctx) {
         if (facingDirection === 1) {
-            this.shootBoltForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.shootBoltForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 2) {
-            this.shootBoltDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.shootBoltDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 3) {
-            this.shootBoltLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.shootBoltLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
-            this.shootBoltRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.shootBoltRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
 
     raiseShield(ctx) {
         if (facingDirection === 1) {
-            this.raiseShieldForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.raiseShieldForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 2) {
-            this.raiseShieldDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.raiseShieldDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 3) {
-            this.raiseShieldLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.raiseShieldLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
-            this.raiseShieldRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.raiseShieldRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
 
     castSpell(ctx) {
         if (facingDirection === 1) {
-            this.castSpellForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.castSpellForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 2) {
-            this.castSpellDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.castSpellDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 3) {
-            this.castSpellLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.castSpellLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
-            this.castSpellRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.castSpellRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
 
 
     standStill(ctx) {
         if (facingDirection === 1) {
-            this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         } else if (facingDirection === 2) {
-            this.idleAnimationDownward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.idleAnimationDownward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         } else if (facingDirection === 3) {
-            this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         } else {
-            this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
 
     swingSword(ctx) {
         if (facingDirection === 1) {
-            this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 2) {
-            this.swingDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.swingDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 3) {
-            this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
-            this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+            this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
 
@@ -516,4 +520,34 @@ class Player extends Entity {
     collidedWithMapBounds() {
         let left = this.collisionBounds.x - this.collisionBounds.radius;
     }
+
+
+    /**
+     * This function checks if the player has collided with any objects, if so, then return
+     * true on the first occurence.
+     *
+     * @returns {boolean}
+     * @author Connor Lundberg
+     */
+    hasCollided() {
+        let collided = null;
+        for (let i = 0; i < this.game.entities.length; i++) {
+            let currEntity = this.game.entities[i];
+
+            if (currEntity.collisionBounds !== null && this !== currEntity) {
+                let collisionInfo = Entity.intersects(this, currEntity);
+                if (collisionInfo.collision) {
+                    collided = collisionInfo;
+                    console.log("Player hit " + currEntity.name + " on this side: " + collisionInfo.object1CollidingSide);
+                    currEntity.colliderBoxColor = "green";
+                    break;
+                } else if (currEntity.colliderColor === "green") {
+                    currEntity.colliderBoxColor = "red";
+                }
+            }
+        }
+
+        return collided;
+    }
+
 }

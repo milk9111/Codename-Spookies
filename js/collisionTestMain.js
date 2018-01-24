@@ -55,11 +55,11 @@ Animation.prototype.drawFrame = function (game, tick, ctx, x, y, scale) {
                 vindex = 0;
             }
             ctx.drawImage(this.spriteSheet,
-                          index * this.frameWidth + offset, vindex * this.frameHeight + this.startY,  // source from sheet
-                          this.frameWidth, this.frameHeight,
-                          locX, locY,
-                          this.frameWidth * scaleBy,
-                          this.frameHeight * scaleBy);
+                index * this.frameWidth + offset, vindex * this.frameHeight + this.startY,  // source from sheet
+                this.frameWidth, this.frameHeight,
+                locX, locY,
+                this.frameWidth * scaleBy,
+                this.frameHeight * scaleBy);
         } else {
             if (index === (this.frames - 1) && game.moving) {
                 index = originalFrame;
@@ -104,8 +104,8 @@ function flipSpriteHorizontally(ctx, img, x, y, spriteX, spriteY, spriteW, sprit
     // draw the img
     // no need for x,y since we've already translated
     ctx.drawImage(img,
-                spriteX,spriteY,spriteW,spriteH,0,0,spriteW,spriteH
-               );
+        spriteX,spriteY,spriteW,spriteH,0,0,spriteW,spriteH
+    );
 
     // always clean up -- reset transformations to default
     ctx.setTransform(1,0,0,1,0,0);
@@ -140,11 +140,11 @@ Animation.prototype.isDone = function () {
 }
 
 class Background extends Entity
- {
-     constructor (game) {
-         super(game, 0, 400);
-         this.radius = 200;
-     }
+{
+    constructor (game) {
+        super(game, 0, 400);
+        this.radius = 200;
+    }
 
     update ()  {
     }
@@ -197,12 +197,6 @@ class Darkness extends Entity  {
 }
 
 
-function drawDarkness() {
-    console.log("Calling drawDarkness, checkbox value: " + document.getElementById('darknessCheck').checked);
-    darkness.drawing = document.getElementById('darknessCheck').checked;
-}
-
-
 function drawOutlines() {
     console.log("Calling drawOutlines, checkbox value: " + document.getElementById('collisionCheck').checked);
     gameEngine.drawing = document.getElementById('collisionCheck').checked;
@@ -243,100 +237,43 @@ ASSET_MANAGER.queueDownload("../snd/charging_spell.flac", {sound:true, volume: 0
 ASSET_MANAGER.downloadAll(function() {
 
 
-  let canvas = document.getElementById('gameWorld');
-  let ctx = canvas.getContext('2d');
+    let canvas = document.getElementById('gameWorld');
+    let ctx = canvas.getContext('2d');
 
-  document.getElementById('darknessCheck').checked = false;
-  document.getElementById('collisionCheck').checked = true;
+    document.getElementById('collisionCheck').checked = true;
 
-  //LOAD ENTIIES
-  //start facing downwards.
-  facingDirection = 2;
-  gameEngine = new GameEngine();
-  gameEngine.drawing = document.getElementById('collisionCheck').checked;
+    //LOAD ENTIIES
+    //start facing downwards.
+    facingDirection = 2;
+    gameEngine = new GameEngine();
+    gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-  let player = new Player(gameEngine);
+    let player = new Player(gameEngine);
+    gameEngine.addEntity(player);
 
-  //Load tile map
-  let tileMap = new TileMap();
-  tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
+    let temp = new Tile(canvas.width / 2 + 20, canvas.height / 2, 'E', gameEngine, player, ctx);
+    gameEngine.addEntity(temp);
 
-  //Load ObejctMap
-  let objectMap = new ObjectMap();
-  objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
+    //START GAME
+    gameEngine.init(ctx);
+    player.x = (gameEngine.surfaceWidth / 2 - 32);
+    player.y = (gameEngine.surfaceHeight / 2 - 32);
+    playerStartX = (gameEngine.surfaceWidth / 2 - 32);
+    playerStartY = (gameEngine.surfaceHeight / 2 - 32);
+    console.log(player.x + ", " + player.y);
 
-
-  let bg = new Background(gameEngine);
-  darkness = new Darkness(gameEngine);
-  darkness.drawing = document.getElementById('darknessCheck').checked;
-
-  //ADD ENTITIES
-  //gameEngine.addEntity(bg);
-
-  //Add tiles
-  for (let i = 0; i < tileMap.map2D.length; i++) {
-    for (let j = 0; j < tileMap.map2D[i].length; j++) {
-
-      let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
-      gameEngine.addEntity(temp);
-    }
-  }
-
-  //Add Objects to map
-  for (let i = 0; i < objectMap.map2D.length; i++) {
-    for (let j = 0; j < objectMap.map2D[i].length; j++) {
-
-      //Add Potions
-      if (objectMap.map2D[i][j] instanceof Potion) {
-        //Potion (x, y, type, player)
-        let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
-        gameEngine.addEntity(temp);
-
-        //Add Tile
-      } else if (objectMap.map2D[i][j] instanceof Tile) {
-        let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, gameEngine, player, ctx);
-        gameEngine.addEntity(temp);
-      }
-    }
-  }
-
-  gameEngine.addEntity(player);
-  //Add Enemies to map
-  for (let i = 0; i < objectMap.map2D.length; i++) {
-    for (let j = 0; j < objectMap.map2D[i].length; j++) {
-
-      //Add Plague Doctor
-      if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
-        let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
-        gameEngine.addEntity(temp);
-      }
-    }
-  }
-  ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
-  //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
-
-  gameEngine.addEntity(darkness);
-
-  //START GAME
-  gameEngine.init(ctx);
-  player.x = (gameEngine.surfaceWidth / 2 - 32);
-  player.y = (gameEngine.surfaceHeight / 2 - 32);
-  playerStartX = (gameEngine.surfaceWidth / 2 - 32);
-  playerStartY = (gameEngine.surfaceHeight / 2 - 32);
-  console.log(player.x + ", " + player.y);
-
-  gameEngine.start();
+    gameEngine.start();
 });
 
 /** Re-maps a number from one range to another.
-*@param {int} value Incoming value to be converted
-*@param {int} low1 Lower bound of the value's current range
-*@param {int} high1 High bound of hte value's current range
-*@param {int} low2 Lower bound of the value's target range
-*@param {int} high2 Higher bound of the value's target range
-*@return New valuw map to new range
-*@author p5.js, basically ripped it off from there, since can't use CDN.
-*/
+ *@param {int} value Incoming value to be converted
+ *@param {int} low1 Lower bound of the value's current range
+ *@param {int} high1 High bound of hte value's current range
+ *@param {int} low2 Lower bound of the value's target range
+ *@param {int} high2 Higher bound of the value's target range
+ *@return New valuw map to new range
+ *@author p5.js, basically ripped it off from there, since can't use CDN.
+ */
 function map(value, low1, high1, low2, high2) {
-  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }

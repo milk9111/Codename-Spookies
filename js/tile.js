@@ -56,11 +56,11 @@ class Tile extends Entity{
 
 
       //Check collisionBounds
-      if (this.collisionBounds != null) {
+      /*if (this.collisionBounds != null) {
         if (super.intersects(this.player, this)) {
           console.log("COLLISION");
         }
-    }
+    }*/
 
     } else {
       this.isDraw = false;
