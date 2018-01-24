@@ -209,6 +209,10 @@ class Player extends Entity {
             ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }
 
+        if (this.collide) {
+          console.log("Hitting Tiles");
+        }
+
         if (this.walkingRight) {
             //Stop player from moving off screen right
             if (!this.offRight) {
@@ -334,25 +338,25 @@ class Player extends Entity {
 
 
         //Control Bounds
-        if (this.x > $("#gameWorld").width() - 150 && this.walkingRight) {
+        if (this.x > $("#gameWorld").width() - 250 && this.walkingRight) {
             this.offRight = true;
         } else {
             this.offRight = false;
         }
 
-        if (this.x <  150 && this.walkingLeft) {
+        if (this.x <  250 && this.walkingLeft) {
             this.offLeft = true;
         } else {
             this.offLeft = false;
         }
 
-        if (this.y <  150 && this.walkingForward) {
+        if (this.y <  250 && this.walkingForward) {
             this.offTop = true;
         } else {
             this.offTop = false;
         }
 
-        if (this.y > $("#gameWorld").height() - 150 && this.walkingDownward) {
+        if (this.y > $("#gameWorld").height() - 250 && this.walkingDownward) {
             this.offBottom = true;
         } else {
             this.offBottom = false;
@@ -513,5 +517,3 @@ class Player extends Entity {
         let left = this.collisionBounds.x - this.collisionBounds.radius;
     }
 }
-
-

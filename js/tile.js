@@ -11,7 +11,7 @@ class Tile extends Entity{
    *@param {canvas} ctx Refrence to canvas
    */
   constructor(x, y, type, game, player, ctx) {
-    super(game, x, y, false, 0, 0);
+    super(game, x, y, false, 32, 32, 16, 0, "Tile");
     this.x = x;
     this.y = y;
     this.ctx = ctx;
@@ -19,13 +19,21 @@ class Tile extends Entity{
     this.game = game;
     this.player = player;
     this.isDraw = false;
-    this.barrier = false;
 
+    //If has collision
     if (type === 'E' ||
         type === 'F' ||
         type === 'G' ||
-        type === 'H') {
-          this.barrier = true;
+        type === 'H' ||
+        type === '3') {
+
+        this.boundsXOffset = 0;
+        this.boundsYOffset = 0;
+
+        let boundsX = this.x + this.boundsXOffset;
+        let boundsY = this.y + this.boundsYOffset;
+
+        this.collisionBounds = {width: 32, height: 32, x: boundsX, y: boundsY};
         }
 
     this.speedX = 2;
@@ -37,6 +45,7 @@ class Tile extends Entity{
 
   /** Updates a tile */
   update() {
+    super.update();
 
     //Get distance from tile to player
     let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
@@ -44,6 +53,15 @@ class Tile extends Entity{
     //If close to player then draw, else don't draw
     if (distance < 305) {
       this.isDraw = true;
+
+
+      //Check collisionBounds
+      if (this.collisionBounds != null) {
+        if (super.intersects(this.player, this)) {
+          console.log("COLLISION");
+        }
+    }
+
     } else {
       this.isDraw = false;
     }
@@ -58,12 +76,15 @@ class Tile extends Entity{
     } else if (this.player.offBottom) {
       this.y -= this.speedY;
     }
+
+
   }
 
 /** Draws the Tile on the canvas
  * @param {canvas} ctx Canvas Reference
  */
 draw(ctx) {
+  super.draw(ctx);
     //(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 
     if (this.isDraw) {

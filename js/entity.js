@@ -80,6 +80,34 @@ class Entity {
         return this.removeFromWorld;
     }
 
+    /** Checks if two objects with collision are intersecting, works only
+    *with rectangle collision boxes
+    *@param {Entity} object1 Object 1 to check
+    *@param {Entity} object2 Object 2 to check
+    *@return {Bool} If two objects are intersecting
+    */
+    intersects  (object1, object2) {
+
+      //If one of the objects has no collision then it can't intersect
+      if (object1.collisionBounds == null || object2.collisionBounds == null) {
+        return false;
+      }
+
+      let p1X = object1.collisionBounds.x;
+      let p1Y = object1.collisionBounds.y;
+
+      let p2X = object1.collisionBounds.x + object1.collisionBounds.width;
+      let p2Y = object1.collisionBounds.y + object1.collisionBounds.height;
+
+      let p3X = object2.collisionBounds.x;
+      let p3Y = object2.collisionBounds.y;
+
+      let p4X =  object2.collisionBounds.x + object2.collisionBounds.width;
+      let p4Y =  object2.collisionBounds.y + object2.collisionBounds.height
+
+      return !( p2Y < p3Y || p1Y > p4Y || p2X < p3X || p1X > p4X );
+    }
+
 
     rotateAndCache  (image, angle) {
         var offscreenCanvas = document.createElement('canvas');
