@@ -171,6 +171,11 @@ class Darkness extends Entity  {
         this.height = 1500;
         this.offSetSin = 0;
         this.newVal = 0;
+        this.isDrawing = true;
+    }
+
+    set drawing (isDrawing) {
+        this.isDrawing = isDrawing;
     }
 
     update () {
@@ -184,12 +189,18 @@ class Darkness extends Entity  {
     }
 
     draw (ctx) {
-        ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
-        Entity.prototype.draw.call(this);
+        if (this.isDrawing) {
+            ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+            Entity.prototype.draw.call(this);
+        }
     }
 }
 
 
+function drawDarkness() {
+    console.log("Calling drawDarkness, checkbox value: " + document.getElementById('darknessCheck').checked);
+    darkness.drawing = document.getElementById('darknessCheck').checked;
+}
 
 
 function LightSource(game) {
@@ -280,8 +291,10 @@ ASSET_MANAGER.downloadAll(function() {
   var canvas = document.getElementById('gameWorld');
   var ctx = canvas.getContext('2d');
 
+    document.getElementById('darknessCheck').checked = true;
+
   //LOAD ENTIIES
-  //start facing backwards.
+  //start facing downwards.
   facingDirection = 2;
   var gameEngine = new GameEngine();
   var player = new Player(gameEngine, player);
@@ -297,6 +310,7 @@ ASSET_MANAGER.downloadAll(function() {
 
   var bg = new Background(gameEngine);
   darkness = new Darkness(gameEngine);
+  darkness.drawing = document.getElementById('darknessCheck').checked;
 
   //ADD ENTITIES
   //gameEngine.addEntity(bg);
