@@ -77,6 +77,8 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
 
+        this.blockedDirection = 0;
+
         this.spellCombo = "";
 
         //If moving off screen
@@ -102,7 +104,13 @@ class Player extends Entity {
             console.log("Q pressed");
             this.casting = true;
         }*/
-        let collisionDirections = this.hasCollided();
+        let collisionOccured = this.hasCollided();
+
+        if (collisionOccured) {
+            this.blockedDirection = facingDirection;
+        } else {
+            this.blockedDirection = 0;
+        }
 
 
         if (this.game.cast && !this.casting) {
@@ -113,7 +121,7 @@ class Player extends Entity {
         }
 
         if (!this.casting) {
-            if (this.game.keys["KeyD"].pressed) {
+            if (this.game.keys["KeyD"].pressed && this.blockedDirection !== 4) {
                 facingDirection = 4;
                 this.walkingRight = true;
             } else {
@@ -121,7 +129,7 @@ class Player extends Entity {
                 this.walkingRight = false;
             }
 
-            if (this.game.keys["KeyA"].pressed) {
+            if (this.game.keys["KeyA"].pressed && this.blockedDirection !== 3) {
                 facingDirection = 3;
                 this.walkingLeft = true;
             } else {
@@ -129,7 +137,7 @@ class Player extends Entity {
                 this.walkingLeft = false;
             }
 
-            if (this.game.keys["KeyW"].pressed) {
+            if (this.game.keys["KeyW"].pressed && this.blockedDirection !== 1) {
                 facingDirection = 1;
                 this.walkingForward = true;
             } else {
@@ -137,7 +145,7 @@ class Player extends Entity {
                 this.walkingForward = false;
             }
 
-            if (this.game.keys["KeyS"].pressed) {
+            if (this.game.keys["KeyS"].pressed && this.blockedDirection !== 2) {
                 facingDirection = 2;
                 this.walkingDownward = true;
             } else {
@@ -537,7 +545,7 @@ class Player extends Entity {
             if (currEntity.collisionBounds !== null && this !== currEntity) {
                 let collisionInfo = Entity.intersects(this, currEntity);
                 if (collisionInfo.collision) {
-                    collided = collisionInfo;
+                    collided = true;
                     console.log("Player hit " + currEntity.name + " on this side: " + collisionInfo.object1CollidingSide);
                     currEntity.colliderBoxColor = "green";
                     break;
