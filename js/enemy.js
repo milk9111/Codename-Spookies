@@ -5,7 +5,7 @@
 class Enemy extends Entity {
 
     constructor(gameEngine, player, x, y, speed, range) {
-        super(gameEngine, x, y, true, gameEngine.surfaceWidth, gameEngine.surfaceHeight);
+        super(gameEngine, x, y, true, 64, 64, "enemy");
         this.game = gameEngine;
         this.player = player;
         this.x = x || 200;
@@ -85,13 +85,16 @@ class Enemy extends Entity {
       this.unroundedY -= this.mapSpeedY;
     }
 
+    Entity.prototype.update.call(this);
   };
 
     draw(ctx) {
 
-      if (this.isDraw) {
+      /*if (this.isDraw) {
         ctx.fillStyle = (this.isPlayerInRange()) ? 'red' : 'green';
         ctx.fillRect(this.x, this.y, 50, 50);
-      }
+      }*/
+
+        Entity.prototype.draw.call(this);
     };
 }

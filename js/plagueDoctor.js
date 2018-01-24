@@ -101,6 +101,7 @@ class PlagueDoctor extends Enemy {
         }
       }
 
+      super.draw(this.game.ctx);
     };
 
     /**

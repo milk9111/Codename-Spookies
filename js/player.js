@@ -14,7 +14,7 @@ class Player extends Entity {
 
     constructor(game) {
 
-        super(game, game.surfaceWidth/2, game.surfaceHeight/2, true, game.surfaceWidth, game.surfaceHeight); //(0, 400) signify where the sprite will be drawn.
+        super(game, game.surfaceWidth/2, game.surfaceHeight/2, true, 64, 64, "player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -398,6 +398,7 @@ class Player extends Entity {
         else {
             this.standStill(ctx);
         }
+
         Entity.prototype.draw.call(this);
     }
 

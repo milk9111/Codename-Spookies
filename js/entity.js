@@ -14,33 +14,52 @@
 //es6 version of Entity.
 class Entity {
 
-    constructor(game, x, y, hasCollision, frameWidth, frameHeight) {
+    constructor(game, x, y, hasCollision, frameWidth, frameHeight, name) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.removeFromWorld = false;
         this.collisionBounds = null;
+        this.name = name;
         if (hasCollision) {
-            let collisionX = this.x - (frameWidth / 2);
-            let collisionY = this.y - (frameHeight / 2);
-            let radius = ((frameWidth / 2) - (frameHeight / 2)) - collisionX;
-            this.collisionBounds = {radius: radius, x: collisionX, y: collisionY};
+            this.collisionBounds = {width: frameWidth, height: frameHeight, x: this.x, y: this.y};
+            console.log(this.name + " collision bounds x: " + this.collisionBounds.x + ", collision bounds y: " + this.collisionBounds.y);
         }
     }
 
 
     update () {
-
+        //update bounds position
+        if (this.collisionBounds !== null) {
+            this.collisionBounds.x = this.x;
+            this.collisionBounds.y = this.y;
+        }
     }
 
 
     draw (ctx) {
-        if (this.game.showOutlines && this.radius) {
+        if (this.collisionBounds !== null && this.game.showOutlines) {
+            //console.log(this.name + " collision bounds x: " + this.collisionBounds.x + ", collision bounds y: " + this.collisionBounds.y);
+
+            this.game.ctx.save();
             this.game.ctx.beginPath();
             this.game.ctx.strokeStyle = "red";
-            this.game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+            this.game.ctx.moveTo(this.collisionBounds.x, this.collisionBounds.y);
+
+            this.game.ctx.lineTo(this.collisionBounds.x,
+                this.collisionBounds.y + this.collisionBounds.height);
+
+            this.game.ctx.lineTo(this.collisionBounds.x + this.collisionBounds.width,
+                this.collisionBounds.y + this.collisionBounds.height);
+
+            this.game.ctx.lineTo(this.collisionBounds.x + this.collisionBounds.width,
+                this.collisionBounds.y);
+
+            this.game.ctx.lineTo(this.collisionBounds.x, this.collisionBounds.y);
+
             this.game.ctx.stroke();
             this.game.ctx.closePath();
+            this.game.ctx.restore();
         }
     }
 

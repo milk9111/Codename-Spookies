@@ -203,68 +203,24 @@ function drawDarkness() {
 }
 
 
-function LightSource(game) {
-    this.game = game;
-    this.radius = 0;
+function drawOutlines() {
+    console.log("Calling drawOutlines, checkbox value: " + document.getElementById('collisionCheck').checked);
+    gameEngine.drawing = document.getElementById('collisionCheck').checked;
 }
 
-LightSource.prototype = Entity;
-LightSource.prototype.constructor = LightSource;
-LightSource.prototype.update = function () {
 
-
-}
-
-LightSource.prototype.draw = function(ctx) {
-    //console.log("in here");
-
-    //ctx.fillStyle = "White";
-    //ctx.strokeStyle = "Black";
-
-    // get the image data object
-    var image = ctx.getImageData(300, 300, 100, 100);
-    // get the image data values
-    var imageData = image.data,
-        length = imageData.length;
-    // set every fourth value to 50
-    for(var i=3; i < length; i+=4){
-        imageData[i] = 50;
-    }
-    // after the manipulation, reset the data
-    image.data = imageData;
-    // and put the imagedata back to the canvas
-    ctx.putImageData(image, 0, 0);
-
-    /*ctx.save();
-    ctx.beginPath();
-    ctx.globalAlpha = "0.75";
-    ctx.arc(100,75,50,0,2*Math.PI);
-
-    ctx.fill();
-
-    ctx.stroke();
-    ctx.restore();*/
-
-    /*ctx.beginPath();
-    ctx.arc(300, 300, 25, 300, 4*Math.PI);
-    ctx.opacity = "1.0";
-    ctx.fill();
-    ctx.stroke();*/
-
-    Entity.prototype.draw.call(this);
-}
-
-var darkness;
-var playerStartX;
-var playerStartY;
+let darkness;
+let playerStartX;
+let playerStartY;
+let gameEngine;
 
 //1 = forward, 2 = downward, 3 = left, 4 = right
-var facingDirection;
+let facingDirection;
 
 
 
 // the "main" code begins here
-var ASSET_MANAGER = new AssetManager();
+let ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
 //repeated onto the canvas through style.css
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
@@ -291,13 +247,16 @@ ASSET_MANAGER.downloadAll(function() {
   var canvas = document.getElementById('gameWorld');
   var ctx = canvas.getContext('2d');
 
-    document.getElementById('darknessCheck').checked = true;
+  document.getElementById('darknessCheck').checked = false;
+  document.getElementById('collisionCheck').checked = true;
 
   //LOAD ENTIIES
   //start facing downwards.
   facingDirection = 2;
-  var gameEngine = new GameEngine();
-  var player = new Player(gameEngine, player);
+  gameEngine = new GameEngine();
+  gameEngine.drawing = document.getElementById('collisionCheck').checked;
+
+  let player = new Player(gameEngine);
 
   //Load tile map
   let tileMap = new TileMap();
@@ -308,7 +267,7 @@ ASSET_MANAGER.downloadAll(function() {
   objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
 
 
-  var bg = new Background(gameEngine);
+  let bg = new Background(gameEngine);
   darkness = new Darkness(gameEngine);
   darkness.drawing = document.getElementById('darknessCheck').checked;
 

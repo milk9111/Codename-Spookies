@@ -11,7 +11,7 @@ class Potion extends Entity {
    *@param {Game} game Game refrence
    */
   constructor(x, y, type, player, game) {
-    super(game, x, y, true, game.surfaceWidth, game.surfaceHeight);
+    super(game, x, y, true, 32, 32, "potion");
     this.x = x;
     this.y = y;
     this.type = type;
@@ -47,6 +47,9 @@ class Potion extends Entity {
 
     //TODO: Add intersection of player here
 
+
+      Entity.prototype.update.call(this);
+
   }
 
   /** Draws the Potion on the canvas
@@ -66,6 +69,8 @@ class Potion extends Entity {
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 36, 32 * 23, 32, 32, this.x, this.y, 32, 32);
           break;
       }
+
+        Entity.prototype.draw.call(this);
     }
   }
 }
