@@ -99,7 +99,7 @@ class Player extends Entity {
      */
     update() {
         let totalDistance = 3;
-        
+
         let collisionOccurred = this.hasCollided();
 
         if (collisionOccurred) {

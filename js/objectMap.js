@@ -46,7 +46,9 @@ class ObjectMap {
             //Potion (x, y, type, player)
             this.map2D[i][j] = new Potion(spriteW * j, spriteH * i, txt[i][j], player, game);
           } else if (txt[i][j] === 'p'){
-            this.map2D[i][j] = new PlagueDoctor(game, player,spriteW * j, spriteH * i);
+            this.map2D[i][j] = new PlagueDoctor(game, player, spriteW * j, spriteH * i);
+          } else if (txt[i][j] === 's'){
+              this.map2D[i][j] = new Screamer(game, player, spriteW * j, spriteH * i);
           } else if (charCode >= 90 && charCode <= 122) {
             this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, txt[i][j], game, player, ctx);
           } else {

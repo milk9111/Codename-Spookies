@@ -1,16 +1,15 @@
 class Screamer extends Enemy {
     constructor(gameEngine, player, x, y, speed=2, range=250) {
         super( gameEngine, player, x, y, speed, range);
+        console.log("Making a screamer");
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 0, 64, 64, 0.5, 3, true, false);
-        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"),64,128,64,64,0.5,1,true,false);
+        this.idleAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 0, 64, 64, 0.5, 3, true, false);
 
         this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 64, 128, 64, 64, 0.2, 3, true, false);
-        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 192, 64, 64, 64, 0.2, 3, true, false);
+        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 192, 0, 64, 64, 0.2, 3, true, false);
 
         this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 192, 64, 64, 0.2, 3, true, false);
         this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 128, 64, 64, 64, 0.2, 3, true, false);
-
     };
 
     /**
@@ -61,10 +60,10 @@ class Screamer extends Enemy {
      * @author James Roberts
      */
     draw(ctx) {
-
+        //console.log("Inside Screamer's draw");
         if (this.isDraw) {
             if(this.attacking) {
-
+                this.attack(ctx);
             } else if(this.standingStill) {
                 this.standStill(ctx);
             } else {
@@ -107,16 +106,16 @@ class Screamer extends Enemy {
     standStill(ctx) {
         switch(this.facingDirection) {
             case "down":
-                this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "up":
-                this.idleAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "left":
-                this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "right":
-                this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
         }
 
