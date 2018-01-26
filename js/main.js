@@ -198,13 +198,11 @@ class Darkness extends Entity  {
 
 
 function drawDarkness() {
-    console.log("Calling drawDarkness, checkbox value: " + document.getElementById('darknessCheck').checked);
     darkness.drawing = document.getElementById('darknessCheck').checked;
 }
 
 
 function drawOutlines() {
-    console.log("Calling drawOutlines, checkbox value: " + document.getElementById('collisionCheck').checked);
     gameEngine.drawing = document.getElementById('collisionCheck').checked;
 }
 
@@ -246,10 +244,10 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-  document.getElementById('darknessCheck').checked = false;
-  document.getElementById('collisionCheck').checked = true;
+  document.getElementById('darknessCheck').checked = true;
+  document.getElementById('collisionCheck').checked = false;
 
-  //LOAD ENTIIES
+  //LOAD ENTITIES
   //start facing downwards.
   facingDirection = 2;
   gameEngine = new GameEngine();

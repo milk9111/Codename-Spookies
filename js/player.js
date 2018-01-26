@@ -13,7 +13,7 @@ let castSuccessful = false;
 class Player extends Entity {
 
     constructor(game) {
-        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 32, 64, 16, 0, "player"); //(0, 400) signify where the sprite will be drawn.
+        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 26, 58, 19, 4, "player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -99,14 +99,10 @@ class Player extends Entity {
      */
     update() {
         let totalDistance = 3;
+        
+        let collisionOccurred = this.hasCollided();
 
-        /*if (this.game.keys["KeyQ"].pressed && !this.casting) {
-            console.log("Q pressed");
-            this.casting = true;
-        }*/
-        let collisionOccured = this.hasCollided();
-
-        if (collisionOccured) {
+        if (collisionOccurred) {
             this.blockedDirection = facingDirection;
         } else {
             this.blockedDirection = 0;
@@ -227,7 +223,7 @@ class Player extends Entity {
             //Stop player from moving off screen right
             if (!this.offRight) {
                 let distance = totalDistance;
-                this.x = this.x + distance;
+                this.x += distance;
                 playerStartX = this.x - distance;
             }
         }
@@ -236,7 +232,7 @@ class Player extends Entity {
             //Stop player from going off left side of the screen
             if (!this.offLeft) {
                 let distance = totalDistance;
-                this.x = this.x - distance;
+                this.x -= distance;
                 playerStartX = this.x + distance;
             }
         }
@@ -245,7 +241,7 @@ class Player extends Entity {
             //Stop player from moving off screen from the top
             if(!this.offTop) {
                 let distance = totalDistance;
-                this.y = this.y - distance;
+                this.y -= distance;
                 playerStartY = this.y + distance;
             }
         }
@@ -254,7 +250,7 @@ class Player extends Entity {
             //Stop player from going off screen from the bottom
             if (!this.offBottom) {
                 let distance = totalDistance;
-                this.y = this.y + distance;
+                this.y += distance;
                 playerStartY = this.y - distance;
             }
         }
