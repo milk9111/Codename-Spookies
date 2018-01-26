@@ -114,6 +114,7 @@ class PlagueDoctor extends Enemy {
                 this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,4,this.x,this.y));
                 break;
         }
+
     };
     /**
      * Draws the character on the canvas.
