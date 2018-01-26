@@ -77,7 +77,8 @@ class PlagueDoctor extends Enemy {
               if(this.currentProjectile !== null) {
                   //console.log(this.currentProjectile.numOfAnimationLoops);
               }
-             if(this.currentProjectile === null || this.currentProjectile.numOfAnimationLoops >= 3) {
+             if(this.currentProjectile === null || this.currentProjectile.shootAnimation.timesFinished >= 4) {
+                  this.currentProjectile = null;
                   this.createSpell();
              }
           }
