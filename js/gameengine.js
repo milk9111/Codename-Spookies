@@ -247,6 +247,7 @@ class GameEngine {
 
         //This moves the entities (via their own update method)
         //console.log(entitiesCount);
+
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
 
@@ -257,10 +258,13 @@ class GameEngine {
                 removalPositions.push(i);
             }
         }
-
+        ///console.log("rmlen " + removalPositions.length);
         //This removes entities from the game world
         for (let i = removalPositions.length - 1; i >= 0; --i) {
             this.entities.splice(removalPositions[i], 1);
+        }
+        if(entitiesCount > this.entities.length) {
+            console.log("removal worked");
         }
     }
 

@@ -210,7 +210,7 @@ class Player extends Entity {
             }
             this.currentSpellAnimation.elapsedTime = 0;
 
-            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY);
+            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this);
             this.game.addEntity(spell);
             ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }

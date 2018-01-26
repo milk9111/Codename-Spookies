@@ -80,7 +80,7 @@ class Entity {
 
 
     set removal  (remove) {
-        console.log("Marking for removal");
+        //console.log("Marking for removal");
         this.removeFromWorld = remove;
     }
 
