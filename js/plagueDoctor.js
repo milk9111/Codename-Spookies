@@ -13,6 +13,7 @@ class PlagueDoctor extends Enemy {
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"),0,192,64,64,0.5,2,true,false);
         this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 256, 64, 64, 0.5, 3, true, false);
         this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 320, 64, 64, 0.5, 3, true, false);
+
         this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 448, 64, 64, 0.2, 4, true, false);
         this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 512, 64, 64, 0.2, 4, true, false);
         this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 576, 64, 64, 0.2, 4, true, false);
@@ -20,14 +21,23 @@ class PlagueDoctor extends Enemy {
         this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 704, 64, 64, 0.2, 4, true, false);
         this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 768, 64, 64, 0.2, 4, true, false);
         this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 832, 64, 64, 0.2, 4, true, false);
+
         this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 0, 64, 64, 0.2, 4, true, false);
         this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 128, 192, 64, 64, 0.2, 1, true, false);
         this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 64, 64, 64, 0.2, 4, true, false);
         this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 4, true, false);
+
+        this.spellAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 64, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 0, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 192, 64, 64, 0.2, 3, true, false);
+
+
         this.DeathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 896, 64, 64, 0.2, 4, true, false);
         this.DeathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 960, 64, 64, 0.2, 4, true, false);
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
         this.notifySoundId = null;
+        this.currentSpellAnimation = null;
 
     };
 
@@ -53,20 +63,19 @@ class PlagueDoctor extends Enemy {
               let xDir = this.player.x - this.x;
               let yDir = this.player.y - this.y;
               //Here we need to multiply the speed by the clock like in example
-              if (Math.abs(xDir) > 20) {
+              if (Math.abs(xDir) > 10) {
                   this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
                   this.x = this.unroundedX;
-              } else if (Math.abs(yDir) > 20){
+              } else if (Math.abs(yDir) > 10){
                   this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
                   this.y = this.unroundedY;
               }
           } else { //stand still and attack.
               this.standingStill = true;
               this.attacking = true;
-              //If not currently attacking readjust to face player.
-              if(this.attackAnimationDown.isDone() && this.attackAnimationLeft.isDone() && this.attackAnimationRight.isDone()
-                    && this.attackAnimationUp.isDone()) {
-                  //this is never true.
+              //console.log(this.currentSpellAnimation.isDone());
+              if(this.currentSpellAnimation === null || this.currentSpellAnimation.isDone()) {
+                  this.createSpell();
               }
           }
       } else {
@@ -85,6 +94,27 @@ class PlagueDoctor extends Enemy {
       super.update();
     };
 
+    createSpell() {
+        switch(this.facingDirection) {
+
+            case "down":
+                this.currentSpellAnimation = this.spellAnimationDown;
+                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,2,this.x,this.y));
+                break;
+            case "up":
+                this.currentSpellAnimation = this.spellAnimationUp;
+                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,1,this.x,this.y));
+                break;
+            case "left":
+                this.currentSpellAnimation = this.spellAnimationLeft;
+                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,3,this.x,this.y));
+                break;
+            case "right":
+                this.currentSpellAnimation = this.spellAnimationRight;
+                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,4,this.x,this.y));
+                break;
+        }
+    };
     /**
      * Draws the character on the canvas.
      * @param ctx
