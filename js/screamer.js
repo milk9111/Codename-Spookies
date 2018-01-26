@@ -25,7 +25,7 @@ class Screamer extends Enemy {
         if (this.isPlayerInRange()) {
 
             // not close enough to attack.
-            if(Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 10) {
+            if(Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 15) {
                 this.standingStill = false;
                 this.attacking = false;
                 let xDir = this.player.x - this.x;

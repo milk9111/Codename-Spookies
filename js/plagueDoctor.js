@@ -37,7 +37,7 @@ class PlagueDoctor extends Enemy {
         this.DeathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 960, 64, 64, 0.2, 4, true, false);
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
         this.notifySoundId = null;
-        this.currentSpellAnimation = null;
+        this.currentProjectile = null;
 
     };
 
@@ -74,9 +74,12 @@ class PlagueDoctor extends Enemy {
               this.standingStill = true;
               this.attacking = true;
               //console.log(this.currentSpellAnimation.isDone());
-              if(this.currentSpellAnimation === null || this.currentSpellAnimation.isDone()) {
-                  this.createSpell();
+              if(this.currentProjectile !== null) {
+                  //console.log(this.currentProjectile.numOfAnimationLoops);
               }
+             if(this.currentProjectile === null || this.currentProjectile.numOfAnimationLoops >= 3) {
+                  this.createSpell();
+             }
           }
       } else {
           this.standingStill = true;
@@ -95,25 +98,29 @@ class PlagueDoctor extends Enemy {
     };
 
     createSpell() {
+        let currentSpellAnimation = null;
+        let facingNum = 0;
         switch(this.facingDirection) {
 
             case "down":
-                this.currentSpellAnimation = this.spellAnimationDown;
-                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,2,this.x,this.y));
+                currentSpellAnimation = this.spellAnimationDown;
+                facingNum = 2;
                 break;
             case "up":
-                this.currentSpellAnimation = this.spellAnimationUp;
-                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,1,this.x,this.y));
+                currentSpellAnimation = this.spellAnimationUp;
+                facingNum = 1;
                 break;
             case "left":
-                this.currentSpellAnimation = this.spellAnimationLeft;
-                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,3,this.x,this.y));
+                currentSpellAnimation = this.spellAnimationLeft;
+                facingNum = 3;
                 break;
             case "right":
-                this.currentSpellAnimation = this.spellAnimationRight;
-                this.game.addEntity(new Projectile(this.game,this.currentSpellAnimation,4,this.x,this.y));
+                currentSpellAnimation = this.spellAnimationRight;
+                facingNum = 4;
                 break;
         }
+        this.currentProjectile = new Projectile(this.game, currentSpellAnimation,facingNum,this.x,this.y);
+        this.game.addEntity(this.currentProjectile);
 
     };
     /**
