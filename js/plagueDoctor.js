@@ -74,10 +74,13 @@ class PlagueDoctor extends Enemy {
               this.standingStill = true;
               this.attacking = true;
               //console.log(this.currentSpellAnimation.isDone());
-              if(this.currentProjectile !== null) {
-                  //console.log(this.currentProjectile.numOfAnimationLoops);
+              if(this.currentProjectile !== null
+                  && (this.currentProjectile.removeFromWorld
+                      || this.currentProjectile.shootAnimation.timesFinished >= 3)) {
+                  console.log("Can make new projectile");
+                  this.currentProjectile = null;
               }
-             if(this.currentProjectile === null || this.currentProjectile.numOfAnimationLoops >= 3) {
+             if(this.currentProjectile === null) {
                   this.createSpell();
              }
           }

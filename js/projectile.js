@@ -23,8 +23,6 @@ class Projectile extends Entity {
 
         this.facingDirection = direction;
 
-        this.isKilling = true;
-        this.numOfAnimationLoops = 0;
         this.maxAnimationLoopsBeforeRemoval = 5;
     }
 
