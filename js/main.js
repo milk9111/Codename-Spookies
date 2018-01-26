@@ -229,6 +229,7 @@ ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});

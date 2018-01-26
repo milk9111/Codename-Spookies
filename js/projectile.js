@@ -19,7 +19,7 @@ class Projectile extends Entity {
 
         this.game = game;
 
-        this.shootAnimation = animation
+        this.shootAnimation = animation;
 
         this.facingDirection = direction;
 
