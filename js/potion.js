@@ -19,6 +19,7 @@ class Potion extends Entity {
     this.isDraw = false;
     this.speedX = 2;
     this.speedY = 2;
+    this.boost = 25;
   }
 
   /** Updates a tile */
@@ -30,6 +31,18 @@ class Potion extends Entity {
     //If close to player then draw, else don't draw
     if (distance < 305) {
       this.isDraw = true;
+
+      //Check if player went over potion, and add health 
+      let check = Entity.intersects(this, this.player);
+      if (check.collision) {
+
+        if (this.player.health < 100) {
+          this.player.health += this.boost;
+          this.removeFromWorld = true;
+        }
+
+      }
+
     } else {
       this.isDraw = false;
     }
@@ -44,9 +57,6 @@ class Potion extends Entity {
     } else if (this.player.offBottom) {
       this.y -= this.speedY;
     }
-
-    //TODO: Add intersection of player here
-
 
       Entity.prototype.update.call(this);
 

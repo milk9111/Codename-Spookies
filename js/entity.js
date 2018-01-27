@@ -75,6 +75,11 @@ class Entity {
             this.game.ctx.stroke();
             this.game.ctx.closePath();
             this.game.ctx.restore();
+
+            if (this.swingBox != null) {
+              this.game.ctx.strokeStyle="#FF0000";
+              this.game.ctx.fillRect(this.swingBox.x,this.swingBox.y,this.swingBox.width,this.swingBox.height);
+            }
         }
     }
 

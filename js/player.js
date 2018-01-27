@@ -77,6 +77,11 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
 
+        this.health = 50;
+
+        //Hit Box for when the player swings at an enemey
+        this.swingBox = {width: 35, height: 35, x:  0, y:  0};
+
         this.blockedDirection = 0;
 
         this.spellCombo = "";
@@ -368,7 +373,17 @@ class Player extends Entity {
             this.offBottom = false;
         }
 
+        //Update the swing box if not swinging
+        if (!this.swinging) {
+          this.swingBox.x = this.x + 30;
+          this.swingBox.y = this.y + 30;
+          this.swingBox.height = 5;
+          this.swingBox.width = 5;
+        }
+
+
         super.update(this);
+
 
     }
 
@@ -473,15 +488,31 @@ class Player extends Entity {
 
     swingSword(ctx) {
         if (facingDirection === 1) {
+            this.swingBox.y = this.y - 35;
+            this.swingBox.x = this.x + 15;
+            this.swingBox.width = 35;
+            this.swingBox.height = 35;
             this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 2) {
+            this.swingBox.y = this.y + 50;
+            this.swingBox.x = this.x + 15;
+            this.swingBox.width = 35;
+            this.swingBox.height = 35;
             this.swingDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 3) {
+            this.swingBox.x = this.x - 16;
+            this.swingBox.y = this.y + 10;
+            this.swingBox.height = 35;
+            this.swingBox.width = 35;
             this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
+            this.swingBox.x = this.x + 40;
+            this.swingBox.height = 35;
+            this.swingBox.y = this.y + 10;
+            this.swingBox.width = 35;
             this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
