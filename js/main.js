@@ -165,11 +165,12 @@ class Background extends Entity
 
 class Darkness extends Entity  {
 
-    constructor (game) {
+    constructor (game, player) {
         super(game, game.surfaceWidth, game.surfaceHeight);
         this.width = 1500;
         this.height = 1500;
         this.offSetSin = 0;
+        this.player = player;
         this.newVal = 0;
         this.isDrawing = true;
     }
@@ -184,8 +185,14 @@ class Darkness extends Entity  {
         this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
         this.offSetSin += .05;
 
-        this.x = -(this.game.surfaceWidth) + playerStartX + 85;
-        this.y = -(this.game.surfaceHeight) + playerStartY + 85;
+        let offSet = map(this.player.health, 100, 0, 85, 800);
+
+        this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
+        this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
+
+        let tempWandH = map(this.player.health, 0, 100, 0, 1500);
+        this.width = tempWandH;
+        this.height = tempWandH;
     }
 
     draw (ctx) {
@@ -194,6 +201,31 @@ class Darkness extends Entity  {
             Entity.prototype.draw.call(this);
         }
     }
+}
+
+class DarknessOutline extends Darkness {
+
+  constructor(game, player) {
+    super(game, player);
+    this.x = -250;
+    this.y = -250;
+    this.width = 2500;
+    this.height = 2500;
+  }
+
+  update() {
+    // let xAndY = map(this.player.health, 100, 0, 0, 200);
+    // let wAndH = map(this.player.health, 100, 0, 0, 800);
+    // this.y = xAndY;
+    // this.x = xAndY;
+    // this.width = wAndH;
+    // this.height = wAndH;
+  }
+
+  draw(ctx) {
+      ctx.drawImage(ASSET_MANAGER.getAsset("../img/blackOutline.png"), this.x, this.y, this.width, this.height);
+      Entity.prototype.draw.call(this);
+  }
 }
 
 
@@ -224,6 +256,7 @@ let ASSET_MANAGER = new AssetManager();
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 //ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
+ASSET_MANAGER.queueDownload("../img/blackOutline.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
@@ -267,7 +300,9 @@ ASSET_MANAGER.downloadAll(function() {
 
 
   let bg = new Background(gameEngine);
-  darkness = new Darkness(gameEngine);
+  darkness = new Darkness(gameEngine, player);
+  //darknessOutline = new DarknessOutline(gameEngine, player);
+
   darkness.drawing = document.getElementById('darknessCheck').checked;
 
   //ADD ENTITIES
@@ -318,6 +353,7 @@ ASSET_MANAGER.downloadAll(function() {
   ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
   //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
 
+  //gameEngine.addEntity(darknessOutline);
   gameEngine.addEntity(darkness);
 
   //START GAME

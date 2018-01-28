@@ -77,7 +77,7 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
 
-        this.health = 50;
+        this.health = 100;
 
         //Hit Box for when the player swings at an enemey
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};
@@ -349,25 +349,27 @@ class Player extends Entity {
 
 
         //Control Bounds
-        if (this.x > $("#gameWorld").width() - 250 && this.walkingRight) {
+        let bounds = 350;
+
+        if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
         } else {
             this.offRight = false;
         }
 
-        if (this.x <  250 && this.walkingLeft) {
+        if (this.x <  bounds && this.walkingLeft) {
             this.offLeft = true;
         } else {
             this.offLeft = false;
         }
 
-        if (this.y <  250 && this.walkingForward) {
+        if (this.y <  bounds && this.walkingForward) {
             this.offTop = true;
         } else {
             this.offTop = false;
         }
 
-        if (this.y > $("#gameWorld").height() - 250 && this.walkingDownward) {
+        if (this.y > $("#gameWorld").height() - bounds && this.walkingDownward) {
             this.offBottom = true;
         } else {
             this.offBottom = false;
