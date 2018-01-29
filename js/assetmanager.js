@@ -5,6 +5,7 @@ class AssetManager {
         this.errorCount = 0;
         this.cache = [];
         this.downloadQueue = [];
+        this.soundIds = [];
     }
 
     queueDownload(path, options={sound: false}) {
@@ -64,6 +65,22 @@ class AssetManager {
 
     getAsset(path) {
         return this.cache[path];
+    }
+
+    playSound(path) {
+        if(this.soundIds[path]) {
+            //We'll only play the sound if it hasn't already played.
+            if(!this.cache[path].playing(this.soundIds[path])) {
+                console.log("Playing: " + path);
+                this.soundIds[path] = this.cache[path].play();
+            } else {
+                //Already playing sound, just avoid it entirely
+            }
+        } else {
+            console.log("Playing: " + path);
+            this.soundIds[path] = this.cache[path].play();
+        }
+        return this.soundIds[path];
     }
 
 }

@@ -43,8 +43,10 @@ class PlagueDoctor extends Enemy {
       //Check if aggroed on the player.
       if (this.isPlayerInRange()) {
           if (this.notifySoundId === null) {
-              this.notifySoundId = this.notifySound.play();
+              this.notifySoundId = ASSET_MANAGER.playSound("../snd/whispers.wav");
               this.notifySound.fade(0.0, 0.3, 1000);
+          } else {
+              ASSET_MANAGER.playSound("../snd/whispers.wav");
           }
           // not close enough to attack.
           if(Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 100) {
