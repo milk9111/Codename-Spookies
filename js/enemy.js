@@ -18,6 +18,7 @@ class Enemy extends Entity {
         this.facingDirection = "down";
         this.standingStill = true;
         this.attacking = false;
+        this.dead = false;
         //Speed at which character moves with map
         this.mapSpeedX = 2;
         this.mapSpeedY = 2;

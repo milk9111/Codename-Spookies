@@ -11,20 +11,20 @@
  */
 class Projectile extends Entity {
 
-    constructor(game, animation, direction, startX, startY) {
+    constructor(game, animation, direction, startX, startY, player) {
 
-        console.log("making new projectile");
+        //console.log("making new projectile");
 
         super(game, startX, startY, true, 64, 64, 0, 0, "projectile"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
-        this.shootAnimation = animation
+        this.shootAnimation = animation;
 
         this.facingDirection = direction;
 
-        this.isKilling = true;
-        this.numOfAnimationLoops = 0;
+        this.player = player;
+
         this.maxAnimationLoopsBeforeRemoval = 5;
     }
 
@@ -36,8 +36,8 @@ class Projectile extends Entity {
      */
     update() {
         if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
-            console.log("started Killing process");
-            super.removal = true;
+            //console.log("started Killing process");
+            super.removeFromWorld = true;
             this.shootAnimation.timesFinished = 0;
         }
 
@@ -67,7 +67,23 @@ class Projectile extends Entity {
                 return;
         }
 
-        Entity.prototype.update.call(this);
+        //Controls the map movement on/off screen
+        if (this.player.offRight) {
+            this.x -= this.mapSpeedX;
+            this.unroundedX -= this.mapSpeedX;
+        } else if (this.player.offLeft) {
+            this.x += this.mapSpeedX;
+            this.unroundedX += this.mapSpeedX;
+        } else if (this.player.offTop) {
+            this.y += this.mapSpeedY;
+            this.unroundedY += this.mapSpeedY;
+        } else if (this.player.offBottom) {
+            this.y -= this.mapSpeedY;
+            this.unroundedY -= this.mapSpeedY;
+        }
+
+        super.update();
+        //Entity.prototype.update.call(this);
 
     }
 

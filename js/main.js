@@ -165,11 +165,12 @@ class Background extends Entity
 
 class Darkness extends Entity  {
 
-    constructor (game) {
+    constructor (game, player) {
         super(game, game.surfaceWidth, game.surfaceHeight);
         this.width = 1500;
         this.height = 1500;
         this.offSetSin = 0;
+        this.player = player;
         this.newVal = 0;
         this.isDrawing = true;
     }
@@ -184,8 +185,14 @@ class Darkness extends Entity  {
         this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
         this.offSetSin += .05;
 
-        this.x = -(this.game.surfaceWidth) + playerStartX + 85;
-        this.y = -(this.game.surfaceHeight) + playerStartY + 85;
+        let offSet = map(this.player.health, 100, 0, 85, 800);
+
+        this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
+        this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
+
+        let tempWandH = map(this.player.health, 0, 100, 0, 1500);
+        this.width = tempWandH;
+        this.height = tempWandH;
     }
 
     draw (ctx) {
@@ -196,15 +203,38 @@ class Darkness extends Entity  {
     }
 }
 
+class DarknessOutline extends Darkness {
+
+  constructor(game, player) {
+    super(game, player);
+    this.x = -250;
+    this.y = -250;
+    this.width = 2500;
+    this.height = 2500;
+  }
+
+  update() {
+    // let xAndY = map(this.player.health, 100, 0, 0, 200);
+    // let wAndH = map(this.player.health, 100, 0, 0, 800);
+    // this.y = xAndY;
+    // this.x = xAndY;
+    // this.width = wAndH;
+    // this.height = wAndH;
+  }
+
+  draw(ctx) {
+      ctx.drawImage(ASSET_MANAGER.getAsset("../img/blackOutline.png"), this.x, this.y, this.width, this.height);
+      Entity.prototype.draw.call(this);
+  }
+}
+
 
 function drawDarkness() {
-    console.log("Calling drawDarkness, checkbox value: " + document.getElementById('darknessCheck').checked);
     darkness.drawing = document.getElementById('darknessCheck').checked;
 }
 
 
 function drawOutlines() {
-    console.log("Calling drawOutlines, checkbox value: " + document.getElementById('collisionCheck').checked);
     gameEngine.drawing = document.getElementById('collisionCheck').checked;
 }
 
@@ -226,11 +256,14 @@ let ASSET_MANAGER = new AssetManager();
 //ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
 //ASSET_MANAGER.queueDownload("../img/Player_Box.png");
 ASSET_MANAGER.queueDownload("../img/blackness.png");
+ASSET_MANAGER.queueDownload("../img/blackOutline.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
 ASSET_MANAGER.queueDownload("../img/light2.png");
 ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
@@ -246,10 +279,10 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-  document.getElementById('darknessCheck').checked = false;
-  document.getElementById('collisionCheck').checked = true;
+  document.getElementById('darknessCheck').checked = true;
+  document.getElementById('collisionCheck').checked = false;
 
-  //LOAD ENTIIES
+  //LOAD ENTITIES
   //start facing downwards.
   facingDirection = 2;
   gameEngine = new GameEngine();
@@ -267,7 +300,9 @@ ASSET_MANAGER.downloadAll(function() {
 
 
   let bg = new Background(gameEngine);
-  darkness = new Darkness(gameEngine);
+  darkness = new Darkness(gameEngine, player);
+  //darknessOutline = new DarknessOutline(gameEngine, player);
+
   darkness.drawing = document.getElementById('darknessCheck').checked;
 
   //ADD ENTITIES
@@ -309,12 +344,16 @@ ASSET_MANAGER.downloadAll(function() {
       if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
         let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
         gameEngine.addEntity(temp);
+      } else if (objectMap.map2D[i][j] instanceof Screamer) {
+          let temp = new Screamer(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+          gameEngine.addEntity(temp);
       }
     }
   }
   ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
   //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
 
+  //gameEngine.addEntity(darknessOutline);
   gameEngine.addEntity(darkness);
 
   //START GAME

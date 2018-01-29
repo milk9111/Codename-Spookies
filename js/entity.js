@@ -37,7 +37,6 @@ class Entity {
             let boundsX = this.x + this.boundsXOffset;
             let boundsY = this.y + this.boundsYOffset;
             this.collisionBounds = {width: frameWidth, height: frameHeight, x: boundsX, y: boundsY};
-            console.log(this.name + " collision bounds x: " + this.collisionBounds.x + ", collision bounds y: " + this.collisionBounds.y);
         }
     }
 
@@ -56,7 +55,6 @@ class Entity {
 
     draw (ctx) {
         if (this.collisionBounds !== null && this.game.showOutlines) {
-            //console.log(this.name + " collision bounds x: " + this.collisionBounds.x + ", collision bounds y: " + this.collisionBounds.y);
 
             this.game.ctx.save();
             this.game.ctx.beginPath();
@@ -77,12 +75,17 @@ class Entity {
             this.game.ctx.stroke();
             this.game.ctx.closePath();
             this.game.ctx.restore();
+
+            if (this.swingBox != null) {
+              this.game.ctx.strokeStyle="#FF0000";
+              this.game.ctx.fillRect(this.swingBox.x,this.swingBox.y,this.swingBox.width,this.swingBox.height);
+            }
         }
     }
 
 
     set removal  (remove) {
-        console.log("Marking for removal");
+        //console.log("Marking for removal");
         this.removeFromWorld = remove;
     }
 

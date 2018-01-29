@@ -13,7 +13,7 @@ let castSuccessful = false;
 class Player extends Entity {
 
     constructor(game) {
-        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 32, 64, 16, 0, "player"); //(0, 400) signify where the sprite will be drawn.
+        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 26, 58, 19, 4, "player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -77,6 +77,11 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
 
+        this.health = 100;
+
+        //Hit Box for when the player swings at an enemey
+        this.swingBox = {width: 35, height: 35, x:  0, y:  0};
+
         this.blockedDirection = 0;
 
         this.spellCombo = "";
@@ -100,13 +105,9 @@ class Player extends Entity {
     update() {
         let totalDistance = 3;
 
-        /*if (this.game.keys["KeyQ"].pressed && !this.casting) {
-            console.log("Q pressed");
-            this.casting = true;
-        }*/
-        let collisionOccured = this.hasCollided();
+        let collisionOccurred = this.hasCollided();
 
-        if (collisionOccured) {
+        if (collisionOccurred) {
             this.blockedDirection = facingDirection;
         } else {
             this.blockedDirection = 0;
@@ -214,7 +215,7 @@ class Player extends Entity {
             }
             this.currentSpellAnimation.elapsedTime = 0;
 
-            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY);
+            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this);
             this.game.addEntity(spell);
             ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }
@@ -227,7 +228,7 @@ class Player extends Entity {
             //Stop player from moving off screen right
             if (!this.offRight) {
                 let distance = totalDistance;
-                this.x = this.x + distance;
+                this.x += distance;
                 playerStartX = this.x - distance;
             }
         }
@@ -236,7 +237,7 @@ class Player extends Entity {
             //Stop player from going off left side of the screen
             if (!this.offLeft) {
                 let distance = totalDistance;
-                this.x = this.x - distance;
+                this.x -= distance;
                 playerStartX = this.x + distance;
             }
         }
@@ -245,7 +246,7 @@ class Player extends Entity {
             //Stop player from moving off screen from the top
             if(!this.offTop) {
                 let distance = totalDistance;
-                this.y = this.y - distance;
+                this.y -= distance;
                 playerStartY = this.y + distance;
             }
         }
@@ -254,7 +255,7 @@ class Player extends Entity {
             //Stop player from going off screen from the bottom
             if (!this.offBottom) {
                 let distance = totalDistance;
-                this.y = this.y + distance;
+                this.y += distance;
                 playerStartY = this.y - distance;
             }
         }
@@ -348,31 +349,43 @@ class Player extends Entity {
 
 
         //Control Bounds
-        if (this.x > $("#gameWorld").width() - 250 && this.walkingRight) {
+        let bounds = 350;
+
+        if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
         } else {
             this.offRight = false;
         }
 
-        if (this.x <  250 && this.walkingLeft) {
+        if (this.x <  bounds && this.walkingLeft) {
             this.offLeft = true;
         } else {
             this.offLeft = false;
         }
 
-        if (this.y <  250 && this.walkingForward) {
+        if (this.y <  bounds && this.walkingForward) {
             this.offTop = true;
         } else {
             this.offTop = false;
         }
 
-        if (this.y > $("#gameWorld").height() - 250 && this.walkingDownward) {
+        if (this.y > $("#gameWorld").height() - bounds && this.walkingDownward) {
             this.offBottom = true;
         } else {
             this.offBottom = false;
         }
 
+        //Update the swing box if not swinging
+        if (!this.swinging) {
+          this.swingBox.x = this.x + 30;
+          this.swingBox.y = this.y + 30;
+          this.swingBox.height = 5;
+          this.swingBox.width = 5;
+        }
+
+
         super.update(this);
+
 
     }
 
@@ -477,15 +490,31 @@ class Player extends Entity {
 
     swingSword(ctx) {
         if (facingDirection === 1) {
+            this.swingBox.y = this.y - 35;
+            this.swingBox.x = this.x + 15;
+            this.swingBox.width = 35;
+            this.swingBox.height = 35;
             this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 2) {
+            this.swingBox.y = this.y + 50;
+            this.swingBox.x = this.x + 15;
+            this.swingBox.width = 35;
+            this.swingBox.height = 35;
             this.swingDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else if (facingDirection === 3) {
+            this.swingBox.x = this.x - 16;
+            this.swingBox.y = this.y + 10;
+            this.swingBox.height = 35;
+            this.swingBox.width = 35;
             this.swingLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
+            this.swingBox.x = this.x + 40;
+            this.swingBox.height = 35;
+            this.swingBox.y = this.y + 10;
+            this.swingBox.width = 35;
             this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
