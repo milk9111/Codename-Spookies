@@ -279,8 +279,8 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-  document.getElementById('darknessCheck').checked = true;
-  document.getElementById('collisionCheck').checked = false;
+  document.getElementById('darknessCheck').checked = false;
+  document.getElementById('collisionCheck').checked = true;
 
   //LOAD ENTITIES
   //start facing downwards.
@@ -354,6 +354,7 @@ ASSET_MANAGER.downloadAll(function() {
   //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
 
   //gameEngine.addEntity(darknessOutline);
+    player.darkness = darkness;
   gameEngine.addEntity(darkness);
 
   //START GAME

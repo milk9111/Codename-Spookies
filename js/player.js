@@ -82,9 +82,11 @@ class Player extends Entity {
         //Hit Box for when the player swings at an enemey
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};
 
-        this.blockedDirection = 0;
+        this.blockedDirection = [false, false, false, false, false];
 
         this.spellCombo = "";
+
+        this.darkness = null;
 
         //If moving off screen
         this.offRight = false;
@@ -92,6 +94,26 @@ class Player extends Entity {
         this.offTop = false;
         this.offBottom = false;
     }
+
+
+    static adjacentCollisionsAlready(blockedDirection) {
+        let result = false;
+        for (let i = 1; i < blockedDirection.length; i++) {
+            if (blockedDirection[i]) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+
+    static clear (blockedDirection) {
+        for (let i = 1; i < blockedDirection.length; i++) {
+            blockedDirection[i] = false;
+        }
+    }
+
 
     /**
      * Here the Player will decide what direction they're moving towards next.
@@ -108,9 +130,21 @@ class Player extends Entity {
         let collisionOccurred = this.hasCollided();
 
         if (collisionOccurred) {
-            this.blockedDirection = facingDirection;
+            //if (this.blockedDirection[facingDirection] === false && !Player.adjacentCollisionsAlready(this.blockedDirection)) {
+                this.blockedDirection[facingDirection] = true;
+                switch (facingDirection) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            //}
         } else {
-            this.blockedDirection = 0;
+            Player.clear(this.blockedDirection);
         }
 
 
@@ -122,7 +156,7 @@ class Player extends Entity {
         }
 
         if (!this.casting) {
-            if (this.game.keys["KeyD"].pressed && this.blockedDirection !== 4) {
+            if (this.game.keys["KeyD"].pressed && this.blockedDirection[4] !== true) {
                 facingDirection = 4;
                 this.walkingRight = true;
             } else {
@@ -130,7 +164,7 @@ class Player extends Entity {
                 this.walkingRight = false;
             }
 
-            if (this.game.keys["KeyA"].pressed && this.blockedDirection !== 3) {
+            if (this.game.keys["KeyA"].pressed && this.blockedDirection[3] !== true) {
                 facingDirection = 3;
                 this.walkingLeft = true;
             } else {
@@ -138,7 +172,7 @@ class Player extends Entity {
                 this.walkingLeft = false;
             }
 
-            if (this.game.keys["KeyW"].pressed && this.blockedDirection !== 1) {
+            if (this.game.keys["KeyW"].pressed && this.blockedDirection[1] !== true) {
                 facingDirection = 1;
                 this.walkingForward = true;
             } else {
@@ -146,7 +180,7 @@ class Player extends Entity {
                 this.walkingForward = false;
             }
 
-            if (this.game.keys["KeyS"].pressed && this.blockedDirection !== 2) {
+            if (this.game.keys["KeyS"].pressed && this.blockedDirection[2] !== true) {
                 facingDirection = 2;
                 this.walkingDownward = true;
             } else {
@@ -575,7 +609,7 @@ class Player extends Entity {
                 let collisionInfo = Entity.intersects(this, currEntity);
                 if (collisionInfo.collision) {
                     collided = true;
-                    console.log("Player hit " + currEntity.name + " on this side: " + collisionInfo.object1CollidingSide);
+                    this.offsetPlayerPosition(currEntity);
                     currEntity.colliderBoxColor = "green";
                     break;
                 } else if (currEntity.colliderColor === "green") {
@@ -586,5 +620,42 @@ class Player extends Entity {
 
         return collided;
     }
+
+
+    /**
+     * Changes the player's position so their collision box isn't inside of the collided object.
+     * If weird bouncing or incorrect collision box positioning starts to happen, this is probably
+     * the cause.
+     *
+     * @param currEntity
+     * @author Connor Lundberg
+     */
+    offsetPlayerPosition(currEntity) {
+        switch (facingDirection) {
+            case 1:
+                this.collisionBounds.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
+                this.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
+                this.darkness.update();
+                break;
+            case 2:
+                this.collisionBounds.y = currEntity.collisionBounds.y - this.collisionBounds.height - 4;
+                this.y = currEntity.collisionBounds.y - this.collisionBounds.height - 4;
+                this.darkness.update();
+                break;
+            case 3:
+                this.collisionBounds.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
+                this.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
+                this.darkness.update();
+                break;
+            case 4:
+                this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 18;
+                this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 18;
+                this.darkness.update();
+                break;
+        }
+    }
+
+
+
 
 }
