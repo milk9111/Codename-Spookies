@@ -7,7 +7,7 @@ class PlagueDoctor extends Enemy {
      * @author James Roberts
      */
     constructor(gameEngine, player, x, y, speed=1.5, range=250) {
-        super( gameEngine, player, x, y, speed, range);
+        super( gameEngine, player, x, y, speed, range,32,64,16,0);
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 384, 64, 64, 0.5, 3, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"),0,192,64,64,0.5,2,true,false);
@@ -71,7 +71,8 @@ class PlagueDoctor extends Enemy {
                     this.attacking = false;
                     let xDir = this.player.x - this.x;
                     let yDir = this.player.y - this.y;
-                    //Here we need to multiply the speed by the clock like in example
+                    //Here we need to multiply the speed by the clock like in example, this is where collision checking
+                    //needs to happen since it is the only place where enemies move.
                     if (Math.abs(xDir) > 10) {
                         this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
                         this.x = this.unroundedX;
