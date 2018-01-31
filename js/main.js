@@ -356,6 +356,7 @@ ASSET_MANAGER.downloadAll(function() {
   }
   ASSET_MANAGER.playSound("../snd/wyrm.mp3");
   ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
+  ASSET_MANAGER.toggleSound();
 
   //gameEngine.addEntity(darknessOutline);
     player.darkness = darkness;
