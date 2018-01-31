@@ -6,6 +6,7 @@ class AssetManager {
         this.cache = [];
         this.downloadQueue = [];
         this.soundIds = [];
+        this.soundDisabled = false;
     }
 
     queueDownload(path, options={sound: false}) {
@@ -83,7 +84,16 @@ class AssetManager {
         return this.soundIds[path];
     }
 
+    toggleSound() {
+        this.soundDisabled = !this.soundDisabled;
+        for(let asset in this.soundIds) {
+            Howler.mute(this.soundDisabled, this.soundIds[asset]);
+        }
+    }
+
 }
+
+
 
 function object(o) {
     function F() {}

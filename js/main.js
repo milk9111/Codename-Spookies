@@ -238,6 +238,10 @@ function drawOutlines() {
     gameEngine.drawing = document.getElementById('collisionCheck').checked;
 }
 
+function toggleSound() {
+    ASSET_MANAGER.toggleSound();
+}
+
 
 let darkness;
 let playerStartX;
@@ -350,8 +354,8 @@ ASSET_MANAGER.downloadAll(function() {
       }
     }
   }
-  ASSET_MANAGER.getAsset("../snd/wyrm.mp3").play();
-  //ASSET_MANAGER.getAsset("../snd/heartbeat.mp3").play();
+  ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+  ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
 
   //gameEngine.addEntity(darknessOutline);
     player.darkness = darkness;
