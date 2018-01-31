@@ -96,7 +96,7 @@ class Entity {
 
     /**
      * This function checks if the player has collided with any objects, if so, then return
-     * true on the first occurence.
+     * true on the first occurrence.
      *
      * @returns {boolean}
      * @author Connor Lundberg
@@ -106,10 +106,9 @@ class Entity {
         for (let i = 0; i < this.game.entities.length; i++) {
             let currEntity = this.game.entities[i];
 
-            if (currEntity.collisionBounds !== null && this !== currEntity) {
-                let collisionInfo = Entity.intersects(this, currEntity);
-                if (collisionInfo.collision) {
-                    collided = true;
+            if (currEntity.collisionBounds !== null && this !== currEntity && this.collisionBounds !== null) {
+                collided = Math.intersects(this, currEntity);
+                if (collided) {
                     this.collidedObject = currEntity;
                     this.onCollide(currEntity);
                     currEntity.colliderBoxColor = "green";
@@ -144,24 +143,7 @@ class Entity {
         return false;
       }
 
-      let p1X = object1.collisionBounds.x;
-      let p1Y = object1.collisionBounds.y;
-
-      let p2X = object1.collisionBounds.x + object1.collisionBounds.width;
-      let p2Y = object1.collisionBounds.y + object1.collisionBounds.height;
-
-      let p3X = object2.collisionBounds.x;
-      let p3Y = object2.collisionBounds.y;
-
-      let p4X =  object2.collisionBounds.x + object2.collisionBounds.width;
-      let p4Y =  object2.collisionBounds.y + object2.collisionBounds.height;
-
-      let bottomHitATop = p2Y < p3Y;
-      let topHitABottom = p1Y > p4Y;
-      let rightHitALeft = p2X < p3X;
-      let leftHitARight = p1X > p4X;
-
-      let hasCollided = !( bottomHitATop || topHitABottom || rightHitALeft || leftHitARight );
+      let hasCollided = Math.intersectsAtY(object1, object2) || Math.intersectsAtX(object1, object2);
 
       /*
         This part is a bit complicated. If their wasn't a collision then we want to set the CURRENT
@@ -173,15 +155,15 @@ class Entity {
         the markers, and return a true collision.
        */
       if (!hasCollided) {
-          Entity.setCollisionMarkers(object1, object2, bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
+          // Entity.setCollisionMarkers(object1, object2, bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           return {collision: false};
       } else {
           //console.log(object1.name +" collided with " + object2.name);
-          let collidingSide1 = object1.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
-          let collidingSide2 = object2.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
+          // let collidingSide1 = object1.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
+          // let collidingSide2 = object2.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           //object1.resetCollisionMarkers();
           //object2.resetCollisionMarkers(); //try removing these resets if collisions don't work.
-          return {collision: true, object1CollidingSide: collidingSide1, object2CollidingSide: collidingSide2};
+          return {collision: true};
       }
     }
 
@@ -250,16 +232,16 @@ class Entity {
 
 
     onCollide(other) {
-        console.log("x: " + this.x + " y: " + "lx: " + this.lastX + " ly: " + this.lastY);
-        if(this.x < other.x + other.collisionBounds.width || this.x + this.collisionBounds.width > other.x) {
+        if(Math.intersectsAtX(this, other)) {
             this.x = this.lastX;
         }
-        if(this.y < other.y + other.collisionBounds.height || this.y + this.collisionBounds.height > other.y) {
+        if(Math.intersectsAtY(this, other)) {
             this.y = this.lastY;
         }
 
-
     }
+
+
 
 
     rotateAndCache  (image, angle) {
