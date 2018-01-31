@@ -238,6 +238,12 @@ class Entity {
         if(Math.intersectsAtY(this, other)) {
             this.y = this.lastY;
         }
+        if(this instanceof Player) {
+            console.log("Collided while map was moving");
+            if(this.offRight) this.x -= 2;
+
+        }
+
 
     }
 
