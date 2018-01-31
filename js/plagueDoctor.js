@@ -66,7 +66,7 @@ class PlagueDoctor extends Enemy {
                     ASSET_MANAGER.playSound("../snd/whispers.wav");
                 }
                 // not close enough to attack.
-                if (Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 100) {
+                if (Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 200) {
                     this.standingStill = false;
                     this.attacking = false;
                     let xDir = this.player.x - this.x;
@@ -133,7 +133,7 @@ class PlagueDoctor extends Enemy {
                 facingNum = 4;
                 break;
         }
-        this.currentProjectile = new Projectile(this.game, currentSpellAnimation,facingNum,spellX,spellY,this.player);
+        this.currentProjectile = new Projectile(this.game, currentSpellAnimation,facingNum,spellX,spellY,this.player, this);
         this.game.addEntity(this.currentProjectile);
 
     };

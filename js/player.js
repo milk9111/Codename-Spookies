@@ -13,7 +13,7 @@ let castSuccessful = false;
 class Player extends Entity {
 
     constructor(game) {
-        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 26, 58, 19, 4, "player"); //(0, 400) signify where the sprite will be drawn.
+        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 26, 58, 19, 4, "Player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -130,21 +130,15 @@ class Player extends Entity {
         let collisionOccurred = this.hasCollided();
 
         if (collisionOccurred) {
-            //if (this.blockedDirection[facingDirection] === false && !Player.adjacentCollisionsAlready(this.blockedDirection)) {
+            if (this.collidedObject.name === "Projectile") {
+                this.collidedObject.removal = true;
+            } else {
                 this.blockedDirection[facingDirection] = true;
-                switch (facingDirection) {
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                }
-            //}
+                this.offsetPlayerPosition(this.collidedObject);
+            }
         } else {
             Player.clear(this.blockedDirection);
+            this.collidedObject = null;
         }
 
 
@@ -249,13 +243,9 @@ class Player extends Entity {
             }
             this.currentSpellAnimation.elapsedTime = 0;
 
-            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this);
+            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
             this.game.addEntity(spell);
             ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
-        }
-
-        if (this.collide) {
-          console.log("Hitting Tiles");
         }
 
         if (this.walkingRight) {
@@ -383,7 +373,7 @@ class Player extends Entity {
 
 
         //Control Bounds
-        let bounds = 350;
+        let bounds = 0;
 
         if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
@@ -593,33 +583,7 @@ class Player extends Entity {
     }
 
 
-    /**
-     * This function checks if the player has collided with any objects, if so, then return
-     * true on the first occurence.
-     *
-     * @returns {boolean}
-     * @author Connor Lundberg
-     */
-    hasCollided() {
-        let collided = null;
-        for (let i = 0; i < this.game.entities.length; i++) {
-            let currEntity = this.game.entities[i];
 
-            if (currEntity.collisionBounds !== null && this !== currEntity) {
-                let collisionInfo = Entity.intersects(this, currEntity);
-                if (collisionInfo.collision) {
-                    collided = true;
-                    this.offsetPlayerPosition(currEntity);
-                    currEntity.colliderBoxColor = "green";
-                    break;
-                } else if (currEntity.colliderColor === "green") {
-                    currEntity.colliderBoxColor = "red";
-                }
-            }
-        }
-
-        return collided;
-    }
 
 
     /**
@@ -635,23 +599,23 @@ class Player extends Entity {
             case 1:
                 this.collisionBounds.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
                 this.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
-                this.darkness.update();
                 break;
             case 2:
                 this.collisionBounds.y = currEntity.collisionBounds.y - this.collisionBounds.height - 4;
                 this.y = currEntity.collisionBounds.y - this.collisionBounds.height - 4;
-                this.darkness.update();
                 break;
             case 3:
                 this.collisionBounds.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
                 this.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
-                this.darkness.update();
                 break;
             case 4:
                 this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 18;
                 this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 18;
-                this.darkness.update();
                 break;
+        }
+
+        if (this.darkness) {
+            this.darkness.update();
         }
     }
 

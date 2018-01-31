@@ -25,6 +25,8 @@ class Entity {
         this.name = name;
         this.colliderColor = "red";
 
+        this.collidedObject = null;
+
         this.bottomHitATop = null;
         this.topHitABottom = null;
         this.rightHitALeft = null;
@@ -84,6 +86,35 @@ class Entity {
     }
 
 
+    /**
+     * This function checks if the player has collided with any objects, if so, then return
+     * true on the first occurence.
+     *
+     * @returns {boolean}
+     * @author Connor Lundberg
+     */
+    hasCollided() {
+        let collided = null;
+        for (let i = 0; i < this.game.entities.length; i++) {
+            let currEntity = this.game.entities[i];
+
+            if (currEntity.collisionBounds !== null && this !== currEntity) {
+                let collisionInfo = Entity.intersects(this, currEntity);
+                if (collisionInfo.collision) {
+                    collided = true;
+                    this.collidedObject = currEntity;
+                    currEntity.colliderBoxColor = "green";
+                    break;
+                } else if (currEntity.colliderColor === "green") {
+                    currEntity.colliderBoxColor = "red";
+                }
+            }
+        }
+
+        return collided;
+    }
+
+
     set removal  (remove) {
         //console.log("Marking for removal");
         this.removeFromWorld = remove;
@@ -137,6 +168,7 @@ class Entity {
           Entity.setCollisionMarkers(object1, object2, bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           return {collision: false};
       } else {
+          console.log(object1.name +" collided with " + object2.name);
           let collidingSide1 = object1.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           let collidingSide2 = object2.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           //object1.resetCollisionMarkers();

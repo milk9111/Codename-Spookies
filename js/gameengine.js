@@ -232,6 +232,25 @@ class GameEngine {
             this.entities[i].draw(this.ctx);
         }
         this.ctx.restore();
+
+        if (this.showOutlines) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = "black";
+            this.ctx.moveTo(0, 0);
+
+            this.ctx.lineTo(this.surfaceWidth, 0);
+
+            this.ctx.lineTo(this.surfaceWidth, this.surfaceHeight);
+
+            this.ctx.lineTo(0, this.surfaceHeight);
+
+            this.ctx.lineTo(0, 0);
+
+            this.ctx.stroke();
+            this.ctx.closePath();
+            this.ctx.restore();
+        }
     }
 
 

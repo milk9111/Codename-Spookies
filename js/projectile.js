@@ -11,11 +11,11 @@
  */
 class Projectile extends Entity {
 
-    constructor(game, animation, direction, startX, startY, player) {
+    constructor(game, animation, direction, startX, startY, player, parent) {
 
         //console.log("making new projectile");
 
-        super(game, startX, startY, true, 64, 64, 0, 0, "projectile"); //(0, 400) signify where the sprite will be drawn.
+        super(game, startX, startY, true, 64, 64, 0, 0, "Projectile"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
 
@@ -24,6 +24,8 @@ class Projectile extends Entity {
         this.facingDirection = direction;
 
         this.player = player;
+
+        this.parent = parent;
 
         this.maxAnimationLoopsBeforeRemoval = 5;
     }
@@ -35,6 +37,13 @@ class Projectile extends Entity {
      * @author Connor Lundberg
      */
     update() {
+
+        if (this.hasCollided() && this.collidedObject.name !== this.parent.name) {
+            super.removeFromWorld = true;
+            this.shootAnimation.timesFinished = 0;
+            return;
+        }
+
         if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
             //console.log("started Killing process");
             super.removeFromWorld = true;
