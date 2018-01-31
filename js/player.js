@@ -129,6 +129,7 @@ class Player extends Entity {
     update() {
         let totalDistance = 3;
 
+
         let collisionOccurred = this.hasCollided();
 
         if (collisionOccurred) {
@@ -138,8 +139,7 @@ class Player extends Entity {
                 if (this.lastCollidedObject === null || this.lastCollidedObject !== this.collidedObject) {
                     this.lastCollidedObject = this.collidedObject;
                     console.log("Direction the collision occurred: " + facingDirection);
-                    this.blockedDirection[facingDirection] = true;
-                    this.offsetPlayerPosition(this.collidedObject);
+                    // this.blockedDirection[facingDirection] = true;
                 }
             }
         } else {
@@ -414,9 +414,14 @@ class Player extends Entity {
           this.swingBox.height = 5;
           this.swingBox.width = 5;
         }
+        if(collisionOccurred) {
+            this.offBottom = false;
+            this.offLeft = false;
+            this.offRight = false;
+            this.offTop = false;
+        }
 
-
-        super.update(this);
+        super.update();
 
 
     }

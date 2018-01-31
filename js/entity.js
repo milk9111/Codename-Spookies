@@ -40,6 +40,8 @@ class Entity {
             let boundsY = this.y + this.boundsYOffset;
             this.collisionBounds = {width: frameWidth, height: frameHeight, x: boundsX, y: boundsY};
         }
+        this.lastX = this.x;
+        this.lastY = this.y;
     }
 
 
@@ -49,6 +51,12 @@ class Entity {
             this.collisionBounds.x = this.x + this.boundsXOffset;
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
+        if(this instanceof Player) {
+            this.hasCollided();
+        }
+        this.lastX = this.x;
+        this.lastY = this.y;
+
     }
 
     set colliderBoxColor (color) {
@@ -94,7 +102,7 @@ class Entity {
      * @author Connor Lundberg
      */
     hasCollided() {
-        let collided = null;
+        let collided = false;
         for (let i = 0; i < this.game.entities.length; i++) {
             let currEntity = this.game.entities[i];
 
@@ -103,6 +111,7 @@ class Entity {
                 if (collisionInfo.collision) {
                     collided = true;
                     this.collidedObject = currEntity;
+                    this.onCollide(currEntity);
                     currEntity.colliderBoxColor = "green";
                     break;
                 } else if (currEntity.colliderColor === "green") {
@@ -110,7 +119,6 @@ class Entity {
                 }
             }
         }
-
         return collided;
     }
 
@@ -178,6 +186,8 @@ class Entity {
     }
 
 
+
+
     compareCollisionMarkers (bottomHitATop, topHitABottom, rightHitALeft, leftHitARight) {
         if (this.topHitABottom !== topHitABottom) {
             return 1;
@@ -236,6 +246,19 @@ class Entity {
         this.bottomHitATop = false;
         this.leftHitARight = false;
         this.rightHitALeft = false;
+    }
+
+
+    onCollide(other) {
+        console.log("x: " + this.x + " y: " + "lx: " + this.lastX + " ly: " + this.lastY);
+        if(this.x < other.x + other.collisionBounds.width || this.x + this.collisionBounds.width > other.x) {
+            this.x = this.lastX;
+        }
+        if(this.y < other.y + other.collisionBounds.height || this.y + this.collisionBounds.height > other.y) {
+            this.y = this.lastY;
+        }
+
+
     }
 
 
