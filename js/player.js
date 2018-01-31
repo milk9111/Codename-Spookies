@@ -84,6 +84,8 @@ class Player extends Entity {
 
         this.blockedDirection = [false, false, false, false, false];
 
+        this.lastCollidedObject = null;
+
         this.spellCombo = "";
 
         this.darkness = null;
@@ -133,12 +135,18 @@ class Player extends Entity {
             if (this.collidedObject.name === "Projectile") {
                 this.collidedObject.removal = true;
             } else {
-                this.blockedDirection[facingDirection] = true;
-                this.offsetPlayerPosition(this.collidedObject);
+                if (this.lastCollidedObject === null || this.lastCollidedObject !== this.collidedObject) {
+                    this.lastCollidedObject = this.collidedObject;
+                    console.log("Direction the collision occurred: " + facingDirection);
+                    this.blockedDirection[facingDirection] = true;
+                    this.offsetPlayerPosition(this.collidedObject);
+                }
             }
         } else {
-            Player.clear(this.blockedDirection);
+            this.lastCollidedObject = null;
             this.collidedObject = null;
+            //console.log("clearing blocked directions");
+            Player.clear(this.blockedDirection);
         }
 
 
@@ -601,16 +609,16 @@ class Player extends Entity {
                 this.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
                 break;
             case 2:
-                this.collisionBounds.y = currEntity.collisionBounds.y - this.collisionBounds.height - 4;
-                this.y = currEntity.collisionBounds.y - this.collisionBounds.height - 4;
+                this.collisionBounds.y = currEntity.collisionBounds.y - this.collisionBounds.height - 25;
+                this.y = currEntity.collisionBounds.y - this.collisionBounds.height - 25;
                 break;
             case 3:
                 this.collisionBounds.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
                 this.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
                 break;
             case 4:
-                this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 18;
-                this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 18;
+                this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 30;
+                this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 30;
                 break;
         }
 

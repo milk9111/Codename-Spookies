@@ -11,7 +11,7 @@ class Tile extends Entity{
    *@param {canvas} ctx Refrence to canvas
    */
   constructor(x, y, type, game, player, ctx) {
-    super(game, x, y, false, 32, 32, 16, 0, "Tile");
+    super(game, x, y, false, 32, 32, 0, 0, "Tile");
     this.x = x;
     this.y = y;
     this.ctx = ctx;

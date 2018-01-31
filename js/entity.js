@@ -168,7 +168,7 @@ class Entity {
           Entity.setCollisionMarkers(object1, object2, bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           return {collision: false};
       } else {
-          console.log(object1.name +" collided with " + object2.name);
+          //console.log(object1.name +" collided with " + object2.name);
           let collidingSide1 = object1.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           let collidingSide2 = object2.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
           //object1.resetCollisionMarkers();
