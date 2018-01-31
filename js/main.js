@@ -163,44 +163,98 @@ class Background extends Entity
 
 
 
-class Darkness extends Entity  {
+class Darkness extends Entity {
 
-    constructor (game, player) {
-        super(game, game.surfaceWidth, game.surfaceHeight);
-        this.width = 1500;
-        this.height = 1500;
-        this.offSetSin = 0;
-        this.player = player;
-        this.newVal = 0;
-        this.isDrawing = true;
+  constructor(game, player) {
+    super(game, game.surfaceWidth, game.surfaceHeight);
+    this.width = 1500;
+    this.height = 1500;
+    this.canvasW = $("#gameWorld").width();
+    this.canvasH = $("#gameWorld").height();
+    this.offSetSin = 0;
+    this.player = player;
+    this.newVal = 0;
+    this.isDrawing = true;
+
+    this.bottomBox = {
+      x: 0,
+      y: this.canvasW - 100,
+      width: this.canvasW,
+      height: 100
+    };
+    this.topBox = {
+      x: 0,
+      y: 0,
+      width: this.canvasW,
+      height: 100
+    };
+    this.leftBox = {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: this.canvasH
+    };
+    this.rightBox = {
+      x: this.canvasW,
+      y: 0,
+      width: 100,
+      height: this.canvasH
+    };
+  }
+
+  set drawing(isDrawing) {
+    this.isDrawing = isDrawing;
+  }
+
+  update() {
+
+    //Controls the darkness image and how it updates
+    let temp = this.width + this.offSetSin;
+    this.newVal = map(Math.sin(temp), -1, 1, 0, 100);
+    this.offSetSin += .05;
+
+    //This is controls the size of the darkness tied to the player health
+    let offSet = map(this.player.health, 100, 0, 85, 800);
+
+    this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
+    this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
+
+    let tempWandH = map(this.player.health, 0, 100, 0, 1500);
+    this.width = tempWandH;
+    this.height = tempWandH;
+
+    //Controls the boxes around the darkness iamge
+
+    //maps for x and y positions and width and height positions
+    let xAndY = map(this.width, 1500, 0, this.canvasW, 400);
+    let wAndH = map(this.width, 1500, 0, 100, 350);
+
+    //Update dimensions and positions
+    this.bottomBox.y = xAndY;
+    this.bottomBox.height = wAndH;
+
+    this.topBox.height = wAndH;
+
+    this.leftBox.width = wAndH;
+
+    this.rightBox.x = xAndY;
+    this.rightBox.width = wAndH;
+  }
+
+  draw(ctx) {
+    if (this.isDrawing) {
+      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+      Entity.prototype.draw.call(this);
+
+
+      ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
+      ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
+      ctx.fillRect(this.topBox.x, this.topBox.y, this.topBox.width, this.topBox.height);
+      ctx.fillRect(this.bottomBox.x, this.bottomBox.y, this.bottomBox.width, this.bottomBox.height);
     }
 
-    set drawing (isDrawing) {
-        this.isDrawing = isDrawing;
-    }
 
-    update () {
-
-        let temp = this.width + this.offSetSin;
-        this.newVal = map(Math.sin(temp),-1, 1, 0, 100);
-        this.offSetSin += .05;
-
-        let offSet = map(this.player.health, 100, 0, 85, 800);
-
-        this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
-        this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
-
-        let tempWandH = map(this.player.health, 0, 100, 0, 1500);
-        this.width = tempWandH;
-        this.height = tempWandH;
-    }
-
-    draw (ctx) {
-        if (this.isDrawing) {
-            ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
-            Entity.prototype.draw.call(this);
-        }
-    }
+  }
 }
 
 class DarknessOutline extends Darkness {
