@@ -77,6 +77,7 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
 
+        
         this.health = 100;
 
         //Hit Box for when the player swings at an enemey
@@ -128,7 +129,6 @@ class Player extends Entity {
      */
     update() {
         let totalDistance = 3;
-
 
         let collisionOccurred = this.hasCollided();
 
@@ -381,7 +381,7 @@ class Player extends Entity {
 
 
         //Control Bounds
-        let bounds = 350;
+        let bounds = 500;
 
         if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
