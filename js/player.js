@@ -381,7 +381,7 @@ class Player extends Entity {
 
 
         //Control Bounds
-        let bounds = 0;
+        let bounds = 350;
 
         if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
@@ -617,8 +617,8 @@ class Player extends Entity {
                 this.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
                 break;
             case 4:
-                this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 30;
-                this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 30;
+                this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 35;
+                this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 35;
                 break;
         }
 
