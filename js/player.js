@@ -77,6 +77,7 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
 
+        
         this.health = 100;
 
         //Hit Box for when the player swings at an enemey
@@ -138,8 +139,7 @@ class Player extends Entity {
                 if (this.lastCollidedObject === null || this.lastCollidedObject !== this.collidedObject) {
                     this.lastCollidedObject = this.collidedObject;
                     console.log("Direction the collision occurred: " + facingDirection);
-                    this.blockedDirection[facingDirection] = true;
-                    this.offsetPlayerPosition(this.collidedObject);
+                    // this.blockedDirection[facingDirection] = true;
                 }
             }
         } else {
@@ -381,7 +381,7 @@ class Player extends Entity {
 
 
         //Control Bounds
-        let bounds = 350;
+        let bounds = 500;
 
         if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
@@ -414,12 +414,60 @@ class Player extends Entity {
           this.swingBox.height = 5;
           this.swingBox.width = 5;
         }
+        if(collisionOccurred) {
+            this.offBottom = false;
+            this.offLeft = false;
+            this.offRight = false;
+            this.offTop = false;
+        }
 
-
-        super.update(this);
-
+        super.update();
 
     }
+
+    /**
+     * This function checks if the player has collided with any objects, if so, then return
+     * true on the first occurrence.
+     *
+     * @returns {boolean}
+     * @author Connor Lundberg
+     */
+    hasCollided() {
+        let collided = false;
+        for (let i = 0; i < this.game.entities.length; i++) {
+            let currEntity = this.game.entities[i];
+
+            if (currEntity.collisionBounds !== null && this !== currEntity && this.collisionBounds !== null) {
+                collided = Math.intersects(this, currEntity);
+                if (collided) {
+                    this.collidedObject = currEntity;
+                    this.onCollide(currEntity);
+                    currEntity.colliderBoxColor = "green";
+                    break;
+                } else if (currEntity.colliderColor === "green") {
+                    currEntity.colliderBoxColor = "red";
+                }
+            }
+        }
+        return collided;
+    }
+
+    onCollide(other) {
+        if(Math.intersectsAtX(this, other)) {
+            this.x = this.lastX;
+        }
+        if(Math.intersectsAtY(this, other)) {
+            this.y = this.lastY;
+        }
+        if(this instanceof Player) {
+            if(this.offRight) {
+                console.log("Collided while map was moving");
+                this.x -= 2;
+            }
+
+        }
+    }
+
 
 
     /**

@@ -1,6 +1,6 @@
 class Screamer extends Enemy {
     constructor(gameEngine, player, x, y, speed=2, range=250) {
-        super( gameEngine, player, x, y, speed, range);
+        super( gameEngine, player, x, y, speed, range,32,64,16,0);
         console.log("Making a screamer");
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
         this.idleAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 0, 64, 64, 0.5, 3, true, false);
@@ -70,7 +70,7 @@ class Screamer extends Enemy {
                 this.walking(ctx);
             }
         }
-
+        super.draw(this.game.ctx);
     };
 
     /**

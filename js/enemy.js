@@ -4,14 +4,12 @@
  */
 class Enemy extends Entity {
 
-    constructor(gameEngine, player, x, y, speed, range) {
-        super(gameEngine, x, y, true, 64, 64, 0, 0, "enemy");
+    constructor(gameEngine, player, x, y, speed, range,frameWidth, frameHeight, boundsXOffset, boundsYOffset) {
+        super(gameEngine, x, y, true, frameWidth, frameHeight, boundsXOffset, boundsYOffset, "enemy");
         this.game = gameEngine;
         this.player = player;
         this.x = x || 200;
         this.y = y || 200;
-        this.unroundedX = this.x;
-        this.unroundedY = this.y;
         this.isDraw = false;
         this.speed = speed || 0.5;
         this.range = range || 100;
@@ -85,7 +83,7 @@ class Enemy extends Entity {
       this.y -= this.mapSpeedY;
       this.unroundedY -= this.mapSpeedY;
     }
-
+    //We may not want to make this call, the collision stuff done here seems more specific to player.
     Entity.prototype.update.call(this);
   };
 

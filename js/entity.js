@@ -40,6 +40,8 @@ class Entity {
             let boundsY = this.y + this.boundsYOffset;
             this.collisionBounds = {width: frameWidth, height: frameHeight, x: boundsX, y: boundsY};
         }
+        this.lastX = this.x;
+        this.lastY = this.y;
     }
 
 
@@ -49,6 +51,12 @@ class Entity {
             this.collisionBounds.x = this.x + this.boundsXOffset;
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
+        if(this instanceof Player) {
+            this.hasCollided();
+        }
+        this.lastX = this.x;
+        this.lastY = this.y;
+
     }
 
     set colliderBoxColor (color) {
@@ -86,34 +94,6 @@ class Entity {
     }
 
 
-    /**
-     * This function checks if the player has collided with any objects, if so, then return
-     * true on the first occurence.
-     *
-     * @returns {boolean}
-     * @author Connor Lundberg
-     */
-    hasCollided() {
-        let collided = null;
-        for (let i = 0; i < this.game.entities.length; i++) {
-            let currEntity = this.game.entities[i];
-
-            if (currEntity.collisionBounds !== null && this !== currEntity) {
-                let collisionInfo = Entity.intersects(this, currEntity);
-                if (collisionInfo.collision) {
-                    collided = true;
-                    this.collidedObject = currEntity;
-                    currEntity.colliderBoxColor = "green";
-                    break;
-                } else if (currEntity.colliderColor === "green") {
-                    currEntity.colliderBoxColor = "red";
-                }
-            }
-        }
-
-        return collided;
-    }
-
 
     set removal  (remove) {
         //console.log("Marking for removal");
@@ -123,61 +103,6 @@ class Entity {
     get removalStatus () {
         return this.removeFromWorld;
     }
-
-    /** Checks if two objects with collision are intersecting, works only
-    *with rectangle collision boxes
-    *@param {Entity} object1 Object 1 to check
-    *@param {Entity} object2 Object 2 to check
-    */
-    static intersects  (object1, object2) {
-
-      //If one of the objects has no collision then it can't intersect
-      if (object1.collisionBounds == null || object2.collisionBounds == null) {
-        return false;
-      }
-
-      let p1X = object1.collisionBounds.x;
-      let p1Y = object1.collisionBounds.y;
-
-      let p2X = object1.collisionBounds.x + object1.collisionBounds.width;
-      let p2Y = object1.collisionBounds.y + object1.collisionBounds.height;
-
-      let p3X = object2.collisionBounds.x;
-      let p3Y = object2.collisionBounds.y;
-
-      let p4X =  object2.collisionBounds.x + object2.collisionBounds.width;
-      let p4Y =  object2.collisionBounds.y + object2.collisionBounds.height;
-
-      let bottomHitATop = p2Y < p3Y;
-      let topHitABottom = p1Y > p4Y;
-      let rightHitALeft = p2X < p3X;
-      let leftHitARight = p1X > p4X;
-
-      let hasCollided = !( bottomHitATop || topHitABottom || rightHitALeft || leftHitARight );
-
-      /*
-        This part is a bit complicated. If their wasn't a collision then we want to set the CURRENT
-        collision markers that are true (because as soon as they're false we've collided). We do this
-        because we need to know which side was failing before the collision occured (that is, which
-        expression was returning true until it returned false). Once that's found, we just compare the
-        current collision markers to the ones from the last check and find the first occuring mismatch.
-        After that we store those sides for both objects (they are opposites of each other), reset
-        the markers, and return a true collision.
-       */
-      if (!hasCollided) {
-          Entity.setCollisionMarkers(object1, object2, bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
-          return {collision: false};
-      } else {
-          //console.log(object1.name +" collided with " + object2.name);
-          let collidingSide1 = object1.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
-          let collidingSide2 = object2.compareCollisionMarkers(bottomHitATop, topHitABottom, rightHitALeft, leftHitARight);
-          //object1.resetCollisionMarkers();
-          //object2.resetCollisionMarkers(); //try removing these resets if collisions don't work.
-          return {collision: true, object1CollidingSide: collidingSide1, object2CollidingSide: collidingSide2};
-      }
-    }
-
-
     compareCollisionMarkers (bottomHitATop, topHitABottom, rightHitALeft, leftHitARight) {
         if (this.topHitABottom !== topHitABottom) {
             return 1;
@@ -237,6 +162,10 @@ class Entity {
         this.leftHitARight = false;
         this.rightHitALeft = false;
     }
+
+
+
+
 
 
     rotateAndCache  (image, angle) {

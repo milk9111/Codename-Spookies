@@ -270,3 +270,30 @@ Math.getDistance = function(x1, y1, x2, y2) {
 
   return Math.sqrt(xs + ys);
 };
+
+/**
+ *
+ * @param o1 {Entity}
+ * @param o2 {Entity}
+ */
+Math.intersectsAtX = function (o1, o2) {
+  return o1.collisionBounds.x <= o2.x + o2.collisionBounds.width && o1.collisionBounds.x + o1.collisionBounds.width >= o2.collisionBounds.x;
+};
+
+/**
+ *
+ * @param o1 {Entity}
+ * @param o2 {Entity}
+ */
+Math.intersectsAtY = function (o1, o2) {
+    return o1.y < o2.y + o2.collisionBounds.height && o1.y + o1.collisionBounds.height >= o2.y;
+};
+
+
+/**
+ * @param o1 {Entity}
+ * @param o2 {Entity}
+ */
+Math.intersects = function(o1, o2) {
+  return Math.intersectsAtX(o1, o2) && Math.intersectsAtY(o1 , o2);
+};

@@ -273,7 +273,7 @@ class GameEngine {
             if (entity.removalStatus === false) {
                 entity.update();
             } else {
-                console.log("Going to remove");
+                //console.log("Going to remove");
                 removalPositions.push(i);
             }
         }
@@ -282,9 +282,7 @@ class GameEngine {
         for (let i = removalPositions.length - 1; i >= 0; --i) {
             this.entities.splice(removalPositions[i], 1);
         }
-        if(entitiesCount > this.entities.length) {
-            console.log("removal worked");
-        }
+
     }
 
 

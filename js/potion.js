@@ -33,7 +33,7 @@ class Potion extends Entity {
       this.isDraw = true;
 
       //Check if player went over potion, and add health 
-      let check = Entity.intersects(this, this.player);
+      let check = Math.intersects(this, this.player);
       if (check.collision) {
 
         if (this.player.health < 100) {

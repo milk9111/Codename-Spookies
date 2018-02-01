@@ -7,7 +7,7 @@ class PlagueDoctor extends Enemy {
      * @author James Roberts
      */
     constructor(gameEngine, player, x, y, speed=1.5, range=250) {
-        super( gameEngine, player, x, y, speed, range);
+        super( gameEngine, player, x, y, speed, range,32,64,16,0);
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"), 0, 384, 64, 64, 0.5, 3, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PlagueDoctor_SpriteSheet.png"),0,192,64,64,0.5,2,true,false);
@@ -57,6 +57,8 @@ class PlagueDoctor extends Enemy {
         if(!this.dead) {
             let lastX = this.x;
             let lastY = this.y;
+            let xDir = 0;
+            let yDir = 0;
             //Check if aggroed on the player.
             if (this.isPlayerInRange()) {
                 if (this.notifySoundId === null) {
@@ -66,27 +68,23 @@ class PlagueDoctor extends Enemy {
                     ASSET_MANAGER.playSound("../snd/whispers.wav");
                 }
                 // not close enough to attack.
-                if (Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 200) {
+                if (Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > 200) {
                     this.standingStill = false;
                     this.attacking = false;
-                    let xDir = this.player.x - this.x;
-                    let yDir = this.player.y - this.y;
-                    //Here we need to multiply the speed by the clock like in example
-                    if (Math.abs(xDir) > 10) {
-                        this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
-                        this.x = this.unroundedX;
-                    } else if (Math.abs(yDir) > 10) {
-                        this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
-                        this.y = this.unroundedY;
+                    let xDiff = this.player.x - this.x;
+                    let yDiff = this.player.y - this.y;
+                    //Here we need to multiply the speed by the clock like in example, this is where collision checking
+                    //needs to happen since it is the only place where enemies move.
+                    if (Math.abs(xDiff) > 10) {
+                        this.x += (xDiff < 0) ? -this.speed : this.speed;
+                    } else if (Math.abs(yDiff) > 10) {
+                        this.y += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
                     }
-                } else { //stand still and attack.
-                    this.standingStill = true;
-                    this.attacking = true;
-                    //If there is no spell fired by this enemy in existence it can shoot.
-                    if (this.currentProjectile === null || this.currentProjectile.removeFromWorld) {
-                        this.createSpell();
-                    }
-
+                    xDir = lastX - this.x;
+                    yDir = lastY - this.y;
+                    super.setFacingDirection(xDir, yDir);
+                } else {
+                    this.targetAndAttack();
                 }
             } else {
                 this.standingStill = true;
@@ -95,14 +93,57 @@ class PlagueDoctor extends Enemy {
                     this.notifySound.fade(this.notifySound.volume(), 0.0, 2000);
                     this.notifySoundId = null;
                 }
+                super.setFacingDirection(xDir, yDir);
             }
-            let xDir = lastX - this.x;
-            let yDir = lastY - this.y;
-            super.setFacingDirection(xDir, yDir);
+
         }
+
       //check if it needs to be drawn and change x and y if necessary for map movement.
       super.update();
     };
+
+    targetAndAttack() {
+        let canHit = false;
+        if(this.y > this.player.y - 36 && this.y < this.player.y + 36) {
+            canHit = true;
+            if(this.player.x > this.x) {
+                this.facingDirection = "right";
+            } else {
+                this.facingDirection = "left";
+            }
+        } else if (this.x >= this.player.x - 16 && this.x <= this.player.x + 20) {
+            canHit = true;
+            if(this.player.y > this.y) {
+                this.facingDirection = "down";
+            } else {
+                this.facingDirection = "up";
+            }
+        } else {
+            this.attacking = false;
+            this.standingStill = false;
+            if(this.y > this.player.y + 64 || this.y < this.player.y - 64) {
+                let xDiff = this.player.x - this.x;
+                this.x += (xDiff < 0) ? -this.speed : this.speed;
+                this.facingDirection = (xDiff < 0) ? "left" : "right";
+
+            } else {
+                let yDiff = this.player.y - this.y;
+                this.y += (yDiff < 0) ? -this.speed : this.speed;
+                this.facingDirection = (yDiff < 0) ? "up" : "down";
+
+            }
+
+        }
+
+        if(canHit) {
+            this.standingStill = true;
+            this.attacking = true;
+            //If there is no spell fired by this enemy in existence it can shoot.
+            if (this.currentProjectile === null || this.currentProjectile.removeFromWorld) {
+                this.createSpell();
+            }
+        }
+    }
 
     createSpell() {
         let currentSpellAnimation = null;
