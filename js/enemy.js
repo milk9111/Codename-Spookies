@@ -10,8 +10,6 @@ class Enemy extends Entity {
         this.player = player;
         this.x = x || 200;
         this.y = y || 200;
-        this.unroundedX = this.x;
-        this.unroundedY = this.y;
         this.isDraw = false;
         this.speed = speed || 0.5;
         this.range = range || 100;

@@ -73,14 +73,14 @@ class AssetManager {
         if(this.soundIds[path]) {
             //We'll only play the sound if it hasn't already played.
             if(!this.cache[path].playing(this.soundIds[path])) {
-                console.log("Playing: " + path);
+                //console.log("Playing: " + path);
                 shouldPlay = true;
 
             } else {
                 //Already playing sound, just avoid it entirely
             }
         } else {
-            console.log("Playing: " + path);
+            //console.log("Playing: " + path);
             shouldPlay = true;
         }
         shouldPlay &= !this.soundDisabled;
