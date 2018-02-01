@@ -423,8 +423,51 @@ class Player extends Entity {
 
         super.update();
 
-
     }
+
+    /**
+     * This function checks if the player has collided with any objects, if so, then return
+     * true on the first occurrence.
+     *
+     * @returns {boolean}
+     * @author Connor Lundberg
+     */
+    hasCollided() {
+        let collided = false;
+        for (let i = 0; i < this.game.entities.length; i++) {
+            let currEntity = this.game.entities[i];
+
+            if (currEntity.collisionBounds !== null && this !== currEntity && this.collisionBounds !== null) {
+                collided = Math.intersects(this, currEntity);
+                if (collided) {
+                    this.collidedObject = currEntity;
+                    this.onCollide(currEntity);
+                    currEntity.colliderBoxColor = "green";
+                    break;
+                } else if (currEntity.colliderColor === "green") {
+                    currEntity.colliderBoxColor = "red";
+                }
+            }
+        }
+        return collided;
+    }
+
+    onCollide(other) {
+        if(Math.intersectsAtX(this, other)) {
+            this.x = this.lastX;
+        }
+        if(Math.intersectsAtY(this, other)) {
+            this.y = this.lastY;
+        }
+        if(this instanceof Player) {
+            if(this.offRight) {
+                console.log("Collided while map was moving");
+                this.x -= 2;
+            }
+
+        }
+    }
+
 
 
     /**
