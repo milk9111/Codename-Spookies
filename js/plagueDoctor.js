@@ -57,6 +57,8 @@ class PlagueDoctor extends Enemy {
         if(!this.dead) {
             let lastX = this.x;
             let lastY = this.y;
+            let xDir = 0;
+            let yDir = 0;
             //Check if aggroed on the player.
             if (this.isPlayerInRange()) {
                 if (this.notifySoundId === null) {
@@ -69,17 +71,20 @@ class PlagueDoctor extends Enemy {
                 if (Math.getDistance(this.player.x, this.player.y, this.x, this.y) > 200) {
                     this.standingStill = false;
                     this.attacking = false;
-                    let xDir = this.player.x - this.x;
-                    let yDir = this.player.y - this.y;
+                    let xC = this.player.x - this.x;
+                    let yC = this.player.y - this.y;
                     //Here we need to multiply the speed by the clock like in example, this is where collision checking
                     //needs to happen since it is the only place where enemies move.
-                    if (Math.abs(xDir) > 10) {
-                        this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
+                    if (Math.abs(xC) > 10) {
+                        this.unroundedX += (xC < 0) ? -this.speed : this.speed;
                         this.x = this.unroundedX;
-                    } else if (Math.abs(yDir) > 10) {
-                        this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
+                    } else if (Math.abs(yC) > 10) {
+                        this.unroundedY += (yC) ? (yC < 0) ? -this.speed : this.speed : 0;
                         this.y = this.unroundedY;
                     }
+                    xDir = lastX - this.x;
+                    yDir = lastY - this.y;
+                    super.setFacingDirection(xDir, yDir);
                 } else { //stand still and attack.
                     this.standingStill = true;
                     this.attacking = true;
@@ -87,7 +92,9 @@ class PlagueDoctor extends Enemy {
                     if (this.currentProjectile === null || this.currentProjectile.removeFromWorld) {
                         this.createSpell();
                     }
-
+                    xDir = this.x - this.player.x;
+                    yDir = this.y - this.player.y;
+                    super.setFacingDirection(xDir, yDir);
                 }
             } else {
                 this.standingStill = true;
@@ -96,10 +103,13 @@ class PlagueDoctor extends Enemy {
                     this.notifySound.fade(this.notifySound.volume(), 0.0, 2000);
                     this.notifySoundId = null;
                 }
+                super.setFacingDirection(xDir, yDir);
             }
+            /*
             let xDir = lastX - this.x;
             let yDir = lastY - this.y;
             super.setFacingDirection(xDir, yDir);
+            */
         }
       //check if it needs to be drawn and change x and y if necessary for map movement.
       super.update();

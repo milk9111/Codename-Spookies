@@ -70,7 +70,7 @@ class Screamer extends Enemy {
                 this.walking(ctx);
             }
         }
-
+        super.draw(this.game.ctx);
     };
 
     /**
