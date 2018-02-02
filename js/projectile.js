@@ -39,14 +39,14 @@ class Projectile extends Entity {
     update() {
         /*
         if (this.hasCollided() && this.collidedObject.name !== this.parent.name) {
-            super.removeFromWorld = true;
+            this.removeFromWorld = true;
             this.shootAnimation.timesFinished = 0;
             return;
         }
         */
         if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
             //console.log("started Killing process");
-            super.removeFromWorld = true;
+            this.removeFromWorld = true;
             this.shootAnimation.timesFinished = 0;
         }
 

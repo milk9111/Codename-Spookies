@@ -32,11 +32,11 @@ class Screamer extends Enemy {
                 let yDir = this.player.y - this.y;
                 //Here we need to multiply the speed by the clock like in example
                 if (Math.abs(xDir) > 10) {
-                    this.unroundedX += (xDir < 0) ? -this.speed : this.speed;
-                    this.x = this.unroundedX;
+                    this.x += (xDir < 0) ? -this.speed : this.speed;
+
                 } else if (Math.abs(yDir) > 10){
-                    this.unroundedY += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
-                    this.y = this.unroundedY;
+                    this.y += (yDir) ? (yDir < 0) ? -this.speed : this.speed : 0;
+
                 }
             } else { //stand still and attack.
                 this.standingStill = true;
