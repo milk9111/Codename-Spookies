@@ -48,8 +48,10 @@ j = Broken Column 5
 k = Green Stuff 1
 l = Green Stuff 1
 m = Green Stuff 1
---------------------Tiles 
+--------------------Tiles
 n = Skeleton Pit 1
 o = Skeleton Pit 2
 p = Skeleton Pit 3
 q = Skeleton Pit 4
+--------------------Objects
+r = exit game

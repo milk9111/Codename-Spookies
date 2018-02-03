@@ -116,7 +116,26 @@ class GameEngine {
             requestAnimFrame(gameLoop, that.ctx.canvas);
         })();
     }
-    
+
+    /** This changes the game to the next level.
+    @param {int} level Number of the level to load. **/
+    newLevel(levelNum) {
+      console.log("Loading new level " + levelNum);
+
+      //Remove all the tiles from the previous level
+      for (let i = this.entities.length - 1; i > 0; i--) {
+        this.entities[i].removeFromWorld = true;
+      }
+
+      //Load new level
+      switch(levelNum) {
+        case 2:
+          this.loadMap2();
+          break;
+      }
+
+    }
+
 
     /**
      * This handles all of the user input. It adds key event listeners to the canvas in order
@@ -306,5 +325,85 @@ class GameEngine {
         // this.cast = null;
         this.stop = null;
     }
-}
 
+    /**Loads map 2. **/
+    loadMap2() {
+
+      let canvas = document.getElementById('gameWorld');
+      let ctx = canvas.getContext('2d');
+
+      let player = new Player(this);
+
+      //Load tile map
+      let tileMap = new TileMap();
+      tileMap.loadMap(Map.getMap2(), 32, 32, this, player, ctx);
+
+      //Load ObejctMap
+      let objectMap = new ObjectMap();
+      objectMap.loadMap(Map.getMap2O(), 32, 32, player, ctx);
+
+
+      let bg = new Background(this);
+      darkness = new Darkness(this, player);
+
+      darkness.drawing = document.getElementById('darknessCheck').checked;
+
+      //ADD ENTITIES
+
+      //Add tiles
+      for (let i = 0; i < tileMap.map2D.length; i++) {
+        for (let j = 0; j < tileMap.map2D[i].length; j++) {
+
+          let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, this, player, ctx);
+          this.addEntity(temp);
+        }
+      }
+
+      //Add Objects to map
+      for (let i = 0; i < objectMap.map2D.length; i++) {
+        for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+          //Add Potions
+          if (objectMap.map2D[i][j] instanceof Potion) {
+            //Potion (x, y, type, player)
+            let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, this);
+            this.addEntity(temp);
+
+            //Add Tile
+          } else if (objectMap.map2D[i][j] instanceof Tile) {
+            let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
+            this.addEntity(temp);
+          } else if (objectMap.map2D[i][j] instanceof Exit) {
+
+            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this);
+            this.addEntity(temp);
+          }
+        }
+      }
+
+      this.addEntity(player);
+      //Add Enemies to map
+      for (let i = 0; i < objectMap.map2D.length; i++) {
+        for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+          //Add Plague Doctor
+          if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+            let temp = new PlagueDoctor(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+            this.addEntity(temp);
+          } else if (objectMap.map2D[i][j] instanceof Screamer) {
+              let temp = new Screamer(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+              this.addEntity(temp);
+          }
+        }
+      }
+
+      player.darkness = darkness;
+      this.addEntity(darkness);
+
+      //START GAME
+      player.x = (this.surfaceWidth / 2 - 32);
+      player.y = (this.surfaceHeight / 2 - 32);
+      playerStartX = (this.surfaceWidth / 2 - 32);
+      playerStartY = (this.surfaceHeight / 2 - 32);
+    }
+}

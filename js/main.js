@@ -389,6 +389,10 @@ ASSET_MANAGER.downloadAll(function() {
       } else if (objectMap.map2D[i][j] instanceof Tile) {
         let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, gameEngine, player, ctx);
         gameEngine.addEntity(temp);
+      } else if (objectMap.map2D[i][j] instanceof Exit) {
+
+        let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, gameEngine);
+        gameEngine.addEntity(temp);
       }
     }
   }

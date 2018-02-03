@@ -39,8 +39,7 @@ class Tile extends Entity{
     this.speedX = 2;
     this.speedY = 2;
 
-    //Animation for portal
-    this.exitAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 864, 448, 32, 32, .2, 3, true, false);
+
   }
 
   /** Updates a tile */
@@ -240,7 +239,6 @@ draw(ctx) {
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 52, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case 'r':
-          this.exitAnimation.drawFrame(this.game, this.game.clockTick, this.ctx, this.x, this.y);
           break;
       }
 
