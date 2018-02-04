@@ -17,6 +17,8 @@ class Player extends Entity {
 
         this.game = game;
 
+        this.stopMoving = false;
+
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
         this.idleAnimationDownward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
@@ -76,8 +78,8 @@ class Player extends Entity {
         this.raising = false;
         this.shooting = false;
         this.currentSpell = fireSpell;
+        this.levelDone = false;
 
-        
         this.health = 100;
 
         //Hit Box for when the player swings at an enemey
@@ -117,7 +119,6 @@ class Player extends Entity {
         }
     }
 
-
     /**
      * Here the Player will decide what direction they're moving towards next.
      * It handles the actual x & y movement value for the Player object. This
@@ -128,6 +129,7 @@ class Player extends Entity {
      * @author Connor Lundberg
      */
     update() {
+      if (!this.stopMoving) {
         let totalDistance = 3;
 
         let collisionOccurred = this.hasCollided();
@@ -420,7 +422,7 @@ class Player extends Entity {
             this.offRight = false;
             this.offTop = false;
         }
-
+      }
         super.update();
 
     }

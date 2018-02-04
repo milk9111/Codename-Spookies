@@ -6,12 +6,13 @@ class Exit extends Entity {
    *@param {Player} player Player Refrence
    *@param {Game} game Game refrence
    */
-  constructor(x, y, player, game) {
+  constructor(x, y, player, game, background) {
     super(game, x, y, true, 32, 32, 0, 0, "exit");
     this.player = player;
     this.isDraw = false;
     this.speedX = 2;
     this.speedY = 2;
+    this.background = background;
 
     //Animation for portal
     this.exitAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 864, 448, 32, 32, .2, 3, true, false);
@@ -29,7 +30,9 @@ class Exit extends Entity {
 
       //Check collision with player
       if (Math.intersects(this.player, this)) {
-        this.game.newLevel(2);
+        this.player.stopMoving = true; 
+        this.startNewLevel(2);
+        //TODO: Make it so the level goes to the next level in the game enegie and check for end game stuff
       }
 
       super.update();
@@ -49,6 +52,15 @@ class Exit extends Entity {
 
 
   }
+
+  startNewLevel(levelNum) {
+    this.background.start = false;
+    if (this.background.alpha >= 1) {
+      console.log(this.background.alpha);
+      this.game.newLevel(levelNum);
+    }
+  }
+
   /** Draws the exit on the map */
   draw(ctx) {
 

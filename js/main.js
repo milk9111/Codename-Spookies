@@ -139,25 +139,44 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
+/** This is now a black background that chagnes when the level ends**/
 class Background extends Entity
  {
      constructor (game) {
-         super(game, 0, 400);
-         this.radius = 200;
+         super(game, 0, 0);
+         this.canvasW = $("#gameWorld").width();
+         this.canvasH = $("#gameWorld").height();
+         this.alpha = 1;
+         this.start = true;
      }
 
     update ()  {
+
+      //If starting level slowly fade black in, else slowly fade to black
+      if (this.start && this.alpha > 0) {
+        this.alpha = Number(this.alpha).toFixed(2) - Number(.01).toFixed(2);
+      } else if (!this.start) {
+        this.alpha += .01;
+      }
     }
 
     draw (ctx) {
-        let tile_background = new Image();
-        tile_background.src = "../img/Tileable3f.png";
-        tile_background.onload = function(){
-            let pattern = ctx.createPattern(tile_background, "repeat");
-            ctx.fillStyle = pattern;
-            ctx.fill();
+
+      //Draw a black square with full alpha until it is time to change maps
+      //then make it fade to black.
+      ctx.globalAlpha = this.alpha;
+
+      ctx.fillStyle = 'black';
+      ctx.fillRect(this.x, this.y, this.canvasW, this.canvasH)
+
+        // let tile_background = new Image();
+        // tile_background.src = "../img/Tileable3f.png";
+        // tile_background.onload = function(){
+        //     let pattern = ctx.createPattern(tile_background, "repeat");
+        //     ctx.fillStyle = pattern;
+        //     ctx.fill();
             //Entity.prototype.draw.call(this);
-        };
+        //};
     }
 }
 
@@ -224,28 +243,26 @@ class Darkness extends Entity {
     this.height = tempWandH;
 
     //Controls the boxes around the darkness iamge
-
     //maps for x and y positions and width and height positions
-    let xAndY = map(this.width, 1500, 0, this.canvasW, 400);
-    let wAndH = map(this.width, 1500, 0, 100, 350);
+    let xAndY = map(this.width, 1500, 0, this.canvasW, 350);
+    let wAndH = map(this.width, 1500, 0, 0, 350);
 
     //Update dimensions and positions
     this.bottomBox.y = xAndY;
-    this.bottomBox.height = wAndH;
+    this.bottomBox.height = wAndH + 100;
 
     this.topBox.height = wAndH;
 
     this.leftBox.width = wAndH;
 
     this.rightBox.x = xAndY;
-    this.rightBox.width = wAndH;
+    this.rightBox.width = wAndH + 100;
   }
 
   draw(ctx) {
     if (this.isDrawing) {
       ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
       Entity.prototype.draw.call(this);
-
 
       ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
       ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
@@ -364,7 +381,6 @@ ASSET_MANAGER.downloadAll(function() {
   darkness.drawing = document.getElementById('darknessCheck').checked;
 
   //ADD ENTITIES
-  //gameEngine.addEntity(bg);
 
   //Add tiles
   for (let i = 0; i < tileMap.map2D.length; i++) {
@@ -391,7 +407,7 @@ ASSET_MANAGER.downloadAll(function() {
         gameEngine.addEntity(temp);
       } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-        let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, gameEngine);
+        let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, gameEngine, bg);
         gameEngine.addEntity(temp);
       }
     }
@@ -419,6 +435,8 @@ ASSET_MANAGER.downloadAll(function() {
   //gameEngine.addEntity(darknessOutline);
     player.darkness = darkness;
   gameEngine.addEntity(darkness);
+  gameEngine.addEntity(bg);
+
 
   //START GAME
   gameEngine.init(ctx);

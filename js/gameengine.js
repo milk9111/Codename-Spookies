@@ -46,6 +46,7 @@ class GameEngine {
     constructor() {
         this.entities = [];
         this.showOutlines = false;
+        this.level = 1;
         this.ctx = null;
         this.click = null;
         this.mouse = null;
@@ -120,6 +121,7 @@ class GameEngine {
     /** This changes the game to the next level.
     @param {int} level Number of the level to load. **/
     newLevel(levelNum) {
+
       console.log("Loading new level " + levelNum);
 
       //Remove all the tiles from the previous level
@@ -130,6 +132,7 @@ class GameEngine {
       //Load new level
       switch(levelNum) {
         case 2:
+          this.level = 2;
           this.loadMap2();
           break;
       }
@@ -375,7 +378,7 @@ class GameEngine {
             this.addEntity(temp);
           } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this);
+            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg);
             this.addEntity(temp);
           }
         }
@@ -397,13 +400,14 @@ class GameEngine {
         }
       }
 
-      player.darkness = darkness;
-      this.addEntity(darkness);
-
       //START GAME
       player.x = (this.surfaceWidth / 2 - 32);
       player.y = (this.surfaceHeight / 2 - 32);
       playerStartX = (this.surfaceWidth / 2 - 32);
       playerStartY = (this.surfaceHeight / 2 - 32);
+
+      player.darkness = darkness;
+      this.addEntity(darkness);
+      this.addEntity(bg);
     }
 }

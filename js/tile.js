@@ -25,7 +25,13 @@ class Tile extends Entity{
         type === 'F' ||
         type === 'G' ||
         type === 'H' ||
-        type === '3') {
+        type === '3' ||
+        type === 's' ||
+        type === 't' ||
+        type === 'u' ||
+        type === 'v' ||
+        type === 'x' ||
+        type === 'y') {
 
         this.boundsXOffset = 0;
         this.boundsYOffset = 0;
@@ -238,7 +244,23 @@ draw(ctx) {
         case 'q':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 52, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
-        case 'r':
+        case 's':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 41, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 't':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 42, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'u':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 45, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'v':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 46, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'x':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 36, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case 'y':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 35, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
       }
 

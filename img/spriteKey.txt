@@ -55,3 +55,10 @@ p = Skeleton Pit 3
 q = Skeleton Pit 4
 --------------------Objects
 r = exit game
+--------------------Tiles
+s = Brown Wall 1
+t = Brown Wall 2
+u = White Wall 1
+v = White Wall 2
+x = Brown Wall 3
+y = Brown Wall 4
