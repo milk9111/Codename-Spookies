@@ -158,6 +158,22 @@ class Entity {
         this.rightHitALeft = false;
     }
 
+    hasCollided(bounds, entityArr) {
+        // if (!entityArr) return;
+        for (let i = 0; i < entityArr.length; i++) {
+            let currEntity = entityArr[i];
+            if (currEntity.collisionBounds !== null && this !== currEntity) {
+                if (Math.intersects(bounds, currEntity)) {
+                    currEntity.colliderBoxColor = "green";
+                    return true;
+                } else if (currEntity.colliderColor === "green") {
+                    currEntity.colliderBoxColor = "red";
+                }
+            }
+        }
+        return false;
+    }
+
 
 
 

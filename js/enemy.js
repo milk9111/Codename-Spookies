@@ -28,16 +28,10 @@ class Enemy extends Entity {
      * @param yDir lastY - newY
      */
     setFacingDirection(xDir, yDir) {
-
-        if(Math.abs(xDir) - Math.abs(yDir) < 0) {
-            this.facingDirection = (yDir <= 0) ? "down" : "up";
-        }
-
-        if(Math.abs(xDir) < Math.abs(yDir)) {
+        if(xDir === yDir) return;
+        if(Math.abs(xDir) < Math.abs(yDir) || yDir !== 0) {
             this.facingDirection = (yDir < 0) ? "down" : "up";
-        }
-
-        if(Math.abs(xDir) > Math.abs(yDir)) {
+        } else if(Math.abs(xDir) > Math.abs(yDir)) {
             this.facingDirection = (xDir < 0) ? "right" : "left";
         }
     };

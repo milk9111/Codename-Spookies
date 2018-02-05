@@ -55,6 +55,7 @@ class GameEngine {
         this.surfaceHeight = null;
         this.keys = [];
         this.walls = [];
+        this.enemies = [];
         this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space"];
         this.initKeys();
         this.w = null;
@@ -242,6 +243,9 @@ class GameEngine {
         }
         if(entity instanceof Player) {
             this.player = entity;
+        }
+        if(entity instanceof Enemy) {
+            this.enemies.push(entity);
         }
         //console.log("entities length after: " + this.entities.length);
 

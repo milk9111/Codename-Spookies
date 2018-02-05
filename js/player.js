@@ -397,8 +397,13 @@ class Player extends Entity {
           this.swingBox.height = 5;
           this.swingBox.width = 5;
         }
+        if(this.swinging) {
+            if(this.hasCollided({collisionBounds: this.swingBox},this.game.enemies)) {
+                console.log("Sword hit enemy!");
+            }
+        }
 
-        if(this.hasCollided()) {
+        if(this.hasCollidedWithWalls()) {
             this.x = this.lastX;
             this.y = this.lastY;
             this.offLeft = false;
@@ -422,7 +427,7 @@ class Player extends Entity {
      * @returns {boolean}
      * @author Connor Lundberg, Myles Haynes
      */
-    hasCollided() {
+    hasCollidedWithWalls() {
         let bounds = {
             collisionBounds: {
                 x: this.collisionBounds.x,
@@ -437,22 +442,7 @@ class Player extends Entity {
         if(this.walkingDownward) bounds.collisionBounds.height += this.offset;
         if(this.walkingForward) bounds.collisionBounds.y -= this.offset;
 
-
-        let collided = false;
-        for (let i = 0; i < this.game.walls.length; i++) {
-            let currEntity = this.game.walls[i];
-            if (currEntity.collisionBounds !== null && this !== currEntity && this.collisionBounds !== null) {
-                collided = Math.intersects(bounds, currEntity);
-                if (collided) {
-                    console.log("Collided");
-                    currEntity.colliderBoxColor = "green";
-                    return true;
-                } else if (currEntity.colliderColor === "green") {
-                    currEntity.colliderBoxColor = "red";
-                }
-            }
-        }
-        return false;
+        return this.hasCollided(bounds, this.game.walls);
     }
 
 
