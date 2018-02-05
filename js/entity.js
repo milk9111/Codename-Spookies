@@ -51,11 +51,6 @@ class Entity {
             this.collisionBounds.x = this.x + this.boundsXOffset;
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
-        if(this instanceof Player) {
-            this.hasCollided();
-        }
-        this.lastX = this.x;
-        this.lastY = this.y;
 
     }
 

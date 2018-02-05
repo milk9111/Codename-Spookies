@@ -54,6 +54,7 @@ class GameEngine {
         this.surfaceWidth = null;
         this.surfaceHeight = null;
         this.keys = [];
+        this.walls = [];
         this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space"];
         this.initKeys();
         this.w = null;
@@ -236,6 +237,12 @@ class GameEngine {
     addEntity (entity) {
         console.log('added entity');
         this.entities.push(entity);
+        if(entity.name === 'Tile' && entity.collisionBounds) {
+            this.walls.push(entity);
+        }
+        if(entity instanceof Player) {
+            this.player = entity;
+        }
         //console.log("entities length after: " + this.entities.length);
 
     }
@@ -299,6 +306,7 @@ class GameEngine {
                 removalPositions.push(i);
             }
         }
+
         ///console.log("rmlen " + removalPositions.length);
         //This removes entities from the game world
         for (let i = removalPositions.length - 1; i >= 0; --i) {

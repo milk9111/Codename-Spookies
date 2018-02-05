@@ -79,6 +79,7 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
         this.levelDone = false;
+        this.speed = 3;
 
         this.health = 100;
 
@@ -130,27 +131,7 @@ class Player extends Entity {
      */
     update() {
       if (!this.stopMoving) {
-        let totalDistance = 3;
-
-        let collisionOccurred = this.hasCollided();
-
-        if (collisionOccurred) {
-            if (this.collidedObject.name === "Projectile") {
-                this.collidedObject.removal = true;
-            } else {
-                if (this.lastCollidedObject === null || this.lastCollidedObject !== this.collidedObject) {
-                    this.lastCollidedObject = this.collidedObject;
-                    console.log("Direction the collision occurred: " + facingDirection);
-                    // this.blockedDirection[facingDirection] = true;
-                }
-            }
-        } else {
-            this.lastCollidedObject = null;
-            this.collidedObject = null;
-            //console.log("clearing blocked directions");
-            Player.clear(this.blockedDirection);
-        }
-
+        let totalDistance = this.speed;
 
         if (this.game.cast && !this.casting) {
             if (!this.chargingSpellSound.playing(this.chargingSpellSoundId)) {
@@ -383,7 +364,7 @@ class Player extends Entity {
 
 
         //Control Bounds
-        let bounds = 500;
+        let bounds = 305;
 
         if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
             this.offRight = true;
@@ -416,14 +397,21 @@ class Player extends Entity {
           this.swingBox.height = 5;
           this.swingBox.width = 5;
         }
-        if(collisionOccurred) {
-            this.offBottom = false;
+
+        if(this.hasCollided()) {
+            this.x = this.lastX;
+            this.y = this.lastY;
             this.offLeft = false;
             this.offRight = false;
+            this.offBottom = false;
             this.offTop = false;
+        } else {
+            this.lastX = this.x;
+            this.lastY = this.y;
         }
-      }
+
         super.update();
+      }
 
     }
 
@@ -435,40 +423,38 @@ class Player extends Entity {
      * @author Connor Lundberg
      */
     hasCollided() {
-        let collided = false;
-        for (let i = 0; i < this.game.entities.length; i++) {
-            let currEntity = this.game.entities[i];
+        let bounds = {
+            collisionBounds: {
+                x: this.collisionBounds.x,
+                y: this.collisionBounds.y,
+                width: this.collisionBounds.width,
+                height: this.collisionBounds.height
+            }
+        };
+        this.offset = this.speed + 1;
+        if(this.walkingRight) bounds.collisionBounds.width += this.offset;
+        if(this.walkingLeft) bounds.collisionBounds.x -= this.offset;
+        if(this.walkingDownward) bounds.collisionBounds.height += this.offset;
+        if(this.walkingForward) bounds.collisionBounds.y -= this.offset;
 
+
+        let collided = false;
+        for (let i = 0; i < this.game.walls.length; i++) {
+            let currEntity = this.game.walls[i];
             if (currEntity.collisionBounds !== null && this !== currEntity && this.collisionBounds !== null) {
-                collided = Math.intersects(this, currEntity);
+                collided = Math.intersects(bounds, currEntity);
                 if (collided) {
-                    this.collidedObject = currEntity;
-                    this.onCollide(currEntity);
+                    console.log("Collided");
                     currEntity.colliderBoxColor = "green";
-                    break;
+                    return true;
                 } else if (currEntity.colliderColor === "green") {
                     currEntity.colliderBoxColor = "red";
                 }
             }
         }
-        return collided;
+        return false;
     }
 
-    onCollide(other) {
-        if(Math.intersectsAtX(this, other)) {
-            this.x = this.lastX;
-        }
-        if(Math.intersectsAtY(this, other)) {
-            this.y = this.lastY;
-        }
-        if(this instanceof Player) {
-            if(this.offRight) {
-                console.log("Collided while map was moving");
-                this.x -= 2;
-            }
-
-        }
-    }
 
 
 
