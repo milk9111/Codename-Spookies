@@ -74,7 +74,7 @@ class PlagueDoctor extends Enemy {
                     let xDiff = this.player.x - this.x;
                     let yDiff = this.player.y - this.y;
                     //Here we need to multiply the speed by the clock like in example, this is where collision checking
-                    //needs to happen since it is the only place where enemies move.
+                    //needs to happen.
                     if (Math.abs(xDiff) > 10) {
                         this.x += (xDiff < 0) ? -this.speed : this.speed;
                     }
