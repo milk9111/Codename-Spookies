@@ -77,7 +77,8 @@ class PlagueDoctor extends Enemy {
                     //needs to happen since it is the only place where enemies move.
                     if (Math.abs(xDiff) > 10) {
                         this.x += (xDiff < 0) ? -this.speed : this.speed;
-                    } else if (Math.abs(yDiff) > 10) {
+                    }
+                    if (Math.abs(yDiff) > 10) {
                         this.y += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
                     }
                     xDir = lastX - this.x;

@@ -28,19 +28,17 @@ class Enemy extends Entity {
      * @param yDir lastY - newY
      */
     setFacingDirection(xDir, yDir) {
-        if (yDir !== 0) {
-            if (yDir < 0) {
-                this.facingDirection = "down";
-            } else {
-                this.facingDirection = "up";
-            }
-        } else if ( xDir != 0) {
 
-            if (xDir > 0) { //Moved to the left
-                this.facingDirection = "left";
-            } else { //Moved to the right
-                this.facingDirection = "right";
-            }
+        if(Math.abs(xDir) - Math.abs(yDir) < 0) {
+            this.facingDirection = (yDir <= 0) ? "down" : "up";
+        }
+
+        if(Math.abs(xDir) < Math.abs(yDir)) {
+            this.facingDirection = (yDir < 0) ? "down" : "up";
+        }
+
+        if(Math.abs(xDir) > Math.abs(yDir)) {
+            this.facingDirection = (xDir < 0) ? "right" : "left";
         }
     };
 
@@ -61,11 +59,7 @@ class Enemy extends Entity {
     let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
 
     //If close to player then draw, else don't draw
-    if (distance < 305) {
-      this.isDraw = true;
-    } else {
-      this.isDraw = false;
-    }
+    this.isDraw = distance < 305;
 
 
 

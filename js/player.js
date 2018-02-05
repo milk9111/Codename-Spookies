@@ -420,7 +420,7 @@ class Player extends Entity {
      * true on the first occurrence.
      *
      * @returns {boolean}
-     * @author Connor Lundberg
+     * @author Connor Lundberg, Myles Haynes
      */
     hasCollided() {
         let bounds = {
