@@ -32,7 +32,7 @@ class Exit extends Entity {
       if (Math.intersects(this.player, this)) {
         this.player.stopMoving = true; 
         this.startNewLevel(2);
-        //TODO: Make it so the level goes to the next level in the game enegie and check for end game stuff
+        //TODO: Make it so the level goes to the next level in the game engine and check for end game stuff
       }
 
       super.update();

@@ -165,7 +165,6 @@ class Background extends Entity
     }
 
     draw (ctx) {
-
       //Draw a black square with full alpha until it is time to change maps
       //then make it fade to black.
         if (this.changing) {
@@ -174,14 +173,6 @@ class Background extends Entity
             ctx.fillStyle = 'black';
             ctx.fillRect(this.x, this.y, this.canvasW, this.canvasH)
         }
-        // let tile_background = new Image();
-        // tile_background.src = "../img/Tileable3f.png";
-        // tile_background.onload = function(){
-        //     let pattern = ctx.createPattern(tile_background, "repeat");
-        //     ctx.fillStyle = pattern;
-        //     ctx.fill();
-            //Entity.prototype.draw.call(this);
-        //};
     }
 }
 
@@ -331,10 +322,7 @@ let facingDirection;
 
 // the "main" code begins here
 let ASSET_MANAGER = new AssetManager();
-//We will want to switch to this for a dynamic background, for now it is being
-//repeated onto the canvas through style.css
-//ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
-//ASSET_MANAGER.queueDownload("../img/Player_Box.png");
+
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/blackOutline.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
@@ -345,6 +333,7 @@ ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/codename-spookies_title.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});

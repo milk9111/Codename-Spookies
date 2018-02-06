@@ -156,6 +156,16 @@ class GameEngine {
         console.log('Starting input');
         let that = this;
 
+        let getXandY = function (e) {
+            let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
+            let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
+
+            x = Math.floor(x);
+            y = Math.floor(y);
+
+            return { x: x, y: y };
+        };
+
         let coreMovementButtonDown = function (e) {
 
             that.keys[e.code].pressed = true;
@@ -192,6 +202,16 @@ class GameEngine {
         this.ctx.canvas.addEventListener("contextmenu", function (e) {
             e.preventDefault();
         });
+
+
+        this.ctx.canvas.addEventListener("mousemove", function (e) {
+            that.mouse = getXandY(e);
+        }, false);
+
+
+        this.ctx.canvas.addEventListener("click", function (e) {
+            that.click = getXandY(e);
+        }, false);
 
         console.log('Input started');
     }
@@ -352,6 +372,107 @@ class GameEngine {
         // this.cast = null;
         this.stop = null;
     }
+
+
+    /**
+     * Loads map 1.
+     */
+    loadMap1() {
+        let canvas = document.getElementById('gameWorld');
+        let ctx = canvas.getContext('2d');
+        //ctx.canvas.width  = window.innerWidth;
+        //ctx.canvas.height = window.innerHeight;
+
+        document.getElementById('darknessCheck').checked = false;
+        document.getElementById('collisionCheck').checked = true;
+
+        //LOAD ENTITIES
+        //start facing downwards.
+        facingDirection = 2;
+        this.drawing = document.getElementById('collisionCheck').checked;
+
+        let player = new Player(this);
+        //Load tile map
+        let tileMap = new TileMap();
+        tileMap.loadMap(Map.getTestMap(), 32, 32, this, player, ctx);
+
+        //Load ObejctMap
+        let objectMap = new ObjectMap();
+        objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
+
+
+        let bg = new Background(this);
+        darkness = new Darkness(this, player);
+        //darknessOutline = new DarknessOutline(this, player);
+
+        darkness.drawing = document.getElementById('darknessCheck').checked;
+
+        //ADD ENTITIES
+
+        //Add tiles
+        for (let i = 0; i < tileMap.map2D.length; i++) {
+            for (let j = 0; j < tileMap.map2D[i].length; j++) {
+
+                let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, this, player, ctx);
+                this.addEntity(temp);
+            }
+        }
+
+        //Add Objects to map
+        for (let i = 0; i < objectMap.map2D.length; i++) {
+            for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+                //Add Potions
+                if (objectMap.map2D[i][j] instanceof Potion) {
+                    //Potion (x, y, type, player)
+                    let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, this);
+                    this.addEntity(temp);
+
+                    //Add Tile
+                } else if (objectMap.map2D[i][j] instanceof Tile) {
+                    let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
+                    this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof Exit) {
+
+                    let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg);
+                    this.addEntity(temp);
+                }
+            }
+        }
+
+        this.addEntity(player);
+        //Add Enemies to map
+        for (let i = 0; i < objectMap.map2D.length; i++) {
+            for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+                //Add Plague Doctor
+                if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+                    let temp = new PlagueDoctor(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof Screamer) {
+                    let temp = new Screamer(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
+                }
+            }
+        }
+        ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+        ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
+        ASSET_MANAGER.toggleSound();
+
+        //this.addEntity(darknessOutline);
+        player.darkness = darkness;
+        this.addEntity(darkness);
+        this.addEntity(bg);
+
+
+        //START GAME
+        player.x = (this.surfaceWidth / 2 - 32);
+        player.y = (this.surfaceHeight / 2 - 32);
+        playerStartX = (this.surfaceWidth / 2 - 32);
+        playerStartY = (this.surfaceHeight / 2 - 32);
+        console.log(player.x + ", " + player.y);
+    }
+    
 
     /**Loads map 2. **/
     loadMap2() {
