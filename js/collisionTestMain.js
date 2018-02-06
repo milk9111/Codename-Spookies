@@ -256,7 +256,7 @@ ASSET_MANAGER.downloadAll(function() {
 
     let temp = new PlagueDoctor(gameEngine, player, canvas.width / 2 + 20, canvas.height / 2);
     //let temp = new Tile(canvas.width / 2 + 20, canvas.height / 2, 'E', gameEngine, player, ctx);
-    gameEngine.addEntity(temp);
+    //gameEngine.addEntity(temp);
 
     //START GAME
     gameEngine.init(ctx, player);

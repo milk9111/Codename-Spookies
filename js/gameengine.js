@@ -196,6 +196,7 @@ class GameEngine {
         console.log('Input started');
     }
 
+
     readCombo (ctx) {
         this.combo = new ComboLabel(this, this.player.x, this.player.y);
         this.addEntity(this.combo);
@@ -211,19 +212,15 @@ class GameEngine {
             if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
                 that.combo.buildCombo(currentSpell.charAt(currPos));
                 console.log("combo: " + that.combo.combo);
-                // that.ctx.save();
-                // that.ctx.font = "300px Arial";
-                // that.ctx.fillText(that.combo, that.player.x, that.player.y);
-                // that.ctx.restore();
                 currPos++;
                 failed = false;
             }
 
             if (failed) {
+                that.combo.buildCombo(String.fromCharCode(e.keyCode));
                 console.log("Cast failed! Did not read the combo " + currentSpell);
                 that.cast = false;
-                that.combo.removal = true;
-                that.combo = null; //<< if it doesn't work, try removing both of these.
+                that.combo.stateOfCombo = 3;
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
                 return;
@@ -232,8 +229,7 @@ class GameEngine {
             if (currPos >= currentSpell.length) {
                 castSuccessful = true;
                 that.cast = false;
-                that.combo.removal = true;
-                that.combo = null;
+                that.combo.stateOfCombo = 2;
                 console.log("Cast successful! Read the combo " + currentSpell);
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
