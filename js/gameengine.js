@@ -247,7 +247,7 @@ class GameEngine {
         if(entity instanceof Enemy) {
             this.enemies.push(entity);
         }
-        //console.log("entities length after: " + this.entities.length);
+        console.log("entities length after: " + this.entities.length);
 
     }
 

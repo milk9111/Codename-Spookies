@@ -28,6 +28,10 @@ class Projectile extends Entity {
         this.parent = parent;
 
         this.maxAnimationLoopsBeforeRemoval = 5;
+
+        //Speed at which character moves with map
+        this.mapSpeedX = 2;
+        this.mapSpeedY = 2;
     }
 
 
@@ -92,7 +96,7 @@ class Projectile extends Entity {
         }
 
         super.update();
-        //Entity.prototype.update.call(this);
+
 
     }
 
@@ -104,7 +108,6 @@ class Projectile extends Entity {
      * @author Connor Lundberg
      */
     draw(ctx) {
-
         this.shootAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         Entity.prototype.draw.call(this);
     }
