@@ -191,16 +191,16 @@ class Enemy extends Entity {
     death(ctx) {
         switch (this.facingDirection) {
             case "down":
-                this.deathAnimationDown.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "up":
-                this.deathAnimationUp.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "left":
-                this.deathAnimationDown.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "right":
-                this.deathAnimationDown.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
         }
     };
