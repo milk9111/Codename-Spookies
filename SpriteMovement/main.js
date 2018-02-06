@@ -143,13 +143,10 @@ Unicorn.prototype.update = function () {
 
         if (this.game.forward) {
             this.walkingForward = true;
-            //this.clear();
-            //this.game.forward = false;
         }
 
         if (this.game.backward) {
             this.walkingBackward = true;
-            //this.clear();
             this.game.backward = false;
         }
 

@@ -13,25 +13,25 @@ class BallOfFlesh extends Enemy {
      */
     createAnimations() {
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-        //Only one idle animation, set all 4 cases to same animation.
-        this.idleAnimationDown = null;
-        this.idleAnimationUp = this.idleAnimationDown;
-        this.idleAnimationRight = this.idleAnimationDown;
-        this.idleAnimationLeft = this.idleAnimationDown;
 
-        this.walkAnimationUp = null;
-        //screamer uses down walking animation for all positions but up. There are no specific aggro animations.
-        this.walkAnimationDown = null;
+        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 192, 128, 64, 64, 0.5, 4, true, false);
+        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 0, 128, 64, 64, 0.5, 3, true, false);
+        this.idleAnimationDown = this.idleAnimationRight;
+        this.idleAnimationUp = this.idleAnimationLeft;
+
+        //No specific agro animations.
+        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 0, 0, 64, 64, 0.5, 4, true, false);
+        this.walkAnimationLeftAgro = this.walkAnimationLeft;
+        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 0, 64, 64, 64, 0.5, 4, true, false);
+        this.walkAnimationRightAgro = this.walkAnimationRight;
+        this.walkAnimationUp = this.walkAnimationLeft;
+        this.walkAnimationDown = this.walkAnimationRight;
         this.walkAnimationDownAgro = this.walkAnimationDown;
-        this.walkAnimationLeft = this.walkAnimationDown;
-        this.walkAnimationLeftAgro = this.walkAnimationDown;
-        this.walkAnimationRight = this.walkAnimationDown;
-        this.walkAnimationRightAgro = this.walkAnimationDown;
 
-        this.attackAnimationDown = null;
-        this.attackAnimationUp = null;
-        this.attackAnimationLeft = this.attackAnimationUp;
-        this.attackAnimationRight = this.attackAnimationUp;
+        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 128, 192, 64, 64, 0.5, 4, true, false);
+        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 0, 256, 64, 64, 0.5, 4, true, false);
+        this.attackAnimationDown = this.attackAnimationLeft;
+        this.attackAnimationUp = this.attackAnimationRight;
 
         //no existing death animations
         this.deathAnimationDown = null;

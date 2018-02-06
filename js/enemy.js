@@ -14,6 +14,7 @@ class Enemy extends Entity {
         this.range = range || 100;
         /**How many pixels from the player the enemy stops to begin attacking.*/
         this.stoppingDistance = 15;
+        this.health = 100;
 
         //The enemy's current position and state in the game world.
         this.x = x;
@@ -191,16 +192,16 @@ class Enemy extends Entity {
     death(ctx) {
         switch (this.facingDirection) {
             case "down":
-                this.deathAnimationDown.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "up":
-                this.deathAnimationUp.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "left":
-                this.deathAnimationDown.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
             case "right":
-                this.deathAnimationDown.drawFrame(this.game.clockTick, ctx, this.x, this.y);
+                this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
                 break;
         }
     };
@@ -285,8 +286,14 @@ class Enemy extends Entity {
                 }
                 break;
         }
-
     };
+
+    hit(damage) {
+        this.health -= damage;
+        if(this.health <= 0) {
+            this.dead = true;
+        }
+    }
 }
 
 
