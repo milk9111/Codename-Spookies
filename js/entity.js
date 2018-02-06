@@ -115,49 +115,6 @@ class Entity {
             return 4;
         }
     }
-
-    static setCollisionMarkers(object1, object2, bottomHitATop, topHitABottom, rightHitALeft, leftHitARight) {
-        if (bottomHitATop) {
-            object1.bottomHitATop = true;
-            object2.topHitABottom = true;
-        } else {
-            object1.bottomHitATop = false;
-            object2.topHitABottom = false;
-        }
-
-        if (topHitABottom) {
-            object1.topHitABottom = true;
-            object2.bottomHitATop = true;
-        } else {
-            object1.topHitABottom = false;
-            object2.bottomHitATop = false;
-        }
-
-        if (rightHitALeft) {
-            object1.rightHitALeft = true;
-            object2.leftHitARight = true;
-        } else {
-            object1.rightHitALeft = false;
-            object2.leftHitARight = false;
-        }
-
-        if (leftHitARight) {
-            object1.leftHitARight = true;
-            object2.rightHitALeft = true;
-        } else {
-            object1.leftHitARight = false;
-            object2.rightHitALeft = false;
-        }
-    }
-
-
-    resetCollisionMarkers () {
-        this.topHitABottom = false;
-        this.bottomHitATop = false;
-        this.leftHitARight = false;
-        this.rightHitALeft = false;
-    }
-
     hasCollided(bounds, entityArr) {
         // if (!entityArr) return;
         for (let i = 0; i < entityArr.length; i++) {
@@ -172,6 +129,19 @@ class Entity {
             }
         }
         return false;
+    }
+
+    getCollisions(bounds, entityArr) {
+        let collisions = [];
+        for (let i = 0; i < entityArr.length; i++) {
+            let currEntity = entityArr[i];
+            if (currEntity.collisionBounds !== null && this !== currEntity) {
+                if (Math.intersects(bounds, currEntity)) {
+                    collisions.push(currEntity);
+                }
+            }
+        }
+        return collisions;
     }
 
 
