@@ -148,6 +148,7 @@ class Background extends Entity
          this.canvasH = $("#gameWorld").height();
          this.alpha = 1;
          this.start = true;
+         this.changing = true;
      }
 
     update ()  {
@@ -155,6 +156,9 @@ class Background extends Entity
       //If starting level slowly fade black in, else slowly fade to black
       if (this.start && this.alpha > 0) {
         this.alpha = Number(this.alpha).toFixed(2) - Number(.01).toFixed(2);
+        if (this.alpha <= 0) {
+            this.changing = false;
+        }
       } else if (!this.start) {
         this.alpha += .01;
       }
@@ -164,11 +168,12 @@ class Background extends Entity
 
       //Draw a black square with full alpha until it is time to change maps
       //then make it fade to black.
-      ctx.globalAlpha = this.alpha;
+        if (this.changing) {
+            ctx.globalAlpha = this.alpha;
 
-      ctx.fillStyle = 'black';
-      ctx.fillRect(this.x, this.y, this.canvasW, this.canvasH)
-
+            ctx.fillStyle = 'black';
+            ctx.fillRect(this.x, this.y, this.canvasW, this.canvasH)
+        }
         // let tile_background = new Image();
         // tile_background.src = "../img/Tileable3f.png";
         // tile_background.onload = function(){
@@ -353,8 +358,8 @@ ASSET_MANAGER.downloadAll(function() {
 
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
-    ctx.canvas.width  = window.innerWidth;
-    ctx.canvas.height = window.innerHeight;
+    //ctx.canvas.width  = window.innerWidth;
+    //ctx.canvas.height = window.innerHeight;
 
   document.getElementById('darknessCheck').checked = false;
   document.getElementById('collisionCheck').checked = true;
@@ -366,7 +371,6 @@ ASSET_MANAGER.downloadAll(function() {
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
   let player = new Player(gameEngine);
-
   //Load tile map
   let tileMap = new TileMap();
   tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
@@ -441,7 +445,7 @@ ASSET_MANAGER.downloadAll(function() {
 
 
   //START GAME
-  gameEngine.init(ctx);
+  gameEngine.init(ctx, player);
   player.x = (gameEngine.surfaceWidth / 2 - 32);
   player.y = (gameEngine.surfaceHeight / 2 - 32);
   playerStartX = (gameEngine.surfaceWidth / 2 - 32);

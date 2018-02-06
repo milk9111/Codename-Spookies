@@ -55,6 +55,7 @@ class Exit extends Entity {
 
   startNewLevel(levelNum) {
     this.background.start = false;
+    this.background.changing = true;
     if (this.background.alpha >= 1) {
       console.log(this.background.alpha);
       this.game.newLevel(levelNum);

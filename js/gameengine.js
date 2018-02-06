@@ -57,6 +57,7 @@ class GameEngine {
         this.walls = [];
         this.enemies = [];
         this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space"];
+        this.player = null;
         this.initKeys();
         this.w = null;
         this.s = null;
@@ -66,6 +67,7 @@ class GameEngine {
         this.e = null;
         this.space = null;
         this.click = null;
+        this.combo = null;
     }
 
 
@@ -94,8 +96,9 @@ class GameEngine {
      * @param ctx
      * @author Seth Ladd
      */
-    init (ctx) {
+    init (ctx, player) {
         this.ctx = ctx;
+        this.player = player;
         this.surfaceWidth = this.ctx.canvas.width;
         this.surfaceHeight = this.ctx.canvas.height;
         this.startInput();
@@ -194,15 +197,24 @@ class GameEngine {
     }
 
     readCombo (ctx) {
+        this.combo = new ComboLabel(this, this.player.x, this.player.y);
+        this.addEntity(this.combo);
         let currPos = 0;
         let that = this;
         let currentSpell = "WWAD";
         let firstOpen = true;
+
         console.log("inside readCombo");
 
         let getComboInput = function (e) {
             let failed = true;
             if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
+                that.combo.buildCombo(currentSpell.charAt(currPos));
+                console.log("combo: " + that.combo.combo);
+                // that.ctx.save();
+                // that.ctx.font = "300px Arial";
+                // that.ctx.fillText(that.combo, that.player.x, that.player.y);
+                // that.ctx.restore();
                 currPos++;
                 failed = false;
             }
@@ -210,6 +222,8 @@ class GameEngine {
             if (failed) {
                 console.log("Cast failed! Did not read the combo " + currentSpell);
                 that.cast = false;
+                that.combo.removal = true;
+                that.combo = null; //<< if it doesn't work, try removing both of these.
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
                 return;
@@ -218,6 +232,8 @@ class GameEngine {
             if (currPos >= currentSpell.length) {
                 castSuccessful = true;
                 that.cast = false;
+                that.combo.removal = true;
+                that.combo = null;
                 console.log("Cast successful! Read the combo " + currentSpell);
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
