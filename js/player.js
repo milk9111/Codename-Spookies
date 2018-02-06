@@ -529,31 +529,4 @@ class Player extends Entity {
             this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
-
-
-    readCombo() {
-        if (!this.firstOpen) {
-            for (let i = 0; i < this.game.codes.length; i++) {
-                let currCode = this.game.codes[i];
-                if (this.game.keys[currCode].pressed) {
-                    console.log(currCode);
-                    this.spellCombo += String.fromCharCode(this.game.keys[currCode].code);
-                    let currPos = this.spellCombo.length;
-                    if (this.spellCombo !== this.currentSpell.substring(0, currPos)) {
-                        this.spellCombo = "";
-                        this.casting = false;
-                        castSuccessful = false;
-                        break;
-                    } else if (this.spellCombo === this.currentSpell) {
-                        this.spellCombo = "";
-                        this.casting = false;
-                        castSuccessful = true;
-                        break;
-                    }
-                }
-            }
-        } else {
-            this.firstOpen = false;
-        }
-    }
 }

@@ -259,7 +259,7 @@ ASSET_MANAGER.downloadAll(function() {
     gameEngine.addEntity(temp);
 
     //START GAME
-    gameEngine.init(ctx);
+    gameEngine.init(ctx, player);
     player.x = (gameEngine.surfaceWidth / 2 - 32);
     player.y = (gameEngine.surfaceHeight / 2 - 32);
     playerStartX = (gameEngine.surfaceWidth / 2 - 32);
