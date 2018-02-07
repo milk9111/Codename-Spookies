@@ -252,8 +252,7 @@ ASSET_MANAGER.downloadAll(function() {
     gameEngine = new GameEngine();
     gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-    let titleScreen = new TitleScreen(gameEngine, 0, 0);
-    gameEngine.addEntity(titleScreen);
+    gameEngine.loadTitleScreen();
 
     //START GAME
     gameEngine.init(ctx);

@@ -4,11 +4,13 @@ class TitleScreen extends Entity {
     constructor(game, x, y) {
         super(game, x, y, false, 100, 100, 0, 0, "TitleScreen");
 
+        let that = this;
         let startButton = new CanvasButton(game, 200, 400, 100, 50);
         startButton.setText = "Start Game";
         startButton.setDefaultColor = "#333333";
         startButton.setOnClick = function () {
             console.log("I'm clicked");
+            that.game.newLevel(1);
         };
         game.addEntity(startButton);
 

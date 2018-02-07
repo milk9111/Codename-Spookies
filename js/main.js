@@ -333,7 +333,7 @@ ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/codename-spookies_title.png");
+ASSET_MANAGER.queueDownload("../img/codename-spookies_title_white.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
@@ -348,8 +348,6 @@ ASSET_MANAGER.downloadAll(function() {
 
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
-    //ctx.canvas.width  = window.innerWidth;
-    //ctx.canvas.height = window.innerHeight;
 
   document.getElementById('darknessCheck').checked = false;
   document.getElementById('collisionCheck').checked = true;
@@ -360,7 +358,27 @@ ASSET_MANAGER.downloadAll(function() {
   gameEngine = new GameEngine();
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-  let player = new Player(gameEngine);
+  gameEngine.loadMap1(ctx, canvas);
+  gameEngine.init(ctx);
+  gameEngine.start();
+});
+
+/** Re-maps a number from one range to another.
+*@param {int} value Incoming value to be converted
+*@param {int} low1 Lower bound of the value's current range
+*@param {int} high1 High bound of hte value's current range
+*@param {int} low2 Lower bound of the value's target range
+*@param {int} high2 Higher bound of the value's target range
+*@return New valuw map to new range
+*@author p5.js, basically ripped it off from there, since can't use CDN.
+*/
+function map(value, low1, high1, low2, high2) {
+  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+
+
+//The original map setup in case we need it.
+/*let player = new Player(gameEngine);
   //Load tile map
   let tileMap = new TileMap();
   tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
@@ -440,20 +458,4 @@ ASSET_MANAGER.downloadAll(function() {
   player.y = (gameEngine.surfaceHeight / 2 - 32);
   playerStartX = (gameEngine.surfaceWidth / 2 - 32);
   playerStartY = (gameEngine.surfaceHeight / 2 - 32);
-  console.log(player.x + ", " + player.y);
-
-  gameEngine.start();
-});
-
-/** Re-maps a number from one range to another.
-*@param {int} value Incoming value to be converted
-*@param {int} low1 Lower bound of the value's current range
-*@param {int} high1 High bound of hte value's current range
-*@param {int} low2 Lower bound of the value's target range
-*@param {int} high2 Higher bound of the value's target range
-*@return New valuw map to new range
-*@author p5.js, basically ripped it off from there, since can't use CDN.
-*/
-function map(value, low1, high1, low2, high2) {
-  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
-}
+  console.log(player.x + ", " + player.y);*/

@@ -96,9 +96,8 @@ class GameEngine {
      * @param ctx
      * @author Seth Ladd
      */
-    init (ctx, player) {
+    init (ctx) {
         this.ctx = ctx;
-        this.player = player;
         this.surfaceWidth = this.ctx.canvas.width;
         this.surfaceHeight = this.ctx.canvas.height;
         this.startInput();
@@ -124,7 +123,7 @@ class GameEngine {
     }
 
     /** This changes the game to the next level.
-    @param {int} level Number of the level to load. **/
+    @param {int} levelNum Number of the level to load. **/
     newLevel(levelNum) {
 
       console.log("Loading new level " + levelNum);
@@ -135,12 +134,16 @@ class GameEngine {
       }
 
       //Load new level
-      switch(levelNum) {
-        case 2:
-          this.level = 2;
-          this.loadMap2();
-          break;
-      }
+        switch(levelNum) {
+            case 1:
+                this.level = 1;
+                this.loadMap1();
+                break;
+            case 2:
+                this.level = 2;
+                this.loadMap2();
+                break;
+        }
 
     }
 
@@ -167,7 +170,6 @@ class GameEngine {
         };
 
         let coreMovementButtonDown = function (e) {
-
             that.keys[e.code].pressed = true;
 
             if (e.code === 'KeyQ' && !that.cast) {
@@ -268,7 +270,6 @@ class GameEngine {
      * @author Seth Ladd
      */
     addEntity (entity) {
-        console.log('added entity');
         this.entities.push(entity);
         if(entity.name === 'Tile' && entity.collisionBounds) {
             this.walls.push(entity);
@@ -279,8 +280,6 @@ class GameEngine {
         if(entity instanceof Enemy) {
             this.enemies.push(entity);
         }
-        console.log("entities length after: " + this.entities.length);
-
     }
 
 
@@ -330,20 +329,16 @@ class GameEngine {
         let removalPositions = [];
 
         //This moves the entities (via their own update method)
-        //console.log(entitiesCount);
-
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
 
             if (entity.removalStatus === false) {
                 entity.update();
             } else {
-                //console.log("Going to remove");
                 removalPositions.push(i);
             }
         }
 
-        ///console.log("rmlen " + removalPositions.length);
         //This removes entities from the game world
         for (let i = removalPositions.length - 1; i >= 0; --i) {
             this.entities.splice(removalPositions[i], 1);
@@ -373,25 +368,23 @@ class GameEngine {
         this.stop = null;
     }
 
+    /**
+     * Loads title screen
+     */
+    loadTitleScreen () {
+        let titleScreen = new TitleScreen(this, 0, 0);
+        this.addEntity(titleScreen);
+    }
 
     /**
      * Loads map 1.
      */
-    loadMap1() {
-        let canvas = document.getElementById('gameWorld');
-        let ctx = canvas.getContext('2d');
-        //ctx.canvas.width  = window.innerWidth;
-        //ctx.canvas.height = window.innerHeight;
-
-        document.getElementById('darknessCheck').checked = false;
-        document.getElementById('collisionCheck').checked = true;
-
-        //LOAD ENTITIES
-        //start facing downwards.
-        facingDirection = 2;
-        this.drawing = document.getElementById('collisionCheck').checked;
+    loadMap1(ctx, canvas) {
+        //let canvas = document.getElementById('gameWorld');
+        //let ctx = canvas.getContext('2d');
 
         let player = new Player(this);
+
         //Load tile map
         let tileMap = new TileMap();
         tileMap.loadMap(Map.getTestMap(), 32, 32, this, player, ctx);
@@ -403,7 +396,6 @@ class GameEngine {
 
         let bg = new Background(this);
         darkness = new Darkness(this, player);
-        //darknessOutline = new DarknessOutline(this, player);
 
         darkness.drawing = document.getElementById('darknessCheck').checked;
 
@@ -459,18 +451,12 @@ class GameEngine {
         ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
         ASSET_MANAGER.toggleSound();
 
-        //this.addEntity(darknessOutline);
+        //START GAME
+        this.initPlayerPosition(player, ctx);
+
         player.darkness = darkness;
         this.addEntity(darkness);
         this.addEntity(bg);
-
-
-        //START GAME
-        player.x = (this.surfaceWidth / 2 - 32);
-        player.y = (this.surfaceHeight / 2 - 32);
-        playerStartX = (this.surfaceWidth / 2 - 32);
-        playerStartY = (this.surfaceHeight / 2 - 32);
-        console.log(player.x + ", " + player.y);
     }
     
 
@@ -546,13 +532,18 @@ class GameEngine {
       }
 
       //START GAME
-      player.x = (this.surfaceWidth / 2 - 32);
-      player.y = (this.surfaceHeight / 2 - 32);
-      playerStartX = (this.surfaceWidth / 2 - 32);
-      playerStartY = (this.surfaceHeight / 2 - 32);
+      this.initPlayerPosition(player, ctx);
 
       player.darkness = darkness;
       this.addEntity(darkness);
       this.addEntity(bg);
+    }
+
+    initPlayerPosition(player, ctx) {
+        player.x = (ctx.canvas.width / 2 - 32);
+        player.y = (ctx.canvas.height / 2 - 32);
+        playerStartX = (ctx.canvas.width / 2 - 32);
+        playerStartY = (ctx.canvas.height / 2 - 32);
+        console.log(player.x + ", " + player.y);
     }
 }
