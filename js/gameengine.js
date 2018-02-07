@@ -71,6 +71,7 @@ class GameEngine {
         this.combo = null;
         this.paused = false;
         this.tempClockTick = 0;
+        this.pauseMenu = null;
     }
 
 
@@ -189,10 +190,14 @@ class GameEngine {
             } else if (e.code === 'Escape') {
                 //that.paused = !that.paused;
                 if (that.paused === false) {
+                    that.pauseMenu = that.makePauseMenu();
+                    that.addEntity(that.pauseMenu);
                     that.paused = true;
                     that.tempClockTick = that.clockTick;
                     that.clockTick = 0;
                 } else {
+                    that.pauseMenu.removal = true;
+                    that.pauseMenu = null;
                     that.paused = false;
                     that.clockTick = that.tempClockTick;
                 }
@@ -279,6 +284,17 @@ class GameEngine {
         };
 
         ctx.canvas.addEventListener("keydown", getComboInput, true);
+    }
+
+
+    makePauseMenu () {
+        let pauseMenu = new PauseMenu(this, this.surfaceWidth / 3.5, this.surfaceHeight / 5, 300, 500);
+        let offsets = {
+            xOffset: 300/2,
+            yOffset: 500/6
+        };
+        pauseMenu.setTextXandYOffset = offsets;
+        return pauseMenu;
     }
 
 
