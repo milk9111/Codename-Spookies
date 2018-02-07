@@ -48,7 +48,7 @@ class ComboLabel extends UIElement {
 
         ctx.strokeStyle = "#000000";
         ctx.globalAlpha = this.alpha;
-        ctx.font = "25px Georgia";
+        ctx.font = "25px Metal Mania";
         ctx.textAlign = "center";
         ctx.fillText(this.combo, this.x, this.y);
         ctx.strokeText(this.combo, this.x, this.y);

@@ -8,6 +8,7 @@ class TitleScreen extends UIElement {
         let startButton = new CanvasButton(game, 200, 400, 100, 50);
         startButton.setText = "Start Game";
         startButton.setDefaultColor = "#333333";
+        startButton.setTextFont = "15px Metal Mania";
         startButton.setOnClick = function () {
             console.log("I'm clicked");
             that.game.newLevel(1);
