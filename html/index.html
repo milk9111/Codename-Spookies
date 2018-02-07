@@ -31,7 +31,12 @@
     <script type="text/javascript" src="../js/potion.js"></script>
     <script type="text/javascript" src="../js/projectile.js"></script>
     <script type="text/javascript" src="../js/screamer.js"></script>
+    <script type="text/javascript" src="../js/ballOfFlesh.js"></script>
     <script type="text/javascript" src="../js/exit.js"></script>
+    <script type="text/javascript" src="../js/uiElement.js"></script>
+    <script type="text/javascript" src="../js/comboLabel.js"></script>
+    <script type="text/javascript" src="../js/canvasButton.js"></script>
+    <script type="text/javascript" src="../js/titleScreen.js"></script>
 
 </head>
 <body>
@@ -41,7 +46,7 @@
                 <canvas id="gameWorld" tabindex="1" width="785" height="785"></canvas>
             </div>
             <div class="col col-lg-2"></div>
-            <div class="col col-lg-2" style="float: right">
+            <div class="col col-lg-2" style="float: right" id="info">
                 <form style="border: 1px solid black; margin-top:5px;">
                     <div style="margin:5px;">
                         <div class="form-check">
@@ -79,6 +84,7 @@
                     D - Right<br>
                     E - Shield Raise<br>
                     Space - Crossbow shoot<br>
+                    Escape - Pause<br>
                     Q - Cast spell<br><br>
 
                     *When casting a spell, the animation you see is an idle while the game waits for

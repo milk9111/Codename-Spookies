@@ -148,6 +148,7 @@ class Background extends Entity
          this.canvasH = $("#gameWorld").height();
          this.alpha = 1;
          this.start = true;
+         this.changing = true;
      }
 
     /** Updates the background **/
@@ -156,6 +157,9 @@ class Background extends Entity
       //If starting level slowly fade black in, else slowly fade to black
       if (this.start && this.alpha > 0) {
         this.alpha = Number(this.alpha).toFixed(2) - Number(.01).toFixed(2);
+        if (this.alpha <= 0) {
+            this.changing = false;
+        }
       } else if (!this.start) {
         this.alpha += .01;
       }
@@ -165,22 +169,14 @@ class Background extends Entity
     *@param {canvas} ctx Canvas element
     **/
     draw (ctx) {
-
       //Draw a black square with full alpha until it is time to change maps
       //then make it fade to black.
-      ctx.globalAlpha = this.alpha;
+        if (this.changing) {
+            ctx.globalAlpha = this.alpha;
 
-      ctx.fillStyle = 'black';
-      ctx.fillRect(this.x, this.y, this.canvasW, this.canvasH)
-
-        // let tile_background = new Image();
-        // tile_background.src = "../img/Tileable3f.png";
-        // tile_background.onload = function(){
-        //     let pattern = ctx.createPattern(tile_background, "repeat");
-        //     ctx.fillStyle = pattern;
-        //     ctx.fill();
-            //Entity.prototype.draw.call(this);
-        //};
+            ctx.fillStyle = 'black';
+            ctx.fillRect(this.x, this.y, this.canvasW, this.canvasH)
+        }
     }
 }
 
@@ -330,10 +326,7 @@ let facingDirection;
 
 // the "main" code begins here
 let ASSET_MANAGER = new AssetManager();
-//We will want to switch to this for a dynamic background, for now it is being
-//repeated onto the canvas through style.css
-//ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
-//ASSET_MANAGER.queueDownload("../img/Player_Box.png");
+
 ASSET_MANAGER.queueDownload("../img/blackness.png");
 ASSET_MANAGER.queueDownload("../img/blackOutline.png");
 ASSET_MANAGER.queueDownload("../img/sprites.png");
@@ -343,6 +336,8 @@ ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/codename-spookies_title_white.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
@@ -367,8 +362,29 @@ ASSET_MANAGER.downloadAll(function() {
   gameEngine = new GameEngine();
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-  let player = new Player(gameEngine);
+  gameEngine.loadTitleScreen(ctx);
+  //gameEngine.loadMap1(ctx);
 
+  gameEngine.init(ctx);
+  gameEngine.start();
+});
+
+/** Re-maps a number from one range to another.
+*@param {int} value Incoming value to be converted
+*@param {int} low1 Lower bound of the value's current range
+*@param {int} high1 High bound of hte value's current range
+*@param {int} low2 Lower bound of the value's target range
+*@param {int} high2 Higher bound of the value's target range
+*@return New valuw map to new range
+*@author p5.js, basically ripped it off from there, since can't use CDN.
+*/
+function map(value, low1, high1, low2, high2) {
+  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+
+
+//The original map setup in case we need it.
+/*let player = new Player(gameEngine);
   //Load tile map
   let tileMap = new TileMap();
   tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
@@ -443,25 +459,9 @@ ASSET_MANAGER.downloadAll(function() {
 
 
   //START GAME
-  gameEngine.init(ctx);
+  gameEngine.init(ctx, player);
   player.x = (gameEngine.surfaceWidth / 2 - 32);
   player.y = (gameEngine.surfaceHeight / 2 - 32);
   playerStartX = (gameEngine.surfaceWidth / 2 - 32);
   playerStartY = (gameEngine.surfaceHeight / 2 - 32);
-  console.log(player.x + ", " + player.y);
-
-  gameEngine.start();
-});
-
-/** Re-maps a number from one range to another.
-*@param {int} value Incoming value to be converted
-*@param {int} low1 Lower bound of the value's current range
-*@param {int} high1 High bound of hte value's current range
-*@param {int} low2 Lower bound of the value's target range
-*@param {int} high2 Higher bound of the value's target range
-*@return New valuw map to new range
-*@author p5.js, basically ripped it off from there, since can't use CDN.
-*/
-function map(value, low1, high1, low2, high2) {
-  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
-}
+  console.log(player.x + ", " + player.y);*/

@@ -292,28 +292,12 @@ Math.getDistance = function(x1, y1, x2, y2) {
 };
 
 /**
- *
- * @param o1 {Entity}
- * @param o2 {Entity}
- */
-Math.intersectsAtX = function (o1, o2) {
-  return o1.collisionBounds.x <= o2.x + o2.collisionBounds.width && o1.collisionBounds.x + o1.collisionBounds.width >= o2.collisionBounds.x;
-};
-
-/**
- *
- * @param o1 {Entity}
- * @param o2 {Entity}
- */
-Math.intersectsAtY = function (o1, o2) {
-    return o1.y < o2.y + o2.collisionBounds.height && o1.y + o1.collisionBounds.height >= o2.y;
-};
-
-
-/**
  * @param o1 {Entity}
  * @param o2 {Entity}
  */
 Math.intersects = function(o1, o2) {
-  return Math.intersectsAtX(o1, o2) && Math.intersectsAtY(o1 , o2);
+  let rect1 = o1.collisionBounds;
+  let rect2 = o2.collisionBounds;
+    return rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height && rect1.height + rect1.y > rect2.y;
 };

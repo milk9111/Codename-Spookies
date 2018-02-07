@@ -228,6 +228,7 @@ ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/codename-spookies_title_white.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
@@ -251,20 +252,10 @@ ASSET_MANAGER.downloadAll(function() {
     gameEngine = new GameEngine();
     gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-    let player = new Player(gameEngine);
-    gameEngine.addEntity(player);
-
-    let temp = new PlagueDoctor(gameEngine, player, canvas.width / 2 + 20, canvas.height / 2);
-    //let temp = new Tile(canvas.width / 2 + 20, canvas.height / 2, 'E', gameEngine, player, ctx);
-    gameEngine.addEntity(temp);
+    gameEngine.loadTitleScreen();
 
     //START GAME
     gameEngine.init(ctx);
-    player.x = (gameEngine.surfaceWidth / 2 - 32);
-    player.y = (gameEngine.surfaceHeight / 2 - 32);
-    playerStartX = (gameEngine.surfaceWidth / 2 - 32);
-    playerStartY = (gameEngine.surfaceHeight / 2 - 32);
-    console.log(player.x + ", " + player.y);
 
     gameEngine.start();
 });

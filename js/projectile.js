@@ -13,7 +13,7 @@ class Projectile extends Entity {
 
     constructor(game, animation, direction, startX, startY, player, parent) {
 
-        //console.log("making new projectile");
+        console.log("making new projectile");
 
         super(game, startX, startY, true, 24, 24, 20, 20, "Projectile"); //(0, 400) signify where the sprite will be drawn.
 
@@ -28,6 +28,10 @@ class Projectile extends Entity {
         this.parent = parent;
 
         this.maxAnimationLoopsBeforeRemoval = 5;
+
+        //Speed at which character moves with map
+        this.mapSpeedX = 2;
+        this.mapSpeedY = 2;
     }
 
 
@@ -45,7 +49,7 @@ class Projectile extends Entity {
         }
         */
         if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
-            //console.log("started Killing process");
+            console.log("started Killing process");
             this.removeFromWorld = true;
             this.shootAnimation.timesFinished = 0;
         }
@@ -92,7 +96,7 @@ class Projectile extends Entity {
         }
 
         super.update();
-        //Entity.prototype.update.call(this);
+
 
     }
 
@@ -104,7 +108,6 @@ class Projectile extends Entity {
      * @author Connor Lundberg
      */
     draw(ctx) {
-
         this.shootAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         Entity.prototype.draw.call(this);
     }

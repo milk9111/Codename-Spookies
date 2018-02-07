@@ -12,11 +12,11 @@ let castSuccessful = false;
  */
 class Player extends Entity {
 
-    constructor(game) {
-        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 26, 58, 19, 4, "Player"); //(0, 400) signify where the sprite will be drawn.
+    constructor(game, x, y) {
+        super(game, x, y, true, 26, 58, 19, 4, "Player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
-
+        console.log("Player X " + this.x);
         this.stopMoving = false;
 
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
@@ -79,6 +79,7 @@ class Player extends Entity {
         this.shooting = false;
         this.currentSpell = fireSpell;
         this.levelDone = false;
+        this.speed = 3;
 
         this.health = 100;
 
@@ -100,25 +101,6 @@ class Player extends Entity {
         this.offBottom = false;
     }
 
-
-    static adjacentCollisionsAlready(blockedDirection) {
-        let result = false;
-        for (let i = 1; i < blockedDirection.length; i++) {
-            if (blockedDirection[i]) {
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
-
-    static clear (blockedDirection) {
-        for (let i = 1; i < blockedDirection.length; i++) {
-            blockedDirection[i] = false;
-        }
-    }
-
     /**
      * Here the Player will decide what direction they're moving towards next.
      * It handles the actual x & y movement value for the Player object. This
@@ -130,27 +112,7 @@ class Player extends Entity {
      */
     update() {
       if (!this.stopMoving) {
-        let totalDistance = 3;
-
-        let collisionOccurred = this.hasCollided();
-
-        if (collisionOccurred) {
-            if (this.collidedObject.name === "Projectile") {
-                this.collidedObject.removal = true;
-            } else {
-                if (this.lastCollidedObject === null || this.lastCollidedObject !== this.collidedObject) {
-                    this.lastCollidedObject = this.collidedObject;
-                    console.log("Direction the collision occurred: " + facingDirection);
-                    // this.blockedDirection[facingDirection] = true;
-                }
-            }
-        } else {
-            this.lastCollidedObject = null;
-            this.collidedObject = null;
-            //console.log("clearing blocked directions");
-            Player.clear(this.blockedDirection);
-        }
-
+        let totalDistance = this.speed;
 
         if (this.game.cast && !this.casting) {
             if (!this.chargingSpellSound.playing(this.chargingSpellSoundId)) {
@@ -356,74 +318,58 @@ class Player extends Entity {
         if (this.swinging) {
             ASSET_MANAGER.getAsset("../snd/sword_woosh.wav").play();
 
-            if (this.swingDownwardAnimation.isDone()) {
+            if (this.swingDownwardAnimation.isDone() || this.swingForwardAnimation.isDone() || this.swingLeftAnimation.isDone()
+            || this.swingRightAnimation.isDone()) {
+
                 this.swingDownwardAnimation.elapsedTime = 0;
-                this.swinging = false;
-                swing = false;
-            }
-            if (this.swingForwardAnimation.isDone()) {
                 this.swingForwardAnimation.elapsedTime = 0;
-                this.swinging = false;
-                swing = false;
-
-            }
-            if (this.swingLeftAnimation.isDone()) {
                 this.swingLeftAnimation.elapsedTime = 0;
-                this.swinging = false;
-                swing = false;
-
-            }
-            if (this.swingRightAnimation.isDone()) {
                 this.swingRightAnimation.elapsedTime = 0;
                 this.swinging = false;
-                swing = false;
 
+                let collisions = this.getCollisions({collisionBounds: this.swingBox}, this.game.enemies);
+                for(let i = 0; i < collisions.length; i++) {
+                    let enemy = collisions[i];
+                    enemy.hit(15);
+                    console.log("Sword hit: " + enemy.name + " health: " + enemy.health);
+                }
             }
         }
 
 
         //Control Bounds
-        let bounds = 500;
+        let bounds = 305;
 
-        if (this.x > $("#gameWorld").width() - bounds && this.walkingRight) {
-            this.offRight = true;
-        } else {
-            this.offRight = false;
-        }
+        this.offRight = this.x > $("#gameWorld").width() - bounds && this.walkingRight;
 
-        if (this.x <  bounds && this.walkingLeft) {
-            this.offLeft = true;
-        } else {
-            this.offLeft = false;
-        }
+        this.offLeft = this.x < bounds && this.walkingLeft;
 
-        if (this.y <  bounds && this.walkingForward) {
-            this.offTop = true;
-        } else {
-            this.offTop = false;
-        }
+        this.offTop = this.y < bounds && this.walkingForward;
 
-        if (this.y > $("#gameWorld").height() - bounds && this.walkingDownward) {
-            this.offBottom = true;
-        } else {
-            this.offBottom = false;
-        }
+        this.offBottom = this.y > $("#gameWorld").height() - bounds && this.walkingDownward;
 
         //Update the swing box if not swinging
-        if (!this.swinging) {
-          this.swingBox.x = this.x + 30;
-          this.swingBox.y = this.y + 30;
-          this.swingBox.height = 5;
-          this.swingBox.width = 5;
+          if (!this.swinging) {
+            this.swingBox.x = this.x + 30;
+            this.swingBox.y = this.y + 30;
+            this.swingBox.height = 5;
+            this.swingBox.width = 5;
         }
-        if(collisionOccurred) {
-            this.offBottom = false;
+
+        if(this.hasCollidedWithWalls()) {
+            this.x = this.lastX;
+            this.y = this.lastY;
             this.offLeft = false;
             this.offRight = false;
+            this.offBottom = false;
             this.offTop = false;
+        } else {
+            this.lastX = this.x;
+            this.lastY = this.y;
         }
-      }
+
         super.update();
+      }
 
     }
 
@@ -432,43 +378,26 @@ class Player extends Entity {
      * true on the first occurrence.
      *
      * @returns {boolean}
-     * @author Connor Lundberg
+     * @author Connor Lundberg, Myles Haynes
      */
-    hasCollided() {
-        let collided = false;
-        for (let i = 0; i < this.game.entities.length; i++) {
-            let currEntity = this.game.entities[i];
-
-            if (currEntity.collisionBounds !== null && this !== currEntity && this.collisionBounds !== null) {
-                collided = Math.intersects(this, currEntity);
-                if (collided) {
-                    this.collidedObject = currEntity;
-                    this.onCollide(currEntity);
-                    currEntity.colliderBoxColor = "green";
-                    break;
-                } else if (currEntity.colliderColor === "green") {
-                    currEntity.colliderBoxColor = "red";
-                }
+    hasCollidedWithWalls() {
+        let bounds = {
+            collisionBounds: {
+                x: this.collisionBounds.x,
+                y: this.collisionBounds.y,
+                width: this.collisionBounds.width,
+                height: this.collisionBounds.height
             }
-        }
-        return collided;
+        };
+        this.offset = this.speed + 1;
+        if(this.walkingRight) bounds.collisionBounds.width += this.offset;
+        if(this.walkingLeft) bounds.collisionBounds.x -= this.offset;
+        if(this.walkingDownward) bounds.collisionBounds.height += this.offset;
+        if(this.walkingForward) bounds.collisionBounds.y -= this.offset;
+
+        return this.hasCollided(bounds, this.game.walls);
     }
 
-    onCollide(other) {
-        if(Math.intersectsAtX(this, other)) {
-            this.x = this.lastX;
-        }
-        if(Math.intersectsAtY(this, other)) {
-            this.y = this.lastY;
-        }
-        if(this instanceof Player) {
-            if(this.offRight) {
-                console.log("Collided while map was moving");
-                this.x -= 2;
-            }
-
-        }
-    }
 
 
 
@@ -600,84 +529,4 @@ class Player extends Entity {
             this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
-
-
-    readCombo() {
-        if (!this.firstOpen) {
-            for (let i = 0; i < this.game.codes.length; i++) {
-                let currCode = this.game.codes[i];
-                if (this.game.keys[currCode].pressed) {
-                    console.log(currCode);
-                    this.spellCombo += String.fromCharCode(this.game.keys[currCode].code);
-                    let currPos = this.spellCombo.length;
-                    if (this.spellCombo !== this.currentSpell.substring(0, currPos)) {
-                        this.spellCombo = "";
-                        this.casting = false;
-                        castSuccessful = false;
-                        break;
-                    } else if (this.spellCombo === this.currentSpell) {
-                        this.spellCombo = "";
-                        this.casting = false;
-                        castSuccessful = true;
-                        break;
-                    }
-                }
-            }
-        } else {
-            this.firstOpen = false;
-        }
-    }
-
-
-    /**
-     * This function will look at the player's collision bounds to see if it ever
-     * reaches the edge of the map. If so, then the player doesn't move. This will
-     * save collision checking with all of the edge tiles.
-     *
-     * @author Connor Lundberg
-     */
-    collidedWithMapBounds() {
-        let left = this.collisionBounds.x - this.collisionBounds.radius;
-    }
-
-
-
-
-
-    /**
-     * Changes the player's position so their collision box isn't inside of the collided object.
-     * If weird bouncing or incorrect collision box positioning starts to happen, this is probably
-     * the cause.
-     *
-     * @param currEntity
-     * @author Connor Lundberg
-     */
-    offsetPlayerPosition(currEntity) {
-        switch (facingDirection) {
-            case 1:
-                this.collisionBounds.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
-                this.y = currEntity.collisionBounds.y + currEntity.collisionBounds.height;
-                break;
-            case 2:
-                this.collisionBounds.y = currEntity.collisionBounds.y - this.collisionBounds.height - 25;
-                this.y = currEntity.collisionBounds.y - this.collisionBounds.height - 25;
-                break;
-            case 3:
-                this.collisionBounds.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
-                this.x = currEntity.collisionBounds.x + currEntity.collisionBounds.width;
-                break;
-            case 4:
-                this.collisionBounds.x = currEntity.collisionBounds.x - this.collisionBounds.width - 35;
-                this.x = currEntity.collisionBounds.x - this.collisionBounds.width - 35;
-                break;
-        }
-
-        if (this.darkness) {
-            this.darkness.update();
-        }
-    }
-
-
-
-
 }
