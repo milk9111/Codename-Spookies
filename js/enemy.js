@@ -102,7 +102,7 @@ class Enemy extends Entity {
             if (this.isPlayerInRange()) {
                 if (this.notifySoundId === null) {
                     this.notifySoundId = ASSET_MANAGER.playSound(this.soundPath);
-                    this.notifySound.fade(0.0, 0.3, 1000);
+                    //this.notifySound.fade(0.0, 0.3, 1000);
                 } else {
                     ASSET_MANAGER.playSound(this.soundPath);
                 }
@@ -297,6 +297,3 @@ class Enemy extends Entity {
         }
     }
 }
-
-
-

@@ -137,6 +137,9 @@ class GameEngine {
         this.entities[i].removeFromWorld = true;
       }
 
+      this.walls = [];
+      this.enemies = [];
+
       //Load new level
         switch(levelNum) {
             case 1:
@@ -406,7 +409,7 @@ class GameEngine {
         //let canvas = document.getElementById('gameWorld');
         //let ctx = canvas.getContext('2d');
 
-        let player = new Player(this);
+        let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
         //Load tile map
         let tileMap = new TileMap();
@@ -481,15 +484,12 @@ class GameEngine {
         this.addEntity(darkness);
         this.addEntity(bg);
     }
-    
+
 
     /**Loads map 2. **/
-    loadMap2() {
+    loadMap2(ctx) {
 
-      let canvas = document.getElementById('gameWorld');
-      let ctx = canvas.getContext('2d');
-
-      let player = new Player(this);
+      let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
       //Load tile map
       let tileMap = new TileMap();

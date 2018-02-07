@@ -12,6 +12,7 @@ class Exit extends Entity {
     this.isDraw = false;
     this.speedX = 2;
     this.speedY = 2;
+    this.entered = false;
     this.background = background;
 
     //Animation for portal
@@ -30,9 +31,11 @@ class Exit extends Entity {
 
       //Check collision with player
       if (Math.intersects(this.player, this)) {
-        this.player.stopMoving = true; 
+        this.entered = true;
+      }
+
+      if (this.entered) {
         this.startNewLevel(2);
-        //TODO: Make it so the level goes to the next level in the game engine and check for end game stuff
       }
 
       super.update();
@@ -53,11 +56,12 @@ class Exit extends Entity {
 
   }
 
+  /**Ends the current level and starts loading the next level
+  @param {int} LevelNum Number of the next level **/
   startNewLevel(levelNum) {
     this.background.start = false;
     this.background.changing = true;
     if (this.background.alpha >= 1) {
-      console.log(this.background.alpha);
       this.game.newLevel(levelNum);
     }
   }

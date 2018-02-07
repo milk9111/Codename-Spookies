@@ -8,7 +8,7 @@
 6 = Green Floor 3
 7 = Green Floor 4
 8 = Green Floor 5
-9 = IDK
+9 = Screamer
 A = White Floor 1
 B = White Floor 2
 C = White Floor 3
@@ -62,3 +62,7 @@ u = White Wall 1
 v = White Wall 2
 x = Brown Wall 3
 y = Brown Wall 4
+
+--------------------Enemies
+p = Plague Doctor
+9 = Screamer

@@ -12,11 +12,11 @@ let castSuccessful = false;
  */
 class Player extends Entity {
 
-    constructor(game) {
-        super(game, game.surfaceWidth/2 - 200, game.surfaceHeight/2 - 200, true, 26, 58, 19, 4, "Player"); //(0, 400) signify where the sprite will be drawn.
+    constructor(game, x, y) {
+        super(game, x, y, true, 26, 58, 19, 4, "Player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
-
+        console.log("Player X " + this.x);
         this.stopMoving = false;
 
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse

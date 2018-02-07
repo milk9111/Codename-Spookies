@@ -151,6 +151,7 @@ class Background extends Entity
          this.changing = true;
      }
 
+    /** Updates the background **/
     update ()  {
 
       //If starting level slowly fade black in, else slowly fade to black
@@ -164,6 +165,9 @@ class Background extends Entity
       }
     }
 
+    /** Draws the background when needed
+    *@param {canvas} ctx Canvas element
+    **/
     draw (ctx) {
       //Draw a black square with full alpha until it is time to change maps
       //then make it fade to black.

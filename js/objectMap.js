@@ -47,7 +47,7 @@ class ObjectMap {
             this.map2D[i][j] = new Potion(spriteW * j, spriteH * i, txt[i][j], player, game);
           } else if (txt[i][j] === 'p'){
             this.map2D[i][j] = new PlagueDoctor(game, player, spriteW * j, spriteH * i);
-          } else if (txt[i][j] === 's'){
+          } else if (txt[i][j] === '9'){
               this.map2D[i][j] = new Screamer(game, player, spriteW * j, spriteH * i);
           } else if (txt[i][j] === 'r') {
             this.map2D[i][j] = new Exit(spriteW * j, spriteH * i, player, game);
