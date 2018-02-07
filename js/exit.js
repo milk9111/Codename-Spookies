@@ -30,7 +30,6 @@ class Exit extends Entity {
 
       //Check collision with player
       if (Math.intersects(this.player, this)) {
-        this.player.stopMoving = true; 
         this.startNewLevel(2);
         //TODO: Make it so the level goes to the next level in the game enegie and check for end game stuff
       }
@@ -53,10 +52,12 @@ class Exit extends Entity {
 
   }
 
+  /**Ends the current level and starts loading the next level
+  @param {int} LevelNum Number of the next level **/
   startNewLevel(levelNum) {
     this.background.start = false;
+    this.player.stopMoving = true;
     if (this.background.alpha >= 1) {
-      console.log(this.background.alpha);
       this.game.newLevel(levelNum);
     }
   }
