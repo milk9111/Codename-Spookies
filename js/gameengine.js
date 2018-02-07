@@ -56,7 +56,8 @@ class GameEngine {
         this.keys = [];
         this.walls = [];
         this.enemies = [];
-        this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space"];
+        this.uiElements = [];
+        this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space", "Escape"];
         this.player = null;
         this.initKeys();
         this.w = null;
@@ -68,6 +69,8 @@ class GameEngine {
         this.space = null;
         this.click = null;
         this.combo = null;
+        this.paused = false;
+        this.tempClockTick = 0;
     }
 
 
@@ -84,6 +87,7 @@ class GameEngine {
         this.keys["KeyS"] = {code: "KeyS", pressed: false};
         this.keys["KeyD"] = {code: "KeyD", pressed: false};
         this.keys["Space"] = {code: "Space", pressed: false};
+        this.keys["Escape"] = {code: "Escape", pressed: false};
     }
 
 
@@ -137,11 +141,11 @@ class GameEngine {
         switch(levelNum) {
             case 1:
                 this.level = 1;
-                this.loadMap1();
+                this.loadMap1(this.ctx);
                 break;
             case 2:
                 this.level = 2;
-                this.loadMap2();
+                this.loadMap2(this.ctx);
                 break;
         }
 
@@ -179,6 +183,17 @@ class GameEngine {
                 that.readCombo(that.ctx)
             } else if (e.code === 'KeyQ' && that.cast) {
                 that.cast = false;
+            } else if (e.code === 'Escape') {
+                //that.paused = !that.paused;
+                if (that.paused === false) {
+                    that.paused = true;
+                    that.tempClockTick = that.clockTick;
+                    that.clockTick = 0;
+                } else {
+                    that.paused = false;
+                    that.clockTick = that.tempClockTick;
+                }
+                console.log("Pausing game: " + that.paused);
             }
             e.preventDefault();
         };
@@ -280,6 +295,9 @@ class GameEngine {
         if(entity instanceof Enemy) {
             this.enemies.push(entity);
         }
+        if(entity instanceof UIElement) {
+            this.uiElements.push(entity);
+        }
     }
 
 
@@ -355,8 +373,10 @@ class GameEngine {
      * @author Seth Ladd
      */
     loop () {
-        this.clockTick = this.timer.tick();
-        this.update();
+        if (!this.paused) {
+            this.clockTick = this.timer.tick();
+            this.update();
+        }
         this.draw();
         this.space = null;
         this.right = null;
@@ -371,7 +391,10 @@ class GameEngine {
     /**
      * Loads title screen
      */
-    loadTitleScreen () {
+    loadTitleScreen (ctx) {
+        if (this.ctx === null || this.ctx === undefined) {
+            this.ctx = ctx;
+        }
         let titleScreen = new TitleScreen(this, 0, 0);
         this.addEntity(titleScreen);
     }
@@ -379,7 +402,7 @@ class GameEngine {
     /**
      * Loads map 1.
      */
-    loadMap1(ctx, canvas) {
+    loadMap1(ctx) {
         //let canvas = document.getElementById('gameWorld');
         //let ctx = canvas.getContext('2d');
 

@@ -1,5 +1,5 @@
 
-class TitleScreen extends Entity {
+class TitleScreen extends UIElement {
 
     constructor(game, x, y) {
         super(game, x, y, false, 100, 100, 0, 0, "TitleScreen");
@@ -11,6 +11,7 @@ class TitleScreen extends Entity {
         startButton.setOnClick = function () {
             console.log("I'm clicked");
             that.game.newLevel(1);
+            startButton.removal = true;
         };
         game.addEntity(startButton);
 

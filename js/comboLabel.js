@@ -1,6 +1,6 @@
 
 
-class ComboLabel extends Entity {
+class ComboLabel extends UIElement {
 
     constructor (game, x, y) {
         super(game, x + 30, y - 20, false, 0, 0, 0, 0, "ComboLabel");

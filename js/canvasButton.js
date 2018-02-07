@@ -1,5 +1,5 @@
 
-class CanvasButton extends Entity {
+class CanvasButton extends UIElement {
 
     constructor (game, x, y, width, height) {
         super(game, x, y, false, width, height, 0, 0, "CanvasButton");

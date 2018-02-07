@@ -358,7 +358,9 @@ ASSET_MANAGER.downloadAll(function() {
   gameEngine = new GameEngine();
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-  gameEngine.loadMap1(ctx, canvas);
+  gameEngine.loadTitleScreen(ctx);
+  //gameEngine.loadMap1(ctx);
+
   gameEngine.init(ctx);
   gameEngine.start();
 });
