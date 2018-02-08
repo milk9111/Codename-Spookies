@@ -294,6 +294,9 @@ class GameEngine {
             yOffset: 500/6
         };
         pauseMenu.setTextXandYOffset = offsets;
+        pauseMenu.setTextFont = "30px Metal Mania";
+        pauseMenu.setDefaultColor = "#877875";
+
         return pauseMenu;
     }
 
