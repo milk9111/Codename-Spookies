@@ -32,6 +32,8 @@ class Projectile extends Entity {
         //Speed at which character moves with map
         this.mapSpeedX = 2;
         this.mapSpeedY = 2;
+
+        this.projectileSpeed = 1;
     }
 
 
@@ -55,7 +57,7 @@ class Projectile extends Entity {
         }
 
 
-        let totalDistance = 2;
+        let totalDistance = 2 * this.projectileSpeed;
         let distance = 0;
 
         switch (this.facingDirection) {
@@ -110,6 +112,11 @@ class Projectile extends Entity {
     draw(ctx) {
         this.shootAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
         Entity.prototype.draw.call(this);
+    }
+
+
+    set setProjectileSpeed (speed) {
+        this.projectileSpeed = speed;
     }
 
 }

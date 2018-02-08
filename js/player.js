@@ -165,9 +165,9 @@ class Player extends Entity {
                 this.raising = false;
             }
 
-            if (this.game.keys["Space"].pressed && !this.shooting) {
-                this.shooting = true;
-            }
+            // if (this.game.keys["Space"].pressed && !this.shooting) {
+            //     this.shooting = true;
+            // }
         } else {
             //this.readCombo();
         }
@@ -216,8 +216,9 @@ class Player extends Entity {
             this.currentSpellAnimation.elapsedTime = 0;
 
             let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
+            spell.setProjectileSpeed = 2;
             this.game.addEntity(spell);
-            ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
+            //ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
         }
 
         if (this.walkingRight) {

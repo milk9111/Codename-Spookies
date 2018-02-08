@@ -46,7 +46,7 @@ class GameEngine {
     constructor() {
         this.entities = [];
         this.showOutlines = false;
-        this.level = 1;
+        this.level = 0;
         this.ctx = null;
         this.click = null;
         this.mouse = null;
@@ -184,24 +184,23 @@ class GameEngine {
                 that.cast = true;
                 that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
                 that.ctx.canvas.removeEventListener("keyup", coreMovementButtonUp, false);
-                that.readCombo(that.ctx)
+                that.readCombo(that.ctx);
             } else if (e.code === 'KeyQ' && that.cast) {
                 that.cast = false;
             } else if (e.code === 'Escape') {
-                if (that.paused === false) {
+                if (that.paused === false && that.level > 0) {
                     that.pauseMenu = that.makePauseMenu();
                     that.addEntity(that.pauseMenu);
                     that.pauseMenu.addElementsToEntities();
                     that.paused = true;
                     that.tempClockTick = that.clockTick;
                     that.clockTick = 0;
-                } else {
+                } else if (that.paused === true && that.level > 0) {
                     that.pauseMenu.removal = true;
                     that.pauseMenu = null;
                     that.paused = false;
                     that.clockTick = that.tempClockTick;
                 }
-                console.log("Pausing game: " + that.paused);
             }
             e.preventDefault();
         };
@@ -344,6 +343,14 @@ class GameEngine {
      */
     addEntity (entity) {
         this.entities.push(entity);
+        if (this.entities[this.entities.length - 3] instanceof Darkness) { //swap so that darkness and background are always on top
+            console.log("Swapping");
+            let temp = this.entities[this.entities.length - 1];
+            this.entities[this.entities.length - 1] = this.entities[this.entities.length - 2];
+            this.entities[this.entities.length - 2] = this.entities[this.entities.length - 3];
+            this.entities[this.entities.length - 3] = temp;
+        }
+
         if(entity.name === 'Tile' && entity.collisionBounds) {
             this.walls.push(entity);
         }
@@ -469,6 +476,7 @@ class GameEngine {
      * Loads title screen
      */
     loadTitleScreen (ctx) {
+        this.level = 0;
         if (this.ctx === null || this.ctx === undefined) {
             this.ctx = ctx;
         }
