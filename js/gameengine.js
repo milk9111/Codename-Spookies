@@ -336,6 +336,25 @@ class GameEngine {
         return pauseMenu;
     }
 
+    /**
+     * Swaps the positions of the given entities in the entities list. This
+     * is so things will overlap better in game and look prettier.
+     *
+     * @param entity1
+     * @param entity2
+     */
+    swap (entity1, entity2) {
+        let temp = entity1;
+        let ent1Pos = entity1.pos;
+        let ent2Pos = entity2.pos;
+
+        this.entities[ent1Pos] = entity2;
+        this.entities[ent2Pos] = temp;
+
+        this.entities[ent1Pos].pos = ent1Pos;
+        this.entities[ent2Pos].pos = ent2Pos;
+    }
+
 
     /**
      * This is called whenever a new entity is created in the game world.
@@ -344,13 +363,17 @@ class GameEngine {
      */
     addEntity (entity) {
         this.entities.push(entity);
+        entity.pos = this.entities.indexOf(entity);
         if (this.entities[this.entities.length - 3] instanceof Darkness
             && (!(entity instanceof UIElement) || entity.name === "ComboLabel")) { //swap so that darkness and background are always on top
-            console.log("swapping");
             let temp = this.entities[this.entities.length - 1];
             this.entities[this.entities.length - 1] = this.entities[this.entities.length - 2];
             this.entities[this.entities.length - 2] = this.entities[this.entities.length - 3];
             this.entities[this.entities.length - 3] = temp;
+
+            this.entities[this.entities.length - 1].pos = this.entities.indexOf(this.entities[this.entities.length - 1]);
+            this.entities[this.entities.length - 2].pos = this.entities.indexOf(this.entities[this.entities.length - 2]);
+            this.entities[this.entities.length - 3].pos = this.entities.indexOf(this.entities[this.entities.length - 3]);
         }
 
         if(entity.name === 'Tile' && entity.collisionBounds) {
@@ -381,7 +404,11 @@ class GameEngine {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.save();
         for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.ctx);
+            if (this.entities[i] !== null && this.entities[i] !== undefined) {
+                this.entities[i].draw(this.ctx);
+            } else {
+                console.log(this.entities[i]);
+            }
         }
         this.ctx.restore();
 
@@ -431,7 +458,16 @@ class GameEngine {
         for (let i = removalPositions.length - 1; i >= 0; --i) {
             this.entities.splice(removalPositions[i], 1);
         }
+        
+        if (removalPositions.length > 0) {
+            this.updateEntityPositions();
+        }
+    }
 
+    updateEntityPositions () {
+        for (let i = 0; i < this.entities.length - 1; i++) {
+            this.entities[i].pos = i;
+        }
     }
 
     updateUI () {
@@ -546,7 +582,7 @@ class GameEngine {
             }
         }
 
-        this.addEntity(player);
+
         //Add Enemies to map
         for (let i = 0; i < objectMap.map2D.length; i++) {
             for (let j = 0; j < objectMap.map2D[i].length; j++) {
@@ -561,6 +597,7 @@ class GameEngine {
                 }
             }
         }
+        this.addEntity(player);
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
         ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
         ASSET_MANAGER.toggleSound();
@@ -626,7 +663,7 @@ class GameEngine {
         }
       }
 
-      this.addEntity(player);
+
       //Add Enemies to map
       for (let i = 0; i < objectMap.map2D.length; i++) {
         for (let j = 0; j < objectMap.map2D[i].length; j++) {
@@ -641,7 +678,7 @@ class GameEngine {
           }
         }
       }
-
+        this.addEntity(player);
       //START GAME
       this.initPlayerPosition(player, ctx);
 

@@ -94,7 +94,7 @@ class PlagueDoctor extends Enemy {
             this.attacking = true;
             //If there is no spell fired by this enemy in existence it can shoot.
             if (this.currentProjectile === null || this.currentProjectile.removeFromWorld) {
-                this.createSpell();
+                //this.createSpell();
             }
         }
     }

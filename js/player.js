@@ -375,6 +375,29 @@ class Player extends Entity {
             this.lastY = this.y;
         }
 
+          bounds = {
+              collisionBounds: {
+                  x: this.collisionBounds.x,
+                  y: this.collisionBounds.y,
+                  width: this.collisionBounds.width,
+                  height: this.collisionBounds.height
+              }
+          };
+        if(this.hasCollided(bounds, this.game.enemies)) {
+            if (this.y <= this.collidedObject.y && this.pos > this.collidedObject.pos) {
+                console.log("swapping below an enemy");
+                console.log("y's: "  + this.y + ", " + this.collidedObject.y);
+                console.log("pos's before: " + this.pos + ", " + this.collidedObject.pos);
+                this.game.swap(this, this.collidedObject);
+                console.log("pos's after: " + this.pos + ", " + this.collidedObject.pos);
+            } else if (this.y > this.collidedObject.y && this.pos < this.collidedObject.pos) {
+                console.log("swapping above an enemy");
+                console.log("y's: "  + this.y + ", " + this.collidedObject.y);
+                console.log("pos's: " + this.pos + ", " + this.collidedObject.pos);
+                this.game.swap(this, this.collidedObject);
+            }
+        }
+
         super.update();
       }
 

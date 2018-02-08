@@ -161,6 +161,8 @@ class Entity {
             return 4;
         }
     }
+
+
     hasCollided(bounds, entityArr) {
         // if (!entityArr) return;
         for (let i = 0; i < entityArr.length; i++) {
@@ -168,6 +170,7 @@ class Entity {
             if (currEntity.collisionBounds && this !== currEntity) {
                 if (Math.intersects(bounds, currEntity)) {
                     currEntity.colliderBoxColor = "green";
+                    this.collidedObject = currEntity;
                     return true;
                 } else if (currEntity.colliderColor === "green") {
                     currEntity.colliderBoxColor = "red";
