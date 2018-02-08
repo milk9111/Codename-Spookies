@@ -344,7 +344,8 @@ class GameEngine {
      */
     addEntity (entity) {
         this.entities.push(entity);
-        if (this.entities[this.entities.length - 3] instanceof Darkness) { //swap so that darkness and background are always on top
+        if (this.entities[this.entities.length - 3] instanceof Darkness
+            && (!(entity instanceof UIElement) || entity.name === "ComboLabel")) { //swap so that darkness and background are always on top
             console.log("swapping");
             let temp = this.entities[this.entities.length - 1];
             this.entities[this.entities.length - 1] = this.entities[this.entities.length - 2];

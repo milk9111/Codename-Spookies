@@ -42,6 +42,8 @@ class Entity {
         }
         this.lastX = this.x;
         this.lastY = this.y;
+
+        this.pos = 0;
     }
 
 
