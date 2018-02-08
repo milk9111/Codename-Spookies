@@ -19,23 +19,23 @@ class Screamer extends Enemy {
         this.idleAnimationRight = this.idleAnimationDown;
         this.idleAnimationLeft = this.idleAnimationDown;
 
-        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 64, 128, 64, 64, 0.2, 3, true, false);
+        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 256, 64, 64, 64, 0.15, 3, true, false);
         //screamer uses down walking animation for all positions but up. There are no specific aggro animations.
-        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 192, 0, 64, 64, 0.2, 3, true, false);
+        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 192, 0, 64, 64, 0.15, 3, true, false);
         this.walkAnimationDownAgro = this.walkAnimationDown;
         this.walkAnimationLeft = this.walkAnimationDown;
         this.walkAnimationLeftAgro = this.walkAnimationDown;
         this.walkAnimationRight = this.walkAnimationDown;
         this.walkAnimationRightAgro = this.walkAnimationDown;
 
-        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 128, 64, 64, 64, 0.2, 3, true, false);
-        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 192, 64, 64, 0.2, 3, true, false);
-        this.attackAnimationLeft = this.attackAnimationUp;
-        this.attackAnimationRight = this.attackAnimationUp;
+        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 64, 64, 64, 64, 0.15, 3, true, false);
+        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 128, 128, 64, 64, 0.15, 3, true, false);
+        this.attackAnimationLeft = this.attackAnimationDown;
+        this.attackAnimationRight = this.attackAnimationDown;
 
         //no existing death animations
-        this.deathAnimationDown = null;
-        this.deathAnimationUp = null;
+        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 192, 64, 64, 0.3, 3, false, false);
+        this.deathAnimationUp = this.deathAnimationDown;
     }
 
 
