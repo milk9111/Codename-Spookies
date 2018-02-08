@@ -458,7 +458,7 @@ class GameEngine {
         for (let i = removalPositions.length - 1; i >= 0; --i) {
             this.entities.splice(removalPositions[i], 1);
         }
-        
+
         if (removalPositions.length > 0) {
             this.updateEntityPositions();
         }
