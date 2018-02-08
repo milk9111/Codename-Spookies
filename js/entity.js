@@ -51,6 +51,50 @@ class Entity {
             this.collisionBounds.x = this.x + this.boundsXOffset;
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
+        if(this.isSmacked && this.smackTime <= this.smackLength) {
+            this.smackTime++;
+            //We do this to pass by value instead of pass by reference, because we modify bounds we don't want to keep
+            let bounds = {
+                collisionBounds: {
+                    x: this.collisionBounds.x,
+                    y: this.collisionBounds.y,
+                    height: this.collisionBounds.height,
+                    width: this.collisionBounds.width
+                }
+            };
+            let xDiff = 0;
+            let yDiff = 0;
+            switch(this.smackDirection) {
+                case "up":
+                    bounds.y -= 1;
+                    yDiff = -1;
+                    break;
+                case "down":
+                    bounds.y += 1;
+                    yDiff = 1;
+                    break;
+                case "left":
+                    bounds.x -= 1;
+                    xDiff = -1;
+                    break;
+                case "right":
+                    bounds.x += 1;
+                    xDiff = 1;
+                    break;
+            }
+            if(this.hasCollided(bounds, this.game.walls)) {
+                this.isSmacked = false;
+                this.smackTime = 0;
+                this.smackLength = 0;
+            } else {
+                this.x += xDiff;
+                this.y += yDiff;
+            }
+        } else {
+            this.isSmacked = false;
+            this.smackTime = 0;
+            this.smackLength = 0;
+        }
 
     }
 
@@ -119,7 +163,7 @@ class Entity {
         // if (!entityArr) return;
         for (let i = 0; i < entityArr.length; i++) {
             let currEntity = entityArr[i];
-            if (currEntity.collisionBounds !== null && this !== currEntity) {
+            if (currEntity.collisionBounds && this !== currEntity) {
                 if (Math.intersects(bounds, currEntity)) {
                     currEntity.colliderBoxColor = "green";
                     return true;
@@ -130,6 +174,8 @@ class Entity {
         }
         return false;
     }
+
+
 
     getCollisions(bounds, entityArr) {
         let collisions = [];
@@ -142,6 +188,13 @@ class Entity {
             }
         }
         return collisions;
+    }
+
+    smack(distance, direction, speed) {
+        this.isSmacked = true;
+        this.smackTime = 0;
+        this.smackDirection = direction;
+        this.smackLength = distance;
     }
 
 

@@ -99,10 +99,10 @@ class Enemy extends Entity {
             let xDir = 0;
             let yDir = 0;
             //Check if aggroed on the player.
-            if (this.isPlayerInRange()) {
+            if (this.isPlayerInRange() && !this.isSmacked) {
                 if (this.notifySoundId === null) {
                     this.notifySoundId = ASSET_MANAGER.playSound(this.soundPath);
-                    //this.notifySound.fade(0.0, 0.3, 1000);
+                    // this.notifySound.fade(0.0, 0.3, 1000);
                 } else {
                     ASSET_MANAGER.playSound(this.soundPath);
                 }
@@ -131,10 +131,10 @@ class Enemy extends Entity {
             } else {
                 this.standingStill = true;
                 this.attacking = false;
-                if (this.notifySoundId !== null && this.notifySound.playing(this.notifySoundId)) {
-                    this.notifySound.fade(this.notifySound.volume(), 0.0, 2000);
-                    this.notifySoundId = null;
-                }
+                // if (this.notifySoundId !== null && this.notifySound.playing(this.notifySoundId)) {
+                //     this.notifySound.fade(this.notifySound.volume(), 0.0, 2000);
+                //     this.notifySoundId = null;
+                // }
                 this.setFacingDirection(xDir, yDir);
             }
         }
