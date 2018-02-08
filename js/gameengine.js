@@ -181,12 +181,12 @@ class GameEngine {
         let coreMovementButtonDown = function (e) {
             that.keys[e.code].pressed = true;
 
-            if (e.code === 'KeyQ' && !that.cast) {
+            if (e.code === 'KeyQ' && !that.cast && !that.paused) {
                 that.cast = true;
                 that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
                 that.ctx.canvas.removeEventListener("keyup", coreMovementButtonUp, false);
                 that.readCombo(that.ctx);
-            } else if (e.code === 'KeyQ' && that.cast) {
+            } else if (e.code === 'KeyQ' && that.cast && !that.paused) {
                 that.cast = false;
             } else if (e.code === 'Escape') {
                 if (that.paused === false && that.level > 0) {
@@ -344,8 +344,7 @@ class GameEngine {
      */
     addEntity (entity) {
         this.entities.push(entity);
-        if (this.entities[this.entities.length - 3] instanceof Darkness) { //swap so that darkness and background are always on top
-            console.log("Swapping");
+        if (this.entities[this.entities.length - 3] instanceof Darkness && !(entity instanceof UIElement)) { //swap so that darkness and background are always on top
             let temp = this.entities[this.entities.length - 1];
             this.entities[this.entities.length - 1] = this.entities[this.entities.length - 2];
             this.entities[this.entities.length - 2] = this.entities[this.entities.length - 3];
