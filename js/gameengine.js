@@ -57,6 +57,7 @@ class GameEngine {
         this.walls = [];
         this.enemies = [];
         this.uiElements = [];
+        this.projectiles = [];
         this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space", "Escape"];
         this.player = null;
         this.initKeys();
@@ -71,6 +72,7 @@ class GameEngine {
         this.combo = null;
         this.paused = false;
         this.tempClockTick = 0;
+
     }
 
 
@@ -297,6 +299,9 @@ class GameEngine {
         }
         if(entity instanceof UIElement) {
             this.uiElements.push(entity);
+        }
+        if(entity instanceof Projectile) {
+            this.projectiles.push(entity);
         }
     }
 

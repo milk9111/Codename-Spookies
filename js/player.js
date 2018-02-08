@@ -101,6 +101,10 @@ class Player extends Entity {
         this.offBottom = false;
     }
 
+    hit(damage) {
+        this.health -= damage;
+    }
+
     /**
      * Here the Player will decide what direction they're moving towards next.
      * It handles the actual x & y movement value for the Player object. This
@@ -123,7 +127,7 @@ class Player extends Entity {
 
         if (!this.casting) {
             if (this.game.keys["KeyD"].pressed && this.blockedDirection[4] !== true) {
-                facingDirection = 4;
+                facingDirection = "right";
                 this.walkingRight = true;
             } else {
                 this.walkRightAnimation.elapsedTime = 0;
@@ -131,7 +135,7 @@ class Player extends Entity {
             }
 
             if (this.game.keys["KeyA"].pressed && this.blockedDirection[3] !== true) {
-                facingDirection = 3;
+                facingDirection = "left";
                 this.walkingLeft = true;
             } else {
                 this.walkLeftAnimation.elapsedTime = 0;
@@ -139,7 +143,7 @@ class Player extends Entity {
             }
 
             if (this.game.keys["KeyW"].pressed && this.blockedDirection[1] !== true) {
-                facingDirection = 1;
+                facingDirection = "up";
                 this.walkingForward = true;
             } else {
                 this.walkForwardAnimation.elapsedTime = 0;
@@ -147,7 +151,7 @@ class Player extends Entity {
             }
 
             if (this.game.keys["KeyS"].pressed && this.blockedDirection[2] !== true) {
-                facingDirection = 2;
+                facingDirection = "down";
                 this.walkingDownward = true;
             } else {
                 this.walkDownwardAnimation.elapsedTime = 0;
@@ -190,22 +194,22 @@ class Player extends Entity {
             let newX = this.x;
             let newY = this.y;
             switch(facingDirection) {
-                case 1:
+                case "up":
                     newX += 14;
                     newY -= 20;
                     this.currentSpellAnimation = this.fireBallSpellForwardAnimation;
                     break;
-                case 2:
+                case "down":
                     newX -= 10;
                     newY += 32;
                     this.currentSpellAnimation = this.fireBallSpellDownwardAnimation;
                     break;
-                case 3:
+                case "left":
                     //newY += 16;
                     newX -= 20;
                     this.currentSpellAnimation = this.fireBallSpellLeftAnimation;
                     break;
-                case 4:
+                case "right":
                     newX += 32;
                     //newY += 16;
                     this.currentSpellAnimation = this.fireBallSpellRightAnimation;
@@ -331,6 +335,7 @@ class Player extends Entity {
                 for(let i = 0; i < collisions.length; i++) {
                     let enemy = collisions[i];
                     enemy.hit(15);
+                    enemy.smack(15, facingDirection, 1);
                     console.log("Sword hit: " + enemy.name + " health: " + enemy.health);
                 }
             }
@@ -442,13 +447,13 @@ class Player extends Entity {
     }
 
     shootBolt(ctx) {
-        if (facingDirection === 1) {
+        if (facingDirection === "up") {
             this.shootBoltForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 2) {
+        else if (facingDirection === "down") {
             this.shootBoltDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 3) {
+        else if (facingDirection === "left") {
             this.shootBoltLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
@@ -457,13 +462,13 @@ class Player extends Entity {
     }
 
     raiseShield(ctx) {
-        if (facingDirection === 1) {
+        if (facingDirection === "up") {
             this.raiseShieldForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 2) {
+        else if (facingDirection === "down") {
             this.raiseShieldDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 3) {
+        else if (facingDirection === "left") {
             this.raiseShieldLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
@@ -472,13 +477,13 @@ class Player extends Entity {
     }
 
     castSpell(ctx) {
-        if (facingDirection === 1) {
+        if (facingDirection === "up") {
             this.castSpellForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 2) {
+        else if (facingDirection === "down") {
             this.castSpellDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 3) {
+        else if (facingDirection === "left") {
             this.castSpellLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
         else {
@@ -488,11 +493,11 @@ class Player extends Entity {
 
 
     standStill(ctx) {
-        if (facingDirection === 1) {
+        if (facingDirection === "up") {
             this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
-        } else if (facingDirection === 2) {
+        } else if (facingDirection === "down") {
             this.idleAnimationDownward.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
-        } else if (facingDirection === 3) {
+        } else if (facingDirection === "left") {
             this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         } else {
             this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
@@ -500,21 +505,21 @@ class Player extends Entity {
     }
 
     swingSword(ctx) {
-        if (facingDirection === 1) {
+        if (facingDirection === "up") {
             this.swingBox.y = this.y - 35;
             this.swingBox.x = this.x + 15;
             this.swingBox.width = 35;
             this.swingBox.height = 35;
             this.swingForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 2) {
+        else if (facingDirection === "down") {
             this.swingBox.y = this.y + 50;
             this.swingBox.x = this.x + 15;
             this.swingBox.width = 35;
             this.swingBox.height = 35;
             this.swingDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
-        else if (facingDirection === 3) {
+        else if (facingDirection === "left") {
             this.swingBox.x = this.x - 16;
             this.swingBox.y = this.y + 10;
             this.swingBox.height = 35;
@@ -529,4 +534,7 @@ class Player extends Entity {
             this.swingRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
         }
     }
+
+
+
 }

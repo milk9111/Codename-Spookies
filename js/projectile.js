@@ -18,6 +18,9 @@ class Projectile extends Entity {
         super(game, startX, startY, true, 24, 24, 20, 20, "Projectile"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
+        this.smackDistance = 15;
+        this.smackSpeed = 3;
+        this.damage = 10;
 
         this.shootAnimation = animation;
 
@@ -27,7 +30,7 @@ class Projectile extends Entity {
 
         this.parent = parent;
 
-        this.maxAnimationLoopsBeforeRemoval = 5;
+        this.maxAnimationLoopsBeforeRemoval = 100;
 
         //Speed at which character moves with map
         this.mapSpeedX = 2;
@@ -41,17 +44,35 @@ class Projectile extends Entity {
      * @author Connor Lundberg
      */
     update() {
-        /*
-        if (this.hasCollided() && this.collidedObject.name !== this.parent.name) {
-            this.removeFromWorld = true;
-            this.shootAnimation.timesFinished = 0;
+
+        if(!this.collisionBounds) {
+            console.log("Missing bounds");
+        }
+        if (this.hasCollided(this, this.game.walls)) {
+            this.collide();
             return;
         }
-        */
+        if(this.parent !== this.player) {
+            if(this.hasCollided(this, [this.player])) {
+                this.player.smack(this.smackDistance, this.facingDirection, this.smackSpeed);
+            }
+        }
+        let enCollisions = this.getCollisions(this, this.game.enemies);
+
+        for(let i = 0; i < enCollisions.length; i++) {
+            let entity = enCollisions[i];
+            if(this.parent !== entity) {
+                entity.hit(this.damage);
+                entity.smack(this.smackDistance, this.facingDirection, this.smackSpeed);
+                this.collide();
+            }
+        }
+        if(this.hasCollided(this, this.game.projectiles)) {
+            this.collide();
+        }
+
         if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
-            console.log("started Killing process");
-            this.removeFromWorld = true;
-            this.shootAnimation.timesFinished = 0;
+            this.collide();
         }
 
 
@@ -59,19 +80,19 @@ class Projectile extends Entity {
         let distance = 0;
 
         switch (this.facingDirection) {
-            case 1: //forward
+            case "up": //forward
                 distance = totalDistance;
                 this.y = this.y - distance;
                 break;
-            case 2: //downward
+            case "down": //downward
                 distance = totalDistance;
                 this.y = this.y + distance;
                 break;
-            case 3: //left
+            case "left": //left
                 distance = totalDistance;
                 this.x = this.x - distance;
                 break;
-            case 4: //right
+            case "right": //right
                 distance = totalDistance;
                 this.x = this.x + distance;
                 break;
@@ -83,21 +104,21 @@ class Projectile extends Entity {
         //Controls the map movement on/off screen
         if (this.player.offRight) {
             this.x -= this.mapSpeedX;
-            this.unroundedX -= this.mapSpeedX;
         } else if (this.player.offLeft) {
             this.x += this.mapSpeedX;
-            this.unroundedX += this.mapSpeedX;
         } else if (this.player.offTop) {
             this.y += this.mapSpeedY;
-            this.unroundedY += this.mapSpeedY;
         } else if (this.player.offBottom) {
             this.y -= this.mapSpeedY;
-            this.unroundedY -= this.mapSpeedY;
         }
 
         super.update();
 
+    }
 
+    collide() {
+        this.removeFromWorld = true;
+        this.shootAnimation.timesFinished = 0;
     }
 
 
