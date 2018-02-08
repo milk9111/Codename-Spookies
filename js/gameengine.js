@@ -72,7 +72,7 @@ class GameEngine {
         this.combo = null;
         this.paused = false;
         this.tempClockTick = 0;
-
+        this.pauseMenu = null;
     }
 
 
@@ -139,6 +139,9 @@ class GameEngine {
         this.entities[i].removeFromWorld = true;
       }
 
+      this.walls = [];
+      this.enemies = [];
+
       //Load new level
         switch(levelNum) {
             case 1:
@@ -186,12 +189,16 @@ class GameEngine {
             } else if (e.code === 'KeyQ' && that.cast) {
                 that.cast = false;
             } else if (e.code === 'Escape') {
-                //that.paused = !that.paused;
                 if (that.paused === false) {
+                    that.pauseMenu = that.makePauseMenu();
+                    that.addEntity(that.pauseMenu);
+                    that.pauseMenu.addElementsToEntities();
                     that.paused = true;
                     that.tempClockTick = that.clockTick;
                     that.clockTick = 0;
                 } else {
+                    that.pauseMenu.removal = true;
+                    that.pauseMenu = null;
                     that.paused = false;
                     that.clockTick = that.tempClockTick;
                 }
@@ -278,6 +285,56 @@ class GameEngine {
         };
 
         ctx.canvas.addEventListener("keydown", getComboInput, true);
+    }
+
+
+    makePauseMenu () {
+        /* Trying to get elements to be perfectly centered within their parents.
+        let parent = {
+            x: 0,
+            y: 0,
+            width: this.surfaceWidth,
+            height: this.surfaceHeight
+        };
+        let pauseMenu = new PauseMenu(this, 0, 0, 250, 200);
+
+        pauseMenu.setXandY = UIElement.calculateCenterPosOfParent(parent, pauseMenu);
+
+        let offsets = {
+            xOffset: 0,
+            yOffset: pauseMenu.height / 6
+        };
+         */
+        let pauseMenu = new PauseMenu(this, Math.floor(this.surfaceWidth / 3), Math.floor(this.surfaceHeight / 3), 250, 200);
+        let offsets = {
+            xOffset: pauseMenu.width / 2,
+            yOffset: pauseMenu.height / 6
+        };
+        pauseMenu.setTextXandYOffset = offsets;
+        pauseMenu.setTextFont = "30px Metal Mania";
+        pauseMenu.setDefaultColor = "#877875";
+
+        let x = pauseMenu.x + pauseMenu.width / 3.3;
+        let y = pauseMenu.y + pauseMenu.height / 2.5;
+        let exitButton = new CanvasButton(this, x, y, 100, 50);
+        exitButton.setText = "Exit";
+        offsets = {
+            xOffset: exitButton.width / 2,
+            yOffset: exitButton.height / 1.7
+        };
+        exitButton.setTextXandYOffset = offsets;
+        let that = this;
+        exitButton.setOnClick = function () {
+            that.loadTitleScreen(that.ctx);
+            that.pauseMenu.removal = true;
+            that.pauseMenu = null;
+            that.paused = false;
+            that.clockTick = that.tempClockTick;
+        };
+
+        pauseMenu.addButton(exitButton);
+
+        return pauseMenu;
     }
 
 
@@ -369,6 +426,17 @@ class GameEngine {
 
     }
 
+    updateUI () {
+        let uiCount = this.uiElements.length;
+        for (let i = 0; i < uiCount; i++) {
+            let entity = this.uiElements[i];
+
+            if (entity.removalStatus === false) {
+                entity.update();
+            }
+        }
+    }
+
 
     /**
      * This is called at the top of every loop for the GameEngine's infinite loop. It handles
@@ -381,6 +449,8 @@ class GameEngine {
         if (!this.paused) {
             this.clockTick = this.timer.tick();
             this.update();
+        } else {
+            this.updateUI();
         }
         this.draw();
         this.space = null;
@@ -393,6 +463,12 @@ class GameEngine {
         this.stop = null;
     }
 
+    unloadMap () {
+        for (let i = this.entities.length - 1; i >= 0; i--) {
+            this.entities.splice(this.entities[i], 1);
+        }
+    }
+
     /**
      * Loads title screen
      */
@@ -400,6 +476,7 @@ class GameEngine {
         if (this.ctx === null || this.ctx === undefined) {
             this.ctx = ctx;
         }
+        this.unloadMap();
         let titleScreen = new TitleScreen(this, 0, 0);
         this.addEntity(titleScreen);
     }
@@ -411,7 +488,7 @@ class GameEngine {
         //let canvas = document.getElementById('gameWorld');
         //let ctx = canvas.getContext('2d');
 
-        let player = new Player(this);
+        let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
         //Load tile map
         let tileMap = new TileMap();
@@ -486,15 +563,12 @@ class GameEngine {
         this.addEntity(darkness);
         this.addEntity(bg);
     }
-    
+
 
     /**Loads map 2. **/
-    loadMap2() {
+    loadMap2(ctx) {
 
-      let canvas = document.getElementById('gameWorld');
-      let ctx = canvas.getContext('2d');
-
-      let player = new Player(this);
+      let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
       //Load tile map
       let tileMap = new TileMap();

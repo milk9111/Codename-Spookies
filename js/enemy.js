@@ -297,6 +297,3 @@ class Enemy extends Entity {
         }
     }
 }
-
-
-
