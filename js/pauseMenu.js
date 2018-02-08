@@ -1,15 +1,14 @@
 
 class PauseMenu extends UIElement {
 
-    constructor (game, x, y, width, height, xOffset, yOffset) {
+    constructor (game, x, y, width, height) {
         super (game, x, y, true, width, height, 0, 0, "PauseMenu");
 
         this.game = game;
         this.buttons = [];
         this.text = "Paused";
 
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+        this.addedElements = false;
     }
 
     update () {
@@ -31,13 +30,28 @@ class PauseMenu extends UIElement {
     }
 
 
+    addElementsToEntities () {
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.game.addEntity(this.buttons[i]);
+        }
+    }
+
+
     addButton (button) {
         if (button !== null || button !== undefined) {
-            this.buttons.add(button);
+            this.buttons.push(button);
         } else {
             console.log("addButton failed! Your button is " + button);
         }
 
+    }
+
+
+    set removal (remove) {
+        this.removeFromWorld = remove;
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].removal = true;
+        }
     }
 
 

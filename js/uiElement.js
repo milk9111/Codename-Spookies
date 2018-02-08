@@ -12,13 +12,19 @@ class UIElement extends Entity {
         this.yOffset = height/1.5;
 
         this.text = "Text";
-        this.textFont = "15px Times";
+        this.textFont = "20px Metal Mania";
         this.textAlign = "center";
         this.textColor = "#FFFFFF";
 
         this.defaultColor = "#000000";
         this.hoverColor = "#222222";
         this.isHovering = false;
+
+        this.xOffset = boundsXOffset;
+        this.yOffset = boundsYOffset;
+
+        this.centerX = this.x + this.width / 2;
+        this.centerY = this.y + this.height / 2;
 
         this.clickAction = function () {
             console.log("CanvasButton clicked on");
@@ -225,5 +231,21 @@ class UIElement extends Entity {
     set setWidthandHeight (size) {
         this.width = size['width'];
         this.height = size['height'];
+    }
+
+
+    static calculateCenterPosOfParent (parent, child) {
+        let centerX = parent.x + parent.width / 2;
+        let centerY = parent.y + parent.height / 2;
+
+        let newX = (-1 * child.width) / -2 + centerX;
+        let newY = (-1 * child.height) / -2 + centerY;
+
+        let centerPoint = {
+            x: newX,
+            y: newY
+        };
+        console.log(centerPoint);
+        return centerPoint;
     }
 }

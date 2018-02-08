@@ -9,6 +9,14 @@ class TitleScreen extends UIElement {
         startButton.setText = "Start Game";
         startButton.setDefaultColor = "#333333";
         startButton.setTextFont = "15px Metal Mania";
+        let xoffset = startButton.width / 2;
+        let yoffset = startButton.height / 1.7;
+        let offsets = {
+            xOffset: xoffset,
+            yOffset: yoffset
+        };
+        startButton.setTextXandYOffset = offsets;
+        console.log(startButton.xOffset + ", " + startButton.yOffset);
         startButton.setOnClick = function () {
             console.log("I'm clicked");
             that.game.newLevel(1);
