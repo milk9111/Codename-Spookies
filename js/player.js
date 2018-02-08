@@ -215,6 +215,7 @@ class Player extends Entity {
                     this.currentSpellAnimation = this.fireBallSpellRightAnimation;
                     break;
                 default:
+                    console.log("incorrect facing direction: " + facingDirection);
                     break;
             }
             this.currentSpellAnimation.elapsedTime = 0;
