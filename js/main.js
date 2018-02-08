@@ -185,7 +185,7 @@ class Background extends Entity
 class Darkness extends Entity {
 
   constructor(game, player) {
-    super(game, game.surfaceWidth, game.surfaceHeight);
+    super(game, game.surfaceWidth, game.surfaceHeight, false, 0, 0, 0, 0, "Darkness");
     this.width = 1500;
     this.height = 1500;
     this.canvasW = $("#gameWorld").width();
@@ -319,9 +319,8 @@ let playerStartX;
 let playerStartY;
 let gameEngine;
 
-//1 = forward, 2 = downward, 3 = left, 4 = right
+//up, down, left, right
 let facingDirection;
-
 
 
 // the "main" code begins here
@@ -358,7 +357,7 @@ ASSET_MANAGER.downloadAll(function() {
 
   //LOAD ENTITIES
   //start facing downwards.
-  facingDirection = 2;
+  facingDirection = "down";
   gameEngine = new GameEngine();
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
