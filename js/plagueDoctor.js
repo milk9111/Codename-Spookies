@@ -10,12 +10,13 @@ class PlagueDoctor extends Enemy {
         super(gameEngine, player, x, y, speed, range, 32, 64, 16, 0);
 
         this.stoppingDistance = 200;
+        this.spellCooldown = 200;
         this.soundPath = "../snd/whispers.wav";
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
         this.createAnimations();
         this.currentProjectile = null;
 
-
+        this.cooldownCounter = this.spellCooldown;
     };
 
     /**
@@ -57,6 +58,7 @@ class PlagueDoctor extends Enemy {
      * Creates a new projectile in the game world.
      */
     targetAndAttack() {
+        this.cooldownCounter++;
         let canHit = false;
         if (this.y > this.player.y - 36 && this.y < this.player.y + 36) {
             canHit = true;
@@ -92,8 +94,10 @@ class PlagueDoctor extends Enemy {
         if (canHit) {
             this.standingStill = true;
             this.attacking = true;
+
             //If there is no spell fired by this enemy in existence it can shoot.
-            if (this.currentProjectile === null || this.currentProjectile.removeFromWorld) {
+            if (this.cooldownCounter >= this.spellCooldown && (this.currentProjectile === null || this.currentProjectile.removeFromWorld)) {
+                this.cooldownCounter = 0;
                 this.createSpell();
             }
         }
