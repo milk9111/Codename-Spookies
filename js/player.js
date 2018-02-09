@@ -82,7 +82,7 @@ class Player extends Entity {
         this.speed = 3;
         this.swordDamage = 15;
 
-        this.health = 50;
+        this.health = 100;
 
         //Hit Box for when the player swings at an enemey
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};
@@ -346,7 +346,7 @@ class Player extends Entity {
 
 
         //Control Bounds
-        let bounds = 305;
+        let bounds = 394.5;
 
         this.offRight = this.x > $("#gameWorld").width() - bounds && this.walkingRight;
 
