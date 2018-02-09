@@ -1,12 +1,12 @@
 
-class PauseMenu extends UIElement {
+class Menu extends UIElement {
 
     constructor (game, x, y, width, height) {
-        super (game, x, y, false, width, height, 0, 0, "PauseMenu");
+        super (game, x, y, false, width, height, 0, 0, "Menu");
 
         this.game = game;
-        this.buttons = [];
-        this.label = new Label(game, this.x + this.xOffset, this.y + this.yOffset, "Paused");
+        this.elements = [];
+        this.label = new Label(game, this.x + this.xOffset, this.y + this.yOffset, "Menu");
     }
 
     update () {
@@ -34,19 +34,21 @@ class PauseMenu extends UIElement {
     }
 
     addElementsToEntities () {
-        for (let i = 0; i < this.buttons.length; i++) {
-            this.game.addEntity(this.buttons[i]);
-            this.buttons[i].addLabelToEntities();
+        for (let i = 0; i < this.elements.length; i++) {
+            this.game.addEntity(this.elements[i]);
+            if (this.elements[i] instanceof CanvasButton) {
+                this.elements[i].addLabelToEntities();
+            }
         }
         this.game.addEntity(this.label);
     }
 
 
-    addButton (button) {
-        if (button !== null || button !== undefined) {
-            this.buttons.push(button);
+    addElement (element) {
+        if (element !== null || element !== undefined) {
+            this.elements.push(element);
         } else {
-            console.log("addButton failed! Your button is " + button);
+            console.log("addButton failed! Your button is " + element);
         }
 
     }
@@ -54,8 +56,8 @@ class PauseMenu extends UIElement {
 
     set removal (remove) {
         this.removeFromWorld = remove;
-        for (let i = 0; i < this.buttons.length; i++) {
-            this.buttons[i].removal = true;
+        for (let i = 0; i < this.elements.length; i++) {
+            this.elements[i].removal = true;
         }
         this.label.removal = true;
     }
