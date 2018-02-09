@@ -29,12 +29,14 @@ class AssetManager {
                 let sound = object(content);
                 sound.src = [content.path];
                 sound.onload = () => {
-                    this.successCount++;
+                    console.log("Loaded " + sound.src);
+                    that.successCount++;
                     if(this.isDone()) callback();
                 };
 
                 sound.onerror = () => {
-                    this.errorCount++;
+                    console.log("Error loading " + sound.src);
+                    that.errorCount++;
                     if(this.isDone()) callback();
                 };
 
@@ -84,7 +86,7 @@ class AssetManager {
             shouldPlay = true;
         }
         shouldPlay &= !this.soundDisabled;
-        if(shouldPlay) {
+        if(shouldPlay && this.cache[path] !== undefined && this.cache[path] !== null) {
             this.soundIds[path] = this.cache[path].play();
         }
         return this.soundIds[path];

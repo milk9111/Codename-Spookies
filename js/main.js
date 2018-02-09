@@ -344,7 +344,7 @@ ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:tr
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
 ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
 ASSET_MANAGER.queueDownload("../snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
-ASSET_MANAGER.queueDownload("../snd/whispers.wav", {sound:true, volume: 0.0});
+ASSET_MANAGER.queueDownload("../snd/whispers.wav", {sound:true, volume: 0.1});
 ASSET_MANAGER.queueDownload("../snd/footstep1.wav", {sound:true, volume: 0.06, rate: 2});
 ASSET_MANAGER.queueDownload("../snd/charging_spell.flac", {sound:true, volume: 0.06, rate: 2, loop:true});
 
