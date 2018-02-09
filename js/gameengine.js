@@ -187,7 +187,7 @@ class GameEngine {
                 if (that.paused === false && that.level > 0) {
                     that.pauseMenu = that.makePauseMenu();
                     that.addEntity(that.pauseMenu);
-                    that.pauseMenu.addElementsToEntities();
+                    //that.pauseMenu.addElementsToEntities();
                     that.paused = true;
                     that.tempClockTick = that.clockTick;
                     that.clockTick = 0;
@@ -283,7 +283,8 @@ class GameEngine {
 
 
     makePauseMenu () {
-        let pauseMenu = new PauseMenu(this, Math.floor(this.surfaceWidth / 3), Math.floor(this.surfaceHeight / 3), 250, 200);
+        let pauseMenu = new Menu(this, UIElement.getCenterX(this.surfaceWidth, 250, 0),
+            UIElement.getCenterY(this.surfaceHeight, 200, 0), 250, 200);
         let offsets = {
             xOffset: pauseMenu.width / 2,
             yOffset: pauseMenu.height / 6
@@ -291,6 +292,7 @@ class GameEngine {
         pauseMenu.setTextXandYOffset = offsets;
         pauseMenu.label.setTextFont = "30px Metal Mania";
         pauseMenu.setDefaultColor = "#2E2E2E";
+        pauseMenu.label.setText = "Paused";
 
         let x = UIElement.getCenterX(pauseMenu.width, 100, pauseMenu.x);
         let y = UIElement.getCenterY(pauseMenu.height, 50, pauseMenu.y);
@@ -310,9 +312,87 @@ class GameEngine {
             that.clockTick = that.tempClockTick;
         };
 
-        pauseMenu.addButton(exitButton);
+        pauseMenu.addElement(exitButton);
+
+        x = UIElement.getCenterX(pauseMenu.width, 100, pauseMenu.x);
+        y = UIElement.getCenterY(pauseMenu.height, 50, pauseMenu.y) + exitButton.height + 10;
+        let helpButton = new CanvasButton(this, x, y, 100, 50);
+        helpButton.label.setText = "Help";
+        offsets = {
+            xOffset: helpButton.width / 2,
+            yOffset: helpButton.height / 1.7
+        };
+        helpButton.setTextXandYOffset = offsets;
+        helpButton.setOnClick = function () {
+            that.addEntity(that.makeHelpMenu());
+        };
+
+        pauseMenu.addElement(helpButton);
 
         return pauseMenu;
+    }
+
+    makeHelpMenu () {
+        let helpMenu = new Menu(this, UIElement.getCenterX(this.surfaceWidth, 250, 0),
+            UIElement.getCenterY(this.surfaceHeight, 400, 0), 250, 400);
+
+        let offsets = {
+            xOffset: helpMenu.width / 2,
+            yOffset: helpMenu.height / 6
+        };
+        helpMenu.setTextXandYOffset = offsets;
+        helpMenu.label.setTextFont = "30px Metal Mania";
+        helpMenu.setDefaultColor = "#2E2E2E";
+        helpMenu.label.setText = "Help";
+
+        offsets = {
+            xOffset: helpMenu.width / 2,
+            yOffset: helpMenu.height / 5
+        };
+
+        let instructions = "Left Click - Sword swing\r\n" +
+                            "W - Forward\r\n" +
+                            "A - Left\r\n" +
+                            "S - Downward\r\n" +
+                            "D - Right\r\n" +
+                            "E - Shield Raise\r\n" +
+                            "Escape - Pause\r\n" +
+                            "Q - Cast spell";
+
+        let label1 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset, "Left Mouse Click - Sword swing\r\n");
+        let label2 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 20, "W - Forward\r\n");
+        let label3 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 40, "A - Left\r\n");
+        let label4 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 60, "S - Downward\r\n");
+        let label5 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 80, "D - Right\r\n");
+        let label6 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 100, "E - Shield Raise\r\n");
+        let label7 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 120, "Escape - Pause\r\n");
+        let label8 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 140, "Q - Cast spell");
+
+        helpMenu.addElement(label1);
+        helpMenu.addElement(label2);
+        helpMenu.addElement(label3);
+        helpMenu.addElement(label4);
+        helpMenu.addElement(label5);
+        helpMenu.addElement(label6);
+        helpMenu.addElement(label7);
+        helpMenu.addElement(label8);
+
+        let x = UIElement.getCenterX(helpMenu.width, 100, helpMenu.x);
+        let y = UIElement.getCenterY(helpMenu.height, 50, helpMenu.y) + 60;
+        let closeButton = new CanvasButton(this, x, y, 100, 50);
+        closeButton.label.setText = "Close";
+        offsets = {
+            xOffset: closeButton.width / 2,
+            yOffset: closeButton.height / 1.7
+        };
+        closeButton.setTextXandYOffset = offsets;
+        closeButton.setOnClick = function () {
+            helpMenu.removal = true;
+        };
+
+        helpMenu.addElement(closeButton);
+
+        return helpMenu;
     }
 
     /**
@@ -366,6 +446,9 @@ class GameEngine {
         }
         if(entity instanceof UIElement) {
             this.uiElements.push(entity);
+            if (entity instanceof Menu) {
+                entity.addElementsToEntities();
+            }
         }
         if(entity instanceof Projectile) {
             this.projectiles.push(entity);
@@ -441,6 +524,7 @@ class GameEngine {
         }
 
         if (removalPositions.length > 0) {
+            this.updateAllLists(true);
             this.updateEntityPositions();
         }
     }
@@ -453,15 +537,46 @@ class GameEngine {
 
     updateUI () {
         let uiCount = this.uiElements.length;
-        for (let i = 0; i < uiCount; i++) {
+        let removalPositions = [];
+
+        for (let i = uiCount - 1; i >= 0; i--) {
             let entity = this.uiElements[i];
 
             if (entity.removalStatus === false) {
                 entity.update();
+            } else {
+                removalPositions.push(i);
             }
+        }
+
+        for (let i = removalPositions.length - 1; i >= 0; --i) {
+            this.uiElements.splice(removalPositions[i], 1);
+        }
+
+        if (removalPositions.length > 0) {
+            this.updateAllLists(false);
+            this.updateEntityPositions();
         }
     }
 
+
+    updateAllLists (calledFromNormalUpdate) {
+        this.updateList (this.walls);
+        this.updateList(this.enemies);
+        this.updateList(this.uiElements);
+        this.updateList(this.projectiles);
+        if (!calledFromNormalUpdate) {
+            this.updateList(this.entities);
+        }
+    }
+
+    updateList (list) {
+        for (let i = list.length - 1; i >= 0; i--) {
+            if (list[i].removalStatus === true || list[i] === null || list[i] === undefined) {
+                list.splice(i, 1);
+            }
+        }
+    }
 
     /**
      * This is called at the top of every loop for the GameEngine's infinite loop. It handles
