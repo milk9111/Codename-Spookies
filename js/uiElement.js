@@ -27,8 +27,25 @@ class UIElement extends Entity {
         this.centerY = this.y + this.height / 2;
 
         this.clickAction = function () {
-            console.log("CanvasButton clicked on");
+            console.log("UIElement was clicked on");
         }
+    }
+
+
+    static getCenterX (parentWidth, childWidth, parentX) {
+        return ((parentWidth / 2) - (childWidth / 2)) + parentX;
+    }
+
+    static getCenterY (parentHeight, childHeight, parentY) {
+        return ((parentHeight / 2) - (childHeight / 2)) + parentY;
+    }
+
+    static getQuarterX (parentWidth, childWidth, parentX) {
+        return ((parentWidth / 4) - (childWidth / 2)) + parentX;
+    }
+
+    static getQuarterY (parentHeight, childHeight, parentY) {
+        return ((parentHeight / 4) - (childHeight / 2)) + parentY;
     }
 
     update () {

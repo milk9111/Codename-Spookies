@@ -522,8 +522,9 @@ class GameEngine {
             this.ctx = ctx;
         }
         this.unloadMap();
-        let titleScreen = new TitleScreen(this, 0, 0);
+        let titleScreen = new TitleScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/logo.png");
         this.addEntity(titleScreen);
+        this.swap(titleScreen, titleScreen.startButton);
     }
 
     /**
