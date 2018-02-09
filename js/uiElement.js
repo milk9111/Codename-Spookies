@@ -14,9 +14,9 @@ class UIElement extends Entity {
         this.text = "Text";
         this.textFont = "20px Metal Mania";
         this.textAlign = "center";
-        this.textColor = "#FFFFFF";
 
         this.defaultColor = "#000000";
+        this.borderColor = "#000000";
         this.hoverColor = "#222222";
         this.isHovering = false;
 
@@ -158,18 +158,18 @@ class UIElement extends Entity {
 
     /**
      * Takes a string hexidecimal representation for a color.
-     * @param textColor
+     * @param color
      */
-    set setTextColor (textColor) {
-        this.textColor = textColor;
+    set setDefaultColor (color) {
+        this.defaultColor = color;
     }
 
     /**
      * Takes a string hexidecimal representation for a color.
      * @param color
      */
-    set setDefaultColor (color) {
-        this.defaultColor = color;
+    set setBorderColor (color) {
+        this.borderColor = color;
     }
 
     /**

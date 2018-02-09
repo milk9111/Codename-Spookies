@@ -131,13 +131,8 @@ class GameEngine {
     /** This changes the game to the next level.
     @param {int} levelNum Number of the level to load. **/
     newLevel(levelNum) {
-
-      console.log("Loading new level " + levelNum);
-
       //Remove all the tiles from the previous level
-      for (let i = this.entities.length - 1; i > 0; i--) {
-        this.entities[i].removeFromWorld = true;
-      }
+      this.unloadMap();
 
       this.walls = [];
       this.enemies = [];
@@ -288,35 +283,19 @@ class GameEngine {
 
 
     makePauseMenu () {
-        /* Trying to get elements to be perfectly centered within their parents.
-        let parent = {
-            x: 0,
-            y: 0,
-            width: this.surfaceWidth,
-            height: this.surfaceHeight
-        };
-        let pauseMenu = new PauseMenu(this, 0, 0, 250, 200);
-
-        pauseMenu.setXandY = UIElement.calculateCenterPosOfParent(parent, pauseMenu);
-
-        let offsets = {
-            xOffset: 0,
-            yOffset: pauseMenu.height / 6
-        };
-         */
         let pauseMenu = new PauseMenu(this, Math.floor(this.surfaceWidth / 3), Math.floor(this.surfaceHeight / 3), 250, 200);
         let offsets = {
             xOffset: pauseMenu.width / 2,
             yOffset: pauseMenu.height / 6
         };
         pauseMenu.setTextXandYOffset = offsets;
-        pauseMenu.setTextFont = "30px Metal Mania";
-        pauseMenu.setDefaultColor = "#877875";
+        pauseMenu.label.setTextFont = "30px Metal Mania";
+        pauseMenu.setDefaultColor = "#2E2E2E";
 
-        let x = pauseMenu.x + pauseMenu.width / 3.3;
-        let y = pauseMenu.y + pauseMenu.height / 2.5;
+        let x = UIElement.getCenterX(pauseMenu.width, 100, pauseMenu.x);
+        let y = UIElement.getCenterY(pauseMenu.height, 50, pauseMenu.y);
         let exitButton = new CanvasButton(this, x, y, 100, 50);
-        exitButton.setText = "Exit";
+        exitButton.label.setText = "Exit";
         offsets = {
             xOffset: exitButton.width / 2,
             yOffset: exitButton.height / 1.7

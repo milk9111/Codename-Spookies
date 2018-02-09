@@ -261,7 +261,7 @@ class Darkness extends Entity {
 
   draw(ctx) {
     if (this.isDrawing) {
-      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2 - 15, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2 - 5, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
       Entity.prototype.draw.call(this);
 
       ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);

@@ -5,6 +5,7 @@ class CanvasButton extends UIElement {
         super(game, x, y, false, width, height, 0, 0, "CanvasButton");
 
         this.game = game;
+        this.label = new Label(game, 0, 0, "Button");
     }
 
     update() {
@@ -23,13 +24,31 @@ class CanvasButton extends UIElement {
             ctx.fillStyle = this.hoverColor;
         }
         ctx.fillRect(this.x, this.y, this.width, this.height);
-
-        ctx.fillStyle = this.textColor;
-        ctx.font = this.textFont;
-        ctx.textAlign = this.textAlign;
-        ctx.fillText(this.text, this.x + this.xOffset, this.y + this.yOffset);
         ctx.restore();
 
         Entity.prototype.draw.call(this);
+    }
+
+    addLabelToEntities () {
+        this.game.addEntity(this.label);
+    }
+
+    set setTextXandYOffset (offsets) {
+        this.xOffset = offsets['xOffset'];
+        this.yOffset = offsets['yOffset'];
+        let pos = {
+            x: this.x + this.xOffset,
+            y: this.y + this.yOffset
+        }
+        this.label.setXandY = pos;
+    }
+
+    set setLabel (label) {
+        this.label = label;
+    }
+
+    set removal (remove) {
+        this.removeFromWorld = true;
+        this.label.removal = true;
     }
 }
