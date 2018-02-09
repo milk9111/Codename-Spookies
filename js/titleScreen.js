@@ -1,30 +1,38 @@
 
 class TitleScreen extends UIElement {
 
-    constructor(game, x, y) {
-        super(game, x, y, false, 100, 100, 0, 0, "TitleScreen");
+    constructor(game, x, y, width, height, logo) {
+        super(game, x, y, false, 100, 100, width, height, "TitleScreen");
+
+        this.width = width;
+        this.height = height;
 
         let that = this;
-        let startButton = new CanvasButton(game, 200, 400, 100, 50);
-        startButton.setText = "Start Game";
-        startButton.setDefaultColor = "#333333";
-        startButton.setTextFont = "15px Metal Mania";
-        let xoffset = startButton.width / 2;
-        let yoffset = startButton.height / 1.7;
+        this.startButton = new ImageButton(game, 0, 0,
+            150, 50, "../img/start.png", "../img/start_hover.png");
+
+        this.startButton.x = UIElement.getCenterX(this.width, this.startButton.width, this.x);
+        this.startButton.y = UIElement.getQuarterY(this.height, this.startButton.height, this.y) * 3;
+
+        this.startButton.setText = "Start Game";
+        this.startButton.setDefaultColor = "#333333";
+        this.startButton.setTextFont = "15px Metal Mania";
+        let xoffset = this.startButton.width / 2;
+        let yoffset = this.startButton.height / 1.7;
         let offsets = {
             xOffset: xoffset,
             yOffset: yoffset
         };
-        startButton.setTextXandYOffset = offsets;
-        console.log(startButton.xOffset + ", " + startButton.yOffset);
-        startButton.setOnClick = function () {
+        this.startButton.setTextXandYOffset = offsets;
+        this.startButton.setOnClick = function () {
             console.log("I'm clicked");
             that.game.newLevel(1);
-            startButton.removal = true;
+            that.startButton.removal = true;
         };
-        game.addEntity(startButton);
+        game.addEntity(this.startButton);
 
         this.game = game;
+        this.logo = logo;
     }
 
     update () {
@@ -32,7 +40,7 @@ class TitleScreen extends UIElement {
     }
 
     draw (ctx) {
-        ctx.drawImage(ASSET_MANAGER.getAsset("../img/codename-spookies_title_white.png"), this.x, this.y, this.game.surfaceWidth, this.game.surfaceHeight);
+        ctx.drawImage(ASSET_MANAGER.getAsset(this.logo), this.x, this.y, this.width, this.height);
         Entity.prototype.draw.call(this);
     }
 }

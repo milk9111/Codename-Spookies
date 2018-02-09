@@ -261,7 +261,7 @@ class Darkness extends Entity {
 
   draw(ctx) {
     if (this.isDrawing) {
-      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2 - 15, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2 - 5, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
       Entity.prototype.draw.call(this);
 
       ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
@@ -336,7 +336,9 @@ ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/codename-spookies_title_white.png");
+ASSET_MANAGER.queueDownload("../img/logo.png");
+ASSET_MANAGER.queueDownload("../img/start.png");
+ASSET_MANAGER.queueDownload("../img/start_hover.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
@@ -361,10 +363,11 @@ ASSET_MANAGER.downloadAll(function() {
   gameEngine = new GameEngine();
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
 
-  gameEngine.loadTitleScreen(ctx);
+
   //gameEngine.loadMap1(ctx);
 
   gameEngine.init(ctx);
+  gameEngine.loadTitleScreen(ctx);
   gameEngine.start();
 });
 
