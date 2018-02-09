@@ -81,7 +81,7 @@ class Player extends Entity {
         this.levelDone = false;
         this.speed = 3;
 
-        this.health = 100;
+        this.health = 50;
 
         //Hit Box for when the player swings at an enemey
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};

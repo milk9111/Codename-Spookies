@@ -40,7 +40,9 @@ class Tile extends Entity{
         let boundsY = this.y + this.boundsYOffset;
 
         this.collisionBounds = {width: 32, height: 32, x: boundsX, y: boundsY};
-        }
+      } else {
+        this.collisionBounds = null; 
+      }
 
     this.speedX = 2;
     this.speedY = 2;

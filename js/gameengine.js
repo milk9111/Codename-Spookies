@@ -666,7 +666,7 @@ class GameEngine {
                     this.addEntity(temp);
 
                     //Add Tile
-                } else if (objectMap.map2D[i][j] instanceof Tile) {
+                } else if (objectMap.map2D[i][j] instanceof Tile  && objectMap.map2D[i][j].collisionBounds == null) {
                     let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
                     this.addEntity(temp);
                 } else if (objectMap.map2D[i][j] instanceof Exit) {
@@ -747,7 +747,7 @@ class GameEngine {
             this.addEntity(temp);
 
             //Add Tile
-          } else if (objectMap.map2D[i][j] instanceof Tile) {
+          } else if (objectMap.map2D[i][j] instanceof Tile  && objectMap.map2D[i][j].collisionBounds == null) {
             let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
             this.addEntity(temp);
           } else if (objectMap.map2D[i][j] instanceof Exit) {
