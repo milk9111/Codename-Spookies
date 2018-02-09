@@ -20,7 +20,7 @@ class Projectile extends Entity {
         this.game = game;
         this.smackDistance = 15;
         this.smackSpeed = 3;
-        this.damage = 10;
+        this.damage = 50;
 
         this.shootAnimation = animation;
 
@@ -47,36 +47,35 @@ class Projectile extends Entity {
      */
     update() {
 
+        let collided = false;
         if(!this.collisionBounds) {
             console.log("Missing bounds");
         }
-        if (this.hasCollided(this, this.game.walls)) {
-            this.collide();
-            return;
+        //If we've hit a wall or another projectile, delete our self.
+        if (this.hasCollided(this, this.game.walls) || this.hasCollided(this, this.game.projectiles)) {
+            collided = true;
         }
-        if(this.parent !== this.player) {
+
+        //If we're from the player, try to hit enemies
+        if(this.parent instanceof Player) {
+            let enCollisions = this.getCollisions(this, this.game.enemies);
+            for(let i = 0; i < enCollisions.length; i++) {
+                let entity = enCollisions[i];
+                entity.smack(this.damage, this.smackDistance, this.facingDirection, this.smackSpeed);
+                collided = true;
+            }
+        }
+        //If we're from an enemy (or just not a player) try to hit the player
+        else {
             if(this.hasCollided(this, [this.player])) {
-                this.player.smack(this.smackDistance, this.facingDirection, this.smackSpeed);
+                this.player.smack(this.damage, this.smackDistance, this.facingDirection, this.smackSpeed);
+                collided = true;
             }
         }
-        let enCollisions = this.getCollisions(this, this.game.enemies);
 
-        for(let i = 0; i < enCollisions.length; i++) {
-            let entity = enCollisions[i];
-            if(this.parent !== entity) {
-                entity.hit(this.damage);
-                entity.smack(this.smackDistance, this.facingDirection, this.smackSpeed);
-                this.collide();
-            }
-        }
-        if(this.hasCollided(this, this.game.projectiles)) {
+        if(collided) {
             this.collide();
         }
-
-        if (this.shootAnimation.timesFinished >= this.maxAnimationLoopsBeforeRemoval) {
-            this.collide();
-        }
-
 
         let totalDistance = 2 * this.projectileSpeed;
         let distance = 0;

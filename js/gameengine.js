@@ -432,6 +432,8 @@ class GameEngine {
                 removalPositions.push(i);
             }
         }
+        this.projectiles = this.projectiles.filter((el) => el.removalStatus === false);
+        this.enemies = this.enemies.filter((el) => el.removalStatus === false);
 
         //This removes entities from the game world
         for (let i = removalPositions.length - 1; i >= 0; --i) {
