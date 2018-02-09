@@ -13,7 +13,7 @@ let castSuccessful = false;
 class Player extends Entity {
 
     constructor(game, x, y) {
-        super(game, x, y, true, 26, 58, 19, 4, "Player"); //(0, 400) signify where the sprite will be drawn.
+        super(game, x, y, true, 26, 44, 19, 20, "Player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
         console.log("Player X " + this.x);
@@ -80,6 +80,7 @@ class Player extends Entity {
         this.currentSpell = fireSpell;
         this.levelDone = false;
         this.speed = 3;
+        this.swordDamage = 15;
 
         this.health = 50;
 
@@ -337,7 +338,7 @@ class Player extends Entity {
                 for(let i = 0; i < collisions.length; i++) {
                     let enemy = collisions[i];
                     enemy.hit(15);
-                    enemy.smack(15, facingDirection, 1);
+                    enemy.smack(this.swordDamage, 15, facingDirection, 1);
                     console.log("Sword hit: " + enemy.name + " health: " + enemy.health);
                 }
             }

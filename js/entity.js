@@ -54,7 +54,7 @@ class Entity {
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
         if(this.isSmacked && this.smackTime <= this.smackLength) {
-            this.smackTime++;
+            this.smackTime += this.smackSpeed;
             //We do this to pass by value instead of pass by reference, because we modify bounds we don't want to keep
             let bounds = {
                 collisionBounds: {
@@ -68,20 +68,20 @@ class Entity {
             let yDiff = 0;
             switch(this.smackDirection) {
                 case "up":
-                    bounds.y -= 1;
-                    yDiff = -1;
+                    bounds.y -= this.smackSpeed;
+                    yDiff = -this.smackSpeed;
                     break;
                 case "down":
-                    bounds.y += 1;
-                    yDiff = 1;
+                    bounds.y += this.smackSpeed;
+                    yDiff = this.smackSpeed;
                     break;
                 case "left":
-                    bounds.x -= 1;
-                    xDiff = -1;
+                    bounds.x -= this.smackSpeed;
+                    xDiff = -this.smackSpeed;
                     break;
                 case "right":
-                    bounds.x += 1;
-                    xDiff = 1;
+                    bounds.x += this.smackSpeed;
+                    xDiff = this.smackSpeed;
                     break;
             }
             if(this.hasCollided(bounds, this.game.walls)) {
@@ -167,13 +167,11 @@ class Entity {
         // if (!entityArr) return;
         for (let i = 0; i < entityArr.length; i++) {
             let currEntity = entityArr[i];
-            if (currEntity.collisionBounds && this !== currEntity) {
+            if (currEntity.collisionBounds && bounds !== currEntity) {
                 if (Math.intersects(bounds, currEntity)) {
                     currEntity.colliderBoxColor = "green";
                     this.collidedObject = currEntity;
                     return true;
-                } else if (currEntity.colliderColor === "green") {
-                    currEntity.colliderBoxColor = "red";
                 }
             }
         }
@@ -195,11 +193,16 @@ class Entity {
         return collisions;
     }
 
-    smack(distance, direction, speed) {
+    smack(damage, distance, direction, speed) {
+        this.health -= damage;
+        if(this.health <= 0) {
+            this.dead = true;
+        }
         this.isSmacked = true;
         this.smackTime = 0;
         this.smackDirection = direction;
         this.smackLength = distance;
+        this.smackSpeed = speed;
     }
 
 
