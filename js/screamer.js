@@ -1,7 +1,7 @@
 class Screamer extends Enemy {
     constructor(gameEngine, player, x, y, speed=1, range=250) {
         super( gameEngine, player, x, y, speed, range,32,64,16,0);
-        console.log("Making a screamer");
+        //console.log("Making a screamer");
         this.createAnimations();
         //This is just a reminder that this will need to be set by the screamer.
         this.soundPath = super.soundPath;

@@ -110,7 +110,7 @@ class GameEngine {
         this.keys["Space"].pressed = false;
         this.startInput();
         this.timer = new Timer();
-        console.log('game initialized');
+        //console.log('game initialized');
     }
 
 
@@ -122,7 +122,7 @@ class GameEngine {
      * @author Seth Ladd
      */
     start () {
-        console.log("starting game");
+        //console.log("starting game");
         let that = this;
         (function gameLoop() {
             that.loop();
@@ -162,7 +162,7 @@ class GameEngine {
      * @author Connor Lundberg
      */
     startInput () {
-        console.log('Starting input');
+        //console.log('Starting input');
         let that = this;
 
         let getXandY = function (e) {
@@ -237,7 +237,7 @@ class GameEngine {
             that.click = getXandY(e);
         }, false);
 
-        console.log('Input started');
+        //console.log('Input started');
     }
 
 
@@ -249,7 +249,7 @@ class GameEngine {
         //let currentSpell = "WWAD";
         let firstOpen = true;
 
-        console.log("inside readCombo");
+        //console.log("inside readCombo");
 
         let getComboInput = function (e) {
             let failed = true;
@@ -837,6 +837,5 @@ class GameEngine {
         player.y = (ctx.canvas.height / 2 - 32);
         playerStartX = (ctx.canvas.width / 2 - 32);
         playerStartY = (ctx.canvas.height / 2 - 32);
-        console.log(player.x + ", " + player.y);
     }
 }
