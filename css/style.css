@@ -2,6 +2,11 @@ canvas {
     border: 1px solid black;
     background-image: url("../img/blackness.png");
     background-repeat: repeat;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     background-size: 100px 100px;
 }
 
@@ -12,4 +17,28 @@ body {
 }
 
 
+body {
+  background-color: black;
+}
 
+::-webkit-scrollbar {
+    display: none;
+}
+
+#controls {
+  color: white;
+  font-family: 'Metal Mania', cursive;
+  font-size: 30px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+*:focus {
+    outline: none;
+}

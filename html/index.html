@@ -1,81 +1,119 @@
-﻿
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <title>Game Project Shell</title>
+  <meta charset="utf-8">
+  <title>Spookies</title>
 
-    <!--CDN Stylesheets-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Metal+Mania" rel="stylesheet">
+  <!--CDN Stylesheets-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Metal+Mania" rel="stylesheet">
 
 
-    <!--Our Stylesheets-->
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <!--Our Stylesheets-->
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
 
-    <!--CDN Scripts-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!--CDN Scripts-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!--Our Scripts-->
-    <script type="text/javascript" src="../js/howler.core.min.js"></script>
-    <script type="text/javascript" src="../js/entity.js"></script>
-    <script type="text/javascript" src="../js/gameengine.js"></script>
-    <script type="text/javascript" src="../js/assetmanager.js"></script>
-    <script type="text/javascript" src="../js/main.js"></script>
-    <script type="text/javascript" src="../js/tileMap.js"></script>
-    <script type="text/javascript" src="../js/objectMap.js"></script>
-    <script type="text/javascript" src="../js/tile.js"></script>
-    <script type="text/javascript" src="../js/map.js"></script>
-    <script type="text/javascript" src="../js/player.js"></script>
-    <script type="text/javascript" src="../js/enemy.js"></script>
-    <script type="text/javascript" src="../js/plagueDoctor.js"></script>
-    <script type="text/javascript" src="../js/potion.js"></script>
-    <script type="text/javascript" src="../js/projectile.js"></script>
-    <script type="text/javascript" src="../js/screamer.js"></script>
-    <script type="text/javascript" src="../js/ballOfFlesh.js"></script>
-    <script type="text/javascript" src="../js/exit.js"></script>
-    <script type="text/javascript" src="../js/uiElement.js"></script>
-    <script type="text/javascript" src="../js/comboLabel.js"></script>
-    <script type="text/javascript" src="../js/canvasButton.js"></script>
-    <script type="text/javascript" src="../js/titleScreen.js"></script>
-    <script type="text/javascript" src="../js/menu.js"></script>
-    <script type="text/javascript" src="../js/imageButton.js"></script>
-    <script type="text/javascript" src="../js/label.js"></script>
-    <script type="text/javascript" src="../js/lightSpell.js"></script>
-    <script type="text/javascript" src="../js/freezeSpell.js"></script>
-    <script type="text/javascript" src="../js/healSpell.js"></script>
+  <!--Our Scripts-->
+  <script type="text/javascript" src="../js/howler.core.min.js"></script>
+  <script type="text/javascript" src="../js/entity.js"></script>
+  <script type="text/javascript" src="../js/gameengine.js"></script>
+  <script type="text/javascript" src="../js/assetmanager.js"></script>
+  <script type="text/javascript" src="../js/main.js"></script>
+  <script type="text/javascript" src="../js/tileMap.js"></script>
+  <script type="text/javascript" src="../js/objectMap.js"></script>
+  <script type="text/javascript" src="../js/tile.js"></script>
+  <script type="text/javascript" src="../js/map.js"></script>
+  <script type="text/javascript" src="../js/player.js"></script>
+  <script type="text/javascript" src="../js/enemy.js"></script>
+  <script type="text/javascript" src="../js/plagueDoctor.js"></script>
+  <script type="text/javascript" src="../js/potion.js"></script>
+  <script type="text/javascript" src="../js/projectile.js"></script>
+  <script type="text/javascript" src="../js/screamer.js"></script>
+  <script type="text/javascript" src="../js/ballOfFlesh.js"></script>
+  <script type="text/javascript" src="../js/exit.js"></script>
+  <script type="text/javascript" src="../js/uiElement.js"></script>
+  <script type="text/javascript" src="../js/comboLabel.js"></script>
+  <script type="text/javascript" src="../js/canvasButton.js"></script>
+  <script type="text/javascript" src="../js/titleScreen.js"></script>
+  <script type="text/javascript" src="../js/menu.js"></script>
+  <script type="text/javascript" src="../js/imageButton.js"></script>
+  <script type="text/javascript" src="../js/label.js"></script>
+  <script type="text/javascript" src="../js/lightSpell.js"></script>
+  <script type="text/javascript" src="../js/freezeSpell.js"></script>
+  <script>
+$(document).ready(function(){
+    $("#fade").fadeIn(7000);
+});
+</script>
 
 </head>
+
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col col-lg-2"></div>
-            <div class="col col-lg-3" style="float: left">
-                <canvas id="gameWorld" tabindex="1" width="800" height="770"></canvas>
-            </div>
-            <div class="col col-lg-4"></div>
+  <div id="fade" style = "display:none">
+    <canvas id="gameWorld" tabindex="1" width="800" height="770"></canvas>
+
+    <div class="container" id="controls">
+      <div class="row">
+        <div class="col">
+          <p>Controls</p>
+          <ul class="list-unstyled">
+            <li>W = Up</li>
+            <li>S = Down</li>
+            <li>A = Left</li>
+            <li>D = Right</li>
+          </ul>
+          <p>Sword = Spacebar</p>
+          <p>Shield = Q</p>
         </div>
-        <div class="row">
-            <div class="col col-lg-2" style="float: right" id="info">
-                <form style="border: 1px solid black; margin-top:5px;">
-                    <div style="margin:5px;">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="darknessCheck" onclick="drawDarkness()">
-                            <label class="form-check-label" for="darknessCheck">Show Darkness</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="collisionCheck" onclick="drawOutlines()">
-                            <label class="form-check-label" for="collisionCheck">Show Collision Boxes</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="soundCheck" onclick="toggleSound()">
-                            <label class="form-check-label" for="collisionCheck">Enable Sounds</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="col">
+          <p>Spells</p>
+          <ul>
+            <li>Fireball = WWAD</li>
+            <li>Freeze = WDADWS</li>
+            <li>Light = SADWAS</li>
+          </ul>
         </div>
+        <div class="col">
+          <p>Your goal is to surive all three levels and find your way out of the darkness. There is a portal on each map that will teleport you to the next room. Getting hit by enemies will cause damage to your light, making it harder to see. Collect potions
+            around the map to gain your light back.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p>Developed by </p>
+          <ul>
+            <li>Connor Lundberg</li>
+            <li>Myles Haynes</li>
+            <li>James Roberts</li>
+            <li>Brandon Blaschke</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
+
+    <div style="margin:5px;">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="darknessCheck" onclick="drawDarkness()">
+        <label class="form-check-label" for="darknessCheck">Show Darkness</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="collisionCheck" onclick="drawOutlines()">
+        <label class="form-check-label" for="collisionCheck">Show Collision Boxes</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="soundCheck" onclick="toggleSound()">
+        <label class="form-check-label" for="collisionCheck">Enable Sounds</label>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
