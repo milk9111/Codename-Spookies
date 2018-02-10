@@ -206,6 +206,7 @@ class Player extends Entity {
                     let newPos = this.chooseFireballDirection();
                     newX = newPos.newX;
                     newY = newPos.newY;
+                    ASSET_MANAGER.playSound("../snd/fireball.mp3");
                     let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
                     spell.setProjectileSpeed = 2;
                     this.game.addEntity(spell);
