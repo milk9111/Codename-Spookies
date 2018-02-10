@@ -194,6 +194,7 @@ class Darkness extends Entity {
     this.player = player;
     this.newVal = 0;
     this.isDrawing = true;
+    this.isExpanding = false;
 
     this.bottomBox = {
       x: 0,
@@ -238,9 +239,11 @@ class Darkness extends Entity {
     this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
     this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
 
-    let tempWandH = map(this.player.health, 0, 100, 0, 1500);
-    this.width = tempWandH;
-    this.height = tempWandH;
+    if (!this.isExpanding) {
+        let tempWandH = map(this.player.health, 0, 100, 0, 1500);
+        this.width = tempWandH;
+        this.height = tempWandH;
+    }
 
     //Controls the boxes around the darkness iamge
     //maps for x and y positions and width and height positions
@@ -355,7 +358,7 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-  document.getElementById('darknessCheck').checked = false;
+  document.getElementById('darknessCheck').checked = true;
   document.getElementById('collisionCheck').checked = true;
 
   //LOAD ENTITIES
@@ -363,9 +366,6 @@ ASSET_MANAGER.downloadAll(function() {
   facingDirection = "down";
   gameEngine = new GameEngine();
   gameEngine.drawing = document.getElementById('collisionCheck').checked;
-
-
-  //gameEngine.loadMap1(ctx);
 
   gameEngine.init(ctx);
   gameEngine.loadTitleScreen(ctx);
@@ -384,87 +384,3 @@ ASSET_MANAGER.downloadAll(function() {
 function map(value, low1, high1, low2, high2) {
   return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
-
-
-//The original map setup in case we need it.
-/*let player = new Player(gameEngine);
-  //Load tile map
-  let tileMap = new TileMap();
-  tileMap.loadMap(Map.getTestMap(), 32, 32, gameEngine, player, ctx);
-
-  //Load ObejctMap
-  let objectMap = new ObjectMap();
-  objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
-
-
-  let bg = new Background(gameEngine);
-  darkness = new Darkness(gameEngine, player);
-  //darknessOutline = new DarknessOutline(gameEngine, player);
-
-  darkness.drawing = document.getElementById('darknessCheck').checked;
-
-  //ADD ENTITIES
-
-  //Add tiles
-  for (let i = 0; i < tileMap.map2D.length; i++) {
-    for (let j = 0; j < tileMap.map2D[i].length; j++) {
-
-      let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, gameEngine, player, ctx);
-      gameEngine.addEntity(temp);
-    }
-  }
-
-  //Add Objects to map
-  for (let i = 0; i < objectMap.map2D.length; i++) {
-    for (let j = 0; j < objectMap.map2D[i].length; j++) {
-
-      //Add Potions
-      if (objectMap.map2D[i][j] instanceof Potion) {
-        //Potion (x, y, type, player)
-        let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, gameEngine);
-        gameEngine.addEntity(temp);
-
-        //Add Tile
-      } else if (objectMap.map2D[i][j] instanceof Tile) {
-        let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, gameEngine, player, ctx);
-        gameEngine.addEntity(temp);
-      } else if (objectMap.map2D[i][j] instanceof Exit) {
-
-        let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, gameEngine, bg);
-        gameEngine.addEntity(temp);
-      }
-    }
-  }
-
-  gameEngine.addEntity(player);
-  //Add Enemies to map
-  for (let i = 0; i < objectMap.map2D.length; i++) {
-    for (let j = 0; j < objectMap.map2D[i].length; j++) {
-
-      //Add Plague Doctor
-      if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
-        let temp = new PlagueDoctor(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
-        gameEngine.addEntity(temp);
-      } else if (objectMap.map2D[i][j] instanceof Screamer) {
-          let temp = new Screamer(gameEngine, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
-          gameEngine.addEntity(temp);
-      }
-    }
-  }
-  ASSET_MANAGER.playSound("../snd/wyrm.mp3");
-  ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
-  ASSET_MANAGER.toggleSound();
-
-  //gameEngine.addEntity(darknessOutline);
-    player.darkness = darkness;
-  gameEngine.addEntity(darkness);
-  gameEngine.addEntity(bg);
-
-
-  //START GAME
-  gameEngine.init(ctx, player);
-  player.x = (gameEngine.surfaceWidth / 2 - 32);
-  player.y = (gameEngine.surfaceHeight / 2 - 32);
-  playerStartX = (gameEngine.surfaceWidth / 2 - 32);
-  playerStartY = (gameEngine.surfaceHeight / 2 - 32);
-  console.log(player.x + ", " + player.y);*/

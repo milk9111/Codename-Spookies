@@ -1,3 +1,5 @@
+let drawDistance = 305;
+
 /** Represents a single tile on the map
  * @author Brandon Blaschke
  */
@@ -58,7 +60,7 @@ class Tile extends Entity{
     let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
 
     //If close to player then draw, else don't draw
-    if (distance < 305) {
+    if (distance < drawDistance) {
       this.isDraw = true;
 
 

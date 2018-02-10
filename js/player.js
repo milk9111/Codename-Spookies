@@ -54,8 +54,8 @@ class Player extends Entity {
         this.fireBallSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 1, 64, 64, 0.1,  3, true, false);
         this.fireBallSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 2, 64, 64, 0.1,  3, true, false);
         this.fireBallSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 3, 64, 64, 0.1,  3, true, false);
-        this.currentSpellAnimation = null;
 
+        this.currentSpellAnimation = null;
 
         this.walkingSound = ASSET_MANAGER.getAsset("../snd/footstep1.wav");
         this.walkingSoundId = this.walkingSound.id;
@@ -74,7 +74,6 @@ class Player extends Entity {
         this.firstOpen = true;
         this.swinging = false;
         this.casting = false;
-        //this.castSuccessful = false;
         this.raising = false;
         this.shooting = false;
         this.currentSpell = fireSpell;
@@ -84,7 +83,7 @@ class Player extends Entity {
 
         this.health = 100;
 
-        //Hit Box for when the player swings at an enemey
+        //Hit Box for when the player swings at an enemy
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};
 
         this.blockedDirection = [false, false, false, false, false];
@@ -100,6 +99,8 @@ class Player extends Entity {
         this.offLeft = false;
         this.offTop = false;
         this.offBottom = false;
+
+        this.spellCombos = ["WWAD", "SADWAS"];
     }
 
     hit(damage) {
@@ -195,37 +196,23 @@ class Player extends Entity {
             castSuccessful = false;
             let newX = this.x;
             let newY = this.y;
-            switch(facingDirection) {
-                case "up":
-                    newX += 14;
-                    newY -= 20;
-                    this.currentSpellAnimation = this.fireBallSpellForwardAnimation;
+            switch (this.spellCombo) {
+                case "WWAD":
+                    let newPos = this.chooseFireballDirection();
+                    newX = newPos.newX;
+                    newY = newPos.newY;
+                    let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
+                    spell.setProjectileSpeed = 2;
+                    this.game.addEntity(spell);
+                    this.currentSpellAnimation.elapsedTime = 0;
                     break;
-                case "down":
-                    newX -= 10;
-                    newY += 32;
-                    this.currentSpellAnimation = this.fireBallSpellDownwardAnimation;
-                    break;
-                case "left":
-                    //newY += 16;
-                    newX -= 20;
-                    this.currentSpellAnimation = this.fireBallSpellLeftAnimation;
-                    break;
-                case "right":
-                    newX += 32;
-                    //newY += 16;
-                    this.currentSpellAnimation = this.fireBallSpellRightAnimation;
-                    break;
-                default:
-                    console.log("incorrect facing direction: " + facingDirection);
+                case "SADWAS":
+                    let light = new LightSpell(this.game, newX, newX);
+                    this.game.addEntity(light);
                     break;
             }
-            this.currentSpellAnimation.elapsedTime = 0;
 
-            let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
-            spell.setProjectileSpeed = 2;
-            this.game.addEntity(spell);
-            //ASSET_MANAGER.getAsset("../snd/woman_scream.wav").play();
+
         }
 
         if (this.walkingRight) {
@@ -396,6 +383,41 @@ class Player extends Entity {
         super.update();
       }
 
+    }
+
+
+    chooseFireballDirection () {
+
+        let newX = this.x;
+        let newY = this.y;
+
+        switch(facingDirection) {
+            case "up":
+                newX += 14;
+                newY -= 20;
+                this.currentSpellAnimation = this.fireBallSpellForwardAnimation;
+                break;
+            case "down":
+                newX -= 10;
+                newY += 32;
+                this.currentSpellAnimation = this.fireBallSpellDownwardAnimation;
+                break;
+            case "left":
+                //newY += 16;
+                newX -= 20;
+                this.currentSpellAnimation = this.fireBallSpellLeftAnimation;
+                break;
+            case "right":
+                newX += 32;
+                //newY += 16;
+                this.currentSpellAnimation = this.fireBallSpellRightAnimation;
+                break;
+            default:
+                console.log("incorrect facing direction: " + facingDirection);
+                break;
+        }
+
+        return {newX: newX, newY: newY};
     }
 
     /**

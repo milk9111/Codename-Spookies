@@ -73,6 +73,7 @@ class GameEngine {
         this.paused = false;
         this.tempClockTick = 0;
         this.pauseMenu = null;
+        this.darkness = null;
     }
 
 
@@ -176,7 +177,6 @@ class GameEngine {
 
         let coreMovementButtonDown = function (e) {
             that.keys[e.code].pressed = true;
-            console.log(e.code + " pressed");
 
             if (e.code === 'KeyQ' && !that.cast && !that.paused) {
                 that.cast = true;
@@ -244,23 +244,27 @@ class GameEngine {
         this.addEntity(this.combo);
         let currPos = 0;
         let that = this;
-        let currentSpell = "WWAD";
+        //let currentSpell = "WWAD";
         let firstOpen = true;
 
         console.log("inside readCombo");
 
         let getComboInput = function (e) {
             let failed = true;
-            if (currentSpell.charAt(currPos) === String.fromCharCode(e.keyCode)) {
-                that.combo.buildCombo(currentSpell.charAt(currPos));
+            that.player.spellCombo += String.fromCharCode(e.keyCode);
+            let closestSpell = that.getClosestSpell(that.player.spellCombo);
+
+            if (closestSpell !== "") {
+                that.combo.buildCombo(closestSpell.charAt(currPos));
                 console.log("combo: " + that.combo.combo);
                 currPos++;
                 failed = false;
             }
 
             if (failed) {
+                that.player.spellCombo = "";
                 that.combo.buildCombo(String.fromCharCode(e.keyCode));
-                console.log("Cast failed! Did not read the combo " + currentSpell);
+                console.log("Cast failed! Did not read the combo " + closestSpell);
                 that.cast = false;
                 that.combo.stateOfCombo = 3;
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
@@ -268,11 +272,11 @@ class GameEngine {
                 return;
             }
 
-            if (currPos >= currentSpell.length) {
+            if (currPos >= closestSpell.length) {
                 castSuccessful = true;
                 that.cast = false;
                 that.combo.stateOfCombo = 2;
-                console.log("Cast successful! Read the combo " + currentSpell);
+                console.log("Cast successful! Read the combo " + closestSpell);
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
                 return;
@@ -281,6 +285,24 @@ class GameEngine {
         };
 
         ctx.canvas.addEventListener("keydown", getComboInput, true);
+    }
+
+
+    getClosestSpell (currCombo) {
+        let allSpells = this.player.spellCombos;
+        let closestCombo = "";
+
+        for (let i = 0; i < allSpells.length; i++) {
+            if (currCombo.length > 0 && allSpells[i].substring(0, currCombo.length) === currCombo) {
+                closestCombo = allSpells[i];
+                break;
+            } else if (currCombo.length <= 0) {
+                closestCombo = allSpells[i];
+                break;
+            }
+        }
+
+        return closestCombo;
     }
 
 
