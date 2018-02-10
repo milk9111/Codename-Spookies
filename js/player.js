@@ -1,4 +1,5 @@
 
+const MAX_PLAYER_HEALTH = 100;
 const fireSpell = "WWAD";
 let castSuccessful = false;
 
@@ -81,7 +82,7 @@ class Player extends Entity {
         this.speed = 3;
         this.swordDamage = 15;
 
-        this.health = 100;
+        this.health = MAX_PLAYER_HEALTH;
 
         //Hit Box for when the player swings at an enemy
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};
@@ -100,7 +101,7 @@ class Player extends Entity {
         this.offTop = false;
         this.offBottom = false;
 
-        this.spellCombos = ["WWAD", "SADWAS", "WDADWS"];
+        this.spellCombos = ["WWAD", "SADWAS", "WDADWS", "ADSWW"];
     }
 
     hit(damage) {
@@ -213,12 +214,16 @@ class Player extends Entity {
                     this.currentSpellAnimation.elapsedTime = 0;
                     break;
                 case "SADWAS":
-                    let light = new LightSpell(this.game, newX, newX);
+                    let light = new LightSpell(this.game, newX, newY - 60);
                     this.game.addEntity(light);
                     break;
                 case "WDADWS":
-                    let freeze = new FreezeSpell(this.game, newX - 256 / 2 + 30, newX - 256 / 2);
+                    let freeze = new FreezeSpell(this.game, newX - 256 / 2 + 30, newY - 256 / 2 + 20);
                     this.game.addEntity(freeze);
+                    break;
+                case "ADSWW":
+                    let heal = new HealSpell(this.game, newX, newY - 20);
+                    this.game.addEntity(heal);
                     break;
             }
 
