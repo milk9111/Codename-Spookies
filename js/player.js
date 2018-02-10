@@ -17,7 +17,6 @@ class Player extends Entity {
         super(game, x, y, true, 26, 44, 19, 20, "Player"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
-        console.log("Player X " + this.x);
         this.stopMoving = false;
 
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
@@ -342,7 +341,7 @@ class Player extends Entity {
                     let enemy = collisions[i];
                     enemy.hit(15);
                     enemy.smack(this.swordDamage, 15, facingDirection, 1);
-                    console.log("Sword hit: " + enemy.name + " health: " + enemy.health);
+                    //console.log("Sword hit: " + enemy.name + " health: " + enemy.health);
                 }
             }
         }

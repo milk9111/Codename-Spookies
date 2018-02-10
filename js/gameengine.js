@@ -258,7 +258,6 @@ class GameEngine {
 
             if (closestSpell !== "") {
                 that.combo.buildCombo(closestSpell.charAt(currPos));
-                console.log("combo: " + that.combo.combo);
                 currPos++;
                 failed = false;
             }
@@ -266,7 +265,6 @@ class GameEngine {
             if (failed) {
                 that.player.spellCombo = "";
                 that.combo.buildCombo(String.fromCharCode(e.keyCode));
-                console.log("Cast failed! Did not read the combo " + closestSpell);
                 that.cast = false;
                 that.combo.stateOfCombo = 3;
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
@@ -278,7 +276,6 @@ class GameEngine {
                 castSuccessful = true;
                 that.cast = false;
                 that.combo.stateOfCombo = 2;
-                console.log("Cast successful! Read the combo " + closestSpell);
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
                 return;
