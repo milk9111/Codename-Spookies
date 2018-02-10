@@ -8,7 +8,7 @@ class HealSpell extends Entity {
 
         this.isStart = true;
         this.healAmount = 10;
-
+        ASSET_MANAGER.playSound("../snd/heal.mp3");
         this.animation = new Animation(ASSET_MANAGER.getAsset("../img/Heal_Spell.png"), 0, 0, 64, 64, 0.1, 4, false, false);
     }
 
