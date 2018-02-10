@@ -119,7 +119,6 @@ class Player extends Entity {
     update() {
         if (this.health <= 0) {
             this.game.addEntity(this.game.makeDeathMenu());
-            //this.health = 100;
             return;
         }
 
@@ -133,7 +132,7 @@ class Player extends Entity {
             this.casting = true;
         }
 
-        if (!this.casting) {
+        if (!this.casting && !this.game.cast) {
             if (this.game.keys["KeyD"].pressed && this.blockedDirection[4] !== true) {
                 facingDirection = "right";
                 this.walkingRight = true;

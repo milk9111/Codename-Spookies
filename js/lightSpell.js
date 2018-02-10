@@ -6,7 +6,7 @@ class LightSpell extends Entity {
 
         this.game = game;
 
-        this.cooldown = 5;
+        this.cooldown = 7;
         this.step = 10;
         this.updateLoops = 1;
 
@@ -36,10 +36,6 @@ class LightSpell extends Entity {
         }
 
         if (this.cooldown <= 0) {
-            /*this.game.player.darkness.x = this.lastDarknessX;
-            this.game.player.darkness.y = this.lastDarknessY;
-            this.game.player.darkness.width = this.lastDarknessWidth;
-            this.game.player.darkness.height = this.lastDarknessHeight;*/
             this.game.player.darkness.drawing = true;
             this.removal = true;
             drawDistance = this.lastDrawDistance;

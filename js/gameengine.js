@@ -153,6 +153,19 @@ class GameEngine {
 
     }
 
+    checkForKeyDown () {
+        let value = false;
+
+        value = value || this.keys["KeyE"].pressed;
+        value = value || this.keys["KeyW"].pressed;
+        value = value || this.keys["KeyA"].pressed;
+        value = value || this.keys["KeyS"].pressed;
+        value = value || this.keys["KeyD"].pressed;
+        value = value || this.keys["Space"].pressed;
+        value = value || this.keys["Escape"].pressed;
+
+        return value;
+    }
 
     /**
      * This handles all of the user input. It adds key event listeners to the canvas in order
@@ -178,7 +191,8 @@ class GameEngine {
         let coreMovementButtonDown = function (e) {
             that.keys[e.code].pressed = true;
 
-            if (e.code === 'KeyQ' && !that.cast && !that.paused) {
+            if (e.code === 'KeyQ' && !that.cast && !that.paused && !that.checkForKeyDown()) {
+                //that.initKeys();
                 that.cast = true;
                 that.ctx.canvas.removeEventListener("keydown", coreMovementButtonDown, false);
                 that.ctx.canvas.removeEventListener("keyup", coreMovementButtonUp, false);
