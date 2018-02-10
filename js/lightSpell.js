@@ -27,6 +27,7 @@ class LightSpell extends Entity {
         this.lastDrawDistance = drawDistance;
         drawDistance = 1000;
 
+        ASSET_MANAGER.playSound("../snd/lightspell.wav");
         this.animation = new Animation(ASSET_MANAGER.getAsset("../img/Light_Spell.png"), 0, 0, 64, 64, 0.1,  5, true, false);
     }
 
