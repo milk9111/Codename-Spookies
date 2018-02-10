@@ -49,6 +49,7 @@
   <script type="text/javascript" src="../js/freezeSpell.js"></script>
     <script type="text/javascript" src="../js/healSpell.js"></script>
     <script>
+
 $(document).ready(function(){
     $("#fade").fadeIn(7000);
 });
@@ -58,9 +59,12 @@ $(document).ready(function(){
 
 <body>
   <div id="fade" style = "display:none">
-    <canvas id="gameWorld" tabindex="1" width="800" height="770"></canvas>
-
-    <div class="container" id="controls">
+      <div class="container" id="controls">
+          <div class="row">
+              <div class="col">
+                <canvas id="gameWorld" tabindex="1" width="800" height="770"></canvas>
+              </div>
+          </div>
       <div class="row">
         <div class="col">
           <p>Controls</p>
@@ -79,6 +83,7 @@ $(document).ready(function(){
             <li>Fireball = WWAD</li>
             <li>Freeze = WDADWS</li>
             <li>Light = SADWAS</li>
+              <li>Heal = ADSWW</li>
           </ul>
         </div>
         <div class="col">
