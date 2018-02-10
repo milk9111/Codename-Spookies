@@ -11,7 +11,7 @@
  */
 class Projectile extends Entity {
 
-    constructor(game, animation, direction, startX, startY, player, parent) {
+    constructor(game, animation, direction, startX, startY, player, parent, damage) {
 
         console.log("making new projectile");
 
@@ -20,7 +20,12 @@ class Projectile extends Entity {
         this.game = game;
         this.smackDistance = 15;
         this.smackSpeed = 3;
-        this.damage = 50;
+
+        if (damage === null || damage === undefined) {
+            this.damage = 50;
+        } else {
+            this.damage = damage;
+        }
 
         this.shootAnimation = animation;
 
