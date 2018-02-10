@@ -34,7 +34,7 @@ class Screamer extends Enemy {
         this.attackAnimationRight = this.attackAnimationDown;
 
         //no existing death animations
-        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 192, 64, 64, 0.3, 3, false, false);
+        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 192, 64, 64, 0.15, 6, false, false);
         this.deathAnimationUp = this.deathAnimationDown;
     }
 

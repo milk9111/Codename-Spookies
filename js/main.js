@@ -336,6 +336,7 @@ ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/Light_Spell.png");
 ASSET_MANAGER.queueDownload("../img/logo.png");
 ASSET_MANAGER.queueDownload("../img/start.png");
 ASSET_MANAGER.queueDownload("../img/start_hover.png");

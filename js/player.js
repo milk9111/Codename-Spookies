@@ -27,8 +27,8 @@ class Player extends Entity {
 
         this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, true, false);
         this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, true, false);
-        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.3,  2, true, false);
-        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.3,  2, true, false);
+        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.15,  2, true, false);
+        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.15,  2, true, false);
 
         this.swingDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
         this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 192, 64, 64, 0.1,  3, false, false);
@@ -159,9 +159,10 @@ class Player extends Entity {
                 this.walkingDownward = false;
             }
 
-            if (this.game.click && !this.swinging) {
+            if (this.game.keys["Space"].pressed && !this.swinging) {
+                console.log("Pressed space");
                 this.swinging = true;
-                this.game.click = false;
+                //this.game.click = false;
             }
 
             if (this.game.keys["KeyE"].pressed) {
@@ -386,15 +387,8 @@ class Player extends Entity {
           };
         if(this.hasCollided(bounds, this.game.enemies)) {
             if (this.y <= this.collidedObject.y && this.pos > this.collidedObject.pos) {
-                console.log("swapping below an enemy");
-                console.log("y's: "  + this.y + ", " + this.collidedObject.y);
-                console.log("pos's before: " + this.pos + ", " + this.collidedObject.pos);
                 this.game.swap(this, this.collidedObject);
-                console.log("pos's after: " + this.pos + ", " + this.collidedObject.pos);
             } else if (this.y > this.collidedObject.y && this.pos < this.collidedObject.pos) {
-                console.log("swapping above an enemy");
-                console.log("y's: "  + this.y + ", " + this.collidedObject.y);
-                console.log("pos's: " + this.pos + ", " + this.collidedObject.pos);
                 this.game.swap(this, this.collidedObject);
             }
         }

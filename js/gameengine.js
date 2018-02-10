@@ -106,6 +106,7 @@ class GameEngine {
         this.ctx = ctx;
         this.surfaceWidth = this.ctx.canvas.width;
         this.surfaceHeight = this.ctx.canvas.height;
+        this.keys["Space"].pressed = false;
         this.startInput();
         this.timer = new Timer();
         console.log('game initialized');
@@ -175,6 +176,7 @@ class GameEngine {
 
         let coreMovementButtonDown = function (e) {
             that.keys[e.code].pressed = true;
+            console.log(e.code + " pressed");
 
             if (e.code === 'KeyQ' && !that.cast && !that.paused) {
                 that.cast = true;
@@ -350,16 +352,7 @@ class GameEngine {
             yOffset: helpMenu.height / 5 + 15
         };
 
-        let instructions = "Left Click - Sword swing\r\n" +
-                            "W - Forward\r\n" +
-                            "A - Left\r\n" +
-                            "S - Downward\r\n" +
-                            "D - Right\r\n" +
-                            "E - Shield Raise\r\n" +
-                            "Escape - Pause\r\n" +
-                            "Q - Cast spell";
-
-        let label1 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 20, "  Left Mouse Click - Sword swing\r\n");
+        let label1 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 20, "Space - Sword swing\r\n");
         let label2 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 40, "W - Forward\r\n");
         let label3 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 60, "A - Left\r\n");
         let label4 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 80, "S - Downward\r\n");
