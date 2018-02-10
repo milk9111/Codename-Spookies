@@ -47,7 +47,8 @@
   <script type="text/javascript" src="../js/label.js"></script>
   <script type="text/javascript" src="../js/lightSpell.js"></script>
   <script type="text/javascript" src="../js/freezeSpell.js"></script>
-  <script>
+    <script type="text/javascript" src="../js/healSpell.js"></script>
+    <script>
 $(document).ready(function(){
     $("#fade").fadeIn(7000);
 });
@@ -110,7 +111,7 @@ $(document).ready(function(){
       </div>
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="soundCheck" onclick="toggleSound()">
-        <label class="form-check-label" for="collisionCheck">Enable Sounds</label>
+        <label class="form-check-label" for="collisionCheck" onclick="toggleSound()">Enable Sounds</label>
       </div>
     </div>
   </div>

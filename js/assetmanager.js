@@ -85,9 +85,11 @@ class AssetManager {
             //console.log("Playing: " + path);
             shouldPlay = true;
         }
-        shouldPlay &= !this.soundDisabled;
-        if(shouldPlay && this.cache[path] !== undefined && this.cache[path] !== null) {
+        if(this.cache[path] && this.cache[path]) {
             this.soundIds[path] = this.cache[path].play();
+        }
+        if(this.soundDisabled) {
+            Howler.mute(true, this.soundIds[path]);
         }
         return this.soundIds[path];
     }
