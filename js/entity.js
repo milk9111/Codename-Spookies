@@ -147,23 +147,6 @@ class Entity {
     get removalStatus () {
         return this.removeFromWorld;
     }
-    compareCollisionMarkers (bottomHitATop, topHitABottom, rightHitALeft, leftHitARight) {
-        if (this.topHitABottom !== topHitABottom) {
-            return 1;
-        }
-
-        if (this.bottomHitATop !== bottomHitATop) {
-            return 2;
-        }
-
-        if (this.leftHitARight !== leftHitARight) {
-            return 3;
-        }
-
-        if (this.rightHitALeft !== rightHitALeft) {
-            return 4;
-        }
-    }
 
 
     static bluealizeImage (ctx, imageX, imageY, imageWidth, imageHeight) {
