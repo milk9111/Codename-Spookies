@@ -10,8 +10,6 @@ canvas {
     background-size: 100px 100px;
 }
 
-:focus { outline: none; }
-
 body {
     background-color: black;
 }
