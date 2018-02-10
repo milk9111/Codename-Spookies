@@ -100,7 +100,7 @@ class Player extends Entity {
         this.offTop = false;
         this.offBottom = false;
 
-        this.spellCombos = ["WWAD", "SADWAS"];
+        this.spellCombos = ["WWAD", "SADWAS", "WDADWS"];
     }
 
     hit(damage) {
@@ -209,6 +209,10 @@ class Player extends Entity {
                 case "SADWAS":
                     let light = new LightSpell(this.game, newX, newX);
                     this.game.addEntity(light);
+                    break;
+                case "WDADWS":
+                    let freeze = new FreezeSpell(this.game, newX, newX);
+                    this.game.addEntity(freeze);
                     break;
             }
 

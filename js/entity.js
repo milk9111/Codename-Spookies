@@ -163,6 +163,21 @@ class Entity {
     }
 
 
+    static bluealizeImage (ctx, imageX, imageY, imageWidth, imageHeight) {
+        console.log(imageX + " " + imageY + " " + imageWidth + " " + imageHeight);
+        let imageData = ctx.getImageData(imageX, imageY, imageWidth, imageHeight);
+
+        let data = imageData.data;
+
+        for(let p = 0, len = data.length; p < len; p+=4) {
+            data[p    ] = data[p    ]; //red
+            data[p + 1] = data[p + 1]; //green
+            data[p + 2] = 255; //blue
+        }
+        ctx.putImageData(imageData, imageX, imageY);
+    }
+
+
     hasCollided(bounds, entityArr) {
         // if (!entityArr) return;
         for (let i = 0; i < entityArr.length; i++) {

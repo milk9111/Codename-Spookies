@@ -15,6 +15,10 @@ class Enemy extends Entity {
         /**How many pixels from the player the enemy stops to begin attacking.*/
         this.stoppingDistance = 15;
         this.health = 100;
+        this.frozen = false;
+
+        this.width = frameWidth;
+        this.height = frameHeight;
 
         //The enemy's current position and state in the game world.
         this.x = x;
@@ -93,7 +97,7 @@ class Enemy extends Entity {
         }
 
         //If not dead the enemy can move or change state as needed
-        if(!this.dead) {
+        if(!this.dead && !this.frozen) {
             let lastX = this.x;
             let lastY = this.y;
             let xDir = 0;
@@ -179,7 +183,12 @@ class Enemy extends Entity {
             } else {
                 this.walking(ctx);
             }
+
+            if (this.frozen) {
+                Entity.bluealizeImage(ctx, this.x + (this.width / 2), this.y, this.width, this.height);
+            }
         }
+
 
         Entity.prototype.draw.call(this);
     };
