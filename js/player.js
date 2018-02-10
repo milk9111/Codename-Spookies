@@ -217,7 +217,7 @@ class Player extends Entity {
                     this.game.addEntity(light);
                     break;
                 case "WDADWS":
-                    let freeze = new FreezeSpell(this.game, newX, newX);
+                    let freeze = new FreezeSpell(this.game, newX - 256 / 2 + 30, newX - 256 / 2);
                     this.game.addEntity(freeze);
                     break;
             }

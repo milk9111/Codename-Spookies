@@ -9,6 +9,7 @@ class FreezeSpell extends Entity {
         this.step = 10;
         this.updateLoops = 1;
 
+        this.animation = new Animation(ASSET_MANAGER.getAsset("../img/Freeze_Spell.png"), 0, 0, 256, 256, 0.05,  10, false, false);
         this.setFreezeForEnemies(true);
     }
 
@@ -26,7 +27,9 @@ class FreezeSpell extends Entity {
     }
 
     draw (ctx) {
-
+        if (!this.animation.isDone()) {
+            this.animation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
+        }
         Entity.prototype.draw.call(this);
     }
 
