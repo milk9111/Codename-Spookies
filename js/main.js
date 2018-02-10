@@ -188,6 +188,7 @@ class Darkness extends Entity {
 
   constructor(game, player) {
     super(game, game.surfaceWidth, game.surfaceHeight, false, 0, 0, 0, 0, "Darkness");
+    this.game = game;
     this.width = 1500;
     this.height = 1500;
     this.canvasW = $("#gameWorld").width();
@@ -247,7 +248,7 @@ class Darkness extends Entity {
         this.height = tempWandH;
     }
 
-    //Controls the boxes around the darkness iamge
+    //Controls the boxes around the darkness image
     //maps for x and y positions and width and height positions
     let xAndY = map(this.width, 1500, 0, this.canvasW, 350);
     let wAndH = map(this.width, 1500, 0, 0, 350);
@@ -267,15 +268,38 @@ class Darkness extends Entity {
   draw(ctx) {
     if (this.isDrawing) {
       ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2 - 5, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
+        //this.cropForProjectiles(ctx);
       Entity.prototype.draw.call(this);
 
       ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
       ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
       ctx.fillRect(this.topBox.x, this.topBox.y, this.topBox.width, this.topBox.height);
       ctx.fillRect(this.bottomBox.x, this.bottomBox.y, this.bottomBox.width, this.bottomBox.height);
+
     }
 
+  }
 
+  cropForProjectiles (ctx) {
+      let projectiles = this.game.projectiles;
+
+      for (let i = 0; i < projectiles.length; i++) {
+          Darkness.cropSingleProjectile(ctx, projectiles[i].x + 20, projectiles[i].y + 20, projectiles[i].width, projectiles[i].height);
+      }
+  }
+
+   static cropSingleProjectile (ctx, imageX, imageY, imageWidth, imageHeight) {
+      let imageData = ctx.getImageData(imageX, imageY, imageWidth, imageHeight);
+
+      let data = imageData.data;
+
+      for(let p = 0, len = data.length; p < len; p+=4) {
+          data[p    ] = data[p    ]; //red
+          data[p + 1] = data[p + 1]; //green
+          data[p + 2] = data[p + 2]; //blue
+          data[p + 3] = 255; //alpha
+      }
+      ctx.putImageData(imageData, imageX, imageY);
   }
 }
 

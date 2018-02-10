@@ -25,6 +25,9 @@ class Entity {
         this.name = name;
         this.colliderColor = "red";
 
+        this.width = frameWidth;
+        this.height = frameHeight;
+
         this.collidedObject = null;
 
         this.bottomHitATop = null;
@@ -164,7 +167,7 @@ class Entity {
 
 
     static bluealizeImage (ctx, imageX, imageY, imageWidth, imageHeight) {
-        console.log(imageX + " " + imageY + " " + imageWidth + " " + imageHeight);
+        //console.log(imageX + " " + imageY + " " + imageWidth + " " + imageHeight);
         let imageData = ctx.getImageData(imageX, imageY, imageWidth, imageHeight);
 
         let data = imageData.data;

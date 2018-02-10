@@ -216,7 +216,7 @@ class Player extends Entity {
                     break;
             }
 
-
+            this.spellCombo = "";
         }
 
         if (this.walkingRight) {
