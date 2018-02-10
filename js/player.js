@@ -117,6 +117,12 @@ class Player extends Entity {
      * @author Connor Lundberg
      */
     update() {
+        if (this.health <= 0) {
+            this.game.addEntity(this.game.makeDeathMenu());
+            //this.health = 100;
+            return;
+        }
+
       if (!this.stopMoving) {
         let totalDistance = this.speed;
 

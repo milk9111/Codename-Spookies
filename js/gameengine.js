@@ -194,10 +194,12 @@ class GameEngine {
                     that.tempClockTick = that.clockTick;
                     that.clockTick = 0;
                 } else if (that.paused === true && that.level > 0) {
-                    that.pauseMenu.removal = true;
-                    that.pauseMenu = null;
-                    that.paused = false;
-                    that.clockTick = that.tempClockTick;
+                    if (that.pauseMenu !== null) {
+                        that.pauseMenu.removal = true;
+                        that.pauseMenu = null;
+                        that.paused = false;
+                        that.clockTick = that.tempClockTick;
+                    }
                 }
             }
             e.preventDefault();
@@ -408,6 +410,40 @@ class GameEngine {
         helpMenu.addElement(closeButton);
 
         return helpMenu;
+    }
+
+    makeDeathMenu () {
+        this.paused = true;
+        let deathMenu = new Menu(this, UIElement.getCenterX(this.surfaceWidth, 300, 0),
+            UIElement.getCenterY(this.surfaceHeight, 400, 0), 300, 400);
+
+        let offsets = {
+            xOffset: deathMenu.width / 2,
+            yOffset: deathMenu.height / 6
+        };
+        deathMenu.setTextXandYOffset = offsets;
+        deathMenu.label.setTextFont = "30px Metal Mania";
+        deathMenu.setDefaultColor = "#2E2E2E";
+        deathMenu.label.setText = "You are Dead";
+
+        let x = UIElement.getCenterX(deathMenu.width, 100, deathMenu.x);
+        let y = UIElement.getCenterY(deathMenu.height, 50, deathMenu.y);
+        let restartButton = new CanvasButton(this, x, y, 100, 50);
+        restartButton.label.setText = "Restart";
+        offsets = {
+            xOffset: restartButton.width / 2,
+            yOffset: restartButton.height / 1.7
+        };
+        let that = this;
+        restartButton.setTextXandYOffset = offsets;
+        restartButton.setOnClick = function () {
+            that.paused = false;
+            deathMenu.removal = true;
+            that.newLevel(that.level);
+        };
+
+        deathMenu.addElement(restartButton);
+        return deathMenu;
     }
 
     /**
