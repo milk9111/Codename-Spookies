@@ -372,6 +372,7 @@ ASSET_MANAGER.queueDownload("../img/logo.png");
 ASSET_MANAGER.queueDownload("../img/start.png");
 ASSET_MANAGER.queueDownload("../img/start_hover.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
+ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, loop:false});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
 ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});

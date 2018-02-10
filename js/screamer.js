@@ -4,8 +4,8 @@ class Screamer extends Enemy {
         //console.log("Making a screamer");
         this.createAnimations();
         //This is just a reminder that this will need to be set by the screamer.
-        this.soundPath = super.soundPath;
-        this.notifySound = super.notifySound;
+        this.soundPath = "../snd/screamer.wav";
+        this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
     };
 
     /**

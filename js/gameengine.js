@@ -767,7 +767,7 @@ class GameEngine {
         this.addEntity(player);
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
         ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
-        ASSET_MANAGER.toggleSound();
+        //ASSET_MANAGER.toggleSound();
 
         //START GAME
         this.initPlayerPosition(player, ctx);

@@ -30,7 +30,7 @@ class Enemy extends Entity {
         //These variables will need to be changed by the children, defaulting to the plague doctor sounds.
         //We may also want to have variables for the specific values taken by the fade method if necessary.
         this.soundPath = "../snd/whispers.wav";
-        this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
+        this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
         this.notifySoundId = null;
 
         //These all must be set by the child class. Look at plague doctor or the screamer for different
@@ -146,7 +146,7 @@ class Enemy extends Entity {
         //Get distance from Enemy to player
         let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
         //If close to player then draw, else don't draw
-        this.isDraw = distance < 305;
+        this.isDraw = distance < drawDistance;
 
         //Controls the map movement on/off screen
         if (this.player.offRight) {
