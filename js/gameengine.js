@@ -347,7 +347,7 @@ class GameEngine {
 
         offsets = {
             xOffset: helpMenu.width / 2,
-            yOffset: helpMenu.height / 5
+            yOffset: helpMenu.height / 5 + 15
         };
 
         let instructions = "Left Click - Sword swing\r\n" +
@@ -359,14 +359,14 @@ class GameEngine {
                             "Escape - Pause\r\n" +
                             "Q - Cast spell";
 
-        let label1 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset, "Left Mouse Click - Sword swing\r\n");
-        let label2 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 20, "W - Forward\r\n");
-        let label3 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 40, "A - Left\r\n");
-        let label4 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 60, "S - Downward\r\n");
-        let label5 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 80, "D - Right\r\n");
-        let label6 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 100, "E - Shield Raise\r\n");
-        let label7 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 120, "Escape - Pause\r\n");
-        let label8 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 140, "Q - Cast spell");
+        let label1 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 20, "  Left Mouse Click - Sword swing\r\n");
+        let label2 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 40, "W - Forward\r\n");
+        let label3 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 60, "A - Left\r\n");
+        let label4 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 80, "S - Downward\r\n");
+        let label5 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 100, "D - Right\r\n");
+        let label6 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 120, "E - Shield Raise\r\n");
+        let label7 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 140, "Escape - Pause\r\n");
+        let label8 = new Label(this, helpMenu.x + offsets.xOffset, helpMenu.y + offsets.yOffset + 160, "Q - Cast spell");
 
         helpMenu.addElement(label1);
         helpMenu.addElement(label2);
@@ -378,7 +378,7 @@ class GameEngine {
         helpMenu.addElement(label8);
 
         let x = UIElement.getCenterX(helpMenu.width, 100, helpMenu.x);
-        let y = UIElement.getCenterY(helpMenu.height, 50, helpMenu.y) + 60;
+        let y = UIElement.getCenterY(helpMenu.height, 50, helpMenu.y) + 100;
         let closeButton = new CanvasButton(this, x, y, 100, 50);
         closeButton.label.setText = "Close";
         offsets = {
