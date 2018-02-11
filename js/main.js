@@ -220,7 +220,7 @@ class Darkness extends Entity {
     this.rightBox = {
       x: this.canvasW,
       y: 0,
-      width: 100,
+      width: 50,
       height: this.canvasH
     };
   }
@@ -233,51 +233,64 @@ class Darkness extends Entity {
 
     //Controls the darkness image and how it updates
     let temp = this.width + this.offSetSin;
-    this.newVal = map(Math.sin(temp), -1, 1, 0, 100);
-    this.offSetSin += .05;
 
-    //This is controls the size of the darkness tied to the player health
-    let offSet = map(this.player.health, 100, 0, 85, 800);
+    //Real health for player, so prevents the darkness from being to small
+    let fakeHealth = this.player.health + 25;
 
-    this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
-    this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
-
-    if (!this.isExpanding) {
-        let tempWandH = map(this.player.health, 0, 100, 0, 1500);
-        this.width = tempWandH;
-        this.height = tempWandH;
+    //This makes it so the darkenss isn't to large
+    if (fakeHealth > 100) {
+      fakeHealth = 100;
     }
 
-    //Controls the boxes around the darkness image
-    //maps for x and y positions and width and height positions
-    let xAndY = map(this.width, 1500, 0, this.canvasW, 350);
-    let wAndH = map(this.width, 1500, 0, 0, 350);
+    if (fakeHealth > 25 ) {
 
-    //Update dimensions and positions
-    this.bottomBox.y = xAndY;
-    this.bottomBox.height = wAndH + 100;
+      this.newVal = map(Math.sin(temp), -1, 1, 0, 100);
+      this.offSetSin += .05;
 
-    this.topBox.height = wAndH;
+      //This is controls the size of the darkness tied to the player health
+      let offSet = map(fakeHealth, 100, 0, 85, 800);
 
-    this.leftBox.width = wAndH;
+      this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
+      this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
 
-    this.rightBox.x = xAndY;
-    this.rightBox.width = wAndH + 100;
+      if (!this.isExpanding) {
+          let tempWandH = map(fakeHealth, 0, 100, 0, 1500);
+          this.width = tempWandH;
+          this.height = tempWandH;
+      }
+
+      //Controls the boxes around the darkness image
+      //maps for x and y positions and width and height positions
+      let xAndY = map(this.width, 1500, 0, this.canvasW, 350);
+      let wAndH = map(this.width, 1500, 0, 0, 350);
+
+      //Update dimensions and positions
+      this.bottomBox.y = xAndY;
+      this.bottomBox.height = wAndH + 100;
+
+      this.topBox.height = wAndH;
+
+      this.leftBox.width = wAndH;
+
+      this.rightBox.x = xAndY + 50;
+      this.rightBox.width = wAndH + 50;
+    }
+
   }
 
   draw(ctx) {
     if (this.isDrawing) {
-      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2 - 5, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
+      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2  + 10, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
         //this.cropForProjectiles(ctx);
       Entity.prototype.draw.call(this);
 
-      ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
-      ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
-      ctx.fillRect(this.topBox.x, this.topBox.y, this.topBox.width, this.topBox.height);
-      ctx.fillRect(this.bottomBox.x, this.bottomBox.y, this.bottomBox.width, this.bottomBox.height);
+
 
     }
-
+    ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
+    ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
+    ctx.fillRect(this.topBox.x, this.topBox.y, this.topBox.width, this.topBox.height);
+    ctx.fillRect(this.bottomBox.x, this.bottomBox.y, this.bottomBox.width, this.bottomBox.height);
   }
 
   cropForProjectiles (ctx) {
