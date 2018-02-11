@@ -73,21 +73,17 @@ class AssetManager {
     playSound(path) {
         let shouldPlay = false;
         if(this.soundIds[path]) {
-            //We'll only play the sound if it hasn't already played.
-            if(!this.cache[path].playing(this.soundIds[path])) {
-                //console.log("Playing: " + path);
-                shouldPlay = true;
-
-            } else {
-                //Already playing sound, just avoid it entirely
-            }
+            //We'll only play the sound if it isn't already playing
+            shouldPlay = !this.cache[path].playing(this.soundIds[path]);
         } else {
-            //console.log("Playing: " + path);
+            //We've never played the sound before, so lets play.
             shouldPlay = true;
         }
-        shouldPlay &= !this.soundDisabled;
-        if(shouldPlay && this.cache[path] !== undefined && this.cache[path] !== null) {
+        if(shouldPlay && this.cache[path] && this.cache[path]) {
             this.soundIds[path] = this.cache[path].play();
+        }
+        if(this.soundDisabled) {
+            Howler.mute(true, this.soundIds[path]);
         }
         return this.soundIds[path];
     }

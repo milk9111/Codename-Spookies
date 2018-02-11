@@ -206,6 +206,7 @@ class Player extends Entity {
                     let newPos = this.chooseFireballDirection();
                     newX = newPos.newX;
                     newY = newPos.newY;
+                    ASSET_MANAGER.playSound("../snd/fireball.mp3");
                     let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
                     spell.setProjectileSpeed = 2;
                     this.game.addEntity(spell);
@@ -406,22 +407,22 @@ class Player extends Entity {
 
         switch(facingDirection) {
             case "up":
-                newX += 14;
+                newX += 0;
                 newY -= 20;
                 this.currentSpellAnimation = this.fireBallSpellForwardAnimation;
                 break;
             case "down":
-                newX -= 10;
+                newX -= 0;
                 newY += 32;
                 this.currentSpellAnimation = this.fireBallSpellDownwardAnimation;
                 break;
             case "left":
                 //newY += 16;
-                newX -= 20;
+                newX -= 0;
                 this.currentSpellAnimation = this.fireBallSpellLeftAnimation;
                 break;
             case "right":
-                newX += 32;
+                newX += 0;
                 //newY += 16;
                 this.currentSpellAnimation = this.fireBallSpellRightAnimation;
                 break;

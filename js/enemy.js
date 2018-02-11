@@ -30,7 +30,7 @@ class Enemy extends Entity {
         //These variables will need to be changed by the children, defaulting to the plague doctor sounds.
         //We may also want to have variables for the specific values taken by the fade method if necessary.
         this.soundPath = "../snd/whispers.wav";
-        this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
+        this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
         this.notifySoundId = null;
 
         //These all must be set by the child class. Look at plague doctor or the screamer for different
@@ -146,7 +146,7 @@ class Enemy extends Entity {
         //Get distance from Enemy to player
         let distance = Math.getDistance(this.player.x, this.player.y, this.x, this.y);
         //If close to player then draw, else don't draw
-        this.isDraw = distance < 305;
+        this.isDraw = distance < drawDistance;
 
         //Controls the map movement on/off screen
         if (this.player.offRight) {
@@ -202,16 +202,16 @@ class Enemy extends Entity {
         if(!this.removeFromWorld) {
             switch (this.facingDirection) {
                 case "down":
-                    this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                     break;
                 case "up":
-                    this.deathAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.deathAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                     break;
                 case "left":
-                    this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                     break;
                 case "right":
-                    this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                     break;
             }
         }
@@ -226,16 +226,16 @@ class Enemy extends Entity {
     attack(ctx) {
         switch (this.facingDirection) {
             case "down":
-                this.attackAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.attackAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "up":
-                this.attackAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.attackAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "left":
-                this.attackAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.attackAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "right":
-                this.attackAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.attackAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
         }
 
@@ -250,16 +250,16 @@ class Enemy extends Entity {
     standStill(ctx) {
         switch (this.facingDirection) {
             case "down":
-                this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "up":
-                this.idleAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "left":
-                this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "right":
-                this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.idleAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
         }
 
@@ -274,26 +274,26 @@ class Enemy extends Entity {
         switch (this.facingDirection) {
             case "down":
                 if (this.isPlayerInRange()) {
-                    this.walkAnimationDownAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.walkAnimationDownAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 } else {
-                    this.walkAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.walkAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 }
                 break;
             case "up":
-                this.walkAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                this.walkAnimationUp.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 break;
             case "left":
                 if (this.isPlayerInRange()) {
-                    this.walkAnimationLeftAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.walkAnimationLeftAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 } else {
-                    this.walkAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.walkAnimationLeft.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 }
                 break;
             case "right":
                 if (this.isPlayerInRange()) {
-                    this.walkAnimationRightAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.walkAnimationRightAgro.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 } else {
-                    this.walkAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y);
+                    this.walkAnimationRight.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                 }
                 break;
         }

@@ -74,6 +74,7 @@ class GameEngine {
         this.tempClockTick = 0;
         this.pauseMenu = null;
         this.darkness = null;
+
     }
 
 
@@ -134,6 +135,7 @@ class GameEngine {
     @param {int} levelNum Number of the level to load. **/
     newLevel(levelNum) {
       //Remove all the tiles from the previous level
+
       this.unloadMap();
 
       this.walls = [];
@@ -351,7 +353,7 @@ class GameEngine {
 
         pauseMenu.addElement(exitButton);
 
-        x = UIElement.getCenterX(pauseMenu.width, 100, pauseMenu.x);
+        /*x = UIElement.getCenterX(pauseMenu.width, 100, pauseMenu.x);
         y = UIElement.getCenterY(pauseMenu.height, 50, pauseMenu.y) + exitButton.height + 10;
         let helpButton = new CanvasButton(this, x, y, 100, 50);
         helpButton.label.setText = "Help";
@@ -364,7 +366,7 @@ class GameEngine {
             that.addEntity(that.makeHelpMenu());
         };
 
-        pauseMenu.addElement(helpButton);
+        pauseMenu.addElement(helpButton);*/
 
         return pauseMenu;
     }
@@ -648,6 +650,12 @@ class GameEngine {
      * @author Seth Ladd
      */
     loop () {
+        if (!this.paused && this.level > 0) {
+            document.getElementById('gameWorld').style.cursor = 'none';
+        } else {
+            document.getElementById('gameWorld').style.cursor = 'pointer';
+        }
+
         if (!this.paused) {
             this.clockTick = this.timer.tick();
             this.update();
@@ -753,13 +761,16 @@ class GameEngine {
                 } else if (objectMap.map2D[i][j] instanceof Screamer) {
                     let temp = new Screamer(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
+                    let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
                 }
             }
         }
         this.addEntity(player);
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
-        ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
-        ASSET_MANAGER.toggleSound();
+        //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
+        //ASSET_MANAGER.toggleSound();
 
         //START GAME
         this.initPlayerPosition(player, ctx);
