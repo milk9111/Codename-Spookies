@@ -10,19 +10,7 @@ class LightSpell extends Entity {
         this.step = 10;
         this.updateLoops = 1;
 
-        this.lastDarknessWidth = this.game.player.darkness.width;
-        this.lastDarknessHeight = this.game.player.darkness.height;
-        this.lastDarknessX = this.game.player.darkness.x;
-        this.lastDarknessY = this.game.player.darkness.y;
-
         this.game.player.darkness.drawing = false;
-
-        this.game.player.darkness.isExpanding = false;
-        this.game.player.darkness.width = this.game.player.darkness.width * 2;
-        this.game.player.darkness.height = this.game.player.darkness.height * 2;
-        this.game.player.darkness.x = UIElement.getCenterX(this.game.surfaceWidth, this.game.player.darkness.width, 0);
-        this.game.player.darkness.y = UIElement.getCenterY(this.game.surfaceHeight, this.game.player.darkness.height, 0);
-        console.log(this.game.player.darkness.x + ", " + this.game.player.darkness.y);
 
         this.lastDrawDistance = drawDistance;
         drawDistance = 1000;

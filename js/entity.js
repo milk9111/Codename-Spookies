@@ -27,6 +27,7 @@ class Entity {
 
         this.width = frameWidth;
         this.height = frameHeight;
+        this.scale = 1;
 
         this.collidedObject = null;
 
