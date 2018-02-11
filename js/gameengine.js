@@ -427,6 +427,26 @@ class GameEngine {
 
     makeDeathMenu () {
         this.paused = true;
+        let deathMenu = new ImageMenu(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/death_screen.png");
+
+        let x = UIElement.getCenterX(deathMenu.width, 150, deathMenu.x);
+        let y = UIElement.getQuarterY(deathMenu.height, 50, deathMenu.y) * 3;
+        let restartButton = new ImageButton(this, x, y, 150, 50, "../img/restart.png", "../img/restart_hover.png");
+
+        let that = this;
+        restartButton.setOnClick = function () {
+            that.paused = false;
+            deathMenu.removal = true;
+            that.newLevel(that.level);
+        };
+
+        deathMenu.addElement(restartButton);
+
+        return deathMenu;
+    }
+
+    /*makeDeathMenu () {
+        this.paused = true;
         let deathMenu = new Menu(this, UIElement.getCenterX(this.surfaceWidth, 300, 0),
             UIElement.getCenterY(this.surfaceHeight, 400, 0), 300, 400);
 
@@ -457,7 +477,7 @@ class GameEngine {
 
         deathMenu.addElement(restartButton);
         return deathMenu;
-    }
+    }*/
 
     /**
      * Swaps the positions of the given entities in the entities list. This
@@ -510,7 +530,7 @@ class GameEngine {
         }
         if(entity instanceof UIElement) {
             this.uiElements.push(entity);
-            if (entity instanceof Menu) {
+            if (entity instanceof Menu || entity instanceof ImageMenu) {
                 entity.addElementsToEntities();
             }
         }

@@ -135,7 +135,7 @@ class PlagueDoctor extends Enemy {
                 facingNum = 4;
                 break;
         }
-        this.currentProjectile = new Projectile(this.game, currentSpellAnimation, this.facingDirection, spellX, spellY, this.player, this, 15);
+        this.currentProjectile = new Projectile(this.game, currentSpellAnimation, this.facingDirection, spellX, spellY, this.player, this);
         this.game.addEntity(this.currentProjectile);
 
     };
