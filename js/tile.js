@@ -1,4 +1,4 @@
-let drawDistance = 305;
+let drawDistance = 315;
 
 /** Represents a single tile on the map
  * @author Brandon Blaschke
@@ -43,7 +43,7 @@ class Tile extends Entity{
 
         this.collisionBounds = {width: 32, height: 32, x: boundsX, y: boundsY};
       } else {
-        this.collisionBounds = null; 
+        this.collisionBounds = null;
       }
 
     this.speedX = 2;

@@ -49,6 +49,8 @@ class ObjectMap {
             this.map2D[i][j] = new PlagueDoctor(game, player, spriteW * j, spriteH * i);
           } else if (txt[i][j] === '9'){
               this.map2D[i][j] = new Screamer(game, player, spriteW * j, spriteH * i);
+          } else if (txt[i][j] === 'b'){
+              this.map2D[i][j] = new BallOfFlesh(game, player, spriteW * j, spriteH * i, 4, 300);
           } else if (txt[i][j] === 'r') {
             this.map2D[i][j] = new Exit(spriteW * j, spriteH * i, player, game);
           } else if (charCode >= 90 && charCode <= 122) {
