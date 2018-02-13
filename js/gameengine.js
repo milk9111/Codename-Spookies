@@ -534,6 +534,7 @@ class GameEngine {
         }
         if(entity instanceof UIElement) {
             this.uiElements.push(entity);
+            entity.uiPos = this.uiElements.indexOf(entity);
             if (entity instanceof Menu || entity instanceof ImageMenu) {
                 entity.addElementsToEntities();
             }
@@ -542,7 +543,6 @@ class GameEngine {
             this.projectiles.push(entity);
         }
     }
-
 
     /**
      * Here the GameEngine is going to call draw on every entity in the game in order to paint
@@ -646,6 +646,17 @@ class GameEngine {
         }
     }
 
+    swapUI (ui1, ui2) {
+        let temp = ui1;
+        let ent1Pos = ui1.uiPos;
+        let ent2Pos = ui2.uiPos;
+
+        this.uiElements[ent1Pos] = ui2;
+        this.uiElements[ent2Pos] = temp;
+
+        this.uiElements[ent1Pos].uiPos = ent1Pos;
+        this.uiElements[ent2Pos].uiPos = ent2Pos;
+    }
 
     updateAllLists (calledFromNormalUpdate) {
         this.updateList (this.walls);
@@ -659,7 +670,7 @@ class GameEngine {
 
     updateList (list) {
         for (let i = list.length - 1; i >= 0; i--) {
-            if (list[i].removalStatus === true || list[i] === null || list[i] === undefined) {
+            if (list[i] === null || list[i] === undefined || list[i].removalStatus === true) {
                 list.splice(i, 1);
             }
         }
@@ -711,9 +722,12 @@ class GameEngine {
             this.ctx = ctx;
         }
         this.unloadMap();
+
+        let bg = new Background(this);
         let titleScreen = new TitleScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/logo.png");
         this.addEntity(titleScreen);
         this.swap(titleScreen, titleScreen.startButton);
+        this.addEntity(bg);
     }
 
     /**

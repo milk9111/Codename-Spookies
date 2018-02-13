@@ -151,6 +151,7 @@ class Background extends Entity
          this.alpha = 1;
          this.start = true;
          this.changing = true;
+         this.uiPos = 0;
      }
 
     /** Updates the background **/
@@ -168,7 +169,7 @@ class Background extends Entity
     }
 
     /** Draws the background when needed
-    *@param {canvas} ctx Canvas element
+    *@param {context} ctx Canvas element
     **/
     draw (ctx) {
       //Draw a black square with full alpha until it is time to change maps

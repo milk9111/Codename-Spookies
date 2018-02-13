@@ -118,7 +118,13 @@ class Player extends Entity {
      */
     update() {
         if (this.health <= 0) {
-            this.game.addEntity(this.game.makeDeathMenu());
+            let deathMenu = this.game.makeDeathMenu();
+            this.game.addEntity(deathMenu);
+            let bg = new Background(this.game);
+            this.game.uiElements.push(bg);
+            bg.uiPos = this.game.uiElements.indexOf(bg);
+            this.game.swapUI(bg, deathMenu);
+            this.game.entities.push(bg);
             return;
         }
 
@@ -166,7 +172,6 @@ class Player extends Entity {
             }
 
             if (this.game.keys["Space"].pressed && !this.swinging) {
-                console.log("Pressed space");
                 this.swinging = true;
                 //this.game.click = false;
             }
@@ -176,15 +181,7 @@ class Player extends Entity {
             } else {
                 this.raising = false;
             }
-
-            // if (this.game.keys["Space"].pressed && !this.shooting) {
-            //     this.shooting = true;
-            // }
-        } else {
-            //this.readCombo();
         }
-
-
 
         if (this.casting && !this.game.cast) {
             if (this.chargingSpellSound.playing(this.chargingSpellSoundId)) {

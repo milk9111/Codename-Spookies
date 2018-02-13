@@ -26,6 +26,8 @@ class UIElement extends Entity {
         this.centerX = this.x + this.width / 2;
         this.centerY = this.y + this.height / 2;
 
+        this.uiPos = 0;
+
         this.clickAction = function () {
             console.log("UIElement was clicked on");
         }
