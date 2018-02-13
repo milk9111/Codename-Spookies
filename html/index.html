@@ -53,6 +53,14 @@
 
 $(document).ready(function(){
     $("#fade").fadeIn(7000);
+
+    let height = $(window).height();
+    let canvasHeight = $('#gameWorld').height();
+    //Doesn't work in fullscreen so this offsets it a little
+    let offset = 150;
+    let difference = height - canvasHeight + offset;
+
+    $("#blackBox").css({"margin-top": difference + "px"});
 });
 </script>
 
@@ -66,6 +74,7 @@ $(document).ready(function(){
                 <canvas id="gameWorld" tabindex="1" width="800" height="770"></canvas>
               </div>
           </div>
+      <div id = "blackBox">
       <div class="row">
         <div class="col">
           <p>Controls</p>
@@ -101,6 +110,12 @@ $(document).ready(function(){
             <li>James Roberts</li>
             <li>Brandon Blaschke</li>
           </ul>
+        </div>
+        <div class="col-sm">
+          <p>Press F11 to go fullscreen and wear headphones for the best experience.</p>
+        </div>
+        <div class="col-sm">
+          <p></p>
         </div>
       </div>
 
