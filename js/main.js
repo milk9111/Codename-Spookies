@@ -141,7 +141,8 @@ Animation.prototype.isDone = function () {
     return (this.elapsedTime >= this.totalTime);
 }
 
-/** This is now a black background that chagnes when the level ends**/
+
+/** This is now a black background that changes when the level ends**/
 class Background extends Entity
  {
      constructor (game) {
@@ -152,20 +153,28 @@ class Background extends Entity
          this.start = true;
          this.changing = true;
          this.uiPos = 0;
+
+         this.step = .01;
+         this.waitTimeBeforeFade = 0;
+         this.waitTimeCount = 0;
      }
 
     /** Updates the background **/
     update ()  {
 
-      //If starting level slowly fade black in, else slowly fade to black
-      if (this.start && this.alpha > 0) {
-        this.alpha = Number(this.alpha).toFixed(2) - Number(.01).toFixed(2);
-        if (this.alpha <= 0) {
-            this.changing = false;
+        if (this.waitTimeCount >= this.waitTimeBeforeFade) {
+            //If starting level slowly fade black in, else slowly fade to black
+            if (this.start && this.alpha > 0) {
+                this.alpha = Number(this.alpha).toFixed(2) - Number(this.step).toFixed(2);
+                if (this.alpha <= 0) {
+                    this.changing = false;
+                }
+            } else if (!this.start && this.alpha <= 1) {
+                this.alpha += .01;
+            }
+        } else {
+            this.waitTimeCount++;
         }
-      } else if (!this.start) {
-        this.alpha += .01;
-      }
     }
 
     /** Draws the background when needed
@@ -389,6 +398,7 @@ ASSET_MANAGER.queueDownload("../img/restart.png");
 ASSET_MANAGER.queueDownload("../img/restart_hover.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, loop:false});
+ASSET_MANAGER.queueDownload("../snd/player_death_scream.mp3", {sound:true, loop:false});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
 ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});

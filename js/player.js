@@ -100,6 +100,9 @@ class Player extends Entity {
         this.offTop = false;
         this.offBottom = false;
 
+        this.deathScream = ASSET_MANAGER.getAsset("../snd/player_death_scream.mp3");
+        this.playingDeathScream = true;
+
         this.spellCombos = ["WWAD", "SADWAS", "WDADWS", "ADSWW"];
     }
 
@@ -118,13 +121,17 @@ class Player extends Entity {
      */
     update() {
         if (this.health <= 0) {
+            this.health = 1;
             let deathMenu = this.game.makeDeathMenu();
             this.game.addEntity(deathMenu);
             let bg = new Background(this.game);
             this.game.uiElements.push(bg);
             bg.uiPos = this.game.uiElements.indexOf(bg);
+            bg.waitTimeBeforeFade = 50;
+
             this.game.swapUI(bg, deathMenu);
             this.game.entities.push(bg);
+            this.deathScream.play();
             return;
         }
 
