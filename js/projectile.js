@@ -21,10 +21,10 @@ class Projectile extends Entity {
         this.smackDistance = 15;
         this.smackSpeed = 3;
 
-        if (damage === null || damage === undefined) {
-            this.damage = 50;
-        } else {
+        if (damage) {
             this.damage = damage;
+        } else {
+            this.damage = 50;
         }
 
         this.shootAnimation = animation;

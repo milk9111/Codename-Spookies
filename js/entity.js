@@ -69,21 +69,22 @@ class Entity {
             };
             let xDiff = 0;
             let yDiff = 0;
+            this.smackTest = this.smackSpeed + 1;
             switch(this.smackDirection) {
                 case "up":
-                    bounds.y -= this.smackSpeed;
+                    bounds.collisionBounds.y -= this.smackTest;
                     yDiff = -this.smackSpeed;
                     break;
                 case "down":
-                    bounds.y += this.smackSpeed;
+                    bounds.collisionBounds.y += this.smackTest;
                     yDiff = this.smackSpeed;
                     break;
                 case "left":
-                    bounds.x -= this.smackSpeed;
+                    bounds.collisionBounds.x -= this.smackTest;
                     xDiff = -this.smackSpeed;
                     break;
                 case "right":
-                    bounds.x += this.smackSpeed;
+                    bounds.collisionBounds.x += this.smackTest;
                     xDiff = this.smackSpeed;
                     break;
             }
