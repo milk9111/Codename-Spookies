@@ -33,7 +33,10 @@ class Tile extends Entity{
         type === 'u' ||
         type === 'v' ||
         type === 'x' ||
-        type === 'y') {
+        type === 'y' ||
+        type === '!' ||
+        type === '@' ||
+        type === '#') {
 
         this.boundsXOffset = 0;
         this.boundsYOffset = 0;
@@ -267,8 +270,13 @@ draw(ctx) {
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 35, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case '!':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 19, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 22, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
+        case '@':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 23, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '#':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 24, 32 * 10, 32, 32, this.x, this.y, 32, 32);
       }
 
 

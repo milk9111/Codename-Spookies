@@ -151,6 +151,10 @@ class GameEngine {
                 this.level = 2;
                 this.loadMap2(this.ctx);
                 break;
+            case 3:
+                this.level = 3;
+                this.loadMap3(this.ctx);
+                break;
         }
 
     }
@@ -592,7 +596,6 @@ class GameEngine {
         //This moves the entities (via their own update method)
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
-
             if (entity.removalStatus === false) {
                 entity.update();
             } else {
@@ -763,7 +766,7 @@ class GameEngine {
                     this.addEntity(temp);
                 } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-                    let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg);
+                    let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
                     this.addEntity(temp);
                 }
             }
@@ -847,7 +850,7 @@ class GameEngine {
             this.addEntity(temp);
           } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg);
+            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
             this.addEntity(temp);
           }
         }
@@ -869,6 +872,90 @@ class GameEngine {
         }
       }
         this.addEntity(player);
+      //START GAME
+      this.initPlayerPosition(player, ctx);
+
+      player.darkness = darkness;
+      this.addEntity(darkness);
+      this.addEntity(bg);
+    }
+
+    /** Load Map 3 */
+    loadMap3(ctx) {
+      //let canvas = document.getElementById('gameWorld');
+      //let ctx = canvas.getContext('2d');
+      let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
+
+      //Load tile map
+      let tileMap = new TileMap();
+      tileMap.loadMap(Map.getMap3(), 32, 32, this, player, ctx);
+
+      //Load ObejctMap
+      let objectMap = new ObjectMap();
+      objectMap.loadMap(Map.getMap3O(), 32, 32, player, ctx);
+
+
+      let bg = new Background(this);
+      darkness = new Darkness(this, player);
+
+      darkness.drawing = document.getElementById('darknessCheck').checked;
+
+      //ADD ENTITIES
+      //Add tiles
+      for (let i = 0; i < tileMap.map2D.length; i++) {
+          for (let j = 0; j < tileMap.map2D[i].length; j++) {
+
+              let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, this, player, ctx);
+              this.addEntity(temp);
+          }
+      }
+
+
+      //Add Objects to map
+      for (let i = 0; i < objectMap.map2D.length; i++) {
+          for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+              //Add Potions
+              if (objectMap.map2D[i][j] instanceof Potion) {
+                  //Potion (x, y, type, player)
+                  let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, this);
+                  this.addEntity(temp);
+
+                  //Add Tile
+              } else if (objectMap.map2D[i][j] instanceof Tile  && objectMap.map2D[i][j].collisionBounds == null) {
+                  let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
+                  this.addEntity(temp);
+              } else if (objectMap.map2D[i][j] instanceof Exit) {
+
+                  let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
+                  this.addEntity(temp);
+              }
+          }
+      }
+
+      //Add Enemies to map
+      for (let i = 0; i < objectMap.map2D.length; i++) {
+          for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+              //Add Plague Doctor
+              if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+                  let temp = new PlagueDoctor(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                  this.addEntity(temp);
+              } else if (objectMap.map2D[i][j] instanceof Screamer) {
+                  let temp = new Screamer(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                  this.addEntity(temp);
+              } else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
+                  let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                  this.addEntity(temp);
+              }
+          }
+      }
+
+      this.addEntity(player);
+      ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+      //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
+      //ASSET_MANAGER.toggleSound();
+
       //START GAME
       this.initPlayerPosition(player, ctx);
 

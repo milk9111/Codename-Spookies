@@ -6,9 +6,10 @@ class Exit extends Entity {
    *@param {Player} player Player Refrence
    *@param {Game} game Game refrence
    */
-  constructor(x, y, player, game, background) {
+  constructor(x, y, player, game, background, level) {
     super(game, x, y, true, 32, 32, 0, 0, "exit");
     this.player = player;
+    this.level = level;
     this.isDraw = false;
     this.speedX = 2;
     this.speedY = 2;
@@ -35,7 +36,7 @@ class Exit extends Entity {
       }
 
       if (this.entered) {
-        this.startNewLevel(2);
+        this.startNewLevel(this.level);
       }
 
       super.update();
