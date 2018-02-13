@@ -284,13 +284,12 @@ class Darkness extends Entity {
         //this.cropForProjectiles(ctx);
       Entity.prototype.draw.call(this);
 
-
-
+      ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
+      ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
+      ctx.fillRect(this.topBox.x, this.topBox.y, this.topBox.width, this.topBox.height);
+      ctx.fillRect(this.bottomBox.x, this.bottomBox.y, this.bottomBox.width, this.bottomBox.height);
     }
-    ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
-    ctx.fillRect(this.leftBox.x, this.leftBox.y, this.leftBox.width, this.leftBox.height);
-    ctx.fillRect(this.topBox.x, this.topBox.y, this.topBox.width, this.topBox.height);
-    ctx.fillRect(this.bottomBox.x, this.bottomBox.y, this.bottomBox.width, this.bottomBox.height);
+
   }
 
   cropForProjectiles (ctx) {

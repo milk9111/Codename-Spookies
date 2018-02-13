@@ -113,19 +113,19 @@ draw(ctx) {
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 22, 32 * 9, 32, 32, this.x, this.y, 32, 32);
           break;
         case '4':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 25, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 14, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case '5':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 26, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 15, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case '6':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 27, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 16, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case '7':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 28, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 17, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case '8':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 29, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 18, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case '9':
           //IDK
@@ -265,6 +265,9 @@ draw(ctx) {
           break;
         case 'y':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 35, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '!':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 19, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
       }
 
