@@ -135,7 +135,6 @@ class GameEngine {
     @param {int} levelNum Number of the level to load. **/
     newLevel(levelNum) {
       //Remove all the tiles from the previous level
-
       this.unloadMap();
 
       this.walls = [];
@@ -595,12 +594,14 @@ class GameEngine {
 
         //This moves the entities (via their own update method)
         for (let i = 0; i < entitiesCount; i++) {
+            if (this.entities[i] instanceof Entity) {
             let entity = this.entities[i];
             if (entity.removalStatus === false) {
                 entity.update();
             } else {
                 removalPositions.push(i);
             }
+          }
         }
         this.projectiles = this.projectiles.filter((el) => el.removalStatus === false);
         this.enemies = this.enemies.filter((el) => el.removalStatus === false);
@@ -689,7 +690,6 @@ class GameEngine {
         } else {
             document.getElementById('gameWorld').style.cursor = 'pointer';
         }
-
         if (!this.paused) {
             this.clockTick = this.timer.tick();
             this.update();
@@ -708,9 +708,10 @@ class GameEngine {
     }
 
     unloadMap () {
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities.splice(this.entities[i], 1);
-        }
+      this.entities = [];
+        // for (let i = this.entities.length - 1; i >= 0; i--) {
+        //     this.entities.splice(this.entities[i], 1);
+        // }
     }
 
     /**
@@ -864,7 +865,7 @@ class GameEngine {
             this.addEntity(temp);
           } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
+            let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 3);
             this.addEntity(temp);
           }
         }
@@ -972,7 +973,6 @@ class GameEngine {
 
       //START GAME
       this.initPlayerPosition(player, ctx);
-
       player.darkness = darkness;
       this.addEntity(darkness);
       this.addEntity(bg);
