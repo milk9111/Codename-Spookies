@@ -132,10 +132,17 @@ class Entity {
             this.game.ctx.closePath();
             this.game.ctx.restore();
 
+            this.game.ctx.save();
             if (this.swingBox != null) {
-              this.game.ctx.strokeStyle="#FF0000";
+              this.game.ctx.strokeStyle="#000000";
               this.game.ctx.fillRect(this.swingBox.x,this.swingBox.y,this.swingBox.width,this.swingBox.height);
             }
+
+            if (this.blockBox != null) {
+                this.game.ctx.strokeStyle="#FFFFFF";
+                this.game.ctx.fillRect(this.blockBox.x,this.blockBox.y,this.blockBox.width,this.blockBox.height);
+            }
+            this.game.ctx.restore();
         }
     }
 

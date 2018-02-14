@@ -86,6 +86,9 @@ class Player extends Entity {
         //Hit Box for when the player swings at an enemy
         this.swingBox = {width: 35, height: 35, x:  0, y:  0};
 
+        //Block Box for when the player blocks an enemy attack
+        this.blockBox = {width: 35, height: 35, x:  0, y:  0};
+
         this.blockedDirection = [false, false, false, false, false];
 
         this.lastCollidedObject = null;
@@ -176,14 +179,7 @@ class Player extends Entity {
             } else {
                 this.raising = false;
             }
-
-            // if (this.game.keys["Space"].pressed && !this.shooting) {
-            //     this.shooting = true;
-            // }
-        } else {
-            //this.readCombo();
         }
-
 
 
         if (this.casting && !this.game.cast) {
@@ -276,27 +272,6 @@ class Player extends Entity {
         }
 
 
-        //raising shield
-        if (this.raising) {
-            if (this.raiseShieldDownwardAnimation.isDone()) {
-                this.raiseShieldDownwardAnimation.elapsedTime = 0;
-                this.raising = false;
-            }
-            if (this.raiseShieldForwardAnimation.isDone()) {
-                this.raiseShieldForwardAnimation.elapsedTime = 0;
-                this.raising = false;
-            }
-            if (this.raiseShieldLeftAnimation.isDone()) {
-                this.raiseShieldLeftAnimation.elapsedTime = 0;
-                this.raising = false;
-            }
-            if (this.raiseShieldRightAnimation.isDone()) {
-                this.raiseShieldRightAnimation.elapsedTime = 0;
-                this.raising = false;
-            }
-        }
-
-
         //shooting bolt
         if (this.shooting) {
             ASSET_MANAGER.getAsset("../snd/crossbow.wav").play();
@@ -346,6 +321,25 @@ class Player extends Entity {
             }
         }
 
+          //swinging sword
+          if (this.raising) {
+              //ASSET_MANAGER.getAsset("../snd/sword_woosh.wav").play();
+
+              let enemyCollisions = this.getCollisions({collisionBounds: this.blockBox}, this.game.enemies);
+              for(let i = 0; i < enemyCollisions.length; i++) {
+                  let enemy = enemyCollisions[i];
+                  if (enemy instanceof Projectile) {
+                      enemy.removal = true;
+                  }
+              }
+
+              let projectileCollisions = this.getCollisions({collisionBounds: this.blockBox}, this.game.projectiles);
+              for(let i = 0; i < projectileCollisions.length; i++) {
+                  let projectile = projectileCollisions[i];
+                  projectile.removal = true;
+              }
+          }
+
 
         //Control Bounds
         let bounds = 394.5;
@@ -365,6 +359,14 @@ class Player extends Entity {
             this.swingBox.height = 5;
             this.swingBox.width = 5;
         }
+
+          //Update the swing box if not swinging
+          if (!this.raising) {
+              this.blockBox.x = this.x + 30;
+              this.blockBox.y = this.y + 30;
+              this.blockBox.height = 5;
+              this.blockBox.width = 5;
+          }
 
         if(this.hasCollidedWithWalls()) {
             this.x = this.lastX;
@@ -517,21 +519,6 @@ class Player extends Entity {
         }
     }
 
-    raiseShield(ctx) {
-        if (facingDirection === "up") {
-            this.raiseShieldForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
-        }
-        else if (facingDirection === "down") {
-            this.raiseShieldDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
-        }
-        else if (facingDirection === "left") {
-            this.raiseShieldLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
-        }
-        else {
-            this.raiseShieldRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
-        }
-    }
-
     castSpell(ctx) {
         if (facingDirection === "up") {
             this.castSpellForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
@@ -591,6 +578,35 @@ class Player extends Entity {
         }
     }
 
-
+    raiseShield(ctx) {
+        if (facingDirection === "up") {
+            this.blockBox.y = this.y + 12;
+            this.blockBox.x = this.x + 14;
+            this.blockBox.width = 35;
+            this.blockBox.height = 10;
+            this.raiseShieldForwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
+        }
+        else if (facingDirection === "down") {
+            this.blockBox.y = this.y + 60;
+            this.blockBox.x = this.x + 14;
+            this.blockBox.width = 35;
+            this.blockBox.height = 10;
+            this.raiseShieldDownwardAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
+        }
+        else if (facingDirection === "left") {
+            this.blockBox.x = this.x + 13;
+            this.blockBox.y = this.y + 20;
+            this.blockBox.height = 35;
+            this.blockBox.width = 10;
+            this.raiseShieldLeftAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
+        }
+        else {
+            this.blockBox.x = this.x + 40;
+            this.blockBox.y = this.y + 20;
+            this.blockBox.height = 35;
+            this.blockBox.width = 10;
+            this.raiseShieldRightAnimation.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, 1);
+        }
+    }
 
 }
