@@ -70,7 +70,7 @@ class Screamer extends Enemy {
                 attackBoxHeight = 50;
                 break;
         }
-        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY, this.damage));
+        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY, this.damage, this.facingDirection));
     }
 
 }

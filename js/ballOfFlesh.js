@@ -71,6 +71,6 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
                 attackBoxHeight = 50;
                 break;
         }
-        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY,this.damage));
+        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY,this.damage,this.facingDirection));
     }
 }
