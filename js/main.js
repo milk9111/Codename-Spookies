@@ -361,6 +361,11 @@ function drawOutlines() {
 }
 
 function toggleSound() {
+    if (document.getElementById('soundCheck').checked) {
+        document.getElementById('soundLabel').innerText = "Disable Sounds";
+    } else {
+        document.getElementById('soundLabel').innerText = "Enable Sounds";
+    }
     ASSET_MANAGER.toggleSound();
 }
 
@@ -372,7 +377,6 @@ let gameEngine;
 
 //up, down, left, right
 let facingDirection;
-
 
 // the "main" code begins here
 let ASSET_MANAGER = new AssetManager();
@@ -416,11 +420,12 @@ ASSET_MANAGER.downloadAll(function() {
 
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
+  
+    document.getElementById('darknessCheck').checked = true;
+    document.getElementById('collisionCheck').checked = false;
+    document.getElementById('soundCheck').checked = true;
 
-  document.getElementById('darknessCheck').checked = true;
-  document.getElementById('collisionCheck').checked = false;
-
-  //LOAD ENTITIES
+    //LOAD ENTITIES
   //start facing downwards.
   facingDirection = "down";
   gameEngine = new GameEngine();
