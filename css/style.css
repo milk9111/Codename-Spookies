@@ -14,8 +14,6 @@ body {
     background-color: black;
     /*-ms-overflow-style: none;
     overflow: -moz-scrollbars-none*/
-    overflow-y: hidden;
-    overflow-x: hidden;
 }
 
 #blackBox {
