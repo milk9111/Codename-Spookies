@@ -182,6 +182,8 @@ class Enemy extends Entity {
     };
 
     createAttackBox() {};
+
+
     /**
      * Draws the correct animation based on the state of the Enemy.
      * @param ctx
@@ -314,8 +316,6 @@ class Enemy extends Entity {
         }
     };
 
-    hit(damage) {
 
-    }
 }
 
