@@ -361,6 +361,11 @@ function drawOutlines() {
 }
 
 function toggleSound() {
+    if (document.getElementById('soundCheck').checked) {
+        document.getElementById('soundLabel').innerText = "Disable Sounds";
+    } else {
+        document.getElementById('soundLabel').innerText = "Enable Sounds";
+    }
     ASSET_MANAGER.toggleSound();
 }
 
@@ -372,7 +377,6 @@ let gameEngine;
 
 //up, down, left, right
 let facingDirection;
-
 
 // the "main" code begins here
 let ASSET_MANAGER = new AssetManager();
@@ -400,7 +404,7 @@ ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, volume:0.1, loop:false});
 ASSET_MANAGER.queueDownload("../snd/player_death_scream.mp3", {sound:true, loop:false});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
-ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
+ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.1, loop:false});
 ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
 ASSET_MANAGER.queueDownload("../snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
 ASSET_MANAGER.queueDownload("../snd/whispers.wav", {sound:true, volume: 0.1});
@@ -417,10 +421,11 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-  document.getElementById('darknessCheck').checked = true;
-  document.getElementById('collisionCheck').checked = false;
+    document.getElementById('darknessCheck').checked = true;
+    document.getElementById('collisionCheck').checked = false;
+    document.getElementById('soundCheck').checked = true;
 
-  //LOAD ENTITIES
+    //LOAD ENTITIES
   //start facing downwards.
   facingDirection = "down";
   gameEngine = new GameEngine();

@@ -245,7 +245,7 @@ draw(ctx) {
         case 'o':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 50, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
-        case 'p':
+        case '%':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 51, 32 * 10, 32, 32, this.x, this.y, 32, 32);
           break;
         case 'q':
