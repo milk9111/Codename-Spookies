@@ -1,9 +1,11 @@
 class BallOfFlesh extends Enemy { //speed 3 damage 40
-    constructor(gameEngine, player, x, y, speed=3, range=200, coolDown = 50) {
+    constructor(gameEngine, player, x, y, speed=3, range=400, coolDown = 85) {
         super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
-        this.damage = 30;
-        //This is just a reminder that this will need to be set by the screamer.
+        this.reverseDirections = this.buildReverseDirections();
+        this.damage = 40;
+        this.cooldownCounter = 0;
+        //This is just a reminder that this will need to be set by the ball of flesh.
         this.soundPath = super.soundPath;
         this.notifySound = super.notifySound;
         // this.scale = 1.5;
@@ -20,7 +22,7 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
         this.idleAnimationDown = this.idleAnimationRight;
         this.idleAnimationUp = this.idleAnimationLeft;
 
-        //No specific agro animations.
+        //No specific aggro animations.
         this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 0, 0, 64, 64, 0.1, 4, true, false);
         this.walkAnimationLeftAgro = this.walkAnimationLeft;
         this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 320, 0, 64, 64, 0.1, 4, true, false);
@@ -34,10 +36,74 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
         this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 384, 256, 64, 64, 0.3, 2, true, false);
         this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 256, 256, 64, 64, 0.3, 2, true, false);
 
-        //no existing death animations
+
         this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Ball_of_Flesh_SpriteSheet.png"), 128, 320, 64, 64, 0.1, 8, false, false);
         this.deathAnimationUp = this.deathAnimationDown;
     }
+
+    targetAndAttack() {
+        if(!this.reloading) { //just reached the player and can attack.
+            this.createAttackBox();
+            this.reloading = true;
+            this.cooldownCounter = 0;
+            this.standingStill = true;
+            this.attacking = true;
+            //console.log("just attacked");
+        } else if (this.reloading && this.cooldownCounter === 0) { //just attacked
+            //wait for attack animation to finish then turn around.
+            if (!this.attacking || this.attackAnimationRight.timesFinished === 1 || this.attackAnimationLeft.timesFinished === 1
+                || this.attackAnimationDown.timesFinished === 1 || this.attackAnimationUp.timesFinished === 1) {
+                this.attackAnimationRight.timesFinished = 0;
+                this.attackAnimationLeft.timesFinished = 0;
+                this.attackAnimationDown.timesFinished = 0;
+                this.attackAnimationUp.timesFinished = 0;
+
+                this.facingDirection = this.reverseDirections[this.facingDirection];
+                this.cooldownCounter++;
+                this.attacking = false;
+            }
+        } else if(this.cooldownCounter >= this.attackCooldown) { //done moving away from player;
+            this.cooldownCounter = 0;
+            this.facingDirection = this.reverseDirections[this.facingDirection];
+            this.reloading = false;
+            this.attacking = false;
+            this.standingStill = true;
+            //console.log("ready to turn around and attack again" + this.facingDirection);
+        } else { //moving away from player
+            this.cooldownCounter++;
+            //this.attacking = false;
+            this.standingStill = false;
+            let oldY = this.y;
+            let oldX = this.x;
+            if(this.facingDirection === "up") {
+                this.y -= this.speed;
+            } else if (this.facingDirection === "down") {
+                this.y += this.speed;
+            } else if (this.facingDirection === "right") {
+                this.x += this.speed;
+            } else {
+                this.x -= this.speed;
+            }
+
+            if(this.hasCollided(this, gameEngine.walls)) {
+                this.y = oldY;
+                this.x = oldX;
+                this.cooldownCounter = this.attackCooldown;
+                this.standingStill = true;
+            }
+
+        }
+
+    };
+
+    buildReverseDirections() {
+        let reverse = {};
+        reverse['right'] = 'left';
+        reverse['left'] = 'right';
+        reverse['up'] = 'down';
+        reverse['down'] = 'up';
+        return reverse;
+    };
 
     createAttackBox() {
         let attackBoxX;

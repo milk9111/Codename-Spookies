@@ -19,7 +19,7 @@ class Enemy extends Entity {
         this.cooldownCounter = this.attackCooldown;
         this.health = 100;
         this.frozen = false;
-
+        this.reloading = false;
         this.width = frameWidth;
         this.height = frameHeight;
 
@@ -114,7 +114,8 @@ class Enemy extends Entity {
                     ASSET_MANAGER.playSound(this.soundPath);
                 }
                 // not close enough to attack.
-                if (!Math.intersects(this, this.player) && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
+                if (!this.reloading && !Math.intersects(this, this.player)
+                    && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
                     //prevent melee enemies from moving too early after attacking
                     if((this instanceof PlagueDoctor) || this.cooldownCounter >= this.attackCooldown) {
                         this.standingStill = false;
@@ -136,8 +137,6 @@ class Enemy extends Entity {
                         this.cooldownCounter++;
                     }
                 } else {
-                    this.standingStill = true;
-                    this.attacking = true;
                     this.targetAndAttack();
                 }
             } else {
@@ -173,13 +172,7 @@ class Enemy extends Entity {
     /**
      * Empty method that will need to be overwritten for each specific child
      */
-    targetAndAttack() {
-        if(this.cooldownCounter >= this.attackCooldown) {
-            this.cooldownCounter = 0;
-            this.createAttackBox();
-        }
-        this.cooldownCounter++;
-    };
+    targetAndAttack() {};
 
     createAttackBox() {};
 

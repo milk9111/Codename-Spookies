@@ -3,7 +3,7 @@ class Screamer extends Enemy {
         super( gameEngine, player, x, y, speed, range,coolDown, 32,64,16,0);
         //console.log("Making a screamer");
         this.createAnimations();
-        this.damage = 20;
+        this.damage = 20; //20
         //This is just a reminder that this will need to be set by the screamer.
         this.soundPath = "../snd/screamer.wav";
         this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
@@ -38,6 +38,16 @@ class Screamer extends Enemy {
         this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spider_Monster_SpriteSheet.png"), 0, 192, 64, 64, 0.15, 6, false, false);
         this.deathAnimationUp = this.deathAnimationDown;
     }
+
+    targetAndAttack() {
+        this.standingStill = true;
+        this.attacking = true;
+        if(this.cooldownCounter >= this.attackCooldown) {
+            this.cooldownCounter = 0;
+            this.createAttackBox();
+        }
+        this.cooldownCounter++;
+    };
 
     createAttackBox() {
         let attackBoxX;

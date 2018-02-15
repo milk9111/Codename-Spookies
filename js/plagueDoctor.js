@@ -56,6 +56,8 @@ class PlagueDoctor extends Enemy {
      * Creates a new projectile in the game world.
      */
     targetAndAttack() {
+        this.standingStill = true;
+        this.attacking = true;
         this.cooldownCounter++;
         let canHit = false;
         if (this.y > this.player.y - 36 && this.y < this.player.y + 36) {
