@@ -133,6 +133,7 @@ class Entity {
             this.game.ctx.restore();
 
             this.game.ctx.save();
+
             if (this.swingBox != null) {
               this.game.ctx.strokeStyle="#000000";
               this.game.ctx.fillRect(this.swingBox.x,this.swingBox.y,this.swingBox.width,this.swingBox.height);

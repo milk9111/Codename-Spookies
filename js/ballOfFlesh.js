@@ -1,7 +1,8 @@
-class BallOfFlesh extends Enemy {
-    constructor(gameEngine, player, x, y, speed=3, range=250) {
-        super( gameEngine, player, x, y, speed, range,32,64,16,0);
+class BallOfFlesh extends Enemy { //speed 3 damage 40
+    constructor(gameEngine, player, x, y, speed=3, range=200, coolDown = 50) {
+        super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
+        this.damage = 0;
         //This is just a reminder that this will need to be set by the screamer.
         this.soundPath = super.soundPath;
         this.notifySound = super.notifySound;
@@ -38,5 +39,38 @@ class BallOfFlesh extends Enemy {
         this.deathAnimationUp = this.deathAnimationDown;
     }
 
-
+    createAttackBox() {
+        let attackBoxX;
+        let attackBoxY;
+        //specifics for ball of flesh
+        let attackBoxWidth;
+        let attackBoxHeight;
+        switch(this.facingDirection) {
+            case "up":
+                attackBoxX = this.x + 7;
+                attackBoxY = this.y - 20;
+                attackBoxWidth = 50;
+                attackBoxHeight = 20;
+                break;
+            case "down":
+                attackBoxX = this.x + 7;
+                attackBoxY = this.y + 52;
+                attackBoxWidth = 50;
+                attackBoxHeight = 20;
+                break;
+            case "right":
+                attackBoxX = this.x + 58;
+                attackBoxY = this.y + 7;
+                attackBoxWidth = 20;
+                attackBoxHeight = 50;
+                break;
+            case "left":
+                attackBoxX = this.x - 16;
+                attackBoxY = this.y + 7;
+                attackBoxWidth = 20;
+                attackBoxHeight = 50;
+                break;
+        }
+        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY,this.damage));
+    }
 }

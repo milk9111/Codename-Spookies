@@ -6,17 +6,15 @@ class PlagueDoctor extends Enemy {
      * Constructor for the plague doctor enemy.
      * @author James Roberts
      */
-    constructor(gameEngine, player, x, y, speed = 1.5, range = 250) {
-        super(gameEngine, player, x, y, speed, range, 32, 64, 16, 0);
+    constructor(gameEngine, player, x, y, speed = 1.5, range = 250, coolDown = 150) {
+        super(gameEngine, player, x, y, speed, range, coolDown, 32, 64, 16, 0);
 
-        this.stoppingDistance = 200;
-        this.spellCooldown = 200;
+        this.stoppingDistance = 250;
         this.soundPath = "../snd/whispers.wav";
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
         this.createAnimations();
         this.currentProjectile = null;
 
-        this.cooldownCounter = this.spellCooldown;
     };
 
     /**
@@ -96,7 +94,7 @@ class PlagueDoctor extends Enemy {
             this.attacking = true;
 
             //If there is no spell fired by this enemy in existence it can shoot.
-            if (this.cooldownCounter >= this.spellCooldown && (this.currentProjectile === null || this.currentProjectile.removeFromWorld)) {
+            if (this.cooldownCounter >= this.attackCooldown && (this.currentProjectile === null || this.currentProjectile.removeFromWorld)) {
                 this.cooldownCounter = 0;
                 this.createSpell();
             }
