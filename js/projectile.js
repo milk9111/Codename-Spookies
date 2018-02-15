@@ -13,8 +13,6 @@ class Projectile extends Entity {
 
     constructor(game, animation, direction, startX, startY, player, parent, damage) {
 
-        console.log("making new projectile");
-
         super(game, startX, startY, true, 24, 24, 20, 20, "Projectile"); //(0, 400) signify where the sprite will be drawn.
 
         this.game = game;
