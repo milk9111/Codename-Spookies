@@ -51,7 +51,7 @@ m = Green Stuff 1
 --------------------Tiles
 n = Skeleton Pit 1
 o = Skeleton Pit 2
-p = Skeleton Pit 3
+% = Skeleton Pit 3
 q = Skeleton Pit 4
 --------------------Objects
 r = exit game
@@ -62,7 +62,10 @@ u = White Wall 1
 v = White Wall 2
 x = Brown Wall 3
 y = Brown Wall 4
-
+! = Green Wall 1
+@ = Green Wall 2
+# = Green Wall 3
 --------------------Enemies
 p = Plague Doctor
 9 = Screamer
+$ = Ball of Flesh
