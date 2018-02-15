@@ -1,8 +1,9 @@
 class Screamer extends Enemy {
-    constructor(gameEngine, player, x, y, speed=1, range=250) {
-        super( gameEngine, player, x, y, speed, range,32,64,16,0);
+    constructor(gameEngine, player, x, y, speed=1.5, range=250, coolDown = 35) {
+        super( gameEngine, player, x, y, speed, range,coolDown, 32,64,16,0);
         //console.log("Making a screamer");
         this.createAnimations();
+        this.damage = 0;
         //This is just a reminder that this will need to be set by the screamer.
         this.soundPath = "../snd/screamer.wav";
         this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
@@ -38,5 +39,38 @@ class Screamer extends Enemy {
         this.deathAnimationUp = this.deathAnimationDown;
     }
 
+    createAttackBox() {
+        let attackBoxX;
+        let attackBoxY;
+        let attackBoxWidth;
+        let attackBoxHeight;
+        switch(this.facingDirection) {
+            case "up":
+                attackBoxX = this.x + 7;
+                attackBoxY = this.y - 20;
+                attackBoxWidth = 50;
+                attackBoxHeight = 20;
+                break;
+            case "down":
+                attackBoxX = this.x + 7;
+                attackBoxY = this.y + 52;
+                attackBoxWidth = 50;
+                attackBoxHeight = 20;
+                break;
+            case "right":
+                attackBoxX = this.x + 58;
+                attackBoxY = this.y + 7;
+                attackBoxWidth = 20;
+                attackBoxHeight = 50;
+                break;
+            case "left":
+                attackBoxX = this.x - 16;
+                attackBoxY = this.y + 7;
+                attackBoxWidth = 20;
+                attackBoxHeight = 50;
+                break;
+        }
+        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY, this.damage));
+    }
 
 }

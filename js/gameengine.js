@@ -56,6 +56,7 @@ class GameEngine {
         this.keys = [];
         this.walls = [];
         this.enemies = [];
+        this.attackBoxes = [];
         this.uiElements = [];
         this.projectiles = [];
         this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space", "Escape"];
@@ -525,6 +526,9 @@ class GameEngine {
         if(entity.name === 'Tile' && entity.collisionBounds) {
             this.walls.push(entity);
         }
+        if(entity instanceof AttackBox) {
+            this.attackBoxes.push(entity);
+        }
         if(entity instanceof Player) {
             this.player = entity;
         }
@@ -662,6 +666,7 @@ class GameEngine {
     updateAllLists (calledFromNormalUpdate) {
         this.updateList (this.walls);
         this.updateList(this.enemies);
+        this.updateList(this.attackBoxes);
         this.updateList(this.uiElements);
         this.updateList(this.projectiles);
         if (!calledFromNormalUpdate) {
