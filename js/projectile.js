@@ -41,7 +41,7 @@ class Projectile extends Entity {
         this.mapSpeedX = 2;
         this.mapSpeedY = 2;
 
-        this.projectileSpeed = 1;
+        this.projectileSpeed = 2;
     }
 
 
@@ -145,5 +145,3 @@ class Projectile extends Entity {
     }
 
 }
-
-
