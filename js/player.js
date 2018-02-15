@@ -323,20 +323,25 @@ class Player extends Entity {
 
           //swinging sword
           if (this.raising) {
-              //ASSET_MANAGER.getAsset("../snd/sword_woosh.wav").play();
-
+              let hasBlocked = false;
               let enemyCollisions = this.getCollisions({collisionBounds: this.blockBox}, this.game.enemies);
               for(let i = 0; i < enemyCollisions.length; i++) {
                   let enemy = enemyCollisions[i];
                   if (enemy instanceof Projectile) {
                       enemy.removal = true;
                   }
+                  hasBlocked = true;
               }
 
               let projectileCollisions = this.getCollisions({collisionBounds: this.blockBox}, this.game.projectiles);
               for(let i = 0; i < projectileCollisions.length; i++) {
                   let projectile = projectileCollisions[i];
                   projectile.removal = true;
+                  hasBlocked = true;
+              }
+
+              if (hasBlocked) {
+                  ASSET_MANAGER.getAsset("../snd/shield_block.wav").play();
               }
           }
 

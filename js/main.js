@@ -397,7 +397,7 @@ ASSET_MANAGER.queueDownload("../img/death_screen.png");
 ASSET_MANAGER.queueDownload("../img/restart.png");
 ASSET_MANAGER.queueDownload("../img/restart_hover.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
-ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, loop:false});
+ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, volume:0.1, loop:false});
 ASSET_MANAGER.queueDownload("../snd/player_death_scream.mp3", {sound:true, loop:false});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.1, loop:false});
@@ -409,6 +409,7 @@ ASSET_MANAGER.queueDownload("../snd/charging_spell.flac", {sound:true, volume: 0
 ASSET_MANAGER.queueDownload("../snd/fireball.mp3", {sound:true, volume: 0.1});
 ASSET_MANAGER.queueDownload("../snd/heal.mp3", {sound:true, volume: 0.05});
 ASSET_MANAGER.queueDownload("../snd/lightspell.wav", {sound:true, volume: 0.05});
+ASSET_MANAGER.queueDownload("../snd/shield_block.wav", {sound:true, volume: 0.2});
 
 ASSET_MANAGER.downloadAll(function() {
 

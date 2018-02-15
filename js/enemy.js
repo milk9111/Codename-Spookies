@@ -5,15 +5,18 @@
 class Enemy extends Entity {
 
 
-    constructor(gameEngine, player, x, y, speed, range, frameWidth, frameHeight, boundsXOffset, boundsYOffset) {
+    constructor(gameEngine, player, x, y, speed, range, coolDown, frameWidth, frameHeight, boundsXOffset, boundsYOffset) {
         super(gameEngine, x, y, true, frameWidth, frameHeight, boundsXOffset, boundsYOffset, "enemy");
         this.game = gameEngine;
         this.player = player;
         this.isDraw = false;
         this.speed = speed || 0.5;
         this.range = range || 100;
+        //this.attackBox = null;
         /**How many pixels from the player the enemy stops to begin attacking.*/
-        this.stoppingDistance = 15;
+        this.stoppingDistance = 32;
+        this.attackCooldown = coolDown;
+        this.cooldownCounter = this.attackCooldown;
         this.health = 100;
         this.frozen = false;
 
@@ -111,22 +114,27 @@ class Enemy extends Entity {
                     ASSET_MANAGER.playSound(this.soundPath);
                 }
                 // not close enough to attack.
-                if (Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
-                    this.standingStill = false;
-                    this.attacking = false;
-                    let xDiff = this.player.x - this.x;
-                    let yDiff = this.player.y - this.y;
-                    //Here we need to multiply the speed by the clock like in example, this is where collision checking
-                    //needs to happen.
-                    if (Math.abs(xDiff) > 10) {
-                        this.x += (xDiff < 0) ? -this.speed : this.speed;
+                if (!Math.intersects(this, this.player) && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
+                    //prevent melee enemies from moving too early after attacking
+                    if((this instanceof PlagueDoctor) || this.cooldownCounter >= this.attackCooldown) {
+                        this.standingStill = false;
+                        this.attacking = false;
+                        let xDiff = this.player.x - this.x;
+                        let yDiff = this.player.y - this.y;
+                        //Here we need to multiply the speed by the clock like in example, this is where collision checking
+                        //needs to happen.
+                        if (Math.abs(xDiff) > 10) {
+                            this.x += (xDiff < 0) ? -this.speed : this.speed;
+                        }
+                        if (Math.abs(yDiff) > 10) {
+                            this.y += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
+                        }
+                        xDir = lastX - this.x;
+                        yDir = lastY - this.y;
+                        this.setFacingDirection(xDir, yDir);
+                    } else {
+                        this.cooldownCounter++;
                     }
-                    if (Math.abs(yDiff) > 10) {
-                        this.y += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
-                    }
-                    xDir = lastX - this.x;
-                    yDir = lastY - this.y;
-                    this.setFacingDirection(xDir, yDir);
                 } else {
                     this.standingStill = true;
                     this.attacking = true;
@@ -165,8 +173,15 @@ class Enemy extends Entity {
     /**
      * Empty method that will need to be overwritten for each specific child
      */
-    targetAndAttack() {};
+    targetAndAttack() {
+        if(this.cooldownCounter >= this.attackCooldown) {
+            this.cooldownCounter = 0;
+            this.createAttackBox();
+        }
+        this.cooldownCounter++;
+    };
 
+    createAttackBox() {};
     /**
      * Draws the correct animation based on the state of the Enemy.
      * @param ctx
@@ -303,3 +318,4 @@ class Enemy extends Entity {
 
     }
 }
+
