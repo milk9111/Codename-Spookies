@@ -1,12 +1,13 @@
 class AttackBox extends Entity{
     //this.swingBox = {width: 35, height: 35, x:  0, y:  0};
-    constructor(gameEngine, player, width, height, x, y, damage) {
+    constructor(gameEngine, player, width, height, x, y, damage, facingDirection) {
         super(gameEngine, x, y, true, width, height, 0, 0, "Attack Box");
         this.player = player;
         this.damage = damage;
         this.smackDistance = 15;
         this.smackSpeed = 3;
         this.count = 0;
+        this.facingDirection = facingDirection;
     };
 
     update() {
