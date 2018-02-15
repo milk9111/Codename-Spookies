@@ -57,7 +57,7 @@ class Projectile extends Entity {
             console.log("Missing bounds");
         }
         //If we've hit a wall or another projectile, delete our self.
-        if (this.hasCollided(this, this.game.walls) || this.hasCollided(this, this.game.projectiles)) {
+        if (this.hasCollided(this, this.game.walls)) {
             collided = true;
         }
 
