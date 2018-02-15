@@ -2,7 +2,7 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
     constructor(gameEngine, player, x, y, speed=3, range=200, coolDown = 50) {
         super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
-        this.damage = 0;
+        this.damage = 30;
         //This is just a reminder that this will need to be set by the screamer.
         this.soundPath = super.soundPath;
         this.notifySound = super.notifySound;
