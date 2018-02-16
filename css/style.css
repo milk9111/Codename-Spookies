@@ -24,6 +24,10 @@ body {
     display: none;
 }
 
+#devTools {
+  display: none; 
+}
+
 #controls {
   color: white;
   font-family: 'Metal Mania', cursive;
