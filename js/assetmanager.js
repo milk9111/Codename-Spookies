@@ -88,6 +88,12 @@ class AssetManager {
         return this.soundIds[path];
     }
 
+    stopSound(path) {
+        if(this.soundIds[path] && this.cache[path].playing(this.soundIds[path])) {
+            this.cache[path].mute(true, this.soundIds[path]);
+        }
+    }
+
     toggleSound() {
         this.soundDisabled = !this.soundDisabled;
         for(let asset in this.soundIds) {

@@ -228,6 +228,7 @@ class Enemy extends Entity {
                     this.deathAnimationDown.drawFrame(this.game, this.game.clockTick, ctx, this.x, this.y, this.scale);
                     break;
             }
+            ASSET_MANAGER.stopSound(this.soundPath);
         }
     };
 
