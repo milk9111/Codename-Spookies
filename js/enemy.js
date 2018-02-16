@@ -152,10 +152,6 @@ class Enemy extends Entity {
             } else {
                 this.standingStill = true;
                 this.attacking = false;
-                // if (this.notifySoundId !== null && this.notifySound.playing(this.notifySoundId)) {
-                //     this.notifySound.fade(this.notifySound.volume(), 0.0, 2000);
-                //     this.notifySoundId = null;
-                // }
                 this.setFacingDirection(xDir, yDir);
             }
         }
@@ -183,8 +179,6 @@ class Enemy extends Entity {
      * Empty method that will need to be overwritten for each specific child
      */
     targetAndAttack() {};
-
-    createAttackBox() {};
 
 
     /**
