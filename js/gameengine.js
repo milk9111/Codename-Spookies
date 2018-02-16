@@ -59,7 +59,6 @@ class GameEngine {
         this.attackBoxes = [];
         this.uiElements = [];
         this.projectiles = [];
-        this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space", "Escape"];
         this.player = null;
         this.initKeys();
         this.w = null;
@@ -263,13 +262,10 @@ class GameEngine {
 
 
     readCombo (ctx) {
-        this.remainingSpellCount = new ComboLabel(this, this.player.x, this.player.y - 20);
         this.combo = new ComboLabel(this, this.player.x, this.player.y);
         this.addEntity(this.combo);
         let currPos = 0;
         let that = this;
-        //let currentSpell = "WWAD";
-        let firstOpen = true;
 
         //console.log("inside readCombo");
 
@@ -297,8 +293,16 @@ class GameEngine {
             if (currPos >= closestSpell.length) {
                 castSuccessful = true;
                 that.cast = false;
-                //that.remainingSpellCount.buildCombo(that.playe)
-                that.combo.stateOfCombo = 2;
+                let numCastsRemaining = that.player.spellsRemaining[that.player.spellCombo];
+                if(numCastsRemaining > -1) {
+                    let label = new ComboLabel(that.game, that.player.x, that.player.y - 20);
+                    label.buildCombo(numCastsRemaining);
+
+                    //Magic numbers from GameEngine & ComboLabel, make red if 0, otherwise green.
+                    label.stateOfCombo = (numCastsRemaining === 0) ? 3 : 2;
+                    that.addEntity(label);
+                }
+                that.combo.stateOfCombo = (numCastsRemaining !== 0) ? 2 : 3;
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
                 return;

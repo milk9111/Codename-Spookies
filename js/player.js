@@ -106,13 +106,17 @@ class Player extends Entity {
         this.offBottom = false;
 
         this.spellCombos = ["WWAD", "SADWAS", "WDADWS", "ADSWW"];
+
+        this.spellsRemaining = {
+            'WWAD': -1,
+            'SADWAS': MAX_LIGHT_SPELLS,
+            'WDADWAS': -1,
+            'ADSWW': MAX_HEAL_SPELLS
+        };
+
         this.lightSpellsRemaining = MAX_LIGHT_SPELLS;
         this.healSpellsRemaining = MAX_HEAL_SPELLS;
 
-    }
-
-    hit(damage) {
-        this.health -= damage;
     }
 
     /**
@@ -198,33 +202,39 @@ class Player extends Entity {
 
         if (castSuccessful) {
             castSuccessful = false;
-            let newX = this.x;
-            let newY = this.y;
-            switch (this.spellCombo) {
-                case "WWAD":
-                    let newPos = this.chooseFireballDirection();
-                    newX = newPos.newX;
-                    newY = newPos.newY;
-                    ASSET_MANAGER.playSound("../snd/fireball.mp3");
-                    let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, newX, newY, this, this);
-                    spell.setProjectileSpeed = 2;
-                    this.game.addEntity(spell);
-                    this.currentSpellAnimation.elapsedTime = 0;
-                    break;
-                case "SADWAS":
-                    let light = new LightSpell(this.game, newX, newY - 60);
-                    this.game.addEntity(light);
-                    break;
-                case "WDADWS":
-                    let freeze = new FreezeSpell(this.game, newX - 256 / 2 + 30, newY - 256 / 2 + 20);
-                    this.game.addEntity(freeze);
-                    break;
-                case "ADSWW":
-                    let heal = new HealSpell(this.game, newX, newY - 20);
-                    this.game.addEntity(heal);
-                    break;
-            }
+            this.newX = this.x;
+            this.newY = this.y;
 
+
+            if(this.spellsRemaining[this.spellCombo] !== 0) {
+                switch (this.spellCombo) {
+                    case "WWAD":
+                        let newPos = this.chooseFireballDirection();
+                        this.newX = newPos.newX;
+                        this.newY = newPos.newY;
+                        ASSET_MANAGER.playSound("../snd/fireball.mp3");
+                        let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, this.newX, this.newY, this, this);
+                        spell.setProjectileSpeed = 2;
+                        this.game.addEntity(spell);
+                        this.currentSpellAnimation.elapsedTime = 0;
+                        break;
+                    case "SADWAS":
+                        let light = new LightSpell(this.game, this.newX, this.newY - 60);
+                        this.game.addEntity(light);
+                        this.lightSpellsRemaining--;
+                        break;
+                    case "WDADWS":
+                        let freeze = new FreezeSpell(this.game, this.newX - 256 / 2 + 30, this.newY - 256 / 2 + 20);
+                        this.game.addEntity(freeze);
+                        break;
+                    case "ADSWW":
+                        let heal = new HealSpell(this.game, this.newX, this.newY - 20);
+                        this.game.addEntity(heal);
+                        break;
+                }
+                //Subtract the number of spells remaining by 1. Spells that can be used infinitely are -1 already.
+                this.spellsRemaining[this.spellCombo]--;
+            }
             this.spellCombo = "";
         }
 
