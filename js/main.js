@@ -399,6 +399,7 @@ ASSET_MANAGER.queueDownload("../img/start.png");
 ASSET_MANAGER.queueDownload("../img/start_hover.png");
 ASSET_MANAGER.queueDownload("../img/death_screen.png");
 ASSET_MANAGER.queueDownload("../img/restart.png");
+ASSET_MANAGER.queueDownload("../img/win_screen.png");
 ASSET_MANAGER.queueDownload("../img/restart_hover.png");
 ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
 ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, volume:0.1, loop:false});

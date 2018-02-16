@@ -156,6 +156,10 @@ class GameEngine {
                 this.level = 3;
                 this.loadMap3(this.ctx);
                 break;
+            case 4:
+              this.level = 4;
+              this.loadWinScreen(this.ctx);
+              break;
         }
 
     }
@@ -739,6 +743,21 @@ class GameEngine {
         this.addEntity(bg);
     }
 
+    /** Load the win screen */
+    loadWinScreen (ctx) {
+        this.level = 4;
+        if (this.ctx === null || this.ctx === undefined) {
+            this.ctx = ctx;
+        }
+        //this.unloadMap();
+
+        let bg = new Background(this);
+        let titleScreen = new WinScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/win_screen.png");
+        this.addEntity(titleScreen);
+        this.swap(titleScreen, titleScreen.startButton);
+        this.addEntity(bg);
+    }
+
     /**
      * Loads map 1.
      */
@@ -950,7 +969,7 @@ class GameEngine {
                   this.addEntity(temp);
               } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-                  let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
+                  let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 4);
                   this.addEntity(temp);
               }
           }
