@@ -1,5 +1,7 @@
 
 const MAX_PLAYER_HEALTH = 100;
+const MAX_LIGHT_SPELLS = 3;
+const MAX_HEAL_SPELLS = 5;
 const fireSpell = "WWAD";
 let castSuccessful = false;
 
@@ -104,6 +106,9 @@ class Player extends Entity {
         this.offBottom = false;
 
         this.spellCombos = ["WWAD", "SADWAS", "WDADWS", "ADSWW"];
+        this.lightSpellsRemaining = MAX_LIGHT_SPELLS;
+        this.healSpellsRemaining = MAX_HEAL_SPELLS;
+
     }
 
     hit(damage) {
