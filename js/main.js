@@ -414,6 +414,7 @@ ASSET_MANAGER.queueDownload("../snd/fireball.mp3", {sound:true, volume: 0.1});
 ASSET_MANAGER.queueDownload("../snd/heal.mp3", {sound:true, volume: 0.05});
 ASSET_MANAGER.queueDownload("../snd/lightspell.wav", {sound:true, volume: 0.05});
 ASSET_MANAGER.queueDownload("../snd/shield_block.wav", {sound:true, volume: 0.2});
+ASSET_MANAGER.queueDownload("../snd/fleshy.wav", {sound: true, volume: 0.5});
 
 ASSET_MANAGER.downloadAll(function() {
 
