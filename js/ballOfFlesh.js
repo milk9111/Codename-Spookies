@@ -1,9 +1,12 @@
-class BallOfFlesh extends Enemy { //speed 3 damage 40
+/**
+ * @author James Roberts
+ */
+class BallOfFlesh extends Enemy {
     constructor(gameEngine, player, x, y, speed=3, range=350, coolDown = 85) {
         super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
         this.reverseDirections = this.buildReverseDirections();
-        this.damage = 35; //35
+        this.damage = 35;
         this.cooldownCounter = 0;
         //This is just a reminder that this will need to be set by the ball of flesh.
         this.soundPath = super.soundPath;
@@ -13,6 +16,7 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
 
     /**
      * Creates all of the animations for the Screamer.
+     * @author James Roberts
      */
     createAnimations() {
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
@@ -41,6 +45,11 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
         this.deathAnimationUp = this.deathAnimationDown;
     }
 
+    /**
+     * Causes the Ball of Flesh to attack the player, then turn around and roll away until it hits a wall or reaches
+     * a certain distance.
+     * @author James Roberts
+     */
     targetAndAttack() {
         if(!this.reloading) { //just reached the player and can attack.
             this.createAttackBox();
@@ -48,7 +57,6 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
             this.cooldownCounter = 0;
             this.standingStill = true;
             this.attacking = true;
-            //console.log("just attacked");
         } else if (this.reloading && this.cooldownCounter === 0) { //just attacked
             //wait for attack animation to finish then turn around.
             if (!this.attacking || this.attackAnimationRight.timesFinished === 1 || this.attackAnimationLeft.timesFinished === 1
@@ -82,7 +90,7 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
             } else {
                 this.x -= this.speed;
             }
-
+            //hit a wall, stop rolling away
             if(this.hasCollided(this, gameEngine.walls)) {
                 this.y = oldY;
                 this.x = oldX;
@@ -93,6 +101,11 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
 
     };
 
+    /**
+     *
+     * @returns {{}} array where index = direction, value = opposite direction
+     * @author James Roberts
+     */
     buildReverseDirections() {
         let reverse = {};
         reverse['right'] = 'left';
@@ -102,10 +115,13 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
         return reverse;
     };
 
+    /**
+     * Creates the appropriate attack box for the ball of flesh.
+     * @author James Roberts
+     */
     createAttackBox() {
         let attackBoxX;
         let attackBoxY;
-        //specifics for ball of flesh
         let attackBoxWidth;
         let attackBoxHeight;
         switch(this.facingDirection) {

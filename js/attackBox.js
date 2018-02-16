@@ -1,5 +1,7 @@
+/**
+ * @author James Roberts
+ */
 class AttackBox extends Entity{
-    //this.swingBox = {width: 35, height: 35, x:  0, y:  0};
     constructor(gameEngine, player, width, height, x, y, damage, attackDirection) {
         super(gameEngine, x, y, true, width, height, 0, 0, "Attack Box");
         this.player = player;
@@ -11,6 +13,9 @@ class AttackBox extends Entity{
         this.buildDirections();
     };
 
+    /**
+     * Builds an array of opposite directions.
+     */
     buildDirections() {
         let blocked = {};
         blocked['right'] = 'left';
@@ -20,6 +25,9 @@ class AttackBox extends Entity{
         this.blocked = blocked;
     }
 
+    /**
+     *Damages the player if it doesn't hit the player's shield,
+     */
     update() {
         if(this.count >= 1) {
             this.removal = true;

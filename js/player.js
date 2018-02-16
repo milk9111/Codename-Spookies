@@ -174,9 +174,7 @@ class Player extends Entity {
             }
 
             if (this.game.keys["Space"].pressed && !this.swinging) {
-                console.log("Pressed space");
                 this.swinging = true;
-                //this.game.click = false;
             }
 
             if (this.game.keys["KeyE"].pressed) {
@@ -470,7 +468,23 @@ class Player extends Entity {
         return this.hasCollided(bounds, this.game.walls);
     }
 
+    hasCollidedWithEnemies() {
+        let bounds = {
+            collisionBounds: {
+                x: this.collisionBounds.x,
+                y: this.collisionBounds.y,
+                width: this.collisionBounds.width,
+                height: this.collisionBounds.height
+            }
+        };
+        this.offset = this.speed + 1;
+        if(this.walkingRight) bounds.collisionBounds.width += this.offset;
+        if(this.walkingLeft) bounds.collisionBounds.x -= this.offset;
+        if(this.walkingDownward) bounds.collisionBounds.height += this.offset;
+        if(this.walkingForward) bounds.collisionBounds.y -= this.offset;
 
+        return this.hasCollided(bounds, this.game.enemies);
+    }
 
 
     /**

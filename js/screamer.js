@@ -39,6 +39,9 @@ class Screamer extends Enemy {
         this.deathAnimationUp = this.deathAnimationDown;
     }
 
+    /*
+    *Makes the screamer stand still and attack
+     */
     targetAndAttack() {
         this.standingStill = true;
         this.attacking = true;
@@ -48,7 +51,9 @@ class Screamer extends Enemy {
         }
         this.cooldownCounter++;
     };
-
+    /*
+    *creates an attack box at the edge of an enemy
+     */
     createAttackBox() {
         let attackBoxX;
         let attackBoxY;
