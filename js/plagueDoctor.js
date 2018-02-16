@@ -79,13 +79,26 @@ class PlagueDoctor extends Enemy {
             this.standingStill = false;
             if (this.y > this.player.y + 64 || this.y < this.player.y - 64) {
                 let xDiff = this.player.x - this.x;
+                let oldX = this.x;
                 this.x += (xDiff < 0) ? -this.speed : this.speed;
-                this.facingDirection = (xDiff < 0) ? "left" : "right";
+                let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: this.y + this.boundsYOffset}};
+                if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                    this.facingDirection = (xDiff < 0) ? "left" : "right";
+                } else { //collision, don't move
+                    this.x = oldX;
+                    console.log("collision on X");
+                }
 
             } else {
                 let yDiff = this.player.y - this.y;
+                let oldY = this.y;
                 this.y += (yDiff < 0) ? -this.speed : this.speed;
-                this.facingDirection = (yDiff < 0) ? "up" : "down";
+                let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: this.y + this.boundsYOffset}};
+                if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                    this.facingDirection = (yDiff < 0) ? "up" : "down";
+                } else {
+                    this.y = oldY;
+                }
 
             }
 

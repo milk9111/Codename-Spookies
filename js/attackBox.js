@@ -33,9 +33,4 @@ class AttackBox extends Entity{
         this.count++;
     };
 
-    draw(ctx) {
-        //this.game.ctx.strokeStyle="#000000";
-        //this.game.ctx.fillRect(this.x,this.y,this.width,this.height);
-        //super.draw(ctx);
-    };
 }

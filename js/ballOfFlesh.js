@@ -3,7 +3,7 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
         super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
         this.reverseDirections = this.buildReverseDirections();
-        this.damage = 40;
+        this.damage = 30;
         this.cooldownCounter = 0;
         //This is just a reminder that this will need to be set by the ball of flesh.
         this.soundPath = super.soundPath;

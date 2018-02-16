@@ -127,7 +127,7 @@ class Enemy extends Entity {
                         if (Math.abs(xDiff) > 8) { //See if we can move as desired in the x direction.
                             let newX = this.x ;
                             newX += (xDiff < 0) ? -this.speed : this.speed;
-                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX, y: this.y}};
+                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX + this.boundsXOffset, y: this.y + this.boundsYOffset}};
                             if(!this.hasCollided(newBounds,gameEngine.walls)) {
                                 this.x = newX; //+= (xDiff < 0) ? -this.speed : this.speed;
                             }
@@ -135,7 +135,7 @@ class Enemy extends Entity {
                         if (Math.abs(yDiff) > 8) { //See if we can move as desired in the y direction.
                             let newY = this.y
                             newY += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
-                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x, y: newY}};
+                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: newY + this.boundsYOffset}};
                             if(!this.hasCollided(newBounds,gameEngine.walls)) {
                                 this.y = newY;
                             }
