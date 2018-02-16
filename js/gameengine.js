@@ -749,6 +749,7 @@ class GameEngine {
 
     /** Load the win screen */
     loadWinScreen (ctx) {
+        this.paused = true;
         this.level = 4;
         if (this.ctx === null || this.ctx === undefined) {
             this.ctx = ctx;
