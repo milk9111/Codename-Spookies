@@ -1,9 +1,9 @@
 class BallOfFlesh extends Enemy { //speed 3 damage 40
-    constructor(gameEngine, player, x, y, speed=3, range=400, coolDown = 85) {
+    constructor(gameEngine, player, x, y, speed=3, range=350, coolDown = 85) {
         super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
         this.reverseDirections = this.buildReverseDirections();
-        this.damage = 30;
+        this.damage = 35; //35
         this.cooldownCounter = 0;
         //This is just a reminder that this will need to be set by the ball of flesh.
         this.soundPath = super.soundPath;
@@ -63,15 +63,13 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
                 this.attacking = false;
             }
         } else if(this.cooldownCounter >= this.attackCooldown) { //done moving away from player;
-            this.cooldownCounter = 0;
             this.facingDirection = this.reverseDirections[this.facingDirection];
             this.reloading = false;
             this.attacking = false;
             this.standingStill = true;
-            //console.log("ready to turn around and attack again" + this.facingDirection);
         } else { //moving away from player
             this.cooldownCounter++;
-            //this.attacking = false;
+            this.attacking = false;
             this.standingStill = false;
             let oldY = this.y;
             let oldX = this.x;
@@ -89,7 +87,6 @@ class BallOfFlesh extends Enemy { //speed 3 damage 40
                 this.y = oldY;
                 this.x = oldX;
                 this.cooldownCounter = this.attackCooldown;
-                this.standingStill = true;
             }
 
         }
