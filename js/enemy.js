@@ -39,26 +39,26 @@ class Enemy extends Entity {
         //These all must be set by the child class. Look at plague doctor or the screamer for different
         //examples of how this is done. A better way to handle this would be by creating a default animation
         //but that may not be worth the effort.
-        this.idleAnimationDown;
-        this.idleAnimationUp;
-        this.idleAnimationRight;
-        this.idleAnimationLeft;
+        this.idleAnimationDown = null;
+        this.idleAnimationUp = null;
+        this.idleAnimationRight = null;
+        this.idleAnimationLeft = null;
 
-        this.walkAnimationUp;
-        this.walkAnimationDown;
-        this.walkAnimationDownAgro;
-        this.walkAnimationLeft;
-        this.walkAnimationLeftAgro;
-        this.walkAnimationRight;
-        this.walkAnimationRightAgro;
+        this.walkAnimationUp = null;
+        this.walkAnimationDown = null;
+        this.walkAnimationDownAgro = null;
+        this.walkAnimationLeft = null;
+        this.walkAnimationLeftAgro = null;
+        this.walkAnimationRight = null;
+        this.walkAnimationRightAgro = null;
 
-        this.attackAnimationDown;
-        this.attackAnimationUp;
-        this.attackAnimationLeft;
-        this.attackAnimationRight;
+        this.attackAnimationDown = null;
+        this.attackAnimationUp = null;
+        this.attackAnimationLeft = null;
+        this.attackAnimationRight = null;
 
-        this.deathAnimationDown;
-        this.deathAnimationUp;
+        this.deathAnimationDown = null;
+        this.deathAnimationUp = null;
         //Speed at which character moves with map
         this.mapSpeedX = 2;
         this.mapSpeedY = 2;
@@ -124,11 +124,21 @@ class Enemy extends Entity {
                         let yDiff = this.player.y - this.y;
                         //Here we need to multiply the speed by the clock like in example, this is where collision checking
                         //needs to happen.
-                        if (Math.abs(xDiff) > 10) {
-                            this.x += (xDiff < 0) ? -this.speed : this.speed;
+                        if (Math.abs(xDiff) > 8) { //See if we can move as desired in the x direction.
+                            let newX = this.x ;
+                            newX += (xDiff < 0) ? -this.speed : this.speed;
+                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX, y: this.y}};
+                            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                                this.x = newX; //+= (xDiff < 0) ? -this.speed : this.speed;
+                            }
                         }
-                        if (Math.abs(yDiff) > 10) {
-                            this.y += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
+                        if (Math.abs(yDiff) > 8) { //See if we can move as desired in the y direction.
+                            let newY = this.y
+                            newY += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
+                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x, y: newY}};
+                            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                                this.y = newY;
+                            }
                         }
                         xDir = lastX - this.x;
                         yDir = lastY - this.y;

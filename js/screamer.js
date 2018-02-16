@@ -1,5 +1,5 @@
 class Screamer extends Enemy {
-    constructor(gameEngine, player, x, y, speed=1.5, range=250, coolDown = 35) {
+    constructor(gameEngine, player, x, y, speed=1.5, range=300, coolDown = 35) {
         super( gameEngine, player, x, y, speed, range,coolDown, 32,64,16,0);
         //console.log("Making a screamer");
         this.createAnimations();

@@ -6,7 +6,7 @@ class PlagueDoctor extends Enemy {
      * Constructor for the plague doctor enemy.
      * @author James Roberts
      */
-    constructor(gameEngine, player, x, y, speed = 1.5, range = 250, coolDown = 150) {
+    constructor(gameEngine, player, x, y, speed = 1.5, range = 300, coolDown = 150) {
         super(gameEngine, player, x, y, speed, range, coolDown, 32, 64, 16, 0);
 
         this.stoppingDistance = 250;
