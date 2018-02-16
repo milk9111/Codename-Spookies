@@ -71,6 +71,7 @@ class GameEngine {
         this.space = null;
         this.click = null;
         this.combo = null;
+        this.remainingSpellCount = null;
         this.paused = false;
         this.tempClockTick = 0;
         this.pauseMenu = null;
@@ -262,6 +263,7 @@ class GameEngine {
 
 
     readCombo (ctx) {
+        this.remainingSpellCount = new ComboLabel(this, this.player.x, this.player.y - 20);
         this.combo = new ComboLabel(this, this.player.x, this.player.y);
         this.addEntity(this.combo);
         let currPos = 0;
@@ -295,6 +297,7 @@ class GameEngine {
             if (currPos >= closestSpell.length) {
                 castSuccessful = true;
                 that.cast = false;
+                //that.remainingSpellCount.buildCombo(that.playe)
                 that.combo.stateOfCombo = 2;
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
