@@ -86,7 +86,6 @@ class PlagueDoctor extends Enemy {
                     this.facingDirection = (xDiff < 0) ? "left" : "right";
                 } else { //collision, don't move
                     this.x = oldX;
-                    console.log("collision on X");
                 }
 
             } else {
