@@ -701,7 +701,7 @@ class GameEngine {
      * @author Seth Ladd
      */
     loop () {
-        if (!this.paused && this.level > 0) {
+        if (!this.paused && this.level > 0 && this.level < 4) {
             document.getElementById('gameWorld').style.cursor = 'none';
         } else {
             document.getElementById('gameWorld').style.cursor = 'pointer';
@@ -749,12 +749,12 @@ class GameEngine {
 
     /** Load the win screen */
     loadWinScreen (ctx) {
-        this.paused = true;
+        //this.paused = true;
         this.level = 4;
         if (this.ctx === null || this.ctx === undefined) {
             this.ctx = ctx;
         }
-        //this.unloadMap();
+        this.unloadMap();
 
         let bg = new Background(this);
         let titleScreen = new WinScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/win_screen.png");
