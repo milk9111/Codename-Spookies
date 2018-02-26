@@ -1,5 +1,5 @@
 
-class TitleScreen extends UIElement {
+class WinScreen extends UIElement {
 
     constructor(game, x, y, width, height, logo) {
         super(game, x, y, false, 100, 100, width, height, "TitleScreen");
@@ -10,10 +10,10 @@ class TitleScreen extends UIElement {
         let that = this;
         this.startButton;
         this.startButton = new ImageButton(game, 0, 0,
-            150, 50, "../img/start.png", "../img/start_hover.png");
+            150, 50, "../img/restart.png", "../img/restart_hover.png");
 
-        this.startButton.x = UIElement.getCenterX(this.width, this.startButton.width, this.x);
-        this.startButton.y = UIElement.getQuarterY(this.height, this.startButton.height, this.y) * 3;
+        this.startButton.x = UIElement.getCenterX(this.width, this.startButton.width, this.x) - 10;
+        this.startButton.y = UIElement.getQuarterY(this.height, this.startButton.height, this.y) * 3 + 160;
 
         this.startButton.setText = "Start Game";
         this.startButton.setDefaultColor = "#333333";
@@ -26,7 +26,6 @@ class TitleScreen extends UIElement {
         };
         this.startButton.setTextXandYOffset = offsets;
         this.startButton.setOnClick = function () {
-            console.log("I'm clicked");
             that.game.newLevel(1);
             that.startButton.removal = true;
         };

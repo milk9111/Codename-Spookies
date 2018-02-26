@@ -43,6 +43,7 @@
   <script type="text/javascript" src="../js/comboLabel.js"></script>
   <script type="text/javascript" src="../js/canvasButton.js"></script>
   <script type="text/javascript" src="../js/titleScreen.js"></script>
+  <script type="text/javascript" src="../js/winScreen.js"></script>
   <script type="text/javascript" src="../js/menu.js"></script>
   <script type="text/javascript" src="../js/imageButton.js"></script>
   <script type="text/javascript" src="../js/label.js"></script>
@@ -117,18 +118,19 @@ $(document).ready(function(){
           <p>Press F11 to go fullscreen and wear headphones for the best experience.</p>
         </div>
         <div class="col-sm">
-          <p></p>
+          <p>Fireball and Light spell are limited. You are given 3 light spells and
+          5 health spells per level. Use them carefully.</p>
         </div>
       </div>
 
     </div>
 
     <div style="margin:5px;">
-      <div class="form-check">
+      <div  id = "devTools" class="form-check">
         <input type="checkbox" class="form-check-input" id="darknessCheck" onclick="drawDarkness()">
         <label class="form-check-label" for="darknessCheck">Show Darkness</label>
       </div>
-      <div class="form-check">
+      <div  id = "devTools" class="form-check">
         <input type="checkbox" class="form-check-input" id="collisionCheck" onclick="drawOutlines()">
         <label class="form-check-label" for="collisionCheck">Show Collision Boxes</label>
       </div>

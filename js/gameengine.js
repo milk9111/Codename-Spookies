@@ -59,7 +59,6 @@ class GameEngine {
         this.attackBoxes = [];
         this.uiElements = [];
         this.projectiles = [];
-        this.codes = ["KeyQ", "KeyE", "KeyW", "KeyA", "KeyS", "KeyD", "Space", "Escape"];
         this.player = null;
         this.initKeys();
         this.w = null;
@@ -156,6 +155,10 @@ class GameEngine {
                 this.level = 3;
                 this.loadMap3(this.ctx);
                 break;
+            case 4:
+              this.level = 4;
+              this.loadWinScreen(this.ctx);
+              break;
         }
 
     }
@@ -263,13 +266,10 @@ class GameEngine {
 
 
     readCombo (ctx) {
-        this.remainingSpellCount = new ComboLabel(this, this.player.x, this.player.y - 20);
         this.combo = new ComboLabel(this, this.player.x, this.player.y);
         this.addEntity(this.combo);
         let currPos = 0;
         let that = this;
-        //let currentSpell = "WWAD";
-        let firstOpen = true;
 
         //console.log("inside readCombo");
 
@@ -297,8 +297,16 @@ class GameEngine {
             if (currPos >= closestSpell.length) {
                 castSuccessful = true;
                 that.cast = false;
-                //that.remainingSpellCount.buildCombo(that.playe)
-                that.combo.stateOfCombo = 2;
+                let numCastsRemaining = that.player.spellsRemaining[that.player.spellCombo];
+                if(numCastsRemaining > -1) {
+                    let label = new ComboLabel(that.game, that.player.x, that.player.y - 20);
+                    label.buildCombo(numCastsRemaining);
+
+                    //Magic numbers from GameEngine & ComboLabel, make red if 0, otherwise green.
+                    label.stateOfCombo = (numCastsRemaining === 0) ? 3 : 2;
+                    that.addEntity(label);
+                }
+                that.combo.stateOfCombo = (numCastsRemaining !== 0) ? 2 : 3;
                 ctx.canvas.removeEventListener("keydown", getComboInput, true);
                 that.startInput();
                 return;
@@ -693,7 +701,7 @@ class GameEngine {
      * @author Seth Ladd
      */
     loop () {
-        if (!this.paused && this.level > 0) {
+        if (!this.paused && this.level > 0 && this.level < 4) {
             document.getElementById('gameWorld').style.cursor = 'none';
         } else {
             document.getElementById('gameWorld').style.cursor = 'pointer';
@@ -734,6 +742,22 @@ class GameEngine {
 
         let bg = new Background(this);
         let titleScreen = new TitleScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/logo.png");
+        this.addEntity(titleScreen);
+        this.swap(titleScreen, titleScreen.startButton);
+        this.addEntity(bg);
+    }
+
+    /** Load the win screen */
+    loadWinScreen (ctx) {
+        //this.paused = true;
+        this.level = 4;
+        if (this.ctx === null || this.ctx === undefined) {
+            this.ctx = ctx;
+        }
+        this.unloadMap();
+
+        let bg = new Background(this);
+        let titleScreen = new WinScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/win_screen.png");
         this.addEntity(titleScreen);
         this.swap(titleScreen, titleScreen.startButton);
         this.addEntity(bg);
@@ -950,7 +974,7 @@ class GameEngine {
                   this.addEntity(temp);
               } else if (objectMap.map2D[i][j] instanceof Exit) {
 
-                  let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
+                  let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 4);
                   this.addEntity(temp);
               }
           }

@@ -9,7 +9,7 @@ class BallOfFlesh extends Enemy {
         this.damage = 35;
         this.cooldownCounter = 0;
         //This is just a reminder that this will need to be set by the ball of flesh.
-        this.soundPath = super.soundPath;
+        this.soundPath = "../snd/fleshy.wav";
         this.notifySound = super.notifySound;
         // this.scale = 1.5;
     };
