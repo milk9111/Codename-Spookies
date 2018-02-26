@@ -95,7 +95,7 @@ class Enemy extends Entity {
         //If a death animation is occurring either do nothing and wait for it to finish playing or
         // remove the entity from the world. The check for if the animation is null is only because some enemies don't
         //have death animations made yet so that value is set to null.
-        if (this.dead && (this.deathAnimationDown === null || (this.deathAnimationDown.isDone() || this.deathAnimationUp.isDone()))) {
+        if (this.dead && (this.deathAnimationDown.isDone() || this.deathAnimationUp.isDone())) {
             this.removeFromWorld = true;
         }
 
@@ -118,36 +118,12 @@ class Enemy extends Entity {
                     && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
                     //prevent melee enemies from moving too early after attacking
                     if((this instanceof PlagueDoctor) || this.cooldownCounter >= this.attackCooldown) {
-                        this.standingStill = false;
-                        this.attacking = false;
-                        let xDiff = this.player.x - this.x;
-                        let yDiff = this.player.y - this.y;
-                        //Here we need to multiply the speed by the clock like in example, this is where collision checking
-                        //needs to happen.
-                        if (Math.abs(xDiff) > 8) { //See if we can move as desired in the x direction.
-                            let newX = this.x ;
-                            newX += (xDiff < 0) ? -this.speed : this.speed;
-                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX + this.boundsXOffset, y: this.y + this.boundsYOffset}};
-                            if(!this.hasCollided(newBounds,gameEngine.walls)) {
-                                this.x = newX; //+= (xDiff < 0) ? -this.speed : this.speed;
-                            }
-                        }
-                        if (Math.abs(yDiff) > 8) { //See if we can move as desired in the y direction.
-                            let newY = this.y
-                            newY += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
-                            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: newY + this.boundsYOffset}};
-                            if(!this.hasCollided(newBounds,gameEngine.walls)) {
-                                this.y = newY;
-                            }
-                        }
-                        xDir = lastX - this.x;
-                        yDir = lastY - this.y;
-                        this.setFacingDirection(xDir, yDir);
+                        this.moveToPlayer(lastX,lastY);
                     } else {
                         this.cooldownCounter++;
                     }
                 } else {
-                    this.targetAndAttack();
+                    this.targetAndAttack(lastX,lastY);
                 }
             } else {
                 this.standingStill = true;
@@ -175,6 +151,33 @@ class Enemy extends Entity {
         super.update();
     };
 
+    moveToPlayer(lastX,lastY) {
+        this.standingStill = false;
+        this.attacking = false;
+        let xDiff = this.player.x - this.x;
+        let yDiff = this.player.y - this.y;
+        //Here we need to multiply the speed by the clock like in example, this is where collision checking
+        //needs to happen.
+        if (Math.abs(xDiff) > 8) { //See if we can move as desired in the x direction.
+            let newX = this.x ;
+            newX += (xDiff < 0) ? -this.speed : this.speed;
+            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX + this.boundsXOffset, y: this.y + this.boundsYOffset}};
+            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                this.x = newX;
+            }
+        }
+        if (Math.abs(yDiff) > 8) { //See if we can move as desired in the y direction.
+            let newY = this.y;
+            newY += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
+            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: newY + this.boundsYOffset}};
+            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                this.y = newY;
+            }
+        }
+        let xDir = lastX - this.x;
+        let yDir = lastY - this.y;
+        this.setFacingDirection(xDir, yDir);
+    };
     /**
      * Empty method that will need to be overwritten for each specific child
      */

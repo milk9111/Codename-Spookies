@@ -64,8 +64,10 @@ class Projectile extends Entity {
             let enCollisions = this.getCollisions(this, this.game.enemies);
             for(let i = 0; i < enCollisions.length; i++) {
                 let entity = enCollisions[i];
-                entity.smack(this.damage, this.smackDistance, this.facingDirection, this.smackSpeed);
-                collided = true;
+                if(!(entity instanceof CryptWorm) || !entity.underground) {
+                    entity.smack(this.damage, this.smackDistance, this.facingDirection, this.smackSpeed);
+                    collided = true;
+                }
             }
         }
         //If we're from an enemy (or just not a player) try to hit the player
