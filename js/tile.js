@@ -28,6 +28,9 @@ class Tile extends Entity{
         type === 'G' ||
         type === 'H' ||
         type === '3' ||
+        type === '0' ||
+        type === '1' ||
+        type === '2' ||
         type === 's' ||
         type === 't' ||
         type === 'u' ||
@@ -277,6 +280,19 @@ draw(ctx) {
           break;
         case '#':
           ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 24, 32 * 10, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '^':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 10, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '&':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 11, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '*':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 12, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
+        case '=':
+          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 13, 32 * 4, 32, 32, this.x, this.y, 32, 32);
+          break;
       }
 
 
