@@ -215,8 +215,13 @@ class Entity {
         this.isSmacked = true;
         this.smackTime = 0;
         this.smackDirection = direction;
-        this.smackLength = distance;
-        this.smackSpeed = speed;
+        if(this instanceof CryptWorm) {
+            this.smackLength = distance; //needs to be 0
+            this.smackSpeed = speed; //needs to be 0
+        } else {
+            this.smackLength = distance;
+            this.smackSpeed = speed;
+        }
     }
 
 
