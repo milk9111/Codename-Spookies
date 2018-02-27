@@ -5,7 +5,7 @@
 class SpookieBoi extends Enemy {
 
     constructor (game, player, x, y, speed=1.5, range=300, coolDown = 35) {
-        super(game, player, x, y, speed, range, coolDown, 128, 128, 64, 64, 200);
+        super(game, player, x, y, speed, range, coolDown, 96, 74, 80, 80, 200);
 
         this.game = game;
 
@@ -32,7 +32,7 @@ class SpookieBoi extends Enemy {
     }
 
     update () {
-        this.adjustHitBox(this.facingDirection);
+        //this.adjustHitBox(this.facingDirection);
         super.update();
     }
 
@@ -57,6 +57,8 @@ class SpookieBoi extends Enemy {
         let boundsX = this.x + this.boundsXOffset;
         let boundsY = this.y + this.boundsYOffset;
         this.collisionBounds = {width: this.width, height: this.height, x: boundsX, y: boundsY};
+
+        let hitAWall = this.getCollisions(this.collisionBounds, this.game.walls);
     }
 
 
