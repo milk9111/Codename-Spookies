@@ -82,28 +82,32 @@ class SpookieBoi extends Enemy {
         let attackBoxY;
         let attackBoxWidth;
         let attackBoxHeight;
-        switch(this.facingDirection) {
+        switch(this.facingDirection) { // 96, 74, 80, 80
             case "up":
-                attackBoxX = this.x + 7;
-                attackBoxY = this.y - 20;
+                console.log("Attacking up");
+                attackBoxX = this.x + 80 + 48;
+                attackBoxY = this.y + 80;
                 attackBoxWidth = 50;
                 attackBoxHeight = 20;
                 break;
             case "down":
-                attackBoxX = this.x + 7;
-                attackBoxY = this.y + 52;
+                console.log("Attacking down");
+                attackBoxX = this.x + 80 + 48;
+                attackBoxY = this.y + 80 + 74;
                 attackBoxWidth = 50;
                 attackBoxHeight = 20;
                 break;
             case "right":
-                attackBoxX = this.x + 58;
-                attackBoxY = this.y + 7;
+                console.log("Attacking right");
+                attackBoxX = this.x + 80 + 96;
+                attackBoxY = this.y + 80 + 37;
                 attackBoxWidth = 20;
                 attackBoxHeight = 50;
                 break;
             case "left":
-                attackBoxX = this.x - 16;
-                attackBoxY = this.y + 7;
+                console.log("Attacking left");
+                attackBoxX = this.x + 80 - 40;
+                attackBoxY = this.y + 80 + 18.5;
                 attackBoxWidth = 20;
                 attackBoxHeight = 50;
                 break;
