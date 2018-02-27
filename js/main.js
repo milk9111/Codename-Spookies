@@ -18,7 +18,6 @@ class Animation {
     drawFrame (game, tick, ctx, x, y, scale) {
         let lastFrame = false;
         if (!game.stop) {
-            //console.log("drawing frame");
             let scaleBy = scale || 1;
             this.elapsedTime += tick;
             if (this.loop) {
@@ -49,7 +48,6 @@ class Animation {
             let offset = vindex === 0 ? this.startX : 0;
 
             if (!this.reverse) {
-                //console.log(index === this.frames - 1);
                 if (index === (this.frames - 1) && game.moving) {
                     index = originalFrame;
                     this.elapsedTime = 0;
@@ -73,45 +71,15 @@ class Animation {
                     locX, locY,
                     this.frameWidth * scaleBy,
                     this.frameHeight * scaleBy);
-
-                //For now we can keep this top part here. Once we have actual sprites and animations we should switch to
-                //this function below.
-                //flipSpriteHorizontally(ctx, this.spriteSheet, locX, locY, index * this.frameWidth + offset,
-                //    vindex * this.frameHeight + this.startY, this.frameWidth, this.frameHeight);
             }
 
             if (lastFrame) {
                 this.elapsedTime = this.totalTime;
             }
-        } else {
-            //game.stop = false;
         }
     }
 }
 
-
-/*
-    Not my function, I took this from StackOverflow.
- */
-function flipSpriteHorizontally(ctx, img, x, y, spriteX, spriteY, spriteW, spriteH){
-    // move to x + img's width
-    // adding img.width is necessary because we're flipping from
-    //     the right side of the img so after flipping it's still
-    //     at [x,y]
-    ctx.translate(x+spriteW,y);
-
-    // scaleX by -1; this "trick" flips horizontally
-    ctx.scale(-1,1);
-
-    // draw the img
-    // no need for x,y since we've already translated
-    ctx.drawImage(img,
-                spriteX,spriteY,spriteW,spriteH,0,0,spriteW,spriteH
-               );
-
-    // always clean up -- reset transformations to default
-    ctx.setTransform(1,0,0,1,0,0);
-}
 
 /**
  *
@@ -392,6 +360,7 @@ ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Crypt_Worm_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/Spookie_Boi_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Light_Spell.png");
 ASSET_MANAGER.queueDownload("../img/Freeze_Spell.png");
 ASSET_MANAGER.queueDownload("../img/Heal_Spell.png");
@@ -424,8 +393,8 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-    document.getElementById('darknessCheck').checked = true;
-    document.getElementById('collisionCheck').checked = false;
+    document.getElementById('darknessCheck').checked = false;
+    document.getElementById('collisionCheck').checked = true;
     document.getElementById('soundCheck').checked = true;
 
     //LOAD ENTITIES

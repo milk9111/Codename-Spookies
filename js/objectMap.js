@@ -52,7 +52,9 @@ class ObjectMap {
           } else if (txt[i][j] === '$'){
               this.map2D[i][j] = new BallOfFlesh(game, player, spriteW * j, spriteH * i, 4, 300);
           } else if (txt[i][j] === 'r') {
-            this.map2D[i][j] = new Exit(spriteW * j, spriteH * i, player, game);
+              this.map2D[i][j] = new Exit(spriteW * j, spriteH * i, player, game);
+          } else if (txt[i][j] === '%') {
+              this.map2D[i][j] = new SpookieBoi(game, player, spriteW * j, spriteH * i);
           } else if (charCode >= 90 && charCode <= 122) {
             this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, txt[i][j], game, player, ctx);
           } else {

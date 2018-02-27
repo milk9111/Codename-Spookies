@@ -5,7 +5,7 @@
 class Enemy extends Entity {
 
 
-    constructor(gameEngine, player, x, y, speed, range, coolDown, frameWidth, frameHeight, boundsXOffset, boundsYOffset) {
+    constructor(gameEngine, player, x, y, speed, range, coolDown, frameWidth, frameHeight, boundsXOffset, boundsYOffset, health=100) {
         super(gameEngine, x, y, true, frameWidth, frameHeight, boundsXOffset, boundsYOffset, "enemy");
         this.game = gameEngine;
         this.player = player;
@@ -17,7 +17,7 @@ class Enemy extends Entity {
         this.stoppingDistance = 32;
         this.attackCooldown = coolDown;
         this.cooldownCounter = this.attackCooldown;
-        this.health = 100;
+        this.health = health;
         this.frozen = false;
         this.reloading = false;
         this.width = frameWidth;

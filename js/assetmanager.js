@@ -67,6 +67,9 @@ class AssetManager {
     }
 
     getAsset(path) {
+        if (this.cache[path] == null || this.cache[path] === "") {
+            console.log("Incorrect path " + path + " could not get asset");
+        }
         return this.cache[path];
     }
 

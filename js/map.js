@@ -274,7 +274,7 @@ class Map {
   static getMap3O() {
 
     //Select a version to create, 3 random possibilties
-    let version = Math.floor((Math.random() * 3));;
+    let version = Math.floor((Math.random() * 3));
     console.log("Version " + version);
 
     //These are versions of where things can go, plague doctor, screamer, and exit
@@ -365,11 +365,31 @@ class Map {
 
     return map3;
 
-    return bossMap;
+    //return bossMap;
   }
 
   static getBossMapO() {
-    return " ";
+      let boss = '%';
+
+      let map3 =
+          "4567848475768475647586746545867484574845768457458                                                                                                                                                          \n" +
+          "!!#@#!#!@#!@#@\n" +
+          "!5678484757\n" +
+          "                           #@!#@!@#!#@!#@!#@@\n" +
+          "                           @58787584!7458745!\n" +
+          "                           @5645645645645645!\n" +
+          "                           @6457456456565656!\n" +
+          "                           @6457" + boss + "56456565656!\n" +
+          "                           @6457456456565656!\n" +
+          "                           @6457456456565656!\n" +
+          "@!#@!#@!!@#@!#@!@#!#@!#@!#@@6457456456568656!\n" +
+          "@6657586745645675688675456756464456785445678!\n" +
+          "@6657586745645675688675456756464456785445678!\n" +
+          "@6657586745645675688675456756464456785445678!\n" +
+          "@6657586745645675688675456756464456785445678!\n" +
+          "@6657586745645675688675456756464456785445678!\n" +
+          "@!@#!@#!@##@#!#@#@!#@!#@!!@#@!#@!@#!#@!#@!#@@\n";
+      return map3;
   }
 
   static getSimpleMap() {

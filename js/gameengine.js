@@ -776,13 +776,15 @@ class GameEngine {
         let tileMap = new TileMap();
         tileMap.loadMap(Map.getBossMap(), 32, 32, this, player, ctx);
 
-        //Load ObejctMap
+        //Load ObjectMap
         let objectMap = new ObjectMap();
         objectMap.loadMap(Map.getBossMapO(), 32, 32, player, ctx);
 
 
         let bg = new Background(this);
         darkness = new Darkness(this, player);
+
+        let boss = null;
 
         darkness.drawing = document.getElementById('darknessCheck').checked;
 
@@ -834,10 +836,17 @@ class GameEngine {
                 } else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
                     let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof SpookieBoi) {
+                    let temp = new SpookieBoi(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    boss = temp;
+                    this.addEntity(temp);
+                    console.log("Made a Spookie Boi");
                 }
             }
         }
         this.addEntity(player);
+        console.log("Player pos: " + player.pos);
+        console.log("Spookie Boi pos: " + boss.pos);
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
         //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
         //ASSET_MANAGER.toggleSound();
