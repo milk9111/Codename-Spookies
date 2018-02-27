@@ -774,11 +774,11 @@ class GameEngine {
 
         //Load tile map
         let tileMap = new TileMap();
-        tileMap.loadMap(Map.getTestMap(), 32, 32, this, player, ctx);
+        tileMap.loadMap(Map.getBossMap(), 32, 32, this, player, ctx);
 
         //Load ObejctMap
         let objectMap = new ObjectMap();
-        objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
+        objectMap.loadMap(Map.getBossMapO(), 32, 32, player, ctx);
 
 
         let bg = new Background(this);
