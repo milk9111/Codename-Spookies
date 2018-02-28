@@ -193,7 +193,6 @@ class Entity {
     }
 
 
-
     getCollisions(bounds, entityArr) {
         let collisions = [];
         for (let i = 0; i < entityArr.length; i++) {
