@@ -327,10 +327,8 @@ class Player extends Entity {
                 let collisions = this.getCollisions({collisionBounds: this.swingBox}, this.game.enemies);
                 for(let i = 0; i < collisions.length; i++) {
                     let enemy = collisions[i];
-                    if(!(enemy instanceof CryptWorm) || !enemy.underground) {
-                        enemy.smack(this.swordDamage, 15, facingDirection, 1);
-                    }
-                    //console.log("Sword hit: " + enemy.name + " health: " + enemy.health);
+                    enemy.smack(this.swordDamage, 15, facingDirection, 1);
+
                 }
             }
         }
