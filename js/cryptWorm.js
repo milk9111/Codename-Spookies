@@ -8,9 +8,16 @@ class CryptWorm extends Enemy {
      */
     constructor(gameEngine, player, x, y, speed = .75, range = 300, coolDown = 75) {
         super(gameEngine, player, x, y, speed, range, coolDown, 32, 64, 16, 0);
+        this.defaultYBounds = 0;
+        this.defaultHeight = 64;
+        this.undergroundHeight = 22;
+        this.undergroundYBounds = 42;
+        this.collisionBounds.height = this.undergroundHeight;
+        this.boundsYOffset = this.undergroundYBounds;
         this.underground = true;
         this.damage = 0; //20
         this.health = 300;
+        this.emerging = false;
         //using same as plague doctor for now
         this.soundPath = "../snd/whispers.wav";
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
@@ -50,34 +57,48 @@ class CryptWorm extends Enemy {
         this.deathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 768, 64, 64, 0.2, 7, false, false);
     };
 
+
     moveToPlayer(lastX,lastY) {
-        if(!this.underground) {
-            this.reloading = true;
+        //console.log(this.collisionBounds);
+        if (this.emerging) {
+            this.boundsYOffset = this.defaultYBounds;
+            this.collisionBounds.height = this.defaultHeight;
             this.targetAndAttack();
+        } else if (this.underground) {
+            super.moveToPlayer(lastX, lastY);
         } else {
             super.moveToPlayer(lastX, lastY);
         }
     }
+            //above ground and attacking
+            //this.collisionBounds = this.undergroundCollisionBounds;
+            //this.boundsYOffset = this.undergroundYBounds;
+            //this.collisionBounds.height = this.undergroundHeight;
+
     /*
     */
     targetAndAttack() {
         this.standingStill = true;
         this.attacking = true;
         if(this.underground) {
+            this.emerging = true;
             if(this.emergeAnimationDown.timesFinished === 1 || this.emergeAnimationUp.timesFinished ===1) {
                 this.emergeAnimationDown.timesFinished = 0;
                 this.emergeAnimationUp.timesFinished = 0;
                 this.underground = false;
+                this.emerging = false;
             }
         } else if (this.reloading) {
+
             if(this.retractAnimationDown.timesFinished === 1 || this.retractAnimationUp.timesFinished ===1) {
                 this.retractAnimationDown.timesFinished = 0;
                 this.retractAnimationUp.timesFinished = 0;
                 this.underground = true;
                 this.reloading = false;
-                this.attacking = false;
-                this.cooldownCounter = this.attackCooldown;
+                //this.attacking = false;
+                //this.cooldownCounter = this.attackCooldown;
             }
+
         } else if(this.cooldownCounter >= this.attackCooldown) {
             this.cooldownCounter = 0;
             this.createAttackBox();
