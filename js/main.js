@@ -401,8 +401,7 @@ ASSET_MANAGER.downloadAll(function() {
   //start facing downwards.
   facingDirection = "down";
   gameEngine = new GameEngine();
-  gameEngine.drawing = document.getElementById('collisionCheck').checked;
-
+  gameEngine.drawing = false;
   gameEngine.init(ctx);
   gameEngine.loadTitleScreen(ctx);
   gameEngine.start();
