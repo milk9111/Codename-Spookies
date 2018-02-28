@@ -393,7 +393,7 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-    document.getElementById('darknessCheck').checked = false;
+    document.getElementById('darknessCheck').checked = true;
     document.getElementById('collisionCheck').checked = true;
     document.getElementById('soundCheck').checked = true;
 
