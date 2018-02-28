@@ -115,7 +115,7 @@ class Enemy extends Entity {
                 }
                 // not close enough to attack.
                 if (!this.reloading && !Math.intersects(this, this.player)
-                    && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
+                    && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x + (this.width / 2), this.y + (this.height / 2)) > this.stoppingDistance) {
                     //prevent melee enemies from moving too early after attacking
                     if((this instanceof PlagueDoctor) || this.cooldownCounter >= this.attackCooldown) {
                         this.moveToPlayer(lastX,lastY);
