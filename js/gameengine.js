@@ -878,7 +878,7 @@ class GameEngine {
       let bg = new Background(this);
       darkness = new Darkness(this, player);
 
-      darkness.drawing = document.getElementById('darknessCheck').checked;
+      darkness.drawing = true;
 
       //ADD ENTITIES
 
@@ -955,7 +955,7 @@ class GameEngine {
       let bg = new Background(this);
       darkness = new Darkness(this, player);
 
-      darkness.drawing = document.getElementById('darknessCheck').checked;
+      darkness.drawing = true;
 
       //ADD ENTITIES
       //Add tiles
