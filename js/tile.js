@@ -313,7 +313,7 @@ draw(ctx) {
  */
 Math.getDistance = function(x1, y1, x2, y2) {
 
-  var xs = x2 - x1,
+  let xs = x2 - x1,
     ys = y2 - y1;
 
   xs *= xs;

@@ -83,7 +83,7 @@ class Enemy extends Entity {
      * @returns {boolean}
      */
     isPlayerInRange() {
-        return areEntitiesInRange({x: this.x, y: this.y}, this.player, this.range);
+        return areEntitiesInRange({x: this.x + this.boundsXOffset, y: this.y + this.boundsYOffset}, this.player, this.range);
     };
 
     /**
@@ -91,7 +91,6 @@ class Enemy extends Entity {
      * Determines if the enemy needs to be drawn to the canvas and moves it with the map.
      */
     update() {
-
         //If a death animation is occurring either do nothing and wait for it to finish playing or
         // remove the entity from the world. The check for if the animation is null is only because some enemies don't
         //have death animations made yet so that value is set to null.
@@ -115,7 +114,7 @@ class Enemy extends Entity {
                 }
                 // not close enough to attack.
                 if (!this.reloading && !Math.intersects(this, this.player)
-                    && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x + (this.width / 2), this.y + (this.height / 2)) > this.stoppingDistance) {
+                    && Math.getDistance(this.player.x + 32, this.player.y + 32, this.x, this.y) > this.stoppingDistance) {
                     //prevent melee enemies from moving too early after attacking
                     if((this instanceof PlagueDoctor) || this.cooldownCounter >= this.attackCooldown) {
                         this.moveToPlayer(lastX,lastY);
