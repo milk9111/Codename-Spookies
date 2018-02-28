@@ -222,6 +222,10 @@ class Entity {
             this.smackLength = distance;
             this.smackSpeed = speed;
         }
+
+        if (this instanceof SpookieBoi) {
+            this.game.bossHealthBar.changeHealth();
+        }
     }
 
 

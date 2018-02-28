@@ -7,7 +7,15 @@ class BossHealthBar extends UIElement {
 
         this.game = game;
         this.boss = boss;
-        this.defaultColor = "#FFFFFF";
+        this.bossStartingHealth = this.boss.health;
+
+        this.maxWidth = (this.game.surfaceWidth - (this.game.surfaceWidth / 4)) *  (this.boss.health / this.bossStartingHealth);
+        this.currWidth = this.maxWidth;
+
+        this.height = 50;
+
+        this.fillColor = "#FF0000";
+        this.borderColor = "#666666";
     }
 
     update () {
@@ -17,12 +25,18 @@ class BossHealthBar extends UIElement {
     draw (ctx) {
 
         ctx.save();
-        ctx.fillStyle = this.defaultColor;
-        ctx.font = this.textFont;
-        ctx.textAlign = this.textAlign;
-        ctx.fillText(this.text, this.x, this.y);
+        ctx.fillStyle = this.fillColor;
+        if (this.currWidth >= 0) {
+            ctx.fillRect(this.x, this.y, this.currWidth, this.height);
+        }
+        ctx.strokeStyle = this.borderColor;
+        ctx.strokeRect(this.x, this.y, this.maxWidth, this.height);
         ctx.restore();
 
         Entity.prototype.draw.call(this);
+    }
+
+    changeHealth() {
+        this.currWidth = (this.game.surfaceWidth - (this.game.surfaceWidth / 4)) * (this.boss.health / this.bossStartingHealth);
     }
 }

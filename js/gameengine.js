@@ -70,11 +70,11 @@ class GameEngine {
         this.space = null;
         this.click = null;
         this.combo = null;
-        this.remainingSpellCount = null;
         this.paused = false;
         this.tempClockTick = 0;
         this.pauseMenu = null;
         this.darkness = null;
+        this.bossHealthBar = null;
 
     }
 
@@ -574,6 +574,10 @@ class GameEngine {
                 console.log(this.entities[i]);
             }
         }
+
+        if (this.bossHealthBar != null) {
+            this.bossHealthBar.draw(this.ctx);
+        }
         this.ctx.restore();
 
         if (this.showOutlines) {
@@ -624,6 +628,10 @@ class GameEngine {
         //This removes entities from the game world
         for (let i = removalPositions.length - 1; i >= 0; --i) {
             this.entities.splice(removalPositions[i], 1);
+        }
+
+        if (this.bossHealthBar != null && this.bossHealthBar.removalStatus === true) {
+            this.bossHealthBar = null;
         }
 
         if (removalPositions.length > 0) {
@@ -725,9 +733,7 @@ class GameEngine {
 
     unloadMap () {
       this.entities = [];
-        // for (let i = this.entities.length - 1; i >= 0; i--) {
-        //     this.entities.splice(this.entities[i], 1);
-        // }
+      this.bossHealthBar = null;
     }
 
     /**
@@ -821,7 +827,6 @@ class GameEngine {
             }
         }
 
-
         //Add Enemies to map
         for (let i = 0; i < objectMap.map2D.length; i++) {
             for (let j = 0; j < objectMap.map2D[i].length; j++) {
@@ -840,13 +845,11 @@ class GameEngine {
                     let temp = new SpookieBoi(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     boss = temp;
                     this.addEntity(temp);
-                    console.log("Made a Spookie Boi");
                 }
             }
         }
         this.addEntity(player);
-        console.log("Player pos: " + player.pos);
-        console.log("Spookie Boi pos: " + boss.pos);
+
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
         //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
         //ASSET_MANAGER.toggleSound();
@@ -869,7 +872,7 @@ class GameEngine {
       let tileMap = new TileMap();
       tileMap.loadMap(Map.getMap2(), 32, 32, this, player, ctx);
 
-      //Load ObejctMap
+      //Load ObjectMap
       let objectMap = new ObjectMap();
       objectMap.loadMap(Map.getMap2O(), 32, 32, player, ctx);
 
