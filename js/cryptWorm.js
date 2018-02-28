@@ -6,7 +6,7 @@ class CryptWorm extends Enemy {
      * Constructor for the plague doctor enemy.
      * @author James Roberts
      */
-    constructor(gameEngine, player, x, y, speed = .85, range = 300, coolDown = 75) {
+    constructor(gameEngine, player, x, y, speed = 1, range = 300, coolDown = 75) {
         super(gameEngine, player, x, y, speed, range, coolDown, 32, 64, 16, 0);
         this.defaultYBounds = 0;
         this.defaultHeight = 64;
