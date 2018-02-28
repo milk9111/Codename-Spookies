@@ -193,7 +193,6 @@ class Entity {
     }
 
 
-
     getCollisions(bounds, entityArr) {
         let collisions = [];
         for (let i = 0; i < entityArr.length; i++) {
@@ -221,6 +220,10 @@ class Entity {
         } else {
             this.smackLength = distance;
             this.smackSpeed = speed;
+        }
+
+        if (this instanceof SpookieBoi && this.game.bossHealthBar != null) {
+            this.game.bossHealthBar.changeHealth();
         }
     }
 
