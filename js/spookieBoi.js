@@ -278,7 +278,7 @@ class SpookieBoi extends Enemy {
             } else {
                 this.facingDirection = "left";
             }
-        } else if ((this.x + this.boundsXOffset) >= this.player.x - 30 && (this.x + this.boundsXOffset) <= this.player.x + 200) {
+        } else if ((this.x + this.boundsXOffset) + 60 >= this.player.x && (this.x + this.boundsXOffset) <= this.player.x + 30) {
             canHit = true;
             if (this.player.y > (this.y + this.boundsYOffset)) {
                 this.facingDirection = "down";
@@ -298,6 +298,7 @@ class SpookieBoi extends Enemy {
         }
     }
 
+
     /**
      * Creates a new spell projectile.
      */
@@ -309,6 +310,8 @@ class SpookieBoi extends Enemy {
         switch (this.facingDirection) {
 
             case "down":
+                spellX = (this.x + this.boundsXOffset) + 16;
+                spellY = (this.y + this.boundsYOffset) + 80;
                 currentSpellAnimation = this.spellAnimationDown;
                 facingNum = 2;
                 break;
@@ -325,8 +328,8 @@ class SpookieBoi extends Enemy {
                 facingNum = 3;
                 break;
             case "right":
-                spellX = (this.x + this.boundsXOffset) + 5;
-                spellY = (this.y + this.boundsYOffset) - 2;
+                spellX = (this.x + this.boundsXOffset) + 70;
+                spellY = (this.y + this.boundsYOffset) + 36;
                 currentSpellAnimation = this.spellAnimationRight;
                 facingNum = 4;
                 break;
