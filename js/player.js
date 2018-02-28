@@ -105,13 +105,13 @@ class Player extends Entity {
         this.offTop = false;
         this.offBottom = false;
 
-        this.spellCombos = ["WWAD", "SADWAS", "WDADWS", "ADSWW"];
+        this.spellCombos = ["WWAD", "SADW", "WDAD", "ADSW"];
 
         this.spellsRemaining = {
             'WWAD': -1,
-            'SADWAS': MAX_LIGHT_SPELLS,
-            'WDADWAS': -1,
-            'ADSWW': MAX_HEAL_SPELLS
+            'SADW': MAX_LIGHT_SPELLS,
+            'WDAD': -1,
+            'ADSW': MAX_HEAL_SPELLS
         };
 
         this.lightSpellsRemaining = MAX_LIGHT_SPELLS;
@@ -218,16 +218,16 @@ class Player extends Entity {
                         this.game.addEntity(spell);
                         this.currentSpellAnimation.elapsedTime = 0;
                         break;
-                    case "SADWAS":
+                    case "SADW":
                         let light = new LightSpell(this.game, this.newX, this.newY - 60);
                         this.game.addEntity(light);
                         this.lightSpellsRemaining--;
                         break;
-                    case "WDADWS":
+                    case "WDAD":
                         let freeze = new FreezeSpell(this.game, this.newX - 256 / 2 + 30, this.newY - 256 / 2 + 20);
                         this.game.addEntity(freeze);
                         break;
-                    case "ADSWW":
+                    case "ADSW":
                         let heal = new HealSpell(this.game, this.newX, this.newY - 20);
                         this.game.addEntity(heal);
                         break;

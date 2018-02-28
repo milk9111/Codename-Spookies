@@ -223,7 +223,7 @@ class Entity {
             this.smackSpeed = speed;
         }
 
-        if (this instanceof SpookieBoi) {
+        if (this instanceof SpookieBoi && this.game.bossHealthBar != null) {
             this.game.bossHealthBar.changeHealth();
         }
     }
