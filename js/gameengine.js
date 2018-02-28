@@ -132,36 +132,6 @@ class GameEngine {
         })();
     }
 
-    /** This changes the game to the next level.
-    @param {int} levelNum Number of the level to load. **/
-    newLevel(levelNum) {
-      //Remove all the tiles from the previous level
-      this.unloadMap();
-
-      this.walls = [];
-      this.enemies = [];
-
-      //Load new level
-        switch(levelNum) {
-            case 1:
-                this.level = 1;
-                this.loadMap1(this.ctx);
-                break;
-            case 2:
-                this.level = 2;
-                this.loadMap2(this.ctx);
-                break;
-            case 3:
-                this.level = 3;
-                this.loadMap3(this.ctx);
-                break;
-            case 4:
-              this.level = 4;
-              this.loadWinScreen(this.ctx);
-              break;
-        }
-
-    }
 
     checkForKeyDown () {
         let value = false;
@@ -441,6 +411,9 @@ class GameEngine {
     }
 
     makeDeathMenu () {
+        if (this.bossHealthBar != null) {
+            this.bossHealthBar.removal = true;
+        }
         this.paused = true;
         let deathMenu = new ImageMenu(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/death_screen.png");
 
@@ -769,6 +742,41 @@ class GameEngine {
         this.addEntity(bg);
     }
 
+
+    /**
+     * This changes the game to the next level.
+     @param {int} levelNum Number of the level to load.
+     **/
+    newLevel(levelNum) {
+        //Remove all the tiles from the previous level
+        this.unloadMap();
+
+        this.walls = [];
+        this.enemies = [];
+
+        //Load new level
+        switch(levelNum) {
+            case 1:
+                this.level = 1;
+                this.loadBossMap(this.ctx);
+                break;
+            case 2:
+                this.level = 2;
+                this.loadMap2(this.ctx);
+                break;
+            case 3:
+                this.level = 3;
+                this.loadMap3(this.ctx);
+                break;
+            case 4:
+                this.level = 4;
+                this.loadWinScreen(this.ctx);
+                break;
+        }
+
+    }
+
+
     /**
      * Loads map 1.
      */
@@ -859,6 +867,8 @@ class GameEngine {
         this.addEntity(darkness);
         this.addEntity(bg);
     }
+
+
 
 
     /**Loads map 2. **/
@@ -1009,8 +1019,8 @@ class GameEngine {
       }
 
       this.addEntity(player);
-      //ASSET_MANAGER.playSound("../snd/wyrm.mp3");
-      //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
+      ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+      // ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
       //ASSET_MANAGER.toggleSound();
 
       //START GAME
@@ -1018,6 +1028,97 @@ class GameEngine {
       player.darkness = darkness;
       this.addEntity(darkness);
       this.addEntity(bg);
+    }
+
+    /**
+     * Loads map 1.
+     */
+    loadBossMap(ctx) {
+        //let canvas = document.getElementById('gameWorld');
+        //let ctx = canvas.getContext('2d');
+
+        let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
+
+        //Load tile map
+        let tileMap = new TileMap();
+        tileMap.loadMap(Map.getBossMap(), 32, 32, this, player, ctx);
+
+        //Load ObjectMap
+        let objectMap = new ObjectMap();
+        objectMap.loadMap(Map.getBossMapO(), 32, 32, player, ctx);
+
+
+        let bg = new Background(this);
+        darkness = new Darkness(this, player);
+        darkness.drawing = true;
+        let boss = null;
+
+        //ADD ENTITIES
+
+        //Add tiles
+        for (let i = 0; i < tileMap.map2D.length; i++) {
+            for (let j = 0; j < tileMap.map2D[i].length; j++) {
+
+                let temp = new Tile(tileMap.map2D[i][j].x, tileMap.map2D[i][j].y, tileMap.map2D[i][j].type, this, player, ctx);
+                this.addEntity(temp);
+            }
+        }
+
+        //Add Objects to map
+        for (let i = 0; i < objectMap.map2D.length; i++) {
+            for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+                //Add Potions
+                if (objectMap.map2D[i][j] instanceof Potion) {
+                    //Potion (x, y, type, player)
+                    let temp = new Potion(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, player, this);
+                    this.addEntity(temp);
+
+                    //Add Tile
+                } else if (objectMap.map2D[i][j] instanceof Tile  && objectMap.map2D[i][j].collisionBounds == null) {
+                    let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
+                    this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof Exit) {
+
+                    let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
+                    this.addEntity(temp);
+                }
+            }
+        }
+
+        //Add Enemies to map
+        for (let i = 0; i < objectMap.map2D.length; i++) {
+            for (let j = 0; j < objectMap.map2D[i].length; j++) {
+
+                //Add Plague Doctor
+                if (objectMap.map2D[i][j] instanceof PlagueDoctor) {
+                    let temp = new PlagueDoctor(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof Screamer) {
+                    let temp = new Screamer(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof CryptWorm) {
+                    let temp = new CryptWorm(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof SpookieBoi) {
+                    let temp = new SpookieBoi(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    boss = temp;
+                    this.addEntity(temp);
+                }
+            }
+        }
+        this.addEntity(player);
+
+        ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+        //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
+        //ASSET_MANAGER.toggleSound();
+
+        //START GAME
+        this.initPlayerPosition(player, ctx);
+
+        player.darkness = darkness;
+        this.addEntity(darkness);
+        this.addEntity(bg);
     }
 
     initPlayerPosition(player, ctx) {
