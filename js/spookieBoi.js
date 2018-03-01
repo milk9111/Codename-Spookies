@@ -27,6 +27,7 @@ class SpookieBoi extends Enemy {
         this.rangeCoolDownMax = 50;
 
         this.newWaveStarted = false;
+        this.healthAtNextWave = (this.health / 4) * 3;
         this.healthAtLastWave = 0;
 
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
@@ -73,11 +74,12 @@ class SpookieBoi extends Enemy {
         }
 
         if (!this.newWaveStarted && this.health !== this.healthAtLastWave
-            && this.health < this.startingHealth && this.health % (this.startingHealth / 4) === 0) {
+            && this.health <= this.healthAtNextWave) {
             console.log("Making a new wave");
             this.game.spawnWave();
             this.newWaveStarted = true;
             this.healthAtLastWave = this.health;
+            this.healthAtNextWave -= (this.health / 4);
         }
 
         if (this.shooting && (this.rangeAttackAnimationDown.isDone() || this.rangeAttackAnimationUp.isDone() || this.rangeAttackAnimationLeft.isDone()

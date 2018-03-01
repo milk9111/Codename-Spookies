@@ -1,7 +1,7 @@
 
 class MiniSpook extends SpookieBoi {
     constructor (game, player, x, y) {
-        super (game, player, x, y, 3);
+        super (game, player, x, y, 1.75);
 
         this.game = game;
 
@@ -13,6 +13,9 @@ class MiniSpook extends SpookieBoi {
         let boundsX = this.x + this.boundsXOffset;
         let boundsY = this.y + this.boundsYOffset;
         this.collisionBounds = {width: this.width, height: this.height, x: boundsX, y: boundsY};
+        this.stoppingDistance = 32;
+        this.damage = 5;
+        this.health = 5;
     }
 
 
@@ -31,7 +34,7 @@ class MiniSpook extends SpookieBoi {
             let yDir = 0;
 
             //Check if aggroed on the player.
-            if (this.isPlayerInMeleeRange() && !this.isSmacked) {
+            if (this.isPlayerInRange() && !this.isSmacked) {
 
                 // not close enough to attack.
                 if (!this.reloading && !Math.intersects({collisionBounds: {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: this.y + this.boundsYOffset}}, this.player)
@@ -87,5 +90,67 @@ class MiniSpook extends SpookieBoi {
                 Entity.bluealizeImage(ctx, this.x + (this.width / 2), this.y, this.width, this.height);
             }
         }
+    }
+
+    moveToPlayer(lastX, lastY) {
+        this.standingStill = false;
+        this.attacking = false;
+        let xDiff = this.player.x - (this.x + this.boundsXOffset);
+        let yDiff = this.player.y - (this.y + this.boundsYOffset);
+        //Here we need to multiply the speed by the clock like in example, this is where collision checking
+        //needs to happen.
+        if (Math.abs(xDiff) > 8) { //See if we can move as desired in the x direction.
+            let newX = this.x;
+            newX += (xDiff < 0) ? -this.speed : this.speed;
+            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX + this.boundsXOffset, y: this.y + this.boundsYOffset}};
+            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                this.x = newX;
+            }
+        }
+        if (Math.abs(yDiff) > 8) { //See if we can move as desired in the y direction.
+            let newY = this.y;
+            newY += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
+            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: newY + this.boundsYOffset}};
+            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                this.y = newY;
+            }
+        }
+        let xDir = lastX - (this.x + this.boundsXOffset);
+        let yDir = lastY - (this.y + this.boundsYOffset);
+        this.setFacingDirection(xDir, yDir);
+    }
+
+    createAttackBox() {
+        let attackBoxX;
+        let attackBoxY;
+        let attackBoxWidth;
+        let attackBoxHeight;
+        switch(this.facingDirection) { // 96, 74, 80, 80
+            case "up":
+                attackBoxX = this.x + 12;
+                attackBoxY = this.y + 12;
+                attackBoxWidth = 40;
+                attackBoxHeight = 40;
+                break;
+            case "down":
+                attackBoxX = this.x + 12;
+                attackBoxY = this.y + 12;
+                attackBoxWidth = 40;
+                attackBoxHeight = 40;
+                break;
+            case "right":
+                attackBoxX = this.x + 12;
+                attackBoxY = this.y + 12;
+                attackBoxWidth = 40;
+                attackBoxHeight = 40;
+                break;
+            case "left":
+                attackBoxX = this.x + 12;
+                attackBoxY = this.y + 12;
+                attackBoxWidth = 40;
+                attackBoxHeight = 40;
+                break;
+        }
+        gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY, this.damage, this.facingDirection));
     }
 }

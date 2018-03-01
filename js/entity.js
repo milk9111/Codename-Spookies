@@ -53,7 +53,7 @@ class Entity {
 
     update () {
         //update bounds position
-        if (this.collisionBounds !== null) {
+        if (this.collisionBounds != null) {
             this.collisionBounds.x = this.x + this.boundsXOffset;
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
@@ -110,7 +110,7 @@ class Entity {
     }
 
     draw (ctx) {
-        if (this.collisionBounds !== null && this.game.showOutlines) {
+        if (this.collisionBounds != null && this.game.showOutlines) {
 
             this.game.ctx.save();
             this.game.ctx.beginPath();

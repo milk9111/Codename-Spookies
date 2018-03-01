@@ -664,7 +664,7 @@ class GameEngine {
         for (let i = uiCount - 1; i >= 0; i--) {
             let entity = this.uiElements[i];
 
-            if (entity.removalStatus === false) {
+            if (entity !== undefined && entity != null && entity.removalStatus === false) {
                 entity.update();
             } else {
                 removalPositions.push(i);
