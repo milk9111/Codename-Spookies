@@ -160,16 +160,38 @@ class Enemy extends Entity {
         if (Math.abs(xDiff) > 8) { //See if we can move as desired in the x direction.
             let newX = this.x ;
             newX += (xDiff < 0) ? -this.speed : this.speed;
-            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: newX + this.boundsXOffset, y: this.y + this.boundsYOffset}};
-            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+            if(!(this instanceof GraveWraith)) {
+                let newBounds = {
+                    collisionBounds: {
+                        width: this.collisionBounds.width,
+                        height: this.collisionBounds.height,
+                        x: newX + this.boundsXOffset,
+                        y: this.y + this.boundsYOffset
+                    }
+                };
+                if (!this.hasCollided(newBounds, gameEngine.walls)) {
+                    this.x = newX;
+                }
+            } else {
                 this.x = newX;
             }
         }
         if (Math.abs(yDiff) > 8) { //See if we can move as desired in the y direction.
             let newY = this.y;
             newY += (yDiff) ? (yDiff < 0) ? -this.speed : this.speed : 0;
-            let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: newY + this.boundsYOffset}};
-            if(!this.hasCollided(newBounds,gameEngine.walls)) {
+            if(!(this instanceof GraveWraith)) {
+                let newBounds = {
+                    collisionBounds: {
+                        width: this.collisionBounds.width,
+                        height: this.collisionBounds.height,
+                        x: this.x + this.boundsXOffset,
+                        y: newY + this.boundsYOffset
+                    }
+                };
+                if (!this.hasCollided(newBounds, gameEngine.walls)) {
+                    this.y = newY;
+                }
+            } else {
                 this.y = newY;
             }
         }
@@ -181,7 +203,120 @@ class Enemy extends Entity {
      * Empty method that will need to be overwritten for each specific child
      */
     targetAndAttack() {};
+    /**
+     * Causes the enemy to shoot projectiles at the player and move so that it's projectiles can hit if necessary.
+     * Creates a new projectile in the game world.
+     */
+    rangedAttack() {
+        this.standingStill = true;
+        this.attacking = true;
+        this.cooldownCounter++;
+        let canHit = false;
+        if (this.y > this.player.y - 36 && this.y < this.player.y + 36) {
+            canHit = true;
+            if (this.player.x > this.x) {
+                this.facingDirection = "right";
+            } else {
+                this.facingDirection = "left";
+            }
+        } else if (this.x >= this.player.x - 16 && this.x <= this.player.x + 20) {
+            canHit = true;
+            if (this.player.y > this.y) {
+                this.facingDirection = "down";
+            } else {
+                this.facingDirection = "up";
+            }
+        } else {
+            this.attacking = false;
+            this.standingStill = false;
+            if (this.y > this.player.y + 64 || this.y < this.player.y - 64) {
+                let xDiff = this.player.x - this.x;
+                let oldX = this.x;
+                this.x += (xDiff < 0) ? -this.speed : this.speed;
+                let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: this.y + this.boundsYOffset}};
+                if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                    this.facingDirection = (xDiff < 0) ? "left" : "right";
+                } else { //collision, don't move
+                    this.x = oldX;
+                }
 
+            } else {
+                let yDiff = this.player.y - this.y;
+                let oldY = this.y;
+                this.y += (yDiff < 0) ? -this.speed : this.speed;
+                let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: this.x + this.boundsXOffset, y: this.y + this.boundsYOffset}};
+                if(!this.hasCollided(newBounds,gameEngine.walls)) {
+                    this.facingDirection = (yDiff < 0) ? "up" : "down";
+                } else {
+                    this.y = oldY;
+                }
+
+            }
+
+        }
+
+        if (canHit) {
+            this.standingStill = true;
+            this.attacking = true;
+
+            //If there is no spell fired by this enemy in existence it can shoot.
+            if (this.cooldownCounter >= this.attackCooldown && (this.currentProjectile === null || this.currentProjectile.removeFromWorld)) {
+                this.cooldownCounter = 0;
+                this.createSpell();
+            }
+        }
+    }
+
+    /**
+     * Creates a new spell projectile.
+     */
+    createSpell() {
+        let currentSpellAnimation = null;
+        let facingNum = 0;
+        let spellX = this.x;
+        let spellY = this.y;
+        switch (this.facingDirection) {
+
+            case "down":
+                currentSpellAnimation = this.spellAnimationDown;
+                facingNum = 2;
+                break;
+            case "up":
+                spellY = this.y - 32;
+                currentSpellAnimation = this.spellAnimationUp;
+                facingNum = 1;
+                break;
+            case "left":
+                spellX = this.x - 5;
+                spellY = this.y - 2;
+                currentSpellAnimation = this.spellAnimationLeft;
+                facingNum = 3;
+                break;
+            case "right":
+                spellX = this.x + 5;
+                spellY = this.y - 2;
+                currentSpellAnimation = this.spellAnimationRight;
+                facingNum = 4;
+                break;
+        }
+        this.currentProjectile = new Projectile(this.game, currentSpellAnimation, this.facingDirection, spellX, spellY, this.player, this, 15);
+        this.game.addEntity(this.currentProjectile);
+
+    };
+
+    /**
+     *
+     * @returns {{}} array where index = direction, value = opposite direction
+     * @author James Roberts
+     */
+    buildReverseDirections() {
+        let reverse = {};
+        reverse['right'] = 'left';
+        reverse['left'] = 'right';
+        reverse['up'] = 'down';
+        reverse['down'] = 'up';
+        return reverse;
+    };
 
     /**
      * Draws the correct animation based on the state of the Enemy.

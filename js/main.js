@@ -360,6 +360,7 @@ ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Crypt_Worm_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("../img/Grave_Wraith_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Spookie_Boi_SpriteSheet.png");
 ASSET_MANAGER.queueDownload("../img/Light_Spell.png");
 ASSET_MANAGER.queueDownload("../img/Freeze_Spell.png");

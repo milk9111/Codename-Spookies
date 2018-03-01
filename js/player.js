@@ -327,7 +327,9 @@ class Player extends Entity {
                 let collisions = this.getCollisions({collisionBounds: this.swingBox}, this.game.enemies);
                 for(let i = 0; i < collisions.length; i++) {
                     let enemy = collisions[i];
-                    enemy.smack(this.swordDamage, 15, facingDirection, 1);
+                    if(!(enemy instanceof GraveWraith)) {
+                        enemy.smack(this.swordDamage, 15, facingDirection, 1);
+                    }
 
                 }
             }

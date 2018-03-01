@@ -5,7 +5,7 @@ class BallOfFlesh extends Enemy {
     constructor(gameEngine, player, x, y, speed=3, range=350, coolDown = 85) {
         super( gameEngine, player, x, y, speed, range,coolDown,50,60,7,2);
         this.createAnimations();
-        this.reverseDirections = this.buildReverseDirections();
+        this.reverseDirections = super.buildReverseDirections();
         this.damage = 35;
         this.cooldownCounter = 0;
         //This is just a reminder that this will need to be set by the ball of flesh.
@@ -101,19 +101,7 @@ class BallOfFlesh extends Enemy {
 
     };
 
-    /**
-     *
-     * @returns {{}} array where index = direction, value = opposite direction
-     * @author James Roberts
-     */
-    buildReverseDirections() {
-        let reverse = {};
-        reverse['right'] = 'left';
-        reverse['left'] = 'right';
-        reverse['up'] = 'down';
-        reverse['down'] = 'up';
-        return reverse;
-    };
+
 
     /**
      * Creates the appropriate attack box for the ball of flesh.
