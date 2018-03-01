@@ -18,6 +18,7 @@ class Enemy extends Entity {
         this.attackCooldown = coolDown;
         this.cooldownCounter = this.attackCooldown;
         this.health = health;
+        this.startingHealth = this.health;
         this.frozen = false;
         this.reloading = false;
         this.width = frameWidth;

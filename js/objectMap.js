@@ -55,6 +55,8 @@ class ObjectMap {
               this.map2D[i][j] = new Exit(spriteW * j, spriteH * i, player, game);
           } else if (txt[i][j] === '%') {
               this.map2D[i][j] = new SpookieBoi(game, player, spriteW * j, spriteH * i);
+          } else if (txt[i][j] === '^') {
+              this.map2D[i][j] = new SpawnPoint(game, null, spriteW * j, spriteH * i);
           } else if (charCode >= 90 && charCode <= 122) {
             this.map2D[i][j] = new Tile(spriteW * j, spriteH * i, txt[i][j], game, player, ctx);
           } else {

@@ -9,7 +9,7 @@ class SpookieBoi extends Enemy {
 
         this.game = game;
 
-        this.meleeRange = this.range / 4;
+        this.meleeRange = this.range / 5;
 
         this.stoppingDistance = 200;
         this.shooting = false;
@@ -25,6 +25,9 @@ class SpookieBoi extends Enemy {
 
         this.rangeCoolDownTimer = 0;
         this.rangeCoolDownMax = 50;
+
+        this.newWaveStarted = false;
+        this.healthAtLastWave = 0;
 
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 8, 0, 256, 256, 0.2, 2, true, false);
@@ -66,6 +69,15 @@ class SpookieBoi extends Enemy {
         if (this.dead && (this.deathAnimationDown.isDone() || this.deathAnimationUp.isDone())) {
             this.game.bossHealthBar.removal = true;
             this.removeFromWorld = true;
+            return;
+        }
+
+        if (!this.newWaveStarted && this.health !== this.healthAtLastWave
+            && this.health < this.startingHealth && this.health % (this.startingHealth / 4) === 0) {
+            console.log("Making a new wave");
+            this.game.spawnWave();
+            this.newWaveStarted = true;
+            this.healthAtLastWave = this.health;
         }
 
         if (this.shooting && (this.rangeAttackAnimationDown.isDone() || this.rangeAttackAnimationUp.isDone() || this.rangeAttackAnimationLeft.isDone()
@@ -85,6 +97,7 @@ class SpookieBoi extends Enemy {
             let lastX = this.x + this.boundsXOffset;
             let lastY = this.y + this.boundsYOffset;
             let xDir = 0;
+
             let yDir = 0;
 
             let playerInRange = this.isPlayerInRange();
@@ -94,7 +107,6 @@ class SpookieBoi extends Enemy {
             if (playerInMeleeRange && !this.isSmacked) {
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
-                    this.game.addEntity(this.game.bossHealthBar);
                     this.firstTarget = false;
                 }
 
@@ -113,7 +125,6 @@ class SpookieBoi extends Enemy {
             } else if (playerInRange && !this.isSmacked) {
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
-                    this.game.addEntity(this.game.bossHealthBar);
                     this.firstTarget = false;
                 }
                 if (this.notifySoundId === null) {
@@ -163,7 +174,6 @@ class SpookieBoi extends Enemy {
 
     draw (ctx) {
         if (this.shooting) {
-            console.log("drawing shoot");
             this.shoot(ctx);
         } else {
             super.draw(ctx);

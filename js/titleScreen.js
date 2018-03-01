@@ -26,7 +26,6 @@ class TitleScreen extends UIElement {
         };
         this.startButton.setTextXandYOffset = offsets;
         this.startButton.setOnClick = function () {
-            console.log("I'm clicked");
             that.game.newLevel(1);
             that.startButton.removal = true;
         };

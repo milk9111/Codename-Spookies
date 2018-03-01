@@ -59,6 +59,7 @@ class GameEngine {
         this.attackBoxes = [];
         this.uiElements = [];
         this.projectiles = [];
+        this.spawnPoints = [];
         this.player = null;
         this.initKeys();
         this.w = null;
@@ -495,6 +496,7 @@ class GameEngine {
     addEntity (entity) {
         this.entities.push(entity);
         entity.pos = this.entities.indexOf(entity);
+
         if (this.entities[this.entities.length - 3] instanceof Darkness
             && (!(entity instanceof UIElement) || entity.name === "ComboLabel")) { //swap so that darkness and background are always on top
             let temp = this.entities[this.entities.length - 1];
@@ -529,6 +531,9 @@ class GameEngine {
         if(entity instanceof Projectile) {
             this.projectiles.push(entity);
         }
+        if(entity instanceof SpawnPoint) {
+            this.spawnPoints.push(entity);
+        }
     }
 
     /**
@@ -540,8 +545,10 @@ class GameEngine {
     draw () {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.save();
+        let background = null;
+        let darkness = null;
         for (let i = 0; i < this.entities.length; i++) {
-            if (this.entities[i] !== null && this.entities[i] !== undefined) {
+            if (this.entities[i] != null && this.entities[i] !== undefined) {
                 this.entities[i].draw(this.ctx);
             } else {
                 console.log(this.entities[i]);
@@ -572,6 +579,37 @@ class GameEngine {
             this.ctx.restore();
         }
     }
+
+    /* Previous attempt at fixing mini spook drawing bug.
+    let background = null;
+        let darkness = null;
+        for (let i = 0; i < this.entities.length; i++) {
+            if (this.entities[i] != null && this.entities[i] !== undefined
+                && !(this.entities[i] instanceof Background)
+                && !(this.entities[i] instanceof Darkness)
+                && !(this.entities[i] instanceof UIElement)) {
+                this.entities[i].draw(this.ctx);
+            } else {
+                if (this.entities[i] instanceof Background) {
+                    background = this.entities[i];
+                } else if (this.entities[i] instanceof Darkness) {
+                    darkness = this.entities[i];
+                }
+            }
+        }
+
+        if (background != null) {
+            background.draw(this.ctx);
+        }
+
+        if (darkness != null) {
+            darkness.draw(this.ctx);
+        }
+
+        for (let el of this.uiElements) {
+            el.draw(this.ctx);
+        }
+     */
 
 
     /**
@@ -704,8 +742,19 @@ class GameEngine {
         this.stop = null;
     }
 
+
+    spawnWave () {
+        for (let spawn of this.spawnPoints) {
+            spawn.startSpawning();
+        }
+    }
+
     unloadMap () {
       this.entities = [];
+      this.projectiles = [];
+      this.spawnPoints = [];
+      this.walls = [];
+      this.uiElements = [];
       this.bossHealthBar = null;
     }
 
@@ -1031,7 +1080,7 @@ class GameEngine {
     }
 
     /**
-     * Loads map 1.
+     * Loads boss map.
      */
     loadBossMap(ctx) {
         //let canvas = document.getElementById('gameWorld');
@@ -1050,7 +1099,8 @@ class GameEngine {
 
         let bg = new Background(this);
         darkness = new Darkness(this, player);
-        darkness.drawing = true;
+        drawDarkness();
+        //darkness.drawing = false;
         let boss = null;
 
         //ADD ENTITIES
@@ -1079,7 +1129,6 @@ class GameEngine {
                     let temp = new Tile(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, objectMap.map2D[i][j].type, this, player, ctx);
                     this.addEntity(temp);
                 } else if (objectMap.map2D[i][j] instanceof Exit) {
-
                     let temp = new Exit(objectMap.map2D[i][j].x, objectMap.map2D[i][j].y, player, this, bg, 2);
                     this.addEntity(temp);
                 }
@@ -1104,10 +1153,18 @@ class GameEngine {
                     let temp = new SpookieBoi(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     boss = temp;
                     this.addEntity(temp);
+                } else if (objectMap.map2D[i][j] instanceof SpawnPoint) {
+                    let temp = new SpawnPoint(this, null, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
                 }
             }
         }
         this.addEntity(player);
+
+        for (let spawn of this.spawnPoints) {
+            spawn.boss = boss;
+            spawn.player = this.player
+        }
 
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
         //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
@@ -1117,6 +1174,7 @@ class GameEngine {
         this.initPlayerPosition(player, ctx);
 
         player.darkness = darkness;
+        this.darkness = darkness;
         this.addEntity(darkness);
         this.addEntity(bg);
     }
