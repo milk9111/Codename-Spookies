@@ -780,19 +780,17 @@ class GameEngine {
 
         //Load tile map
         let tileMap = new TileMap();
-        tileMap.loadMap(Map.getBossMap(), 32, 32, this, player, ctx);
+        tileMap.loadMap(Map.getTestMap(), 32, 32, this, player, ctx);
 
         //Load ObjectMap
         let objectMap = new ObjectMap();
-        objectMap.loadMap(Map.getBossMapO(), 32, 32, player, ctx);
+        objectMap.loadMap(Map.getTestMapO(), 32, 32, player, ctx);
 
 
         let bg = new Background(this);
         darkness = new Darkness(this, player);
-
+        darkness.drawing = true;
         let boss = null;
-
-        darkness.drawing = document.getElementById('darknessCheck').checked;
 
         //ADD ENTITIES
 
@@ -880,7 +878,7 @@ class GameEngine {
       let bg = new Background(this);
       darkness = new Darkness(this, player);
 
-      darkness.drawing = document.getElementById('darknessCheck').checked;
+      darkness.drawing = true;
 
       //ADD ENTITIES
 
@@ -957,7 +955,7 @@ class GameEngine {
       let bg = new Background(this);
       darkness = new Darkness(this, player);
 
-      darkness.drawing = document.getElementById('darknessCheck').checked;
+      darkness.drawing = true;
 
       //ADD ENTITIES
       //Add tiles

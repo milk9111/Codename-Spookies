@@ -279,33 +279,6 @@ class SpookieBoi extends Enemy {
             } else {
                 this.facingDirection = "up";
             }
-        } else {
-            this.shooting = false;
-            this.standingStill = false;
-            if ((this.y + this.boundsYOffset) > this.player.y + 64 || (this.y + this.boundsYOffset) < this.player.y - 64) {
-                let xDiff = this.player.x - (this.x + this.boundsXOffset);
-                let oldX = (this.x + this.boundsXOffset);
-                this.x += (xDiff < 0) ? -this.speed : this.speed;
-                let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: (this.x + this.boundsXOffset) + this.boundsXOffset, y: (this.y + this.boundsYOffset) + this.boundsYOffset}};
-                if(!this.hasCollided(newBounds,gameEngine.walls)) {
-                    this.facingDirection = (xDiff < 0) ? "left" : "right";
-                } else { //collision, don't move
-                    this.x = oldX;
-                }
-
-            } else {
-                let yDiff = this.player.y - (this.y + this.boundsYOffset);
-                let oldY = (this.y + this.boundsYOffset);
-                this.y += (yDiff < 0) ? -this.speed : this.speed;
-                let newBounds = {collisionBounds : {width: this.collisionBounds.width, height: this.collisionBounds.height, x: (this.x + this.boundsXOffset) + this.boundsXOffset, y: (this.y + this.boundsYOffset) + this.boundsYOffset}};
-                if(!this.hasCollided(newBounds,gameEngine.walls)) {
-                    this.facingDirection = (yDiff < 0) ? "up" : "down";
-                } else {
-                    this.y = oldY;
-                }
-
-            }
-
         }
 
         if (canHit) {

@@ -394,7 +394,7 @@ ASSET_MANAGER.downloadAll(function() {
   let canvas = document.getElementById('gameWorld');
   let ctx = canvas.getContext('2d');
 
-    document.getElementById('darknessCheck').checked = false;
+    document.getElementById('darknessCheck').checked = true;
     document.getElementById('collisionCheck').checked = true;
     document.getElementById('soundCheck').checked = true;
 
@@ -402,8 +402,7 @@ ASSET_MANAGER.downloadAll(function() {
   //start facing downwards.
   facingDirection = "down";
   gameEngine = new GameEngine();
-  gameEngine.drawing = document.getElementById('collisionCheck').checked;
-
+  gameEngine.drawing = false;
   gameEngine.init(ctx);
   gameEngine.loadTitleScreen(ctx);
   gameEngine.start();
