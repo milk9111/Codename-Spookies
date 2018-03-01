@@ -1170,7 +1170,6 @@ class GameEngine {
                     temp.background = bg;
                     boss = temp;
                     this.addEntity(temp);
-
                 } else if (objectMap.map2D[i][j] instanceof SpawnPoint) {
                     let temp = new SpawnPoint(this, null, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     this.addEntity(temp);
@@ -1179,9 +1178,16 @@ class GameEngine {
         }
         this.addEntity(player);
 
+        let i = 0;
         for (let spawn of this.spawnPoints) {
             spawn.boss = boss;
-            spawn.player = this.player
+            spawn.player = this.player;
+            if (i >= this.spawnPoints.length / 2) {
+                spawn.yOffset = -100;
+            } else {
+                spawn.yOffset = 100;
+            }
+            i++;
         }
 
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");

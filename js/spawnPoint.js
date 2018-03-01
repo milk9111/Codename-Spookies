@@ -1,6 +1,6 @@
 
 class SpawnPoint extends Entity {
-    constructor(game, boss, x, y, rotationAngle = 0) {
+    constructor(game, boss, x, y, xOffset = 0, yOffset = 0) {
         super (game, x, y, false, 32, 32, 0, 0, "SpawnPoint");
 
         this.game = game;
@@ -8,13 +8,15 @@ class SpawnPoint extends Entity {
         this.player = this.game.player;
         this.boss = boss;
 
-        this.maxEnemies = 5;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+
+        this.maxEnemies = 1;
         this.currSpawnEnemies = this.maxEnemies;
 
         this.spawnCounter = 0;
         this.loopsBeforeNextSpawn = 100;
 
-        this.rotationAngle = rotationAngle;
         this.isDraw = true;
 
         this.isClosed = true;
@@ -28,9 +30,9 @@ class SpawnPoint extends Entity {
 
         if (!this.isClosed) {
             if (this.spawnCounter % this.loopsBeforeNextSpawn === 0) {
-                let miniSpook = new MiniSpook(this.game, this.player, this.x, this.y + 100);
+                let miniSpook = new MiniSpook(this.game, this.player, this.x + this.xOffset, this.y + this.yOffset);
                 this.game.addEntity(miniSpook);
-                this.currSpawnEnemies++;
+                this.currSpawnEnemies--;
             }
             this.spawnCounter++;
 

@@ -9,7 +9,7 @@ class SpookieBoi extends Enemy {
 
         this.game = game;
 
-        this.meleeRange = this.range / 5;
+        this.meleeRange = this.range / 4;
 
         this.stoppingDistance = 200;
         this.shooting = false;
@@ -72,6 +72,7 @@ class SpookieBoi extends Enemy {
         if (this.dead && (this.deathAnimationDown.isDone() || this.deathAnimationUp.isDone())) {
             this.game.bossHealthBar.removal = true;
             this.removeFromWorld = true;
+            this.killChildren();
             let exit = new Exit((this.x + this.boundsXOffset) + this.width / 2, (this.y + this.boundsYOffset) + this.height / 2, this.player, this.game, this.background, 5);
             this.game.addEntity(exit);
             return;
@@ -96,7 +97,7 @@ class SpookieBoi extends Enemy {
         }
 
         //If not dead the enemy can move or change state as needed
-        if(!this.dead && !this.frozen) {
+        if(!this.dead) {
             let lastX = this.x + this.boundsXOffset;
             let lastY = this.y + this.boundsYOffset;
             let xDir = 0;
@@ -180,6 +181,15 @@ class SpookieBoi extends Enemy {
             this.shoot(ctx);
         } else {
             super.draw(ctx);
+        }
+    }
+
+    killChildren () {
+        for (let enemy of this.game.enemies) {
+            if (enemy instanceof MiniSpook) {
+                enemy.health = 0;
+                enemy.dead = true;
+            }
         }
     }
 
@@ -359,28 +369,24 @@ class SpookieBoi extends Enemy {
         let attackBoxHeight;
         switch(this.facingDirection) { // 96, 74, 80, 80
             case "up":
-                console.log("Attacking up");
                 attackBoxX = (this.x + this.boundsXOffset) - 10;
                 attackBoxY = (this.y + this.boundsYOffset) - 10;
                 attackBoxWidth = 120;
                 attackBoxHeight = 120;
                 break;
             case "down":
-                console.log("Attacking down");
                 attackBoxX = (this.x + this.boundsXOffset) - 10;
                 attackBoxY = (this.y + this.boundsYOffset) - 10;
                 attackBoxWidth = 120;
                 attackBoxHeight = 120;
                 break;
             case "right":
-                console.log("Attacking right");
                 attackBoxX = (this.x + this.boundsXOffset) - 10;
                 attackBoxY = (this.y + this.boundsYOffset) - 10;
                 attackBoxWidth = 120;
                 attackBoxHeight = 120;
                 break;
             case "left":
-                console.log("Attacking left");
                 attackBoxX = (this.x + this.boundsXOffset) - 10;
                 attackBoxY = (this.y + this.boundsYOffset) - 10;
                 attackBoxWidth = 120;

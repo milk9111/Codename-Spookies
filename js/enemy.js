@@ -201,7 +201,7 @@ class Enemy extends Entity {
                 this.walking(ctx);
             }
 
-            if (this.frozen) {
+            if (this.frozen && !(this instanceof SpookieBoi) && !(this instanceof MiniSpook)) {
                 Entity.bluealizeImage(ctx, this.x + (this.width / 2), this.y, this.width, this.height);
             }
         }

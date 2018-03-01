@@ -14,7 +14,7 @@ class MiniSpook extends SpookieBoi {
         let boundsY = this.y + this.boundsYOffset;
         this.collisionBounds = {width: this.width, height: this.height, x: boundsX, y: boundsY};
         this.stoppingDistance = 32;
-        this.damage = 5;
+        this.damage = 2;
         this.health = 5;
     }
 
@@ -26,7 +26,7 @@ class MiniSpook extends SpookieBoi {
         }
 
         //If not dead the enemy can move or change state as needed
-        if(!this.dead && !this.frozen) {
+        if(!this.dead) {
             let lastX = this.x + this.boundsXOffset;
             let lastY = this.y + this.boundsYOffset;
             let xDir = 0;
@@ -84,10 +84,6 @@ class MiniSpook extends SpookieBoi {
                 this.standStill(ctx);
             } else {
                 this.walking(ctx);
-            }
-
-            if (this.frozen) {
-                Entity.bluealizeImage(ctx, this.x + (this.width / 2), this.y, this.width, this.height);
             }
         }
     }
