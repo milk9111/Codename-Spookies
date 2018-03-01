@@ -30,6 +30,8 @@ class SpookieBoi extends Enemy {
         this.healthAtNextWave = (this.health / 4) * 3;
         this.healthAtLastWave = 0;
 
+        this.background = null;
+
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 8, 0, 256, 256, 0.2, 2, true, false);
         this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 0, 256, 256, 0.2, 3, true, false);
@@ -70,14 +72,13 @@ class SpookieBoi extends Enemy {
         if (this.dead && (this.deathAnimationDown.isDone() || this.deathAnimationUp.isDone())) {
             this.game.bossHealthBar.removal = true;
             this.removeFromWorld = true;
+            let exit = new Exit((this.x + this.boundsXOffset) + this.width / 2, (this.y + this.boundsYOffset) + this.height / 2, this.player, this.game, this.background, 5);
+            this.game.addEntity(exit);
             return;
         }
 
-        if (!this.newWaveStarted && this.health !== this.healthAtLastWave
-            && this.health <= this.healthAtNextWave) {
-            console.log("Making a new wave");
+        if (this.health !== this.healthAtLastWave && this.health <= this.healthAtNextWave) {
             this.game.spawnWave();
-            this.newWaveStarted = true;
             this.healthAtLastWave = this.health;
             this.healthAtNextWave -= (this.health / 4);
         }

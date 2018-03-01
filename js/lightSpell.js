@@ -6,7 +6,7 @@ class LightSpell extends Entity {
 
         this.game = game;
 
-        this.cooldown = 7;
+        this.cooldown = 10;
         this.step = 10;
         this.updateLoops = 1;
 

@@ -9,7 +9,7 @@ class SpawnPoint extends Entity {
         this.boss = boss;
 
         this.maxEnemies = 5;
-        this.currSpawnEnemies = 0;
+        this.currSpawnEnemies = this.maxEnemies;
 
         this.spawnCounter = 0;
         this.loopsBeforeNextSpawn = 100;
@@ -34,7 +34,7 @@ class SpawnPoint extends Entity {
             }
             this.spawnCounter++;
 
-            if (this.currSpawnEnemies >= this.maxEnemies) {
+            if (this.currSpawnEnemies < 0) {
                 this.isClosed = true;
                 if (this.checkIfWaveOver()) {
                     console.log("Wave is over");
@@ -70,7 +70,7 @@ class SpawnPoint extends Entity {
     }
 
     startSpawning () {
-        this.currSpawnEnemies = 0;
+        this.currSpawnEnemies += this.maxEnemies;
         this.spawnCounter = 0;
         this.isClosed = false;
     }

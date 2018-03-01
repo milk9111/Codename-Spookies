@@ -5,7 +5,7 @@ class FreezeSpell extends Entity {
         super (game, x, y, false, 0, 0, 0, 0, "Freeze Spell");
         this.game = game;
 
-        this.cooldown = 10;
+        this.cooldown = 14;
         this.step = 10;
         this.updateLoops = 1;
 

@@ -807,7 +807,7 @@ class GameEngine {
         switch(levelNum) {
             case 1:
                 this.level = 1;
-                this.loadBossMap(this.ctx);
+                this.loadMap1(this.ctx);
                 break;
             case 2:
                 this.level = 2;
@@ -819,6 +819,10 @@ class GameEngine {
                 break;
             case 4:
                 this.level = 4;
+                this.loadBossMap(this.ctx);
+                break;
+            case 5:
+                this.level = 5;
                 this.loadWinScreen(this.ctx);
                 break;
         }
@@ -895,6 +899,9 @@ class GameEngine {
                     this.addEntity(temp);
                 } else if (objectMap.map2D[i][j] instanceof CryptWorm) {
                     let temp = new CryptWorm(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    this.addEntity(temp);
+                }  else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
+                    let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     this.addEntity(temp);
                 } else if (objectMap.map2D[i][j] instanceof SpookieBoi) {
                     let temp = new SpookieBoi(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
@@ -984,6 +991,12 @@ class GameEngine {
           } else if (objectMap.map2D[i][j] instanceof Screamer) {
               let temp = new Screamer(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
               this.addEntity(temp);
+          } else if (objectMap.map2D[i][j] instanceof CryptWorm) {
+              let temp = new CryptWorm(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+              this.addEntity(temp);
+          }  else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
+              let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+              this.addEntity(temp);
           }
         }
       }
@@ -1062,6 +1075,9 @@ class GameEngine {
                   this.addEntity(temp);
               } else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
                   let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                  this.addEntity(temp);
+              } else if (objectMap.map2D[i][j] instanceof CryptWorm) {
+                  let temp = new CryptWorm(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                   this.addEntity(temp);
               }
           }
@@ -1151,8 +1167,10 @@ class GameEngine {
                     this.addEntity(temp);
                 } else if (objectMap.map2D[i][j] instanceof SpookieBoi) {
                     let temp = new SpookieBoi(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+                    temp.background = bg;
                     boss = temp;
                     this.addEntity(temp);
+
                 } else if (objectMap.map2D[i][j] instanceof SpawnPoint) {
                     let temp = new SpawnPoint(this, null, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
                     this.addEntity(temp);
