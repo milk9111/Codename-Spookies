@@ -32,6 +32,10 @@ class SpookieBoi extends Enemy {
 
         this.background = null;
 
+        this.soundPath = "../snd/boss_battle.wav";
+        this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
+        this.notifySoundId = null;
+
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 8, 0, 256, 256, 0.2, 2, true, false);
         this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 0, 256, 256, 0.2, 3, true, false);
@@ -75,6 +79,7 @@ class SpookieBoi extends Enemy {
             this.killChildren();
             let exit = new Exit((this.x + this.boundsXOffset) + this.width / 2, (this.y + this.boundsYOffset) + this.height / 2, this.player, this.game, this.background, 5);
             this.game.addEntity(exit);
+            this.game.endBossMusic();
             return;
         }
 
@@ -112,6 +117,7 @@ class SpookieBoi extends Enemy {
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
                     this.firstTarget = false;
+                    this.game.playBossMusic();
                 }
 
                 // not close enough to attack.
@@ -130,12 +136,7 @@ class SpookieBoi extends Enemy {
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
                     this.firstTarget = false;
-                }
-                if (this.notifySoundId === null) {
-                    this.notifySoundId = ASSET_MANAGER.playSound(this.soundPath);
-                    // this.notifySound.fade(0.0, 0.3, 1000);
-                } else {
-                    ASSET_MANAGER.playSound(this.soundPath);
+                    this.game.playBossMusic();
                 }
 
                 // not close enough to attack.

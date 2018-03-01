@@ -807,7 +807,7 @@ class GameEngine {
         switch(levelNum) {
             case 1:
                 this.level = 1;
-                this.loadMap1(this.ctx);
+                this.loadBossMap(this.ctx);
                 break;
             case 2:
                 this.level = 2;
@@ -1190,7 +1190,8 @@ class GameEngine {
             i++;
         }
 
-        ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+        ASSET_MANAGER.stopSound("../snd/boss_battle.wav");
+        //ASSET_MANAGER.playSound("../snd/wyrm.mp3");
         //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
         //ASSET_MANAGER.toggleSound();
 
@@ -1208,5 +1209,16 @@ class GameEngine {
         player.y = (ctx.canvas.height / 2 - 32);
         playerStartX = (ctx.canvas.width / 2 - 32);
         playerStartY = (ctx.canvas.height / 2 - 32);
+    }
+
+    playBossMusic() {
+        console.log("playing boss music");
+        ASSET_MANAGER.playSound("../snd/boss_battle.wav");
+    }
+
+    endBossMusic() {
+        // this.notifySound.fade(0.0, 0.3, 1000);
+        console.log("ending boss music");
+        ASSET_MANAGER.getAsset("../snd/boss_battle.wav").fade(0.0, 0.3, 1000);
     }
 }
