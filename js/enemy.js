@@ -18,6 +18,7 @@ class Enemy extends Entity {
         this.attackCooldown = coolDown;
         this.cooldownCounter = this.attackCooldown;
         this.health = health;
+        this.startingHealth = this.health;
         this.frozen = false;
         this.reloading = false;
         this.width = frameWidth;
@@ -335,7 +336,7 @@ class Enemy extends Entity {
                 this.walking(ctx);
             }
 
-            if (this.frozen) {
+            if (this.frozen && !(this instanceof SpookieBoi) && !(this instanceof MiniSpook)) {
                 Entity.bluealizeImage(ctx, this.x + (this.width / 2), this.y, this.width, this.height);
             }
         }

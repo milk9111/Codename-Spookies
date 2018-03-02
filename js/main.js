@@ -377,6 +377,7 @@ ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, volume:0.1, loop
 ASSET_MANAGER.queueDownload("../snd/player_death_scream.mp3", {sound:true, loop:false});
 ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
 ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.1, loop:false});
+ASSET_MANAGER.queueDownload("../snd/boss_battle.wav", {sound:true, volume: 0.5, loop:true});
 ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
 ASSET_MANAGER.queueDownload("../snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
 ASSET_MANAGER.queueDownload("../snd/whispers.wav", {sound:true, volume: 0.1});
@@ -402,7 +403,8 @@ ASSET_MANAGER.downloadAll(function() {
   //start facing downwards.
   facingDirection = "down";
   gameEngine = new GameEngine();
-  gameEngine.drawing = false;
+    drawOutlines();
+  //gameEngine.drawing = false;
   gameEngine.init(ctx);
   gameEngine.loadTitleScreen(ctx);
   gameEngine.start();

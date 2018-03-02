@@ -53,7 +53,7 @@ class Entity {
 
     update () {
         //update bounds position
-        if (this.collisionBounds !== null) {
+        if (this.collisionBounds != null) {
             this.collisionBounds.x = this.x + this.boundsXOffset;
             this.collisionBounds.y = this.y + this.boundsYOffset;
         }
@@ -110,7 +110,7 @@ class Entity {
     }
 
     draw (ctx) {
-        if (this.collisionBounds !== null && this.game.showOutlines) {
+        if (this.collisionBounds != null && this.game.showOutlines) {
 
             this.game.ctx.save();
             this.game.ctx.beginPath();
@@ -227,17 +227,34 @@ class Entity {
         }
     }
 
+    drawRotated(context, image, degrees, spriteX, spriteY, spriteW, spriteH, gameX, gameY, gameW, gameH){
+        //context.clearRect(0,0,canvas.width,canvas.height);
 
+        // save the unrotated context of the canvas so we can restore it later
+        // the alternative is to untranslate & unrotate after drawing
+        context.save();
 
+        // move to the center of the canvas
+        context.translate(this.game.surfaceWidth/2,this.game.surfaceHeight/2);
 
-
+        // rotate the canvas to the specified degrees
+        //context.rotate(degrees*Math.PI/180);
+        context.scale(-1, 1);
+        // draw the image
+        // since the context is rotated, the image will be rotated also
+        context.drawImage(image, spriteX, spriteY, spriteW, spriteH, gameX, gameY, gameW, gameH);
+        //context.scale(-1, 1);
+        //console.log("is rotating");
+        // we’re done with the rotating so restore the unrotated context
+        context.restore();
+    }
 
     rotateAndCache  (image, angle) {
-        var offscreenCanvas = document.createElement('canvas');
-        var size = Math.max(image.width, image.height);
+        let offscreenCanvas = document.createElement('canvas');
+        let size = Math.max(image.width, image.height);
         offscreenCanvas.width = size;
         offscreenCanvas.height = size;
-        var offscreenCtx = offscreenCanvas.getContext('2d');
+        let offscreenCtx = offscreenCanvas.getContext('2d');
         offscreenCtx.save();
         offscreenCtx.translate(size / 2, size / 2);
         offscreenCtx.rotate(angle);

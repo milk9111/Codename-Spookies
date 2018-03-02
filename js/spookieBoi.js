@@ -13,11 +13,28 @@ class SpookieBoi extends Enemy {
 
         this.stoppingDistance = 200;
         this.shooting = false;
+
+        this.damage = 10;
         
         this.adjustedX = this.x + this.boundsXOffset;
         this.adjustedY = this.y + this.boundsYOffset;
 
         this.firstTarget = true;
+
+        this.currentProjectile = null;
+
+        this.rangeCoolDownTimer = 0;
+        this.rangeCoolDownMax = 50;
+
+        this.newWaveStarted = false;
+        this.healthAtNextWave = (this.health / 4) * 3;
+        this.healthAtLastWave = 0;
+
+        this.background = null;
+
+        this.soundPath = "../snd/boss_battle.wav";
+        this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
+        this.notifySoundId = null;
 
         this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
         this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 8, 0, 256, 256, 0.2, 2, true, false);
@@ -37,10 +54,10 @@ class SpookieBoi extends Enemy {
         this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 2, 256, 256, 0.1, 7, true, false);
         this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 9, 256 * 2, 256, 256, 0.1, 7, true, false);
 
-        this.rangeAttackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 7, 256, 256, 0.1, 10, false, false);
-        this.rangeAttackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 8, 256, 256, 0.1, 7, false, false);
-        this.rangeAttackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 6, 256, 256, 0.1, 12, false, false);
-        this.rangeAttackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 0, 256 * 5, 256, 256, 0.1, 12, false, false);
+        this.rangeAttackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 7, 256, 256, 0.05, 10, false, false);
+        this.rangeAttackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 8, 256, 256, 0.05, 7, false, false);
+        this.rangeAttackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 6, 256, 256, 0.05, 12, false, false);
+        this.rangeAttackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 0, 256 * 5, 256, 256, 0.05, 12, false, false);
 
         this.spellAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 3, true, false);
         this.spellAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 64, 64, 64, 0.2, 3, true, false);
@@ -59,6 +76,17 @@ class SpookieBoi extends Enemy {
         if (this.dead && (this.deathAnimationDown.isDone() || this.deathAnimationUp.isDone())) {
             this.game.bossHealthBar.removal = true;
             this.removeFromWorld = true;
+            this.killChildren();
+            let exit = new Exit((this.x + this.boundsXOffset) + this.width / 2, (this.y + this.boundsYOffset) + this.height / 2, this.player, this.game, this.background, 5);
+            this.game.addEntity(exit);
+            this.game.endBossMusic();
+            return;
+        }
+
+        if (this.health !== this.healthAtLastWave && this.health <= this.healthAtNextWave) {
+            this.game.spawnWave();
+            this.healthAtLastWave = this.health;
+            this.healthAtNextWave -= (this.health / 4);
         }
 
         if (this.shooting && (this.rangeAttackAnimationDown.isDone() || this.rangeAttackAnimationUp.isDone() || this.rangeAttackAnimationLeft.isDone()
@@ -74,10 +102,11 @@ class SpookieBoi extends Enemy {
         }
 
         //If not dead the enemy can move or change state as needed
-        if(!this.dead && !this.frozen) {
+        if(!this.dead) {
             let lastX = this.x + this.boundsXOffset;
             let lastY = this.y + this.boundsYOffset;
             let xDir = 0;
+
             let yDir = 0;
 
             let playerInRange = this.isPlayerInRange();
@@ -87,8 +116,8 @@ class SpookieBoi extends Enemy {
             if (playerInMeleeRange && !this.isSmacked) {
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
-                    this.game.addEntity(this.game.bossHealthBar);
                     this.firstTarget = false;
+                    this.game.playBossMusic();
                 }
 
                 // not close enough to attack.
@@ -104,21 +133,14 @@ class SpookieBoi extends Enemy {
                     this.targetAndMelee(lastX, lastY);
                 }
             } else if (playerInRange && !this.isSmacked) {
-                console.log("in shooting range");
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
-                    this.game.addEntity(this.game.bossHealthBar);
                     this.firstTarget = false;
-                }
-                if (this.notifySoundId === null) {
-                    this.notifySoundId = ASSET_MANAGER.playSound(this.soundPath);
-                    // this.notifySound.fade(0.0, 0.3, 1000);
-                } else {
-                    ASSET_MANAGER.playSound(this.soundPath);
+                    this.game.playBossMusic();
                 }
 
                 // not close enough to attack.
-                if (/*!this.reloading && */Math.getDistance(this.player.x + 32, this.player.y + 32, (this.x + this.boundsXOffset) + (this.width / 2),
+                if (!this.reloading && Math.getDistance(this.player.x + 32, this.player.y + 32, (this.x + this.boundsXOffset) + (this.width / 2),
                         (this.y + this.boundsYOffset) + (this.height / 2)) > this.stoppingDistance) {
                     //prevent melee enemies from moving too early after attacking
                     if(this.cooldownCounter >= this.attackCooldown) {
@@ -126,7 +148,7 @@ class SpookieBoi extends Enemy {
                     } else {
                         this.cooldownCounter++;
                     }
-                } else {
+                } else if (!this.shooting) {
                     this.targetAndShoot(lastX, lastY);
                 }
             } else {
@@ -160,6 +182,15 @@ class SpookieBoi extends Enemy {
             this.shoot(ctx);
         } else {
             super.draw(ctx);
+        }
+    }
+
+    killChildren () {
+        for (let enemy of this.game.enemies) {
+            if (enemy instanceof MiniSpook) {
+                enemy.health = 0;
+                enemy.dead = true;
+            }
         }
     }
 
@@ -260,9 +291,8 @@ class SpookieBoi extends Enemy {
     }
 
     targetAndShoot() {
-        console.log("in targetAndShoot");
         this.standingStill = true;
-        this.shooting = true;
+        //this.shooting = true;
         this.cooldownCounter++;
         let canHit = false;
         if ((this.y + this.boundsYOffset) > this.player.y - 36 && (this.y + this.boundsYOffset) < this.player.y + 36) {
@@ -272,7 +302,7 @@ class SpookieBoi extends Enemy {
             } else {
                 this.facingDirection = "left";
             }
-        } else if ((this.x + this.boundsXOffset) >= this.player.x - 16 && (this.x + this.boundsXOffset) <= this.player.x + 20) {
+        } else if ((this.x + this.boundsXOffset) + 60 >= this.player.x && (this.x + this.boundsXOffset) <= this.player.x + 30) {
             canHit = true;
             if (this.player.y > (this.y + this.boundsYOffset)) {
                 this.facingDirection = "down";
@@ -281,17 +311,17 @@ class SpookieBoi extends Enemy {
             }
         }
 
-        if (canHit) {
+        if (canHit && (this.rangeCoolDownTimer >= this.rangeCoolDownMax)) {
+            this.rangeCoolDownTimer = 0;
             this.standingStill = true;
             this.shooting = true;
-
-            //If there is no spell fired by this enemy in existence it can shoot.
-            /*if (this.cooldownCounter >= this.attackCooldown) {
-                this.cooldownCounter = 0;
-                this.createSpell();
-            }*/
+        } else {
+            this.rangeCoolDownTimer+=1;
+            this.standingStill = true;
+            this.shooting = false;
         }
     }
+
 
     /**
      * Creates a new spell projectile.
@@ -304,23 +334,26 @@ class SpookieBoi extends Enemy {
         switch (this.facingDirection) {
 
             case "down":
+                spellX = (this.x + this.boundsXOffset) + 16;
+                spellY = (this.y + this.boundsYOffset) + 80;
                 currentSpellAnimation = this.spellAnimationDown;
                 facingNum = 2;
                 break;
             case "up":
-                spellY = (this.y + this.boundsYOffset) - 32;
+                spellX = (this.x + this.boundsXOffset) + 16;
+                spellY = (this.y + this.boundsYOffset) - 50;
                 currentSpellAnimation = this.spellAnimationUp;
                 facingNum = 1;
                 break;
             case "left":
-                spellX = (this.x + this.boundsXOffset) - 5;
-                spellY = (this.y + this.boundsYOffset) - 2;
+                spellX = (this.x + this.boundsXOffset) - 40;
+                spellY = (this.y + this.boundsYOffset) + 36;
                 currentSpellAnimation = this.spellAnimationLeft;
                 facingNum = 3;
                 break;
             case "right":
-                spellX = (this.x + this.boundsXOffset) + 5;
-                spellY = (this.y + this.boundsYOffset) - 2;
+                spellX = (this.x + this.boundsXOffset) + 70;
+                spellY = (this.y + this.boundsYOffset) + 36;
                 currentSpellAnimation = this.spellAnimationRight;
                 facingNum = 4;
                 break;
@@ -337,32 +370,28 @@ class SpookieBoi extends Enemy {
         let attackBoxHeight;
         switch(this.facingDirection) { // 96, 74, 80, 80
             case "up":
-                console.log("Attacking up");
-                attackBoxX = (this.x + this.boundsXOffset) + 48;
-                attackBoxY = (this.y + this.boundsYOffset);
-                attackBoxWidth = 50;
-                attackBoxHeight = 20;
+                attackBoxX = (this.x + this.boundsXOffset) - 10;
+                attackBoxY = (this.y + this.boundsYOffset) - 10;
+                attackBoxWidth = 120;
+                attackBoxHeight = 120;
                 break;
             case "down":
-                console.log("Attacking down");
-                attackBoxX = (this.x + this.boundsXOffset) + 48;
-                attackBoxY = (this.y + this.boundsYOffset) + 74;
-                attackBoxWidth = 50;
-                attackBoxHeight = 20;
+                attackBoxX = (this.x + this.boundsXOffset) - 10;
+                attackBoxY = (this.y + this.boundsYOffset) - 10;
+                attackBoxWidth = 120;
+                attackBoxHeight = 120;
                 break;
             case "right":
-                console.log("Attacking right");
-                attackBoxX = (this.x + this.boundsXOffset) + 96;
-                attackBoxY = (this.y + this.boundsYOffset) + 37;
-                attackBoxWidth = 20;
-                attackBoxHeight = 50;
+                attackBoxX = (this.x + this.boundsXOffset) - 10;
+                attackBoxY = (this.y + this.boundsYOffset) - 10;
+                attackBoxWidth = 120;
+                attackBoxHeight = 120;
                 break;
             case "left":
-                console.log("Attacking left");
-                attackBoxX = (this.x + this.boundsXOffset) - 40;
-                attackBoxY = (this.y + this.boundsYOffset) + 18.5;
-                attackBoxWidth = 20;
-                attackBoxHeight = 50;
+                attackBoxX = (this.x + this.boundsXOffset) - 10;
+                attackBoxY = (this.y + this.boundsYOffset) - 10;
+                attackBoxWidth = 120;
+                attackBoxHeight = 120;
                 break;
         }
         gameEngine.addEntity(new AttackBox(this.game,this.player,attackBoxWidth,attackBoxHeight,attackBoxX, attackBoxY, this.damage, this.facingDirection));
