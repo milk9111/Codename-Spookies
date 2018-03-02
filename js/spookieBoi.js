@@ -9,7 +9,6 @@ class SpookieBoi extends Enemy {
 
         this.game = game;
         this.bossMusic = "../snd/boss_battle.wav";
-        ASSET_MANAGER.playSound(this.bossMusic);
         this.meleeRange = this.range / 4;
 
         this.stoppingDistance = 200;
@@ -133,6 +132,7 @@ class SpookieBoi extends Enemy {
                     this.targetAndMelee(lastX, lastY);
                 }
             } else if (playerInRange && !this.isSmacked) {
+                ASSET_MANAGER.playSound(this.bossMusic);
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
                     this.firstTarget = false;

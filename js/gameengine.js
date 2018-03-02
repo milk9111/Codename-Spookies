@@ -428,6 +428,11 @@ class GameEngine {
             deathMenu.removal = true;
             that.newLevel(that.level);
         };
+        let soundIds = ASSET_MANAGER.soundIds;
+        for(let id in soundIds) {
+            console.log("Sounds");
+            Howler.mute(true, soundIds[id]);
+        }
 
         deathMenu.addElement(restartButton);
 
