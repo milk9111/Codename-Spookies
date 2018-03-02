@@ -10,7 +10,8 @@ class GraveWraith extends Enemy {
         super(gameEngine, player, x, y, speed, range, coolDown, 32, 64, 16, 0);
         this.stoppingDistance = 100;
         this.spottedCounter = 0;
-        this.maxTimeSpotted = 250;
+        this.maxTimeSpotted = 175;
+        this.reverseDirections = this.buildReverseDirections();
         //need to replace
         this.soundPath = "../snd/whispers.wav";
         this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
@@ -53,10 +54,16 @@ class GraveWraith extends Enemy {
         this.deathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Grave_Wraith_SpriteSheet.png"), 0, 640, 64, 64, 0.2, 6, false, false);
     }
 
+    //Causes the Grave Wraith to turn to face the player when it is frozen due to being in the players line of sight
+    //Also causes the Grave Wraith to teleport behind the player if it has been looked at for too long.
     canBeSeen() {
+        //Face the player
+        if(this.facingDirection != this.reverseDirections[facingDirection]) {
+            this.facingDirection = this.reverseDirections[facingDirection];
+        }
+        //Increment spottedCounter and move if the GraveWraith has been looked at for too long.
         this.spottedCounter++;
         if(this.spottedCounter >= this.maxTimeSpotted) {
-            console.log("time to teleport");
             switch(facingDirection) {
                 case "up":
                     this.y = this.player.y + (this.player.y - this.y);
@@ -75,6 +82,10 @@ class GraveWraith extends Enemy {
             this.cooldownCounter = this.attackCooldown;
         }
     }
+
+    /*
+    *Returns true if the Grave Wraith is in front of the player, false otherwise.
+     */
     playerCanSee() {
         let canSee = false;
 
@@ -96,7 +107,7 @@ class GraveWraith extends Enemy {
         return canSee;
     }
     /**
-     *
+     * Overrides the moveToPlayer function to allow checking for being in the player's line of sight.
      */
     moveToPlayer(lastX,lastY) {
 
@@ -110,7 +121,8 @@ class GraveWraith extends Enemy {
     }
 
     /**
-     * Causes the grave wraith to shoot projectiles at the player and move so that it's projectiles can hit if necessary.
+     * If the Grave Wraith is not in the players line of sight, causes the grave wraith to shoot projectiles
+     * at the player and move so that it's projectiles can hit if necessary.
      * Creates a new projectile in the game world.
      */
     targetAndAttack() {

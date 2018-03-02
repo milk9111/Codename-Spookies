@@ -64,24 +64,24 @@ class Screamer extends Enemy {
                 attackBoxX = this.x + 7;
                 attackBoxY = this.y - 20;
                 attackBoxWidth = 50;
-                attackBoxHeight = 20;
+                attackBoxHeight = 60;
                 break;
             case "down":
                 attackBoxX = this.x + 7;
-                attackBoxY = this.y + 52;
+                attackBoxY = this.y + 12;
                 attackBoxWidth = 50;
-                attackBoxHeight = 20;
+                attackBoxHeight = 60;
                 break;
             case "right":
-                attackBoxX = this.x + 58;
+                attackBoxX = this.x + 18;
                 attackBoxY = this.y + 7;
-                attackBoxWidth = 20;
+                attackBoxWidth = 60;
                 attackBoxHeight = 50;
                 break;
             case "left":
                 attackBoxX = this.x - 16;
                 attackBoxY = this.y + 7;
-                attackBoxWidth = 20;
+                attackBoxWidth = 60;
                 attackBoxHeight = 50;
                 break;
         }
