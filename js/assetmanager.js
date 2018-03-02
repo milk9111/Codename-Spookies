@@ -75,6 +75,8 @@ class AssetManager {
 
     playSound(path) {
         let shouldPlay = false;
+        console.log("Requesting Play Sound: " + path);
+        console.trace();
         if(this.soundIds[path]) {
             //We'll only play the sound if it isn't already playing
             shouldPlay = !this.cache[path].playing(this.soundIds[path]);
@@ -82,14 +84,13 @@ class AssetManager {
             //We've never played the sound before, so lets play.
             shouldPlay = true;
         }
-        if(shouldPlay && this.cache[path] && this.cache[path]) {
-            //this.cache[path].mute(false, this.soundIds[path]);
+        if(shouldPlay && this.cache[path]) {
             this.soundIds[path] = this.cache[path].play();
             this.cache[path].mute(false, this.soundIds[path]);
         }
-        if(this.soundDisabled) {
-            Howler.mute(true, this.soundIds[path]);
-        }
+
+        Howler.mute(this.soundDisabled, this.soundIds[path]);
+
         return this.soundIds[path];
     }
 
@@ -97,6 +98,7 @@ class AssetManager {
         if(this.soundIds[path] && this.cache[path].playing(this.soundIds[path])) {
             this.cache[path].mute(true, this.soundIds[path]);
         }
+        console.log("Stopping sound: " + path);
     }
 
     toggleSound() {
