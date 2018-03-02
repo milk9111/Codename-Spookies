@@ -8,7 +8,7 @@ class SpookieBoi extends Enemy {
         super(game, player, x, y, speed, range, coolDown, 96, 74, 80, 80, 200);
 
         this.game = game;
-
+        this.bossMusic = "../snd/boss_battle.wav";
         this.meleeRange = this.range / 4;
 
         this.stoppingDistance = 200;
@@ -79,7 +79,7 @@ class SpookieBoi extends Enemy {
             this.killChildren();
             let exit = new Exit((this.x + this.boundsXOffset) + this.width / 2, (this.y + this.boundsYOffset) + this.height / 2, this.player, this.game, this.background, 5);
             this.game.addEntity(exit);
-            this.game.endBossMusic();
+            ASSET_MANAGER.stopSound(this.bossMusic);
             return;
         }
 
@@ -117,7 +117,6 @@ class SpookieBoi extends Enemy {
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
                     this.firstTarget = false;
-                    this.game.playBossMusic();
                 }
 
                 // not close enough to attack.
@@ -133,10 +132,10 @@ class SpookieBoi extends Enemy {
                     this.targetAndMelee(lastX, lastY);
                 }
             } else if (playerInRange && !this.isSmacked) {
+                ASSET_MANAGER.playSound(this.bossMusic);
                 if (this.firstTarget) {
                     this.game.bossHealthBar = new BossHealthBar(this.game, this, this.game.surfaceWidth / 8, this.game.surfaceHeight - 70);
                     this.firstTarget = false;
-                    this.game.playBossMusic();
                 }
 
                 // not close enough to attack.

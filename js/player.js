@@ -131,6 +131,8 @@ class Player extends Entity {
     update() {
         if (this.health <= 0) {
             this.game.addEntity(this.game.makeDeathMenu());
+
+
             return;
         }
 
