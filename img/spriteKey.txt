@@ -69,3 +69,4 @@ y = Brown Wall 4
 p = Plague Doctor
 9 = Screamer
 $ = Ball of Flesh
+& = Crypt Worm
