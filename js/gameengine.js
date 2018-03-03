@@ -812,7 +812,7 @@ class GameEngine {
         switch(levelNum) {
             case 1:
                 this.level = 1;
-                this.loadBossMap(this.ctx);
+                this.loadMap1(this.ctx);
                 break;
             case 2:
                 this.level = 2;
@@ -1001,6 +1001,9 @@ class GameEngine {
               this.addEntity(temp);
           }  else if (objectMap.map2D[i][j] instanceof BallOfFlesh) {
               let temp = new BallOfFlesh(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
+              this.addEntity(temp);
+          }  else if (objectMap.map2D[i][j] instanceof SpookieBoi) {
+              let temp = new GraveWraith(this, player, objectMap.map2D[i][j].x, objectMap.map2D[i][j].y);
               this.addEntity(temp);
           }
         }
