@@ -1124,7 +1124,7 @@ class GameEngine {
         let bg = new Background(this);
         darkness = new Darkness(this, player);
         drawDarkness();
-        //darkness.drawing = false;
+        darkness.drawing = true;
         let boss = null;
 
         //ADD ENTITIES

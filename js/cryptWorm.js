@@ -48,9 +48,9 @@ class CryptWorm extends Enemy {
         this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 512, 64, 64, 0.15, 8, true, false);
         this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 640, 64, 64, 0.15, 8, true, false);
 
-        this.emergeAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 7, false, false);
+        this.emergeAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 128, 64, 64, 0.1, 7, false, false);
         this.retractAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1152, 64, 64, 0.2, 7, false, false);
-        this.emergeAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 0, 64, 64, 0.2, 7, false, false);
+        this.emergeAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 0, 64, 64, 0.1, 7, false, false);
         this.retractAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1024, 64, 64, 0.2, 7, false, false);
 
         this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 896, 64, 64, 0.2, 7, false, false);
