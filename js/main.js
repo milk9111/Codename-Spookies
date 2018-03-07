@@ -228,8 +228,8 @@ class Darkness extends Entity {
       //This is controls the size of the darkness tied to the player health
       let offSet = map(fakeHealth, 100, 0, 85, 800);
 
-      this.x = -(this.game.surfaceWidth) + playerStartX + offSet;
-      this.y = -(this.game.surfaceHeight) + playerStartY + offSet;
+      this.x = -(this.game.surfaceWidth) + this.player.x + offSet;
+      this.y = -(this.game.surfaceHeight) + this.player.y + offSet;
 
       if (!this.isExpanding) {
           let tempWandH = map(fakeHealth, 0, 100, 0, 1500);
