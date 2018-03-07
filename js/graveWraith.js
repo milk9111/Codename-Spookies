@@ -13,8 +13,8 @@ class GraveWraith extends Enemy {
         this.maxTimeSpotted = 175;
         this.reverseDirections = this.buildReverseDirections();
         //need to replace
-        this.soundPath = "../snd/whispers.wav";
-        this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
+        this.soundPath = "../snd/graveWraith.wav";
+        this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
         this.createAnimations();
         this.currentProjectile = null;
     };
@@ -58,7 +58,7 @@ class GraveWraith extends Enemy {
     //Also causes the Grave Wraith to teleport behind the player if it has been looked at for too long.
     canBeSeen() {
         //Face the player
-        if(this.facingDirection != this.reverseDirections[facingDirection]) {
+        if(this.facingDirection !== this.reverseDirections[facingDirection]) {
             this.facingDirection = this.reverseDirections[facingDirection];
         }
         //Increment spottedCounter and move if the GraveWraith has been looked at for too long.
@@ -112,6 +112,7 @@ class GraveWraith extends Enemy {
     moveToPlayer(lastX,lastY) {
 
         if(this.playerCanSee()) {
+            ASSET_MANAGER.playSound(this.soundPath);
             this.standingStill = true;
             this.attacking = false;
             this.canBeSeen();
