@@ -151,7 +151,7 @@ class Background extends Entity
 
     draw (ctx) {
         let tile_background = new Image();
-        tile_background.src = "../img/Tileable3f.png";
+        tile_background.src = "img/Tileable3f.png";
         tile_background.onload = function(){
             let pattern = ctx.createPattern(tile_background, "repeat");
             ctx.fillStyle = pattern;
@@ -190,7 +190,7 @@ class Darkness extends Entity  {
 
     draw (ctx) {
         if (this.isDrawing) {
-            ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
+            ctx.drawImage(ASSET_MANAGER.getAsset("img/light2.png"), this.x - this.newVal / 2, this.y - this.newVal / 2, this.width + this.newVal, this.height + this.newVal);
             Entity.prototype.draw.call(this);
         }
     }
@@ -217,26 +217,26 @@ let facingDirection;
 let ASSET_MANAGER = new AssetManager();
 //We will want to switch to this for a dynamic background, for now it is being
 //repeated onto the canvas through style.css
-//ASSET_MANAGER.queueDownload("../img/Tileable3f.png");
-//ASSET_MANAGER.queueDownload("../img/Player_Box.png");
-ASSET_MANAGER.queueDownload("../img/blackness.png");
-ASSET_MANAGER.queueDownload("../img/blackOutline.png");
-ASSET_MANAGER.queueDownload("../img/sprites.png");
-ASSET_MANAGER.queueDownload("../img/light2.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/codename-spookies_title_white.png");
-ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
-ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
-ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
-ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
-ASSET_MANAGER.queueDownload("../snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
-ASSET_MANAGER.queueDownload("../snd/whispers.wav", {sound:true, volume: 0.0});
-ASSET_MANAGER.queueDownload("../snd/footstep1.wav", {sound:true, volume: 0.06, rate: 2});
-ASSET_MANAGER.queueDownload("../snd/charging_spell.flac", {sound:true, volume: 0.06, rate: 2, loop:true});
+//ASSET_MANAGER.queueDownload("img/Tileable3f.png");
+//ASSET_MANAGER.queueDownload("img/Player_Box.png");
+ASSET_MANAGER.queueDownload("img/blackness.png");
+ASSET_MANAGER.queueDownload("img/blackOutline.png");
+ASSET_MANAGER.queueDownload("img/sprites.png");
+ASSET_MANAGER.queueDownload("img/light2.png");
+ASSET_MANAGER.queueDownload("img/Hooded_Figure_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Fireball_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/PlagueDoctor_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/PD_Spell_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Spider_Monster_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/codename-spookies_title_white.png");
+ASSET_MANAGER.queueDownload("snd/heartbeat.mp3", {sound:true});
+ASSET_MANAGER.queueDownload("snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
+ASSET_MANAGER.queueDownload("snd/woman_scream.wav", {sound:true, volume: 0.5, loop:false});
+ASSET_MANAGER.queueDownload("snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
+ASSET_MANAGER.queueDownload("snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
+ASSET_MANAGER.queueDownload("snd/whispers.wav", {sound:true, volume: 0.0});
+ASSET_MANAGER.queueDownload("snd/footstep1.wav", {sound:true, volume: 0.06, rate: 2});
+ASSET_MANAGER.queueDownload("snd/charging_spell.flac", {sound:true, volume: 0.06, rate: 2, loop:true});
 
 ASSET_MANAGER.downloadAll(function() {
 

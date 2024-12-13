@@ -8,7 +8,7 @@ class SpookieBoi extends Enemy {
         super(game, player, x, y, speed, range, coolDown, 96, 74, 80, 80, 200);
 
         this.game = game;
-        this.bossMusic = "../snd/boss_battle.wav";
+        this.bossMusic = "snd/boss_battle.wav";
         this.meleeRange = this.range / 4;
 
         this.stoppingDistance = 200;
@@ -32,40 +32,40 @@ class SpookieBoi extends Enemy {
 
         this.background = null;
 
-        this.soundPath = "../snd/boss_battle.wav";
+        this.soundPath = "snd/boss_battle.wav";
         this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
         this.notifySoundId = null;
 
-        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
-        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 8, 0, 256, 256, 0.2, 2, true, false);
-        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 0, 256, 256, 0.2, 3, true, false);
-        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 0, 0, 256, 256, 0.2, 3, true, false);
+        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 0, 256, 256, 0.2, 2, true, false);
+        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 8, 0, 256, 256, 0.2, 2, true, false);
+        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 0, 256, 256, 0.2, 3, true, false);
+        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 0, 0, 256, 256, 0.2, 3, true, false);
 
-        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 9, 256, 256, 256, 0.2, 3, true, false);
-        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256, 256, 256, 0.2, 3, true, false);
-        this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256, 256, 256, 0.2, 3, true, false);
-        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 0, 256, 256, 256, 0.2, 3, true, false);
-        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 0, 256, 256, 256, 0.2, 3, true, false);
-        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 256, 256, 256, 0.2, 3, true, false);
-        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 9, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 0, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 0, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 256, 256, 256, 0.2, 3, true, false);
+        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 256, 256, 256, 0.2, 3, true, false);
 
-        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256 * 3, 256, 256, 0.1, 7, true, false);
-        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 256 * 4, 256, 256, 0.1, 7, true, false);
-        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 2, 256, 256, 0.1, 7, true, false);
-        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 9, 256 * 2, 256, 256, 0.1, 7, true, false);
+        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256 * 3, 256, 256, 0.1, 7, true, false);
+        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 3, 256 * 4, 256, 256, 0.1, 7, true, false);
+        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 2, 256, 256, 0.1, 7, true, false);
+        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 9, 256 * 2, 256, 256, 0.1, 7, true, false);
 
-        this.rangeAttackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 7, 256, 256, 0.05, 10, false, false);
-        this.rangeAttackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 8, 256, 256, 0.05, 7, false, false);
-        this.rangeAttackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 6, 256, 256, 0.05, 12, false, false);
-        this.rangeAttackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 0, 256 * 5, 256, 256, 0.05, 12, false, false);
+        this.rangeAttackAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 7, 256, 256, 0.05, 10, false, false);
+        this.rangeAttackAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 4, 256 * 8, 256, 256, 0.05, 7, false, false);
+        this.rangeAttackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 2, 256 * 6, 256, 256, 0.05, 12, false, false);
+        this.rangeAttackAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 0, 256 * 5, 256, 256, 0.05, 12, false, false);
 
-        this.spellAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 3, true, false);
-        this.spellAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 64, 64, 64, 0.2, 3, true, false);
-        this.spellAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 0, 64, 64, 0.2, 3, true, false);
-        this.spellAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/PD_Spell_SpriteSheet.png"), 0, 192, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/PD_Spell_SpriteSheet.png"), 0, 128, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/PD_Spell_SpriteSheet.png"), 0, 64, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/PD_Spell_SpriteSheet.png"), 0, 0, 64, 64, 0.2, 3, true, false);
+        this.spellAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/PD_Spell_SpriteSheet.png"), 0, 192, 64, 64, 0.2, 3, true, false);
 
-        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256, 256 * 9, 256, 256, 0.2, 5, false, false);
-        this.deathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256 * 9, 256, 256, 0.2, 5, false, false);
+        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256, 256 * 9, 256, 256, 0.2, 5, false, false);
+        this.deathAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Spookie_Boi_SpriteSheet.png"), 256 * 6, 256 * 9, 256, 256, 0.2, 5, false, false);
     }
 
 

@@ -10,7 +10,7 @@ class TitleScreen extends UIElement {
         let that = this;
         this.startButton;
         this.startButton = new ImageButton(game, 0, 0,
-            150, 50, "../img/start.png", "../img/start_hover.png");
+            150, 50, "img/start.png", "img/start_hover.png");
 
         this.startButton.x = UIElement.getCenterX(this.width, this.startButton.width, this.x);
         this.startButton.y = UIElement.getQuarterY(this.height, this.startButton.height, this.y) * 3;

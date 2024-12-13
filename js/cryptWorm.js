@@ -19,8 +19,8 @@ class CryptWorm extends Enemy {
         this.health = 200;
         this.emerging = false;
         //using same as plague doctor for now
-        this.soundPath = "../snd/whispers.wav";
-        this.notifySound = ASSET_MANAGER.getAsset("../snd/whispers.wav");
+        this.soundPath = "snd/whispers.wav";
+        this.notifySound = ASSET_MANAGER.getAsset("snd/whispers.wav");
         this.createAnimations();
     };
 
@@ -30,31 +30,31 @@ class CryptWorm extends Enemy {
     createAnimations() {
 
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
-        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
-        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
-        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
+        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
+        this.idleAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
+        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
+        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.5, 1, true, false);
 
-        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
-        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
-        this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
-        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
-        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
-        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
-        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationDownAgro = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationLeftAgro = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
+        this.walkAnimationRightAgro = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1280, 64, 64, 0.175, 3, true, false);
 
-        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 384, 64, 64, 0.15, 8, true, false);
-        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 256, 64, 64, 0.15, 6, true, false);
-        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 512, 64, 64, 0.15, 8, true, false);
-        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 640, 64, 64, 0.15, 8, true, false);
+        this.attackAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 384, 64, 64, 0.15, 8, true, false);
+        this.attackAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 256, 64, 64, 0.15, 6, true, false);
+        this.attackAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 512, 64, 64, 0.15, 8, true, false);
+        this.attackAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 640, 64, 64, 0.15, 8, true, false);
 
-        this.emergeAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 128, 64, 64, 0.1, 7, false, false);
-        this.retractAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1152, 64, 64, 0.2, 7, false, false);
-        this.emergeAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 0, 64, 64, 0.1, 7, false, false);
-        this.retractAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 1024, 64, 64, 0.2, 7, false, false);
+        this.emergeAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 128, 64, 64, 0.1, 7, false, false);
+        this.retractAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1152, 64, 64, 0.2, 7, false, false);
+        this.emergeAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 0, 64, 64, 0.1, 7, false, false);
+        this.retractAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 1024, 64, 64, 0.2, 7, false, false);
 
-        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 896, 64, 64, 0.2, 7, false, false);
-        this.deathAnimationUp = new Animation(ASSET_MANAGER.getAsset("../img/Crypt_Worm_SpriteSheet.png"), 0, 768, 64, 64, 0.2, 7, false, false);
+        this.deathAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 896, 64, 64, 0.2, 7, false, false);
+        this.deathAnimationUp = new Animation(ASSET_MANAGER.getAsset("img/Crypt_Worm_SpriteSheet.png"), 0, 768, 64, 64, 0.2, 7, false, false);
     };
 
     /*

@@ -33,7 +33,7 @@ class Enemy extends Entity {
         this.dead = false;
         //These variables will need to be changed by the children, defaulting to the plague doctor sounds.
         //We may also want to have variables for the specific values taken by the fade method if necessary.
-        this.soundPath = "../snd/whispers.wav";
+        this.soundPath = "snd/whispers.wav";
         this.notifySound = ASSET_MANAGER.getAsset(this.soundPath);
         this.notifySoundId = null;
 

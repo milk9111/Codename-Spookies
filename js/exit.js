@@ -17,7 +17,7 @@ class Exit extends Entity {
     this.background = background;
 
     //Animation for portal
-    this.exitAnimation = new Animation(ASSET_MANAGER.getAsset("../img/sprites.png"), 864, 448, 32, 32, .2, 3, true, false);
+    this.exitAnimation = new Animation(ASSET_MANAGER.getAsset("img/sprites.png"), 864, 448, 32, 32, .2, 3, true, false);
   }
 
   /** Updates the Exit position, just checks if player is exiting game. **/

@@ -22,47 +22,47 @@ class Player extends Entity {
         this.stopMoving = false;
 
         //spriteSheet, startX, startY, frameWidth, frameHeight, frameDuration, frames, loop, reverse
-        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
-        this.idleAnimationDownward = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
-        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 0, 64, 64, 0.3, 2, true, false);
-        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
+        this.idleAnimationDown = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 128, 0, 64, 64, 0.3, 2, true, false);
+        this.idleAnimationDownward = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 0, 64, 64, 0.3, 2, true, false);
+        this.idleAnimationLeft = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 256, 0, 64, 64, 0.3, 2, true, false);
+        this.idleAnimationRight = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 64, 64, 64, 0.3, 2, true, false);
 
-        this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, true, false);
-        this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, true, false);
-        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.15,  2, true, false);
-        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.15,  2, true, false);
+        this.walkRightAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 256, 128, 64, 64, 0.15,  4, true, false);
+        this.walkLeftAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 128, 64, 64, 0.15,  4, true, false);
+        this.walkForwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 256, 64, 64, 64, 0.15,  2, true, false);
+        this.walkDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 128, 64, 64, 64, 0.15,  2, true, false);
 
-        this.swingDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
-        this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 192, 64, 64, 0.1,  3, false, false);
-        this.swingLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 320, 256, 64, 64, 0.1,  3, false, false);
-        this.swingRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 256, 64, 64, 0.1,  3, false, false);
+        this.swingDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 128, 192, 64, 64, 0.1,  3, false, false);
+        this.swingForwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 320, 192, 64, 64, 0.1,  3, false, false);
+        this.swingLeftAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 320, 256, 64, 64, 0.1,  3, false, false);
+        this.swingRightAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 128, 256, 64, 64, 0.1,  3, false, false);
 
-        this.castSpellDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 384, 64, 64, 0.1,  5, true, false);
-        this.castSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 448, 64, 64, 0.1,  5, true, false);
-        this.castSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 512, 64, 64, 0.1,  5, true, false);
-        this.castSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 576, 64, 64, 0.1,  5, true, false);
+        this.castSpellDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 384, 64, 64, 0.1,  5, true, false);
+        this.castSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 448, 64, 64, 0.1,  5, true, false);
+        this.castSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 512, 64, 64, 0.1,  5, true, false);
+        this.castSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 576, 64, 64, 0.1,  5, true, false);
 
-        this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, true, false);
-        this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, true, false);
-        this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, true, false);
-        this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldForwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 128, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldLeftAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 256, 640, 64, 64, 0.3,  2, true, false);
+        this.raiseShieldRightAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 704, 64, 64, 0.3,  2, true, false);
 
-        this.shootBoltDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 704, 64, 64, 0.1,  3, false, false);
-        this.shootBoltForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 768, 64, 64, 0.1,  3, false, false);
-        this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
-        this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
+        this.shootBoltDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 192, 704, 64, 64, 0.1,  3, false, false);
+        this.shootBoltForwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 768, 64, 64, 0.1,  3, false, false);
+        this.shootBoltLeftAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 192, 768, 64, 64, 0.1,  3, false, false);
+        this.shootBoltRightAnimation = new Animation(ASSET_MANAGER.getAsset("img/Hooded_Figure_SpriteSheet.png"), 0, 832, 64, 64, 0.1,  3, false, false);
 
-        this.fireBallSpellDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 0, 64, 64, 0.1,  3, true, false);
-        this.fireBallSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 1, 64, 64, 0.1,  3, true, false);
-        this.fireBallSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 2, 64, 64, 0.1,  3, true, false);
-        this.fireBallSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("../img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 3, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellDownwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 0, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellForwardAnimation = new Animation(ASSET_MANAGER.getAsset("img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 1, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellLeftAnimation = new Animation(ASSET_MANAGER.getAsset("img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 2, 64, 64, 0.1,  3, true, false);
+        this.fireBallSpellRightAnimation = new Animation(ASSET_MANAGER.getAsset("img/Fireball_SpriteSheet.png"), 64 * 0, 64 * 3, 64, 64, 0.1,  3, true, false);
 
         this.currentSpellAnimation = null;
 
-        this.walkingSound = ASSET_MANAGER.getAsset("../snd/footstep1.wav");
+        this.walkingSound = ASSET_MANAGER.getAsset("snd/footstep1.wav");
         this.walkingSoundId = this.walkingSound.id;
 
-        this.chargingSpellSound = ASSET_MANAGER.getAsset("../snd/charging_spell.flac");
+        this.chargingSpellSound = ASSET_MANAGER.getAsset("snd/charging_spell.flac");
         this.chargingSpellSoundId = this.chargingSpellSound.id;
 
         this.ctx = game.ctx;
@@ -214,7 +214,7 @@ class Player extends Entity {
                         let newPos = this.chooseFireballDirection();
                         this.newX = newPos.newX;
                         this.newY = newPos.newY;
-                        ASSET_MANAGER.playSound("../snd/fireball.mp3");
+                        ASSET_MANAGER.playSound("snd/fireball.mp3");
                         let spell = new Projectile(this.game, this.currentSpellAnimation, facingDirection, this.newX, this.newY, this, this);
                         spell.setProjectileSpeed = 2;
                         this.game.addEntity(spell);
@@ -289,7 +289,7 @@ class Player extends Entity {
 
         //shooting bolt
         if (this.shooting) {
-            ASSET_MANAGER.getAsset("../snd/crossbow.wav").play();
+            ASSET_MANAGER.getAsset("snd/crossbow.wav").play();
             if (this.shootBoltDownwardAnimation.isDone()) {
                 this.shootBoltDownwardAnimation.elapsedTime = 0;
                 this.shooting = false;
@@ -315,7 +315,7 @@ class Player extends Entity {
 
         //swinging sword
         if (this.swinging) {
-            ASSET_MANAGER.getAsset("../snd/sword_woosh.wav").play();
+            ASSET_MANAGER.getAsset("snd/sword_woosh.wav").play();
 
             if (this.swingDownwardAnimation.isDone() || this.swingForwardAnimation.isDone() || this.swingLeftAnimation.isDone()
             || this.swingRightAnimation.isDone()) {
@@ -360,7 +360,7 @@ class Player extends Entity {
               }
 
               if (hasBlocked) {
-                  ASSET_MANAGER.getAsset("../snd/shield_block.wav").play();
+                  ASSET_MANAGER.getAsset("snd/shield_block.wav").play();
               }
           }
 

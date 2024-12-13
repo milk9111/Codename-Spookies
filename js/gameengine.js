@@ -396,11 +396,11 @@ class GameEngine {
             this.bossHealthBar.removal = true;
         }
         this.paused = true;
-        let deathMenu = new ImageMenu(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/death_screen.png");
+        let deathMenu = new ImageMenu(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "img/death_screen.png");
 
         let x = UIElement.getCenterX(deathMenu.width, 150, deathMenu.x);
         let y = UIElement.getQuarterY(deathMenu.height, 50, deathMenu.y) * 3;
-        let restartButton = new ImageButton(this, x, y, 150, 50, "../img/restart.png", "../img/restart_hover.png");
+        let restartButton = new ImageButton(this, x, y, 150, 50, "img/restart.png", "img/restart_hover.png");
 
         let that = this;
         restartButton.setOnClick = function () {
@@ -689,7 +689,7 @@ class GameEngine {
         this.unloadMap();
 
         let bg = new Background(this);
-        let titleScreen = new TitleScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/logo.png");
+        let titleScreen = new TitleScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "img/logo.png");
         this.addEntity(titleScreen);
         this.swap(titleScreen, titleScreen.startButton);
         this.addEntity(bg);
@@ -705,7 +705,7 @@ class GameEngine {
         this.unloadMap();
 
         let bg = new Background(this);
-        let titleScreen = new WinScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "../img/win_screen.png");
+        let titleScreen = new WinScreen(this, 0, 0, this.surfaceWidth, this.surfaceHeight, "img/win_screen.png");
         this.addEntity(titleScreen);
         this.swap(titleScreen, titleScreen.startButton);
         this.addEntity(bg);
@@ -829,7 +829,7 @@ class GameEngine {
         }
         this.addEntity(player);
 
-        ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+        ASSET_MANAGER.playSound("snd/wyrm.mp3");
 
         //START GAME
         this.initPlayerPosition(player, ctx);
@@ -999,7 +999,7 @@ class GameEngine {
       }
 
       this.addEntity(player);
-      ASSET_MANAGER.playSound("../snd/wyrm.mp3");
+      ASSET_MANAGER.playSound("snd/wyrm.mp3");
 
       //START GAME
       this.initPlayerPosition(player, ctx);

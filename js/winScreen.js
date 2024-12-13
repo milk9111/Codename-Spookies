@@ -10,7 +10,7 @@ class WinScreen extends UIElement {
         let that = this;
         this.startButton;
         this.startButton = new ImageButton(game, 0, 0,
-            150, 50, "../img/restart.png", "../img/restart_hover.png");
+            150, 50, "img/restart.png", "img/restart_hover.png");
 
         this.startButton.x = UIElement.getCenterX(this.width, this.startButton.width, this.x) - 10;
         this.startButton.y = UIElement.getQuarterY(this.height, this.startButton.height, this.y) * 3 + 160;

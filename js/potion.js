@@ -69,13 +69,13 @@ class Potion extends Entity {
     if (this.isDraw) {
       switch (this.type) {
         case 'V':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 34, 32 * 23, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("img/sprites.png"), 32 * 34, 32 * 23, 32, 32, this.x, this.y, 32, 32);
           break;
         case 'X':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 35, 32 * 23, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("img/sprites.png"), 32 * 35, 32 * 23, 32, 32, this.x, this.y, 32, 32);
           break;
         case 'Y':
-          ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 36, 32 * 23, 32, 32, this.x, this.y, 32, 32);
+          ctx.drawImage(ASSET_MANAGER.getAsset("img/sprites.png"), 32 * 36, 32 * 23, 32, 32, this.x, this.y, 32, 32);
           break;
       }
 

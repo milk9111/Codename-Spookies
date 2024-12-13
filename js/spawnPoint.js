@@ -62,9 +62,9 @@ class SpawnPoint extends Entity {
 
         if (this.isDraw) {
             if (this.isClosed) {
-                ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 61, 32 * 6, 32, 32, this.x, this.y, 32, 32);
+                ctx.drawImage(ASSET_MANAGER.getAsset("img/sprites.png"), 32 * 61, 32 * 6, 32, 32, this.x, this.y, 32, 32);
             } else {
-                ctx.drawImage(ASSET_MANAGER.getAsset("../img/sprites.png"), 32 * 60, 32 * 6, 32, 32, this.x, this.y, 32, 32);
+                ctx.drawImage(ASSET_MANAGER.getAsset("img/sprites.png"), 32 * 60, 32 * 6, 32, 32, this.x, this.y, 32, 32);
             }
         }
 
