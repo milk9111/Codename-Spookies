@@ -10,7 +10,6 @@ class AssetManager {
     }
 
     queueDownload(path, options={sound: false}) {
-        console.log("Queueing " + path);
         options.path = path;
         this.downloadQueue.push(options);
     }
@@ -75,8 +74,6 @@ class AssetManager {
 
     playSound(path) {
         let shouldPlay = false;
-        console.log("Requesting Play Sound: " + path);
-        console.trace();
         if(this.soundIds[path]) {
             //We'll only play the sound if it isn't already playing
             shouldPlay = !this.cache[path].playing(this.soundIds[path]);
@@ -98,7 +95,6 @@ class AssetManager {
         if(this.soundIds[path] && this.cache[path].playing(this.soundIds[path])) {
             this.cache[path].mute(true, this.soundIds[path]);
         }
-        console.log("Stopping sound: " + path);
     }
 
     toggleSound() {
