@@ -84,7 +84,6 @@ GameEngine.prototype.startInput = function () {
 
 
     this.ctx.canvas.addEventListener("keyup", function (e) {
-    	//this.clockTick = 0;
     	that.moving = false;
     	e.preventDefault();
     }, false);
@@ -167,7 +166,5 @@ Entity.prototype.rotateAndCache = function (image, angle) {
     offscreenCtx.translate(0, 0);
     offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
     offscreenCtx.restore();
-    //offscreenCtx.strokeStyle = "red";
-    //offscreenCtx.strokeRect(0,0,size,size);
     return offscreenCanvas;
 }

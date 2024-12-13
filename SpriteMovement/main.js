@@ -198,9 +198,7 @@ Unicorn.prototype.update = function () {
             this.x = this.x - distance;
         }
         Entity.prototype.update.call(this);
-    }
-    //console.log("made it after return");
-    
+    }    
 }
 
 Unicorn.prototype.clear = function () {
@@ -238,13 +236,11 @@ Unicorn.prototype.draw = function (ctx) {
 
 var ASSET_MANAGER = new AssetManager();
 
-//ASSET_MANAGER.queueDownload("./img/RobotUnicorn.png");
 ASSET_MANAGER.queueDownload("./img/hero_spritesheet.png");
 ASSET_MANAGER.queueDownload("./img/Kevin_Idle.png");
 ASSET_MANAGER.queueDownload("./img/Kevin_Walking.png");
 
 ASSET_MANAGER.downloadAll(function () {
-    console.log("starting up da sheild");
     var canvas = document.getElementById('gameWorld');
     var ctx = canvas.getContext('2d');
 
