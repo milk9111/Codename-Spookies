@@ -212,10 +212,10 @@ class Darkness extends Entity {
     //Controls the darkness image and how it updates
     let temp = this.width + this.offSetSin;
 
-    //Real health for player, so prevents the darkness from being to small
+    //Real health for player, so prevents the darkness from being too small
     let fakeHealth = this.player.health + 25;
 
-    //This makes it so the darkenss isn't to large
+    //This makes it so the darkness isn't too large
     if (fakeHealth > 100) {
       fakeHealth = 100;
     }
@@ -225,7 +225,7 @@ class Darkness extends Entity {
       this.newVal = map(Math.sin(temp), -1, 1, 0, 100);
       this.offSetSin += .05;
 
-      //This is controls the size of the darkness tied to the player health
+      //This controls the size of the darkness tied to the player health
       let offSet = map(fakeHealth, 100, 0, 85, 800);
 
       this.x = -(this.game.surfaceWidth) + this.player.x + offSet;
@@ -258,8 +258,7 @@ class Darkness extends Entity {
 
   draw(ctx) {
     if (this.isDrawing) {
-      ctx.drawImage(ASSET_MANAGER.getAsset("../img/light2.png"), this.x - this.newVal / 2  + 10, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
-        //this.cropForProjectiles(ctx);
+      ctx.drawImage(ASSET_MANAGER.getAsset("img/light2.png"), this.x - this.newVal / 2  + 10, this.y - this.newVal / 2 - 12, this.width + this.newVal, this.height + this.newVal);
       Entity.prototype.draw.call(this);
 
       ctx.fillRect(this.rightBox.x, this.rightBox.y, this.rightBox.width, this.rightBox.height);
@@ -313,7 +312,7 @@ class DarknessOutline extends Darkness {
   }
 
   draw(ctx) {
-      ctx.drawImage(ASSET_MANAGER.getAsset("../img/blackOutline.png"), this.x, this.y, this.width, this.height);
+      ctx.drawImage(ASSET_MANAGER.getAsset("img/blackOutline.png"), this.x, this.y, this.width, this.height);
       Entity.prototype.draw.call(this);
   }
 }
@@ -349,46 +348,46 @@ let facingDirection;
 // the "main" code begins here
 let ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("../img/blackness.png");
-ASSET_MANAGER.queueDownload("../img/blackOutline.png");
-ASSET_MANAGER.queueDownload("../img/sprites.png");
-ASSET_MANAGER.queueDownload("../img/light2.png");
-ASSET_MANAGER.queueDownload("../img/Hooded_Figure_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Fireball_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/PlagueDoctor_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/PD_Spell_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Spider_Monster_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Ball_of_Flesh_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Crypt_Worm_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Grave_Wraith_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Spookie_Boi_SpriteSheet.png");
-ASSET_MANAGER.queueDownload("../img/Light_Spell.png");
-ASSET_MANAGER.queueDownload("../img/Freeze_Spell.png");
-ASSET_MANAGER.queueDownload("../img/Heal_Spell.png");
-ASSET_MANAGER.queueDownload("../img/logo.png");
-ASSET_MANAGER.queueDownload("../img/start.png");
-ASSET_MANAGER.queueDownload("../img/start_hover.png");
-ASSET_MANAGER.queueDownload("../img/death_screen.png");
-ASSET_MANAGER.queueDownload("../img/restart.png");
-ASSET_MANAGER.queueDownload("../img/win_screen.png");
-ASSET_MANAGER.queueDownload("../img/restart_hover.png");
-ASSET_MANAGER.queueDownload("../snd/heartbeat.mp3", {sound:true});
-ASSET_MANAGER.queueDownload("../snd/screamer.wav", {sound:true, volume:0.1, loop:false});
-ASSET_MANAGER.queueDownload("../snd/player_death_scream.mp3", {sound:true, loop:false});
-ASSET_MANAGER.queueDownload("../snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
-ASSET_MANAGER.queueDownload("../snd/woman_scream.wav", {sound:true, volume: 0.1, loop:false});
-ASSET_MANAGER.queueDownload("../snd/boss_battle.wav", {sound:true, volume: 0.5, loop:true});
-ASSET_MANAGER.queueDownload("../snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
-ASSET_MANAGER.queueDownload("../snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
-ASSET_MANAGER.queueDownload("../snd/whispers.wav", {sound:true, volume: 0.1});
-ASSET_MANAGER.queueDownload("../snd/footstep1.wav", {sound:true, volume: 0.06, rate: 2});
-ASSET_MANAGER.queueDownload("../snd/charging_spell.flac", {sound:true, volume: 0.06, rate: 2, loop:true});
-ASSET_MANAGER.queueDownload("../snd/fireball.mp3", {sound:true, volume: 0.1});
-ASSET_MANAGER.queueDownload("../snd/heal.mp3", {sound:true, volume: 0.05});
-ASSET_MANAGER.queueDownload("../snd/lightspell.wav", {sound:true, volume: 0.05});
-ASSET_MANAGER.queueDownload("../snd/shield_block.wav", {sound:true, volume: 0.2});
-ASSET_MANAGER.queueDownload("../snd/fleshy.wav", {sound: true, volume: 0.5});
-ASSET_MANAGER.queueDownload(("../snd/graveWraith.wav"), {sound: true, volume: 0.5});
+ASSET_MANAGER.queueDownload("img/blackness.png");
+ASSET_MANAGER.queueDownload("img/blackOutline.png");
+ASSET_MANAGER.queueDownload("img/sprites.png");
+ASSET_MANAGER.queueDownload("img/light2.png");
+ASSET_MANAGER.queueDownload("img/Hooded_Figure_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Fireball_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/PlagueDoctor_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/PD_Spell_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Spider_Monster_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Ball_of_Flesh_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Crypt_Worm_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Grave_Wraith_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Spookie_Boi_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("img/Light_Spell.png");
+ASSET_MANAGER.queueDownload("img/Freeze_Spell.png");
+ASSET_MANAGER.queueDownload("img/Heal_Spell.png");
+ASSET_MANAGER.queueDownload("img/logo.png");
+ASSET_MANAGER.queueDownload("img/start.png");
+ASSET_MANAGER.queueDownload("img/start_hover.png");
+ASSET_MANAGER.queueDownload("img/death_screen.png");
+ASSET_MANAGER.queueDownload("img/restart.png");
+ASSET_MANAGER.queueDownload("img/win_screen.png");
+ASSET_MANAGER.queueDownload("img/restart_hover.png");
+ASSET_MANAGER.queueDownload("snd/heartbeat.mp3", {sound:true});
+ASSET_MANAGER.queueDownload("snd/screamer.wav", {sound:true, volume:0.1, loop:false});
+ASSET_MANAGER.queueDownload("snd/player_death_scream.mp3", {sound:true, loop:false});
+ASSET_MANAGER.queueDownload("snd/wyrm.mp3", {sound:true, volume: 0.1, loop:true});
+ASSET_MANAGER.queueDownload("snd/woman_scream.wav", {sound:true, volume: 0.1, loop:false});
+ASSET_MANAGER.queueDownload("snd/boss_battle.wav", {sound:true, volume: 0.5, loop:true});
+ASSET_MANAGER.queueDownload("snd/sword_woosh.wav", {sound:true, volume: 0.06, loop:false});
+ASSET_MANAGER.queueDownload("snd/crossbow.wav", {sound:true, volume: 0.003, loop:false});
+ASSET_MANAGER.queueDownload("snd/whispers.wav", {sound:true, volume: 0.1});
+ASSET_MANAGER.queueDownload("snd/footstep1.wav", {sound:true, volume: 0.06, rate: 2});
+ASSET_MANAGER.queueDownload("snd/charging_spell.flac", {sound:true, volume: 0.06, rate: 2, loop:true});
+ASSET_MANAGER.queueDownload("snd/fireball.mp3", {sound:true, volume: 0.1});
+ASSET_MANAGER.queueDownload("snd/heal.mp3", {sound:true, volume: 0.05});
+ASSET_MANAGER.queueDownload("snd/lightspell.wav", {sound:true, volume: 0.05});
+ASSET_MANAGER.queueDownload("snd/shield_block.wav", {sound:true, volume: 0.2});
+ASSET_MANAGER.queueDownload("snd/fleshy.wav", {sound: true, volume: 0.5});
+ASSET_MANAGER.queueDownload(("snd/graveWraith.wav"), {sound: true, volume: 0.5});
 
 ASSET_MANAGER.downloadAll(function() {
 

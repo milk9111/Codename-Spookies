@@ -113,7 +113,6 @@ class GameEngine {
         this.keys["Space"].pressed = false;
         this.startInput();
         this.timer = new Timer();
-        //console.log('game initialized');
     }
 
 
@@ -231,8 +230,6 @@ class GameEngine {
         this.ctx.canvas.addEventListener("click", function (e) {
             that.click = getXandY(e);
         }, false);
-
-        //console.log('Input started');
     }
 
 
@@ -241,8 +238,6 @@ class GameEngine {
         this.addEntity(this.combo);
         let currPos = 0;
         let that = this;
-
-        //console.log("inside readCombo");
 
         let getComboInput = function (e) {
             let failed = true;
@@ -339,21 +334,6 @@ class GameEngine {
 
         pauseMenu.addElement(exitButton);
 
-        /*x = UIElement.getCenterX(pauseMenu.width, 100, pauseMenu.x);
-        y = UIElement.getCenterY(pauseMenu.height, 50, pauseMenu.y) + exitButton.height + 10;
-        let helpButton = new CanvasButton(this, x, y, 100, 50);
-        helpButton.label.setText = "Help";
-        offsets = {
-            xOffset: helpButton.width / 2,
-            yOffset: helpButton.height / 1.7
-        };
-        helpButton.setTextXandYOffset = offsets;
-        helpButton.setOnClick = function () {
-            that.addEntity(that.makeHelpMenu());
-        };
-
-        pauseMenu.addElement(helpButton);*/
-
         return pauseMenu;
     }
 
@@ -438,40 +418,6 @@ class GameEngine {
 
         return deathMenu;
     }
-
-    /*makeDeathMenu () {
-        this.paused = true;
-        let deathMenu = new Menu(this, UIElement.getCenterX(this.surfaceWidth, 300, 0),
-            UIElement.getCenterY(this.surfaceHeight, 400, 0), 300, 400);
-
-        let offsets = {
-            xOffset: deathMenu.width / 2,
-            yOffset: deathMenu.height / 6
-        };
-        deathMenu.setTextXandYOffset = offsets;
-        deathMenu.label.setTextFont = "30px Metal Mania";
-        deathMenu.setDefaultColor = "#2E2E2E";
-        deathMenu.label.setText = "You are Dead";
-
-        let x = UIElement.getCenterX(deathMenu.width, 100, deathMenu.x);
-        let y = UIElement.getCenterY(deathMenu.height, 50, deathMenu.y);
-        let restartButton = new CanvasButton(this, x, y, 100, 50);
-        restartButton.label.setText = "Restart";
-        offsets = {
-            xOffset: restartButton.width / 2,
-            yOffset: restartButton.height / 1.7
-        };
-        let that = this;
-        restartButton.setTextXandYOffset = offsets;
-        restartButton.setOnClick = function () {
-            that.paused = false;
-            deathMenu.removal = true;
-            that.newLevel(that.level);
-        };
-
-        deathMenu.addElement(restartButton);
-        return deathMenu;
-    }*/
 
     /**
      * Swaps the positions of the given entities in the entities list. This
@@ -584,37 +530,6 @@ class GameEngine {
             this.ctx.restore();
         }
     }
-
-    /* Previous attempt at fixing mini spook drawing bug.
-    let background = null;
-        let darkness = null;
-        for (let i = 0; i < this.entities.length; i++) {
-            if (this.entities[i] != null && this.entities[i] !== undefined
-                && !(this.entities[i] instanceof Background)
-                && !(this.entities[i] instanceof Darkness)
-                && !(this.entities[i] instanceof UIElement)) {
-                this.entities[i].draw(this.ctx);
-            } else {
-                if (this.entities[i] instanceof Background) {
-                    background = this.entities[i];
-                } else if (this.entities[i] instanceof Darkness) {
-                    darkness = this.entities[i];
-                }
-            }
-        }
-
-        if (background != null) {
-            background.draw(this.ctx);
-        }
-
-        if (darkness != null) {
-            darkness.draw(this.ctx);
-        }
-
-        for (let el of this.uiElements) {
-            el.draw(this.ctx);
-        }
-     */
 
 
     /**
@@ -839,9 +754,6 @@ class GameEngine {
      * Loads map 1.
      */
     loadMap1(ctx) {
-        //let canvas = document.getElementById('gameWorld');
-        //let ctx = canvas.getContext('2d');
-
         let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
         //Load tile map
@@ -918,8 +830,6 @@ class GameEngine {
         this.addEntity(player);
 
         ASSET_MANAGER.playSound("../snd/wyrm.mp3");
-        //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
-        //ASSET_MANAGER.toggleSound();
 
         //START GAME
         this.initPlayerPosition(player, ctx);
@@ -1019,8 +929,6 @@ class GameEngine {
 
     /** Load Map 3 */
     loadMap3(ctx) {
-      //let canvas = document.getElementById('gameWorld');
-      //let ctx = canvas.getContext('2d');
       let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
       //Load tile map
@@ -1046,7 +954,6 @@ class GameEngine {
               this.addEntity(temp);
           }
       }
-
 
       //Add Objects to map
       for (let i = 0; i < objectMap.map2D.length; i++) {
@@ -1093,8 +1000,6 @@ class GameEngine {
 
       this.addEntity(player);
       ASSET_MANAGER.playSound("../snd/wyrm.mp3");
-      // ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
-      //ASSET_MANAGER.toggleSound();
 
       //START GAME
       this.initPlayerPosition(player, ctx);
@@ -1107,9 +1012,6 @@ class GameEngine {
      * Loads boss map.
      */
     loadBossMap(ctx) {
-        //let canvas = document.getElementById('gameWorld');
-        //let ctx = canvas.getContext('2d');
-
         let player = new Player(this, ctx.canvas.width, ctx.canvas.height);
 
         //Load tile map
@@ -1197,9 +1099,6 @@ class GameEngine {
             }
             i++;
         }
-        //ASSET_MANAGER.playSound("../snd/wyrm.mp3");
-        //ASSET_MANAGER.playSound("../snd/heartbeat.mp3");
-        //ASSET_MANAGER.toggleSound();
 
         //START GAME
         this.initPlayerPosition(player, ctx);
